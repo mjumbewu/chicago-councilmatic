@@ -42,6 +42,9 @@ class Command(BaseCommand):
 					.filter(title__icontains=k)\
 					.filter(last_scraped__gt=em.last_sent)
 					
+				# Add files to a set to remove duplicates, if any exist.  There
+				# may be duplicates if, for example, a user subscribes to two 
+				# keywords and both match some of the same bills.
 				for legfile in legfiles:
 					legfile_set.add(legfile)
 			
@@ -51,6 +54,7 @@ class Command(BaseCommand):
 			
 			# Send the email
 			self.send_email(str(em), emailbody)
+			em.last_sent = datetime.date.today()
 			
 	def makeBillEmail(self, bills, keywords=None):
 		body = self.DIVIDER
