@@ -4,5 +4,5 @@
 COUNCILMATIC_DIR=..
 
 cd $COUNCILMATIC_DIR
-python manage.py loadlegfiles
-
+python manage.py updatelegfiles
+python manage.py sendemail
