@@ -10,7 +10,7 @@ from django.core.management.base import BaseCommand, CommandError
 import django
 
 from phillyleg.management.scraper_wrappers import CouncilmaticDataStoreWrapper
-from phillyleg.management.scraper_wrappers import ScraperWikiSourceWrapper
+from phillyleg.management.scraper_wrappers import PhillyLegistarSiteWrapper
 
 class Command(BaseCommand):
     help = "Load new legislative file data from the Legistar city council site."
@@ -25,7 +25,7 @@ class Command(BaseCommand):
     def _get_new_files(self):
         # Create a datastore wrapper object
         ds = CouncilmaticDataStoreWrapper()
-        source = ScraperWikiSourceWrapper()
+        source = PhillyLegistarSiteWrapper()
 
         # Get the latest filings
         curr_key = ds.get_latest_key()
@@ -39,5 +39,4 @@ class Command(BaseCommand):
             record, attachments, actions = \
                 source.scrape_legis_file(curr_key, source_obj)
             ds.save_legis_file(record, attachments, actions)
-            
 
