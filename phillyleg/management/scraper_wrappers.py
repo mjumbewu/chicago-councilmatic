@@ -228,11 +228,11 @@ class ScraperWikiSourceWrapper (object):
         
     def __download_db(self):
         print "Downloading the database (~20M -- this may take a while)..."
-#        db_file = urllib2.urlopen('http://scraperwiki.com/scrapers/export_sqlite/philadelphia_legislative_files/')
-#        db = db_file.read()
-#        outfile = open('swdata.sqlite3', 'w')
-#        outfile.write(db)
-#        outfile.close()
+        db_file = urllib2.urlopen('http://scraperwiki.com/scrapers/export_sqlite/philadelphia_legislative_files/')
+        db = db_file.read()
+        outfile = open('swdata.sqlite3', 'w')
+        outfile.write(db)
+        outfile.close()
     
     def __connect_to_db(self):
         conn = sqlite3.connect('swdata.sqlite3')
