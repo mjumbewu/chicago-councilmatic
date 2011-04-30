@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -60,11 +61,15 @@ class LegAction(models.Model):
 #
 
 class Subscription(models.Model):
-#   user   = models.ForeignKey(User, unique=True)
     email  = models.CharField(max_length=100)
-    last_sent = models.DateField(auto_now_add=True)
-#    lastId = models.IntegerField()
-
+    last_sent = models.DateField()
+    
+    def save(self, *args, **kwargs):
+        """On save, update timestamps"""
+        if not self.id:
+            self.last_sent = datetime.date.today()
+        super(Subscription, self).save(*args, **kwargs)
+    
     def __unicode__(self):
         return self.email
 
