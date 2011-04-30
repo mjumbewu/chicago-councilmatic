@@ -6,6 +6,7 @@ import smtplib, poplib
 import django, datetime
 from email.mime.text import MIMEText
 from phillyleg.models import Subscription, KeywordSubscription, LegFile
+from django.utils.encoding import smart_str, smart_unicode
 
 class Command(BaseCommand):
 	help = "This script sends daily digests out to subscribers."
@@ -17,7 +18,7 @@ class Command(BaseCommand):
 		smtphost = "smtp.gmail.com"
 		smtpport = '465'
 		me =  'philly.legislative.list'
-		msg = MIMEText(emailbody)
+		msg = MIMEText(smart_str(emailbody))
 		msg['Subject'] = self.EMAIL_TITLE
 		msg['From'] = me
 		msg['To'] = you
@@ -50,7 +51,7 @@ class Command(BaseCommand):
 				legfile_set, [str(k) for k in em.keywords.all()])
 			
 			# Send the email
-			self.send_email(str(em), emailbody)
+			self.send_email(unicode(em), emailbody)
 			em.last_sent = datetime.date.today()
 			
 	def makeBillEmail(self, bills, keywords=None):
