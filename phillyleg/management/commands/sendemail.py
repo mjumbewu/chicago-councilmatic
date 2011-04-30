@@ -70,6 +70,7 @@ class Command(BaseCommand):
 			# Send the email
 			self.send_email(unicode(em), emailbody)
 			em.last_sent = datetime.date.today()
+			em.save()
 			
 	def makeBillEmail(self, bills, keywords=None, councilmembers=None):
 		body = self.DIVIDER
