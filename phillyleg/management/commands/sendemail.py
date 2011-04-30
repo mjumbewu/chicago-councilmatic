@@ -34,7 +34,7 @@ class Command(BaseCommand):
 		for em in emails:
 			legfile_set = set()
 			
-			# Collect all the keyword leg files.
+			# Collect all the keyword subscriptions.
 			for k in em.keywords.all():
 				if not k.keyword:
 					continue
@@ -49,18 +49,33 @@ class Command(BaseCommand):
 				for legfile in legfiles:
 					legfile_set.add(legfile)
 			
+			# Collect all the councilmember subscriptions.
+			for cm in em.councilmembers.all():
+				
+				legfiles = LegFile.objects\
+					.filter(last_scraped__gt=em.last_sent)
+				
+				# Add files to the same set as above.
+				for legfile in legfiles:
+				    if cm in legfile.councilmembers.all():
+    					legfile_set.add(legfile)
+					
 			# Write emails for all the selected leg files
 			emailbody = self.makeBillEmail(
-				legfile_set, [str(k) for k in em.keywords.all()])
+				legfile_set, 
+				keywords=[str(k) for k in em.keywords.all()],
+				councilmembers=[str(cm) for cm in em.councilmembers.all()])
 			
 			# Send the email
 			self.send_email(unicode(em), emailbody)
 			em.last_sent = datetime.date.today()
 			
-	def makeBillEmail(self, bills, keywords=None):
+	def makeBillEmail(self, bills, keywords=None, councilmembers=None):
 		body = self.DIVIDER
 		if keywords:
 			body += "Keywords: %s\n" %  (','.join(keywords))
+		if councilmembers:
+		    body += "Councilmembers: %s\n" % (','.join(councilmembers))
 		body += self.DIVIDER +"\n"
 		
 		for bill in bills:
