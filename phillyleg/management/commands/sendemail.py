@@ -30,6 +30,7 @@ class Command(BaseCommand):
 	def handle(self, *args, **options):
 		emails = Subscription.objects.all()
 		emailbody = self.EMAIL_TITLE+"\n"
+		today = datetime.date.today()
 		
 		for em in emails:
 			legfile_set = set()
@@ -41,7 +42,7 @@ class Command(BaseCommand):
 				
 				legfiles = LegFile.objects\
 					.filter(title__icontains=k)\
-					.filter(last_scraped__gt=em.last_sent)
+					.filter(last_scraped__range=(em.last_sent,today))
 					
 				# Add files to a set to remove duplicates, if any exist.  There
 				# may be duplicates if, for example, a user subscribes to two 
@@ -53,7 +54,7 @@ class Command(BaseCommand):
 			for cm in em.councilmembers.all():
 				
 				legfiles = LegFile.objects\
-					.filter(last_scraped__gt=em.last_sent)
+					.filter(last_scraped__range=(em.last_sent,today))
 				
 				# Add files to the same set as above.
 				for legfile in legfiles:
