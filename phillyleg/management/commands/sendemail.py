@@ -57,7 +57,7 @@ class Command(BaseCommand):
 				
 				# Add files to the same set as above.
 				for legfile in legfiles:
-				    if cm in legfile.councilmembers.all():
+				    if cm in legfile.sponsors.all():
     					legfile_set.add(legfile)
 					
 			# Write emails for all the selected leg files
