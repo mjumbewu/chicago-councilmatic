@@ -6,8 +6,12 @@ class KeywordInline(admin.StackedInline):
     model = KeywordSubscription
     extra = 3
 
+class CouncilmemberInline(admin.StackedInline):
+    model = CouncilMemberSubscription
+    extra = 3
+
 class SubscriptionAdmin(admin.ModelAdmin):
-    inlines = [KeywordInline]    
+    inlines = [KeywordInline, CouncilmemberInline]    
 
 
 admin.site.register(Subscription, SubscriptionAdmin)
