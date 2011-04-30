@@ -36,6 +36,9 @@ class Command(BaseCommand):
 			
 			# Collect all the keyword leg files.
 			for k in em.keywords.all():
+				if not k.keyword:
+					continue
+				
 				legfiles = LegFile.objects\
 					.filter(title__icontains=k)\
 					.filter(last_scraped__gt=em.last_sent)
