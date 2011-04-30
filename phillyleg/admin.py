@@ -15,6 +15,5 @@ class SubscriptionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Subscription, SubscriptionAdmin)
-admin.site.register(KeywordSubscription)
 admin.site.register(LegFile)
 admin.site.register(CouncilMember)
