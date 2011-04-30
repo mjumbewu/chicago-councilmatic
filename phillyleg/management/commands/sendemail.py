@@ -41,8 +41,8 @@ class Command(BaseCommand):
 					continue
 				
 				legfiles = LegFile.objects\
-					.filter(title__icontains=k)\
-					.filter(last_scraped__range=(em.last_sent,today))
+					.filter(last_scraped__range=(em.last_sent,today))\
+					.filter(title__icontains=k)
 					
 				# Add files to a set to remove duplicates, if any exist.  There
 				# may be duplicates if, for example, a user subscribes to two 
