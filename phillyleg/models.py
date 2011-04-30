@@ -80,6 +80,6 @@ class CouncilMemberSubscription(models.Model):
     councilmember = models.ForeignKey(CouncilMember)
     
     def __unicode__(self):
-        return councilmember
+        return unicode(self.councilmember)
 
 
