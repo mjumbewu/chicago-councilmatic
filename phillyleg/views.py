@@ -50,3 +50,11 @@ def delete(request):
     })
     return HttpResponse(t.render(c))
 
+def dashboard(request, subscription_id):
+    subscription = Subscription(pk=subscription_id)
+    t = loader.get_template('dashboard.html')
+    c = Context({
+        'user':subscription
+    })
+    return HttpResponse(t.render(c))
+
