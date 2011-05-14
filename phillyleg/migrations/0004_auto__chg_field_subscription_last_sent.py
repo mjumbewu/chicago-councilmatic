@@ -9,13 +9,13 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         
         # Changing field 'Subscription.last_sent'
-        db.alter_column('phillyleg_subscription', 'last_sent', self.gf('django.db.models.fields.IntegerField')())
+        db.alter_column('phillyleg_subscription', 'last_sent', self.gf('django.db.models.fields.DateTimeField')())
 
 
     def backwards(self, orm):
         
         # Changing field 'Subscription.last_sent'
-        db.alter_column('phillyleg_subscription', 'last_sent', self.gf('django.db.models.fields.DateTimeField')())
+        db.alter_column('phillyleg_subscription', 'last_sent', self.gf('django.db.models.fields.DateField')())
 
 
     models = {
