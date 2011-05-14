@@ -87,7 +87,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.admin',
-    'philly_legislative.phillyleg'
+    
+    'south',
+    
+    'philly_legislative.phillyleg',
 )
 
 #AUTH_PROFILE_MODULE = 'phillyleg.subscription'

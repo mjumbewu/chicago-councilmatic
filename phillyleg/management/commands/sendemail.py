@@ -30,7 +30,7 @@ class Command(BaseCommand):
 	def handle(self, *args, **options):
 		emails = Subscription.objects.all()
 		emailbody = self.EMAIL_TITLE+"\n"
-		today = datetime.date.today()
+		now = datetime.datetime.now()
 		
 		for em in emails:
 			legfile_set = set()
@@ -41,7 +41,7 @@ class Command(BaseCommand):
 					continue
 				
 				legfiles = LegFile.objects\
-					.filter(last_scraped__range=(em.last_sent,today))\
+					.filter(last_scraped__range=(em.last_sent,now))\
 					.filter(title__icontains=k)
 					
 				# Add files to a set to remove duplicates, if any exist.  There
@@ -54,7 +54,7 @@ class Command(BaseCommand):
 			for cm in em.councilmembers.all():
 				
 				legfiles = LegFile.objects\
-					.filter(last_scraped__range=(em.last_sent,today))
+					.filter(last_scraped__range=(em.last_sent,now))
 				
 				# Add files to the same set as above.
 				for legfile in legfiles:
@@ -69,7 +69,7 @@ class Command(BaseCommand):
 			
 			# Send the email
 			self.send_email(unicode(em), emailbody)
-			em.last_sent = datetime.date.today()
+			em.last_sent = now
 			em.save()
 			
 	def makeBillEmail(self, bills, keywords=None, councilmembers=None):

@@ -62,12 +62,12 @@ class LegAction(models.Model):
 
 class Subscription(models.Model):
     email  = models.CharField(max_length=100)
-    last_sent = models.DateField()
+    last_sent = models.DateTimeField()
     
     def save(self, *args, **kwargs):
         """On save, update timestamps"""
         if not self.id:
-            self.last_sent = datetime.date.today()
+            self.last_sent = datetime.datetime.now()
         super(Subscription, self).save(*args, **kwargs)
     
     def __unicode__(self):
