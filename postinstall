@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
 crontab - <<EOF
 MAILTO=""
-$[$RANDOM%60] $[$RANDOM%24] * * * ~/crons/daily_jobs
+$[$RANDOM%60] $[$RANDOM%24] * * * ~/current/crons/daily_jobs
 EOF
