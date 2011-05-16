@@ -1,0 +1,6 @@
+#!/bin/sh
+
+crontab - <<EOF
+MAILTO=""
+$[$RANDOM%60] $[$RANDOM%24] * * * ~/crons/daily_jobs
+EOF
