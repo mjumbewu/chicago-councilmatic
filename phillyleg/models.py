@@ -28,7 +28,7 @@ class LegFile(models.Model):
     status = models.CharField(max_length=1000)
     title = models.TextField()
     type = models.CharField(max_length=1000)
-    url = models.CharField(max_length=1000)
+    url = models.CharField(max_length=2048)
     version = models.CharField(max_length=100)
     
     def __unicode__(self):
@@ -38,7 +38,7 @@ class LegFile(models.Model):
 class LegFileAttachment(models.Model):
     file = models.ForeignKey(LegFile)
     description = models.CharField(max_length=1000)
-    url = models.CharField(max_length=1000)
+    url = models.CharField(max_length=2048)
     fulltext = models.TextField()
     
     class Meta:
@@ -48,7 +48,7 @@ class LegAction(models.Model):
     file = models.ForeignKey(LegFile)
     date_taken = models.CharField(max_length=1000)
     description = models.CharField(max_length=1000)
-    minutes_url = models.CharField(max_length=1000)
+    minutes = models.ForeignKey('LegMinutes', null=True)
     motion = models.CharField(max_length=1000)
     acting_body = models.CharField(max_length=1000)
     notes = models.TextField()
@@ -56,6 +56,14 @@ class LegAction(models.Model):
     class Meta:
         unique_together = (('file','date_taken','description','notes'),)
 
+class LegMinutes(models.Model):
+    url = models.CharField(max_length=2048, primary_key=True)
+    fulltext = models.TextField()
+    date_taken = models.DateField(null=True)
+
+    def __unicode__(self):
+        return "(%s) %s%s" % (self.date_taken, self.fulltext[:100], 
+            '...' if len(self.fulltext) > 100 else '')
 
 #
 # Subscription models

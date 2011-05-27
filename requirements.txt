@@ -1,4 +1,6 @@
-BeautifulSoup==3.2.0
+#BeautifulSoup==3.2.0
+-e bzr+ssh://bazaar.launchpad.net/+branch/~mjumbewu/beautifulsoup/text-white-space-fix/#egg=BeautifulSoup
 Django
 South
+pep8
 

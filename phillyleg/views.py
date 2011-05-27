@@ -2,8 +2,12 @@
 from django.http import HttpResponse
 from phillyleg.models import Subscription,KeywordSubscription,LegFile,CouncilMember,CouncilMemberSubscription
 from django.template import Context, loader
+from django.views.generic.list_detail import object_list
 
 def index(request):
+    return object_list(request, Subscription.objects.all())
+
+def subscribe(request):
     t = loader.get_template('subscribe.html')
     c = Context({
     	'council_members': CouncilMember.objects.all()

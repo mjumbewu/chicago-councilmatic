@@ -11,9 +11,24 @@ class CouncilmemberInline(admin.StackedInline):
     extra = 3
 
 class SubscriptionAdmin(admin.ModelAdmin):
-    inlines = [KeywordInline, CouncilmemberInline]    
+    inlines = [KeywordInline, CouncilmemberInline]
+
+class LegActionInline(admin.StackedInline):
+    model = LegAction
+    extra = 1
+
+class LegFileAttachmentInline(admin.StackedInline):
+    model = LegFileAttachment
+    extra = 1
+
+class LegFileAdmin(admin.ModelAdmin):
+    inlines = [LegActionInline, LegFileAttachmentInline]
+
+class LegMinutesAdmin(admin.ModelAdmin):
+    inlines = [LegActionInline]
 
 
 admin.site.register(Subscription, SubscriptionAdmin)
-admin.site.register(LegFile)
+admin.site.register(LegFile, LegFileAdmin)
+admin.site.register(LegMinutes, LegMinutesAdmin)
 admin.site.register(CouncilMember)

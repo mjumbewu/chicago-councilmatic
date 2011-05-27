@@ -1,11 +1,12 @@
 import datetime
 import sqlite3
 import urllib2
+import re
 from BeautifulSoup import BeautifulSoup
 
-from phillyleg.management.scraperwiki import utils as swutils
+import phillyleg.management.scraperwiki as scraperwiki
 from phillyleg.models import \
-    LegFile, LegFileAttachment, LegAction, CouncilMember
+    LegFile, LegFileAttachment, LegAction, LegMinutes, CouncilMember
 
 STARTING_KEY = 72 # The highest key was 11001 as of 5 Apr 2011
 
@@ -54,8 +55,8 @@ class PhillyLegistarSiteWrapper (object):
             'status' : lstatus,
             'title' : ltitle,
             'controlling_body' : lbody,
-            'intro_date' : lintro,
-            'final_date' : lfinal,
+            'intro_date' : self.convert_date(lintro),
+            'final_date' : self.convert_date(lfinal),
             'version' : lversion,
             'contact' : lcontact,
             'sponsors' : lsponsors
@@ -63,9 +64,36 @@ class PhillyLegistarSiteWrapper (object):
         
         attachments = self.scrape_legis_attachments(key, soup)
         actions = self.scrape_legis_actions(key, soup)
+        minutes = self.collect_minutes(actions)
         
-        print record, attachments, actions
-        return record, attachments, actions
+        print record, attachments, actions, minutes
+        return record, attachments, actions, minutes
+    
+    def collect_minutes(self, actions):
+        minutes = {}
+        for action in actions:
+            minutes_url = action['minutes_url']
+            if minutes_url not in minutes and minutes_url.endswith('.pdf'):
+                fulltext = self.extract_pdf_text(minutes_url)
+                
+                date_match = re.search('_(\d{2})-(\d{2})-(\d{2})_', minutes_url)
+                if date_match:
+                    date_taken = datetime.date(
+                        year=int('20' + date_match.group(1)),
+                        month=int(date_match.group(2)),
+                        day=int(date_match.group(3)),
+                    )
+                else:
+                    date_taken = ''
+                
+                minutes_doc = {
+                    'url' : minutes_url,
+                    'fulltext' : fulltext,
+                    'date_taken' : date_taken,
+                }
+                minutes[minutes_url] = minutes_doc
+        
+        return minutes.values()
 
     def scrape_legis_attachments(self, key, soup):
         
@@ -125,7 +153,7 @@ class PhillyLegistarSiteWrapper (object):
             
             action = {
                 'key' : key,
-                'date_taken' : get_action_cell_text(cells[0]),
+                'date_taken' : self.convert_date(get_action_cell_text(cells[0])),
                 'acting_body' : get_action_cell_text(cells[1]),
                 'description' : get_action_cell_text(cells[2]),
                 'motion' : get_action_cell_text(cells[3]),
@@ -136,8 +164,11 @@ class PhillyLegistarSiteWrapper (object):
         
         return actions
     
-    
+    __pdf_cache = {}
     def extract_pdf_text(self, pdf_data):
+        if pdf_data in self.__pdf_cache:
+            return self.__pdf_cache[pdf_data]
+        
         if pdf_data.startswith('file://'):
             path = pdf_data[7:]
             pdf_data = open(path).read()
@@ -145,10 +176,17 @@ class PhillyLegistarSiteWrapper (object):
             url = pdf_data
             pdf_data = urllib2.urlopen(url).read()
         
-        xml_data = swutils.pdftoxml(pdf_data)
+        xml_data = scraperwiki.utils.pdftoxml(pdf_data)
         
         soup = BeautifulSoup(xml_data)
-        return soup.find('pdf2xml').text
+        self.__pdf_cache[pdf_data] = soup.find('pdf2xml').text
+        return self.__pdf_cache[pdf_data]
+    
+    def convert_date(self, orig_date):
+        if orig_date:
+            return datetime.datetime.strptime(orig_date, '%m/%d/%Y')
+        else:
+            return ''
         
 
     def is_error_page(self, soup):
@@ -300,7 +338,8 @@ class CouncilmaticDataStoreWrapper (object):
         except IndexError:
             return STARTING_KEY
     
-    def save_legis_file(self, file_record, attachment_records, action_records):
+    def save_legis_file(self, file_record, attachment_records, 
+                        action_records, minutes_records):
         """
         Take a legislative file record and do whatever needs to be
         done to get it into the database.
@@ -328,15 +367,21 @@ class CouncilmaticDataStoreWrapper (object):
             attachment_record = self.__replace_key_with_legfile(attachment_record)
             self.__save_or_ignore(LegFileAttachment, attachment_record)
         
+        # Create minutes
+        for minutes_record in minutes_records:
+            self.__save_or_ignore(LegMinutes, minutes_record)
+        
         # Create actions attached to the record
         for action_record in action_records:
             action_record = self.__replace_key_with_legfile(action_record)
+            action_record = self.__replace_url_with_minutes(action_record)
             self.__save_or_ignore(LegAction, action_record)
     
     def __convert_or_delete_date(self, file_record, date_key):
         if file_record[date_key]:
-            file_record[date_key] = datetime.datetime.strptime(
-                file_record[date_key], '%m/%d/%Y')
+            pass
+#            file_record[date_key] = datetime.datetime.strptime(
+#                file_record[date_key], '%m/%d/%Y')
         else:
             del file_record[date_key]
         
@@ -349,6 +394,19 @@ class CouncilmaticDataStoreWrapper (object):
         
         return record
     
+    def __replace_url_with_minutes(self, record):
+        minutes_url = record['minutes_url']
+        
+        if minutes_url == '':
+            minutes = None
+        else:
+            minutes = LegMinutes.objects.get(url=record['minutes_url'])
+        
+        del record['minutes_url']
+        record['minutes'] = minutes
+        
+        return record
+
     def __save_or_ignore(self, ModelClass, record):
         model_instance = ModelClass(**record)
         try:

@@ -36,7 +36,7 @@ class Command(BaseCommand):
             if source_obj is None:
                 break
             
-            record, attachments, actions = \
+            record, attachments, actions, minutes = \
                 source.scrape_legis_file(curr_key, source_obj)
-            ds.save_legis_file(record, attachments, actions)
+            ds.save_legis_file(record, attachments, actions, minutes)
 
