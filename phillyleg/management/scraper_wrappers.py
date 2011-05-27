@@ -235,8 +235,8 @@ class ScraperWikiSourceWrapper (object):
             'status' : lstatus,
             'title' : ltitle,
             'controlling_body' : lbody,
-            'intro_date' : lintro,
-            'final_date' : lfinal,
+            'intro_date' : self.make_datetime(lintro),
+            'final_date' : self.make_datetime(lfinal),
             'version' : lversion,
             'contact' : lcontact,
             'sponsors' : lsponsors
@@ -244,10 +244,39 @@ class ScraperWikiSourceWrapper (object):
         
         attachments = self.scrape_legis_attachments(key, cursor)
         actions = self.scrape_legis_actions(key, cursor)
+        minutes = self.collect_minutes(actions, cursor)
         
-        print record, attachments, actions
-        return record, attachments, actions
-
+        print record, attachments, actions, minutes
+        return record, attachments, actions, minutes
+    
+    def collect_minutes(self, actions, cursor):
+        
+        action_keys = tuple([action['key'] for action in actions])
+        placeholders = ['?']*len(action_keys)
+        
+        cursor.execute('''select minutes.url,minutes.fulltext,minutes.date_taken
+            from minutes inner join actions 
+            where minutes.url = actions.minutes_url
+              and actions.key in (%s)''' % ','.join(placeholders), action_keys)
+        
+        minuteses = []
+        
+        for row in cursor:
+            minutes = {
+                'url' : row[0],
+                'fulltext' : row[1],
+                'date_taken' : self.make_datetime(row[2][:10]).date(),
+            }
+            minuteses.append(minutes)
+        
+        return minuteses
+    
+    def make_datetime(self, dt_str):
+        if '-' in dt_str:
+            return datetime.datetime.strptime(dt_str, '%Y-%m-%dT%H:%M:%S')
+        elif '/' in dt_str:
+            return datetime.datetime.strptime(dt_str, '%m/%d/%Y')
+    
     def scrape_legis_attachments(self, key, cursor):
         
         cursor.execute('''select description,url
@@ -276,7 +305,7 @@ class ScraperWikiSourceWrapper (object):
         for action_row in cursor:
             action = {
                 'key' : key,
-                'date_taken' : action_row[0],
+                'date_taken' : self.make_datetime(action_row[0]),
                 'acting_body' : action_row[1],
                 'description' : action_row[2],
                 'motion' : action_row[3],
