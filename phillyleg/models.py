@@ -39,6 +39,7 @@ class LegFileAttachment(models.Model):
     file = models.ForeignKey(LegFile)
     description = models.CharField(max_length=1000)
     url = models.CharField(max_length=1000)
+    fulltext = models.TextField()
     
     class Meta:
         unique_together = (('file','url'),)

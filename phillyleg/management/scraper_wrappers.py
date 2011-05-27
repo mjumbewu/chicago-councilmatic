@@ -3,6 +3,7 @@ import sqlite3
 import urllib2
 from BeautifulSoup import BeautifulSoup
 
+from phillyleg.management.scraperwiki import utils as swutils
 from phillyleg.models import \
     LegFile, LegFileAttachment, LegAction, CouncilMember
 
@@ -72,10 +73,18 @@ class PhillyLegistarSiteWrapper (object):
         
         attach_div = soup.find('div', {'id' : 'divAttachmentsValue'})
         for cell in attach_div.findAll('a'):
+            url = cell['href']
+            
+            if url.endswith('.pdf'):
+                fulltext = self.extract_pdf_text(url)
+            else:
+                fulltext = ''
+                
             attachment = {
                 'key' : key,
                 'description' : cell.text,
-                'url' : cell['href'],
+                'url' : url,
+                'fulltext' : fulltext,
             }
             attachments.append(attachment)
 
@@ -126,6 +135,20 @@ class PhillyLegistarSiteWrapper (object):
             actions.append(action)
         
         return actions
+    
+    
+    def extract_pdf_text(self, pdf_data):
+        if pdf_data.startswith('file://'):
+            path = pdf_data[7:]
+            pdf_data = open(path).read()
+        elif pdf_data.startswith('http://') or pdf_data.startswith('https://'):
+            url = pdf_data
+            pdf_data = urllib2.urlopen(url).read()
+        
+        xml_data = swutils.pdftoxml(pdf_data)
+        
+        soup = BeautifulSoup(xml_data)
+        return soup.find('pdf2xml').text
         
 
     def is_error_page(self, soup):
