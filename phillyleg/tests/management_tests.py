@@ -23,7 +23,7 @@ class LegistarTests (TestCase):
         soup = bs.BeautifulSoup(html)
         
         wrapper = PhillyLegistarSiteWrapper()
-        file_record, attachment_records, action_records = \
+        file_record, attachment_records, action_records, minutes_records = \
             wrapper.scrape_legis_file(73, soup)
         
         self.assertEqual(
@@ -48,4 +48,13 @@ class LegistarTests (TestCase):
         resolution_pdf = 'http://legislation.phila.gov/attachments/11530.pdf'
         resolution_text = wrapper.extract_pdf_text(resolution_pdf)
         self.assertEqual(resolution_text, expected_text)
-
+    
+    def test_DealsWith404PdfAddressesCorrectly(self):
+        # I don't know why they'd be deleting these files, but when they do (and
+        # they do) we have to handle it.
+        wrapper = PhillyLegistarSiteWrapper()
+        expected_text = ''
+        
+        attachment_pdf = 'http://legislation.phila.gov/attachments/11595.pdf'
+        attachment_text = wrapper.extract_pdf_text(attachment_pdf)
+        self.assertEqual(attachment_text, expected_text)

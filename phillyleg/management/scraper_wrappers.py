@@ -174,7 +174,14 @@ class PhillyLegistarSiteWrapper (object):
             pdf_data = open(path).read()
         elif pdf_data.startswith('http://') or pdf_data.startswith('https://'):
             url = pdf_data
-            pdf_data = urllib2.urlopen(url).read()
+            try:
+                pdf_data = urllib2.urlopen(url).read()
+            except urllib2.HTTPError, err:
+                if err.code == 404:
+                    self.__pdf_cache[pdf_data] = ''
+                    return ''
+                else:
+                    raise
         
         xml_data = scraperwiki.utils.pdftoxml(pdf_data)
         
