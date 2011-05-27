@@ -52,3 +52,5 @@ Copyright
 ---------
 Copyright (c) 2010 Code for America Laboratories
 See [LICENSE](https://github.com/cfalabs/open311/blob/master/LICENSE.mkd) for details.
+
+[![Code for America Tracker](http://stats.codeforamerica.org/codeforamerica/philly_legislative.png)](http://stats.codeforamerica.org/projects/philly_legislative)
