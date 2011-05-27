@@ -82,8 +82,13 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or
     # "C:/www/django/templates". Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    rel_path('phillyleg')
+    rel_path('phillyleg'),
+    rel_path('templates'),
 )
+
+HAYSTACK_SITECONF = 'search_sites'
+HAYSTACK_SEARCH_ENGINE = 'whoosh'
+HAYSTACK_WHOOSH_PATH = rel_path('whoosh_index')
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -93,6 +98,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     
     'south',
+    'haystack',
     
     'philly_legislative.phillyleg',
 )

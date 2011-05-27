@@ -15,12 +15,13 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     (r'^admin/(.*)', admin.site.urls),
 
-
-    (r'^subs/$', 'phillyleg.views.index'),
+    (r'^/$', 'phillyleg.views.index'),
+    (r'^subs/$', 'phillyleg.views.subscribe'),
     (r'^subs/create/$', 'phillyleg.views.create'),
     (r'^subs/unsubscribe/$', 'phillyleg.views.unsubscribe'),
     #(r'^subs/(?P<subscription_id>\d+)/$', 'phillyleg.views.edit'),
     (r'^subs/delete/$', 'phillyleg.views.delete'),
     
     (r'^(?P<subscription_id>\d+)/$', 'phillyleg.views.dashboard'),
+    (r'^search/', include('haystack.urls')),
 )

@@ -3,4 +3,9 @@
 Django
 South
 pep8
+#-e git+https://github.com/toastdriven/django-haystack.git#egg=django-haystack
+django-haystack
 
+# Using whoosh for now, for simplicity (it's pure Python).  May use pysolr
+# later.
+whoosh
