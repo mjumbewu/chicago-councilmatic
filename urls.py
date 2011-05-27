@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    (r'^admin/(.*)', admin.site.root),
+    (r'^admin/(.*)', admin.site.urls),
 
 
     (r'^subs/$', 'phillyleg.views.index'),
