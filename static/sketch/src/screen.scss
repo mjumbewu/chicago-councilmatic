@@ -1,0 +1,166 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+
+$skborder: 2px solid black;
+
+body {
+    padding: 1em;
+    margin: 2em;
+    margin-top: 3em;
+    border: $skborder;
+    border-radius: 1em;
+    font-family: "Comic Sans MS";
+}
+
+body > header {
+    > h1 {
+        font-size: 2em;
+        font-weight: bold;
+        margin: -1.5em 0em 0.5em -0.5em;
+    }
+    > h2 {
+        font-size: 0.7em;
+        font-weight: bold;
+        margin: -2.6em 0em 0.5em 16em;
+    }
+}
+    
+section {
+    > header {
+        > h1 {
+            font-size: 1.5em
+        }
+    }
+}
+
+.file_title {
+    font-weight: bold;
+}
+
+/* ---- FORM WIDGETS ---- */
+
+input,
+button,
+select {
+    border: $skborder;
+    background: none;
+    height: 2em;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: 1em;
+    vertical-align: middle;
+}
+
+/* ---- ENTRY PAGE ---- */
+
+#subscribe-splash {
+    text-align: center;
+    height: 20em;
+    line-height: 20em;
+    border-bottom: $skborder;
+    margin: 0em -1em;
+    
+    > * {
+        line-height: 1em;
+    }
+    
+    &:before,
+    &:after {
+        content: "\00a0";
+    }
+}
+
+#legislation-splash,
+#comments-splash {
+    display: table-cell;
+    padding-top: 2em;
+    
+    li {
+        padding: 1em 0em;
+        border-bottom: $skborder;
+        
+        &:last-child {
+            margin-bottom: 1em;
+        }
+    }
+}
+
+#comments-splash {
+    padding-left: 2em;
+    padding-right: 1em;
+}
+
+#legislation-splash {
+    padding-right: 2em;
+    padding-left: 1em;
+    margin-right: 2em;
+    border-right: $skborder;
+    width: 50%;
+}
+
+#subscribe-form {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#subscribe-email-field > input[name=email] {
+    font-size: 1.5em;
+    font-weight: bold;
+    width: 40em;
+    padding: 0.25em;
+}
+
+#subscribe-submit {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 0.25em;
+}
+
+#subscribe-show-options,
+#subscribe-hide-options {
+    padding: 0px;
+    font-size: 0.7em;
+    border: none;
+    display: block;
+}
+
+#subscribe-councilmembers-field,
+#subscribe-keywords-field {
+    input,
+    textarea,
+    select {
+        width: 30em;
+        height: 4em;
+    }
+}
+
+/* ---- SUBSCRIPTION MANAGEMENT PAGE ---- */
+
+.subscription-keyword,
+.subscription-councilmember {
+    font-weight: bold;
+}
+
+.subscription-title > h1 {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.subscription-details {
+    border-bottom: $skborder;
+    padding: 2em 0em;
+}
+
+.subscription-keywords,
+.subscription-councilmembers {
+    display: inline;
+    
+    &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
