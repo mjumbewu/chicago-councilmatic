@@ -4,3 +4,13 @@
 *.swo
 *.swp
 *.sqlite3
+
+# Ignore compass-generated stuff
+.sass-cache/
+stylesheets/
+
+# Ignore the whoosh_index (assuming it will create the dir automatically)
+whoosh_index/
+
+# Ignore the virtual environment
+env/
