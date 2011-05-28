@@ -1,10 +1,10 @@
 import datetime
 from haystack import indexes
 from haystack import site
-from phillyleg.models import LegFile
+from phillyleg.models import LegFile, LegMinutes
 
 
-class LegFileIndex(indexes.SearchIndex):
+class LegislationIndex(indexes.SearchIndex):
     text = indexes.CharField(document=True, use_template=True)
     
     file_id = indexes.CharField(model_attr='id')
@@ -18,9 +18,10 @@ class LegFileIndex(indexes.SearchIndex):
         return [sponsor.name for sponsor in leg.sponsors.all()]
 
 
-    def index_queryset(self):
-        """Used when the entire index for model is updated."""
-        return LegFile.objects.all()
+class MinutesIndex(indexes.SearchIndex):
+    text = indexes.CharField(document=True, model_attr='fulltext')
+    taken_date = indexes.DateField(null=True)
 
 
-site.register(LegFile, LegFileIndex)
+site.register(LegFile, LegislationIndex)
+site.register(LegMinutes, MinutesIndex)
