@@ -1,6 +1,7 @@
 import datetime
 import sqlite3
 import urllib2
+import httplib
 import re
 from BeautifulSoup import BeautifulSoup
 
@@ -210,7 +211,23 @@ class PhillyLegistarSiteWrapper (object):
         curr_key = last_key
         for _ in xrange(10):
             curr_key = curr_key + 1
-            html = urllib2.urlopen(self.STARTING_URL + str(curr_key))
+            
+            more_tries = 10
+            while True:
+                try:
+                    url = self.STARTING_URL + str(curr_key)
+                    html = urllib2.urlopen(url)
+                    break
+
+                # Sometimes the server will respond with a status line that httplib
+                # does not understand (an empty status line, in particular).  When
+                # this happens, keep trying to access the page.  Give up after 10
+                # tries.
+                except httplib.BadStatusLine, ex:
+                    more_tries -= 1;
+                    print 'Received BadStatusLine exception %r for url %r' % (ex, url)
+                    if not more_tries:
+                        raise
             soup = BeautifulSoup(html)
         
             if not self.is_error_page(soup):
