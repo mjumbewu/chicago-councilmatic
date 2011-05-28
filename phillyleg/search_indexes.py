@@ -7,16 +7,16 @@ from phillyleg.models import LegFile
 class LegFileIndex(indexes.SearchIndex):
     text = indexes.CharField(document=True, use_template=True)
     
-    title = indexes.CharField(model_attr='title')
     file_id = indexes.CharField(model_attr='id')
     status = indexes.CharField(model_attr='status')
     controlling_body = indexes.CharField(model_attr='controlling_body')
     file_type = indexes.CharField(model_attr='type')
     key = indexes.IntegerField(model_attr='key')
+    sponsors = indexes.MultiValueField()
     
-    sponsors = indexes.CharField()
-    
-    attachments = indexes.CharField()
+    def prepare_sponsors(self, leg):
+        return [sponsor.name for sponsor in leg.sponsors.all()]
+
 
     def index_queryset(self):
         """Used when the entire index for model is updated."""
