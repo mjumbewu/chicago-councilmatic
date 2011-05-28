@@ -11,9 +11,7 @@
 python manage.py loadlegfiles
 python manage.py rebuild_index --noinput
 
-sed --in-place "s|COUNCILMATIC_DIR=..|COUNCILMATIC_DIR=~/current|g" "~/current/crons/daily_jobs"
-
 crontab - <<EOF
 MAILTO=""
-$[$RANDOM%60] $[$RANDOM%24] * * * ~/current/crons/daily_jobs
+$[$RANDOM%60] $[$RANDOM%24] * * * "~/current/crons/daily_jobs ~/current"
 EOF
