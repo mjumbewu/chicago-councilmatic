@@ -1,0 +1,6 @@
+{{ object.title }}
+{% for attachment in object.attachments.all %}
+    {{ attachment.description }}
+    {{ attachment.fulltext }}
+{% endfor %}
+

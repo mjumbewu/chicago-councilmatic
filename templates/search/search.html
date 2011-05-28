@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+        <header>
+            <h1>Search</h1>
+        </header>
+
+        <form method="get" action=".">
+            <table>
+                {{ form.as_table }}
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>
+                        <input type="submit" value="Search">
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        {% if query %}
+        <section class="search_results">
+            <header>
+                <h1>Results</h1>
+            </header>
+            
+            <form class="subscribe_box" method="post" action="/subscribe">
+                <header>
+                    <p>Subscribe to this search</p>
+                </header>
+                
+                <input type="text" name="search_query" value="{{ form.q.value }}">
+                <input type="text" name="search_models" value="{{ form.models.value }}">
+                <p>Want to receive a notification any time a new item is added to these search results? <button type="submit" name="subscribe">Subscribe</button>!</p>
+                <p>Want to receive updates to anything in the list too?</p>
+                <input type="radio" name="updates" value="yes" id="updates_yes" /><label for="updates_yes">Yes</label>
+                <input type="radio" name="updates" value="no" id="updates_no" checked="checked" /><label for="updates_no">No</label>
+            </form>
+
+            {% for result in page.object_list %}
+                <p>
+                    <a href="{{ result.object.get_absolute_url }}">{{ result.object }}</a>
+                </p>
+            {% empty %}
+                <p>No results found.</p>
+            {% endfor %}
+
+            {% if page.has_previous or page.has_next %}
+                <div>
+                    {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+                    |
+                    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+                </div>
+            {% endif %}
+        </section>
+        {% else %}
+            {# Show some example queries to run, maybe query syntax, something else? #}
+        {% endif %}
+{% endblock %}
+

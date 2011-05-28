@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ STATIC_URL }}sketch/stylesheets/screen.css" />
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.js"></script>
+        
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+    
+    <body>
+        <header>
+            <h1>Councilmatic</h1>
+            <h2>(Beta)</h2>
+        </header>
+        
+        <section class="page_content{% for page_class in page_classes %} {{ page_class }}{% endfor %}">
+            {% block page_content %}{% endblock %}
+        </section>
+        
+    </body>
+</html>
