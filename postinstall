@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# A post-install hook script for the dotcould infrastructure.  This hook should
+# do a few things:
+#
+#   * Load the history of legislative files from ScraperWiki
+#   * Load the history of meetings and agendas from ScraperWiki
+#   * Build the search indexes
+#   * Set up daily cron jobs
+
+python manage.py loadlegfiles
+python manage.py rebuild_index --noinput
+
+sed --in-place "s|COUNCILMATIC_DIR=..|COUNCILMATIC_DIR=~/current|g" "~/current/crons/daily_jobs"
+
 crontab - <<EOF
 MAILTO=""
 $[$RANDOM%60] $[$RANDOM%24] * * * ~/current/crons/daily_jobs
