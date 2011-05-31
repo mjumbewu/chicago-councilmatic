@@ -7,7 +7,7 @@ def rel_path(*subs):
     root_path = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(root_path, *subs)
 
-# Django settings for philly_legislative project.
+# Django settings for councilmatic project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -99,7 +99,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'philly_legislative.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or
@@ -125,7 +125,7 @@ INSTALLED_APPS = (
     'south',
     'haystack',
     
-    'philly_legislative.phillyleg',
+    'phillyleg',
 )
 
 #AUTH_PROFILE_MODULE = 'phillyleg.subscription'
