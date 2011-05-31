@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Philadelphia City Council Email Service</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;	
+		}
+
+		body{
+			font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+			color:#333;
+			background-color:#aaa;
+		}
+
+		.center{
+			width:963px;
+			margin:auto;
+			background:#fff url(bg.gif) repeat-x top left;
+			height:650px;
+			padding:18px;
+			border:5px solid #ccc;
+			border-top:none;
+		}
+
+		h1{
+			color:#CB2A3C;
+			padding:9px;
+		}
+
+		p, input, label, ul{
+			margin:18px;
+		}
+
+		select, textarea{
+			margin:9px 18px;
+		}
+
+		li{
+			list-style-type:none;
+			line-height:150%;
+		}
+
+		#email{
+			width:250px;
+			padding:4px;
+		}
+
+		#subscribe, #unsubscribe{
+			border:3px solid #666;
+			background-color:#ABCDEF;
+			padding:9px;
+			font-size:14px;
+			-moz-border-radius: 12px; /* FF1+ */
+			-webkit-border-radius: 12px; /* Saf3-4, iOS 1+, Android 1.5+ */
+			border-radius: 12px; /* Opera 10.5, IE9, Saf5, Chrome, FF4 */
+			cursor:pointer;
+			color:#000;
+		}
+	</style>
+</head>
+<body>
+	<div class="center">
+	<h1>Subscribe to City Council Legislation Digest</h1>
+	<p>Subscribe to be sent a daily email digest of City Council legislation.<br/>  You can subscribe to legislation by keyword (currently based on the title of the bill), or by council member.</p>
+	<form method="POST" action="create/">
+		<label for="email">Your email address:</label> <input type="email" name="email" id="email"/><br/>
+		<p>Enter a list of words separated by commas. Your daily email will list all bills that contain any of these words.</p>
+		<textarea name="keywords" id="keywords" rows="6" cols="30"></textarea>
+		<p>Select one or more council members whose legislation you want to subscribe to.</p>
+		<select multiple="multiple" name="council" id="council" size="10" style="width: 20%;">
+			{% if council_members %}
+			{% for c in council_members %}
+				<option value="{{c.id}}">{{c}}</option>
+			{% endfor %}
+			{% endif %}
+		</select><br/>
+		
+		<input type="submit" value="Subscribe" id="subscribe"/>
+	</form>
+	</div>
+</body>
+</html>
