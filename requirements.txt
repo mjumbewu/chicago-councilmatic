@@ -1,11 +1,14 @@
-#BeautifulSoup==3.2.0
--e bzr+ssh://bazaar.launchpad.net/+branch/~mjumbewu/beautifulsoup/text-white-space-fix/#egg=BeautifulSoup
 Django
 South
-pep8
-#-e git+https://github.com/toastdriven/django-haystack.git#egg=django-haystack
 django-haystack
+pep8
 
-# Using whoosh for now, for simplicity (it's pure Python).  May use pysolr
-# later.
+# Using whoosh as the haystack (search) backend for now, for simplicity (it's 
+# pure Python).  May use pysolr later, but may not need to.
 whoosh
+
+# Using a version of beautiful soup that I've patched with better string
+# representation for Tags.  Patch has been submitted to the main branch.
+#BeautifulSoup==3.2.0
+-e bzr+ssh://bazaar.launchpad.net/+branch/~mjumbewu/beautifulsoup/text-white-space-fix/#egg=BeautifulSoup
+
