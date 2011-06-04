@@ -124,6 +124,7 @@ INSTALLED_APPS = (
 
     'south',
     'haystack',
+    'uni_form',
     
     'phillyleg',
 )
