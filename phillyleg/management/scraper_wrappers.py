@@ -192,7 +192,10 @@ class PhillyLegistarSiteWrapper (object):
     
     def convert_date(self, orig_date):
         if orig_date:
-            return datetime.datetime.strptime(orig_date, '%m/%d/%Y')
+            try:
+                return datetime.datetime.strptime(orig_date, '%m/%d/%Y')
+            except ValueError:
+                return datetime.datetime.strptime(orig_date, '%Y-%m-%d')
         else:
             return ''
         
@@ -297,7 +300,10 @@ class ScraperWikiSourceWrapper (object):
     
     def make_datetime(self, dt_str):
         if '-' in dt_str:
-            return datetime.datetime.strptime(dt_str, '%Y-%m-%dT%H:%M:%S')
+            try:
+                return datetime.datetime.strptime(dt_str, '%Y-%m-%dT%H:%M:%S')
+            except ValueError:
+                return datetime.datetime.strptime(dt_str, '%Y-%m-%d')
         elif '/' in dt_str:
             return datetime.datetime.strptime(dt_str, '%m/%d/%Y')
     
