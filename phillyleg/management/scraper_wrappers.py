@@ -349,23 +349,27 @@ class ScraperWikiSourceWrapper (object):
         return actions
         
     def __download_db(self):
-        print "Downloading the database (~20M -- this may take a while)..."
+        print "Downloading the database (~40M -- this may take a while)..."
         db_file = urllib2.urlopen('http://scraperwiki.com/scrapers/export_sqlite/philadelphia_legislative_files/')
         db = db_file.read()
         outfile = open('swdata.sqlite3', 'w')
         outfile.write(db)
         outfile.close()
     
+    def __check_db_exists(self):
+        return os.path.exists('swdata.sqlite3')
+    
     def __connect_to_db(self):
         conn = sqlite3.connect('swdata.sqlite3')
         self.__cursor = conn.cursor()
 
-    def check_for_new_content(self, last_key):
+    def check_for_new_content(self, last_key, force_download=False):
         '''Look through the next 10 keys to see if there are any more files.
            10 is arbitrary, but I feel like it's large enough to be safe.'''
         
         if not self.__cursor:
-            self.__download_db()
+            if force_download or not self.__check_db_exists():
+                self.__download_db()
             self.__connect_to_db()
         
         cursor = self.__cursor
