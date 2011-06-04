@@ -164,3 +164,30 @@ select {
         cursor: pointer;
     }
 }
+
+/* ---- SEARCH PAGE ---- */
+
+.call_for_subscription {
+    border: $skborder;
+    padding: 1em;
+    float: right;
+    width: 20em;
+    
+    p {
+        margin-bottom: 1em;
+        margin-top: 1em;
+        text-align: left;
+    }
+    
+    header {
+        font-weight: bold;
+        
+        p {
+            margin-top: 0px;
+        }
+    }
+    
+    form {
+        text-align: center;
+    }
+}
