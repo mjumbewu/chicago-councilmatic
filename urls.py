@@ -4,6 +4,8 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 admin.autodiscover()
 
+import subscriptions.views
+
 urlpatterns = patterns('',
     # Example:
     #(r'^philly_legislative/', include('philly_legislative.foo.urls')),
@@ -23,5 +25,6 @@ urlpatterns = patterns('',
     (r'^subs/delete/$', 'phillyleg.views.delete'),
     
     (r'^(?P<subscription_id>\d+)/$', 'phillyleg.views.dashboard'),
-    (r'^search/', include('haystack.urls')),
+    (r'^search/$', subscriptions.views.SearchView()),
+#    (r'^search/', include('haystack.urls')),
 )

@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'uni_form',
     
     'phillyleg',
+    'subscriptions',
 )
 
 #AUTH_PROFILE_MODULE = 'phillyleg.subscription'
