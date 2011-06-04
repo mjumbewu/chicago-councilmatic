@@ -8,7 +8,8 @@ pep8
 whoosh
 
 # Using a version of beautiful soup that I've patched with better string
-# representation for Tags.  Patch has been submitted to the main branch.
+# representation for Tags.  I have submitted a merge proposal has been to the 
+# main branch.
 #BeautifulSoup==3.2.0
 -e bzr+ssh://bazaar.launchpad.net/+branch/~mjumbewu/beautifulsoup/text-white-space-fix/#egg=BeautifulSoup
 
