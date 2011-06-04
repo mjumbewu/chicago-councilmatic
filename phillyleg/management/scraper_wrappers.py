@@ -3,6 +3,8 @@ import sqlite3
 import urllib2
 import httplib
 import re
+import os
+import phillyleg
 from BeautifulSoup import BeautifulSoup
 
 import phillyleg.management.scraperwiki as scraperwiki
@@ -459,7 +461,10 @@ class CouncilmaticDataStoreWrapper (object):
         if minutes_url == '':
             minutes = None
         else:
-            minutes = LegMinutes.objects.get(url=record['minutes_url'])
+            try:
+                minutes = LegMinutes.objects.get(url=record['minutes_url'])
+            except phillyleg.models.LegMinutes.DoesNotExist:
+                minutes = None
         
         del record['minutes_url']
         record['minutes'] = minutes
