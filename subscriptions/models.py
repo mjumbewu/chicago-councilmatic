@@ -3,19 +3,22 @@ from django.db import models
 import django.contrib.auth.models as auth
 
 
-class Subscriber (auth.User):
-    class Meta:
-        # For now a Subscriber has no fields additional to a User, so it is just
-        # a proxy.
-        proxy = True
+class DistributionChannel (models.Model):
+    recipient = models.ForeignKey(auth.User, null=True)
+
+class EmailChannel (DistributionChannel):
+    email = models.CharField(max_length=256)
+
+class RssChannel (DistributionChannel):
+    pass
+
+class SmsChannel (DistributionChannel):
+    number = models.CharField(max_length=32)
+    carrier = models.CharField(max_length=32)
+
     
 class Subscription (models.Model):
-    METHOD_CHOICES = (
-        ('email', 'Email'),
-    )
-    
-    subscriber = models.ForeignKey('Subscriber')
-    method = models.CharField(max_length=5, choices=METHOD_CHOICES, default="email")
+    channel = models.ForeignKey('DistributionChannel', null=True)
     last_sent = models.DateTimeField()
     
     def save(self, *args, **kwargs):
