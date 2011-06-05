@@ -14,6 +14,12 @@ from phillyleg.models import \
 STARTING_KEY = 72 # The highest key was 11001 as of 5 Apr 2011
 
 class PhillyLegistarSiteWrapper (object):
+    """
+    A facade over the Philadelphia city council legistar site data.  It is
+    responsible for scraping data out of the site.  The main external point
+    of interaction is scrape_legis_file.
+    """
+    
     STARTING_URL = 'http://legislation.phila.gov/detailreport/?key='
 
     def scrape_legis_file(self, key, soup):
@@ -73,6 +79,11 @@ class PhillyLegistarSiteWrapper (object):
         return record, attachments, actions, minutes
     
     def collect_minutes(self, actions):
+        """
+        Given a list of legislative actions, collect the minutes data attached
+        to those actions.
+        """
+
         minutes = {}
         for action in actions:
             minutes_url = action['minutes_url']
@@ -99,6 +110,10 @@ class PhillyLegistarSiteWrapper (object):
         return minutes.values()
 
     def scrape_legis_attachments(self, key, soup):
+        """
+        Given a beautiful soup representation of legislative file, return the
+        list of attachments.
+        """
         
         attachments = []
         
@@ -122,6 +137,10 @@ class PhillyLegistarSiteWrapper (object):
         return attachments
 
     def scrape_legis_actions(self, key, soup):
+        """
+        Given a beautiful soup representation of a legislative file,
+        return the actions taken on the file.
+        """
 
         def get_action_cell_text(cell):
             cell_a = cell.find('a')
@@ -168,7 +187,13 @@ class PhillyLegistarSiteWrapper (object):
         return actions
     
     __pdf_cache = {}
-    def extract_pdf_text(self, pdf_data):
+    def extract_pdf_text(self, pdf_data, tries_left=5):
+        """
+        Given an http[s] URL, a file URL, or a file-like object containing
+        PDF data, return the text from the PDF.  Cache URLs or data that have
+        already been seen.
+        """
+
         if pdf_data in self.__pdf_cache:
             return self.__pdf_cache[pdf_data]
         
@@ -179,12 +204,22 @@ class PhillyLegistarSiteWrapper (object):
             url = pdf_data
             try:
                 pdf_data = urllib2.urlopen(url).read()
+            
+            # Protect against removed PDFs (ones that result in 404 HTTP 
+            # response code).  I don't know why they've removed some PDFs
+            # but they have.
             except urllib2.HTTPError, err:
                 if err.code == 404:
                     self.__pdf_cache[pdf_data] = ''
                     return ''
                 else:
                     raise
+            
+            # Been getting timeout exceptions every so often, so try again
+            # if timed out.
+            except urllib2.URLError, err:
+                if tries_left:
+                    return self.extract_pdf_text(pdf_data, tries_left-1)
         
         xml_data = scraperwiki.utils.pdftoxml(pdf_data)
         
@@ -194,10 +229,7 @@ class PhillyLegistarSiteWrapper (object):
     
     def convert_date(self, orig_date):
         if orig_date:
-            try:
-                return datetime.datetime.strptime(orig_date, '%m/%d/%Y')
-            except ValueError:
-                return datetime.datetime.strptime(orig_date, '%Y-%m-%d')
+            return datetime.datetime.strptime(orig_date, '%m/%d/%Y').date()
         else:
             return ''
         
