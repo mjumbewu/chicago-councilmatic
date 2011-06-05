@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 
+{% block title %}Search{% endblock %}
+
 {% block page_content %}
         <header>
             <h1>Search</h1>
         </header>
 
-        <form method="get" action=".">
+        <form method="get" action="/search">
             <table>
                 {{ form.as_table }}
                 <tr>
@@ -18,24 +20,57 @@
         </form>
 
         {% if query %}
+        <section class="call_for_subscription">
+            <header>
+                <p>Subscribe to this search</p>
+            </header>
+            
+            <p>Want to receive a notification any time a new item is added to these search results? <a href="#subscription_form">Subscribe</a>!</p>
+            
+            <form id="subscription_form" method="post" action="/subscribe">
+{% load uni_form_tags %}
+<!-- 
+{{ subs_form|as_uni_form }} 
+-->
+                <span class="field email_field">
+                    <label for="email_field">Email</label>
+                    <input type="email" name="email" id="email_field" />
+                </span>
+                <input type="hidden" name="query" value="{{ form.q.value }}">
+
+<!-- Models: {{ form.models.value }} -->
+                {% for model in form.models.value %}
+                <input type="hidden" name="models" value="{{ model }}">{% endfor %}
+
+<!-- Sponsors: {{ form.sponsors.value }} -->
+                {% for sponsor in form.sponsors.value %}
+                <input type="hidden" name="sponsors" value="{{ sponsor }}">{% endfor %}
+
+<!-- Statuses: {{ form.statuses.value }} -->
+                {% for status in form.statuses.value %}
+                <input type="hidden" name="statuses" value="{{ status }}">{% endfor %}
+
+<!-- Types: {{ form.file_types.value }} -->
+                {% for type in form.file_types.value %}
+                <input type="hidden" name="types" value="{{ type }}">{% endfor %}
+
+<!-- Controlling Bodies: {{ form.controlling_bodies.value }} -->
+                {% for controlling_body in form.controlling_bodies.value %}
+                <input type="hidden" name="controlling_bodies" value="{{ controlling_body }}">{% endfor %}
+
+                <p>Want to receive updates to anything in the list too?</p>
+                <input type="radio" name="updates" value="yes" id="updates_yes" /><label for="updates_yes">Yes</label>
+                <input type="radio" name="updates" value="no" id="updates_no" checked="checked" /><label for="updates_no">No</label>
+                
+                <button type="submit">Subscribe!</button>
+            </form>
+        </section>
+        
         <section class="search_results">
             <header>
                 <h1>Results</h1>
             </header>
             
-            <form class="subscribe_box" method="post" action="/subscribe">
-                <header>
-                    <p>Subscribe to this search</p>
-                </header>
-                
-                <input type="text" name="search_query" value="{{ form.q.value }}">
-                <input type="text" name="search_models" value="{{ form.models.value }}">
-                <p>Want to receive a notification any time a new item is added to these search results? <button type="submit" name="subscribe">Subscribe</button>!</p>
-                <p>Want to receive updates to anything in the list too?</p>
-                <input type="radio" name="updates" value="yes" id="updates_yes" /><label for="updates_yes">Yes</label>
-                <input type="radio" name="updates" value="no" id="updates_no" checked="checked" /><label for="updates_no">No</label>
-            </form>
-
             {% for result in page.object_list %}
                 <p>
                     <a href="{{ result.object.get_absolute_url }}">{{ result.object }}</a>
