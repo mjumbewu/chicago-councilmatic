@@ -30,12 +30,13 @@ virtual environment, but it's not strictly necessary).
 Set up the project database and populate it with city council data (when the
 syncdb command prompts you to create an administrative user, go ahead and do
 so). There is a lot of data to be loaded, so downloading it all may take a
-while. If you're familiar with this routine, you can skip that step.
+while.
 
     $ cd councilmatic
-    $ python manage.py syncdb
+    $ python manage.py syncdb # Create admin account when prompted.
     $ python manage.py migrate
     $ python manage.py loadlegfiles
+    $ python manage.py rebuild_index # For searches. Say yes when prompted.
 
 Finally, to run the server:
 
