@@ -1,5 +1,6 @@
 import django.forms
 import haystack.forms
+import haystack.query
 import subscriptions.models as models
 
 def legfile_choices(field):
@@ -38,7 +39,11 @@ class FullSearchForm (haystack.forms.SearchForm):
         sqs = super(FullSearchForm, self).search()
         
         if self.is_valid():
+            query = self.cleaned_data['q']
             statuses = self.cleaned_data['statuses']
+            
+            if not query:
+                sqs = haystack.query.SearchQuerySet().all()
             
             if statuses:
                 sqs = sqs.filter(status__in=statuses)
