@@ -55,6 +55,6 @@ class LegistarTests (TestCase):
         wrapper = PhillyLegistarSiteWrapper()
         expected_text = ''
         
-        attachment_pdf = 'http://legislation.phila.gov/attachments/11595.pdf'
+        attachment_pdf = 'http://legislation.phila.gov/attachments/115954.pdf'
         attachment_text = wrapper.extract_pdf_text(attachment_pdf)
         self.assertEqual(attachment_text, expected_text)
