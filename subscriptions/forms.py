@@ -17,10 +17,22 @@ def councilmember_choices():
 
     
 class FullSearchForm (haystack.forms.SearchForm):
-    statuses = django.forms.MultipleChoiceField(choices=legfile_choices('status'), required=False)
-    controlling_bodies = django.forms.MultipleChoiceField(choices=legfile_choices('controlling_body'), required=False)
-    file_types = django.forms.MultipleChoiceField(choices=legfile_choices('type'), required=False)
-    sponsors = django.forms.MultipleChoiceField(choices=councilmember_choices(), required=False)
+    statuses = django.forms.MultipleChoiceField(
+        choices=legfile_choices('status'), 
+        label="Status",
+        required=False)
+    controlling_bodies = django.forms.MultipleChoiceField(
+        choices=legfile_choices('controlling_body'), 
+        label="Controlling Body",
+        required=False)
+    file_types = django.forms.MultipleChoiceField(
+        choices=legfile_choices('type'), 
+        label="Type of Legislation",
+        required=False)
+    sponsors = django.forms.MultipleChoiceField(
+        choices=councilmember_choices(), 
+        label="Sponsors",
+        required=False)
     
     def search(self):
         sqs = super(FullSearchForm, self).search()

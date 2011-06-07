@@ -2,14 +2,15 @@
 
 {% block title %}Search{% endblock %}
 
+{% load uni_form_tags %}
 {% block page_content %}
         <header>
             <h1>Search</h1>
         </header>
 
-        <form method="get" action="/search">
+        <form class="search" method="get" action="/search">
             <table>
-                {{ form.as_table }}
+                {{ form|as_uni_form }}
                 <tr>
                     <td>&nbsp;</td>
                     <td>
@@ -28,10 +29,6 @@
             <p>Want to receive a notification any time a new item is added to these search results? <a href="#subscription_form">Subscribe</a>!</p>
             
             <form id="subscription_form" method="post" action="/subscribe">
-{% load uni_form_tags %}
-<!-- 
-{{ subs_form|as_uni_form }} 
--->
                 <span class="field email_field">
                     <label for="email_field">Email</label>
                     <input type="email" name="email" id="email_field" />
@@ -58,10 +55,6 @@
                 {% for controlling_body in form.controlling_bodies.value %}
                 <input type="hidden" name="controlling_bodies" value="{{ controlling_body }}">{% endfor %}
 
-                <p>Want to receive updates to anything in the list too?</p>
-                <input type="radio" name="updates" value="yes" id="updates_yes" /><label for="updates_yes">Yes</label>
-                <input type="radio" name="updates" value="no" id="updates_no" checked="checked" /><label for="updates_no">No</label>
-                
                 <button type="submit">Subscribe!</button>
             </form>
         </section>

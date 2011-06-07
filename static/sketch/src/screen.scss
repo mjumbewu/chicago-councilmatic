@@ -191,3 +191,20 @@ select {
         text-align: center;
     }
 }
+
+form.search {
+    display: table;
+    
+    > div {
+        display: table-row;
+        
+        > * {
+            display: table-cell;
+        }
+    }
+    
+    select[multiple="multiple"] {
+        height: 6em;
+        width: 30em;
+    }
+}
