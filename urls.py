@@ -5,6 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 import subscriptions.views
+import haystack.views
 
 urlpatterns = patterns('',
     # Example:
@@ -24,7 +25,8 @@ urlpatterns = patterns('',
     #(r'^subs/(?P<subscription_id>\d+)/$', 'phillyleg.views.edit'),
     (r'^subs/delete/$', 'phillyleg.views.delete'),
     
+    (r'^search$', subscriptions.views.SearchView()),
+    (r'^subscribe$', subscriptions.views.SubscribeToSearchView.as_view()),
     (r'^(?P<subscription_id>\d+)/$', 'phillyleg.views.dashboard'),
-    (r'^search/$', subscriptions.views.SearchView()),
 #    (r'^search/', include('haystack.urls')),
 )
