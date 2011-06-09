@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Search{% endblock %}
+
+{% load uni_form_tags %}
+{% block page_content %}
+        <ul>
+            {% for legfile in legfile_list %}
+            <li>{{ legfile.title|truncatewords:20|default:'(No Title Provided)' }}</li>
+            {% endfor %}
+        </ul>
+{% endblock %}
+
