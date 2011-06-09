@@ -4,20 +4,13 @@
 
 {% load uni_form_tags %}
 {% block page_content %}
-        <header>
+        <!--header>
             <h1>Search</h1>
-        </header>
+        </header-->
 
         <form class="search" method="get" action="/search">
-            <table>
-                {{ form|as_uni_form }}
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>
-                        <input type="submit" value="Search">
-                    </td>
-                </tr>
-            </table>
+            <input type="submit" value="Search" />
+            {{ form|as_uni_form }}
         </form>
 
         {% if query %}

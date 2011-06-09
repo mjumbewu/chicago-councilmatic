@@ -193,18 +193,59 @@ select {
 }
 
 form.search {
-    display: table;
+    padding-bottom: 1em;
+    border-bottom: $skborder;
     
     > div {
-        display: table-row;
+        /**
+         * These are the options menus
+         */
+        width: 25%;
+        float: left;
+        left: 0px;
+        top: 0px;
         
-        > * {
-            display: table-cell;
+        /**
+         * Special case the search box to be nice and large across the top.
+         */
+        &#div_id_q {
+            width: auto;
+            float: none;
+            font-size: 1.5em;
+            border: none;
+            margin-top: 1em;
+            margin-bottom: 1em;
         }
     }
     
     select[multiple="multiple"] {
         height: 6em;
         width: 30em;
+    }
+    
+    button,
+    input[type="submit"] {
+        float: right;
+        font-size: 1.5em;
+        margin-bottom: 1em;
+    }
+
+    ul {
+        height: 10em;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        border: $skborder;
+        
+        li {
+            margin-left: 1.5em;
+            text-indent: -1.5em;
+            margin-bottom: 0.5em;
+            
+            input {
+                height: auto;
+                line-height: inherit;
+                vertical-align: 10%;
+            }
+        }
     }
 }
