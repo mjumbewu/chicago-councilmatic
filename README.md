@@ -1,4 +1,4 @@
-Councilmatic!
+Councilmatic
 =============
 Philly City Council Legislative Subscription Service.
 
