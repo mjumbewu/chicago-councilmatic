@@ -10,7 +10,5 @@ class SearchView (haystack.views.SearchView):
     def extra_context(self):
         return { 'subs_form': forms.SearchSubscriptionForm() }
 
-class SubscribeToSearchView (django.views.generic.View):
-    def post(self, request):
-        return http.HttpResponse(str(request));
-
+class SubscribeToSearchView (django.views.generic.CreateView):
+    form_class = forms.SearchSubscriptionForm
