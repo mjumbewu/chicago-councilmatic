@@ -265,7 +265,10 @@ class PhillyLegistarSiteWrapper (object):
                     print 'Received BadStatusLine exception %r for url %r' % (ex, url)
                     if not more_tries:
                         raise
-                except urllib2.URLError, err:
+                
+                # Sometimes the server will do things like just take too long to
+                # respond.  When it does, try again 10 times.
+                except urllib2.URLError, ex:
                     more_tries -= 1;
                     print 'Received URLError exception %r for url %r' % (ex, url)
                     if not more_tries:
