@@ -249,10 +249,10 @@ class PhillyLegistarSiteWrapper (object):
         for _ in xrange(10):
             curr_key = curr_key + 1
             
+            url = self.STARTING_URL + str(curr_key)
             more_tries = 10
             while True:
                 try:
-                    url = self.STARTING_URL + str(curr_key)
                     html = urllib2.urlopen(url)
                     break
 
