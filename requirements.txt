@@ -2,6 +2,8 @@ Django
 South
 django-haystack
 pep8
+django-uni-form
+django-model-filters
 
 # Using whoosh as the haystack (search) backend for now, for simplicity (it's 
 # pure Python).  May use pysolr later, but may not need to.
