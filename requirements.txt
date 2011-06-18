@@ -11,5 +11,5 @@ whoosh
 # representation for Tags.  I have submitted a merge proposal to the main
 # branch.
 #BeautifulSoup==3.2.0
--e bzr+ssh://bazaar.launchpad.net/+branch/~mjumbewu/beautifulsoup/text-white-space-fix/#egg=BeautifulSoup
+-e bzr+http://bazaar.launchpad.net/~mjumbewu/beautifulsoup/text-white-space-fix/#egg=BeautifulSoup
 
