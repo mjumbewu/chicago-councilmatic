@@ -265,6 +265,11 @@ class PhillyLegistarSiteWrapper (object):
                     print 'Received BadStatusLine exception %r for url %r' % (ex, url)
                     if not more_tries:
                         raise
+                except urllib2.URLError, err:
+                    more_tries -= 1;
+                    print 'Received URLError exception %r for url %r' % (ex, url)
+                    if not more_tries:
+                        raise
             soup = BeautifulSoup(html)
         
             if not self.is_error_page(soup):
