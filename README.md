@@ -27,6 +27,10 @@ virtual environment, but it's not strictly necessary).
 
     $ pip install -r requirements.txt
 
+Non-Python requirements include:
+
+* pdftotext and pdftohtml (use ``apt-get install poppler-utils`` on Ubuntu)
+
 Set up the project database and populate it with city council data (when the
 syncdb command prompts you to create an administrative user, go ahead and do
 so). There is a lot of data to be loaded, so downloading it all may take a
