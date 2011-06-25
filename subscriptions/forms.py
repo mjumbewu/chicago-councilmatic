@@ -75,6 +75,19 @@ class SearchSubscriptionForm (django.forms.Form):
     models = django.forms.MultipleChoiceField(choices=haystack.forms.model_choices())
     updates = django.forms.ChoiceField(choices=((True, 'yes'),(False,'no')), initial=True)
     
+    def __init__(self, instance=None, *args, **kwargs):
+        super(SearchSubscriptionForm, self).__init__(*args, **kwargs)
+    
+    def get_channel(self):
+        channel = models.EmailChannel.get_or_create(email=self.email.value())
+        return channel
+    
+    def get_query(self):
+        return self.query
+    
     def save(self):
-        subscriber = models.Subscriber.get_or_create(email=self.email.value())
+        subscription = model.SearchSubscription.objects.create(
+            channel=self.get_channel(), query=self.get_query())
+        subscription.save()
+        
 

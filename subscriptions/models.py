@@ -33,3 +33,9 @@ class Subscription (models.Model):
     def __unicode__(self):
         return self.email
 
+class SearchSubscription (Subscription):
+    query = models.TextField()
+    
+    def __unicode__(self):
+        return self.query
+

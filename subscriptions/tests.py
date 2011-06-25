@@ -7,10 +7,8 @@ Replace this with more appropriate tests for your application.
 
 from django.test import TestCase
 
+from subscriptions.views as SearchView
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
+class SearchViewTest (TestCase):
+    def test_GetIncludeSubscriptionForm(self):
         self.assertEqual(1 + 1, 2)
