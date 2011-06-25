@@ -19,8 +19,9 @@ installed. Follow the instructions for doing so on your platform.
 In addition, we recommend setting up a virtual environment for working with any
 project, so that you can manage your project-specific dependencies.
 
-    $ virtualenv councilmatic_env --no-site-packages
-    $ source councilmatic_env/bin/activate
+    $ cd councilmatic
+    $ virtualenv .env --no-site-packages
+    $ source .env/bin/activate
     
 Next, install the requirements for Councilmatic (we recommend working in a
 virtual environment, but it's not strictly necessary).
