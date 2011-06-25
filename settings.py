@@ -125,9 +125,12 @@ INSTALLED_APPS = (
     'south',
     'haystack',
     'uni_form',
+    'django_nose',
     
     'phillyleg',
     'subscriptions',
 )
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 #AUTH_PROFILE_MODULE = 'phillyleg.subscription'
