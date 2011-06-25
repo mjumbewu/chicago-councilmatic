@@ -18,3 +18,5 @@ whoosh
 # Testing tools
 django-nose
 coverage
+
+fabric
