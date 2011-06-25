@@ -16,10 +16,11 @@ class SearchView (haystack_views.SearchView):
         return { 'subs_form': self.get_embedded_subscribe_form() }
 
 
-class SubscribeToSearchView (SearchView, views.ProcessFormView):
+class SubscribeToSearchView (SearchView, views.edit.ProcessFormView):
     def get_subscription_form(self):
+        pass
     
-    def __call__(self, request);
+    def __call__(self, request):
         if request.method == 'POST':
             
             subs_form = self.get_subscription_form()

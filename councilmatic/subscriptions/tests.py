@@ -7,7 +7,7 @@ Replace this with more appropriate tests for your application.
 
 from django.test import TestCase
 
-from subscriptions.views as SearchView
+from subscriptions.views import SearchView
 
 class SearchViewTest (TestCase):
     def test_GetIncludeSubscriptionForm(self):
