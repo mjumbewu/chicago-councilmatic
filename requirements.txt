@@ -15,3 +15,6 @@ whoosh
 #BeautifulSoup==3.2.0
 -e bzr+http://bazaar.launchpad.net/~mjumbewu/beautifulsoup/text-white-space-fix/#egg=BeautifulSoup
 
+# Testing tools
+django-nose
+coverage
