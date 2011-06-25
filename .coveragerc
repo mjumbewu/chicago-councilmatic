@@ -1,3 +1,0 @@
-[run]
-source=councilmatic
-omit=/usr/*, .env/*, */migrations/*
