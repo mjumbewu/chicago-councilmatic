@@ -116,7 +116,7 @@ class PhillyLegistarSiteWrapper (object):
         minutes = {}
         for action in actions:
             minutes_url = action['minutes_url']
-            if minutes_url not in minutes and minutes_url.endswith('.pdf'):
+            if minutes_url.endswith('.pdf'):
                 minutes_doc = self.get_minutes_doc(minutes_url)
                 minutes[minutes_url] = minutes_doc
         
@@ -199,22 +199,28 @@ class PhillyLegistarSiteWrapper (object):
         
         return actions
     
-    __pdf_cache = {}
+    __pdf_cache = None
+    def init_pdf_cache(self):
+        self.__pdf_cache = self.__pdf_cache or {}
+    
     def extract_pdf_text(self, pdf_data, tries_left=5):
         """
         Given an http[s] URL, a file URL, or a file-like object containing
         PDF data, return the text from the PDF.  Cache URLs or data that have
         already been seen.
         """
-
-        if pdf_data in self.__pdf_cache:
-            return self.__pdf_cache[pdf_data]
         
-        if pdf_data.startswith('file://'):
-            path = pdf_data[7:]
+        self.init_pdf_cache()
+        
+        pdf_key = pdf_data
+        if pdf_key in self.__pdf_cache:
+            return self.__pdf_cache[pdf_key]
+        
+        if pdf_key.startswith('file://'):
+            path = pdf_key[7:]
             pdf_data = open(path).read()
-        elif pdf_data.startswith('http://') or pdf_data.startswith('https://'):
-            url = pdf_data
+        elif pdf_key.startswith('http://') or pdf_key.startswith('https://'):
+            url = pdf_key
             try:
                 pdf_data = self.urlopen(url).read()
             
@@ -223,7 +229,7 @@ class PhillyLegistarSiteWrapper (object):
             # but they have.
             except urllib2.HTTPError, err:
                 if err.code == 404:
-                    self.__pdf_cache[pdf_data] = ''
+                    self.__pdf_cache[pdf_key] = ''
                     return ''
                 else:
                     raise
@@ -232,12 +238,12 @@ class PhillyLegistarSiteWrapper (object):
             # if timed out.
             except urllib2.URLError, err:
                 if tries_left:
-                    return self.extract_pdf_text(pdf_data, tries_left-1)
+                    return self.extract_pdf_text(pdf_key, tries_left-1)
         
         xml_data = scraperwiki.utils.pdftoxml(pdf_data)
         
-        self.__pdf_cache[pdf_data] = self.extract_xml_text(xml_data, 'pdf2xml')
-        return self.__pdf_cache[pdf_data]
+        self.__pdf_cache[pdf_key] = self.extract_xml_text(xml_data, 'pdf2xml')
+        return self.__pdf_cache[pdf_key]
     
     def extract_xml_text(self, xml_data, root_node_name):
         soup = BeautifulSoup(xml_data)

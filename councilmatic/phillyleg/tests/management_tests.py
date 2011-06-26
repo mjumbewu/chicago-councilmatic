@@ -93,3 +93,8 @@ class LegistarTests (TestCase):
         minutes = wrapper.collect_minutes(actions)
         
         self.assertEqual(wrapper.urlopen.call_count, 2)
+    
+    def test_ConvertDateIsEmptyWhenNoDateGiven(self):
+        wrapper = PhillyLegistarSiteWrapper()
+        
+        self.assertEqual(wrapper.convert_date(None), '')
