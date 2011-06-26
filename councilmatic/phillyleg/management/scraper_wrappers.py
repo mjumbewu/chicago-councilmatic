@@ -4,6 +4,7 @@ import urllib2
 import httplib
 import re
 import os
+import new
 import phillyleg
 from BeautifulSoup import BeautifulSoup
 
@@ -21,6 +22,9 @@ class PhillyLegistarSiteWrapper (object):
     """
     
     STARTING_URL = 'http://legislation.phila.gov/detailreport/?key='
+    
+    def urlopen(self, *args, **kwargs):
+        return urllib2.urlopen(*args, **kwargs)
 
     def scrape_legis_file(self, key, soup):
         '''Extract a record from the given document (soup). The key is for the
@@ -78,6 +82,31 @@ class PhillyLegistarSiteWrapper (object):
         print record, attachments, actions, minutes
         return record, attachments, actions, minutes
     
+    def get_minutes_date(self, minutes_url):
+        date_match = re.search('_(\d{2})-(\d{2})-(\d{2})_', minutes_url)
+        if date_match:
+            date_taken = datetime.date(
+                year=int('20' + date_match.group(1)),
+                month=int(date_match.group(2)),
+                day=int(date_match.group(3)),
+            )
+        else:
+            date_taken = ''
+        
+        return date_taken
+    
+    def get_minutes_doc(self, minutes_url):
+        fulltext = self.extract_pdf_text(minutes_url)
+        date_taken = self.get_minutes_date(minutes_url)
+        
+        minutes_doc = {
+            'url' : minutes_url,
+            'fulltext' : fulltext,
+            'date_taken' : date_taken,
+        }
+        
+        return minutes_doc
+    
     def collect_minutes(self, actions):
         """
         Given a list of legislative actions, collect the minutes data attached
@@ -88,23 +117,7 @@ class PhillyLegistarSiteWrapper (object):
         for action in actions:
             minutes_url = action['minutes_url']
             if minutes_url not in minutes and minutes_url.endswith('.pdf'):
-                fulltext = self.extract_pdf_text(minutes_url)
-                
-                date_match = re.search('_(\d{2})-(\d{2})-(\d{2})_', minutes_url)
-                if date_match:
-                    date_taken = datetime.date(
-                        year=int('20' + date_match.group(1)),
-                        month=int(date_match.group(2)),
-                        day=int(date_match.group(3)),
-                    )
-                else:
-                    date_taken = ''
-                
-                minutes_doc = {
-                    'url' : minutes_url,
-                    'fulltext' : fulltext,
-                    'date_taken' : date_taken,
-                }
+                minutes_doc = self.get_minutes_doc(minutes_url)
                 minutes[minutes_url] = minutes_doc
         
         return minutes.values()
@@ -203,7 +216,7 @@ class PhillyLegistarSiteWrapper (object):
         elif pdf_data.startswith('http://') or pdf_data.startswith('https://'):
             url = pdf_data
             try:
-                pdf_data = urllib2.urlopen(url).read()
+                pdf_data = self.urlopen(url).read()
             
             # Protect against removed PDFs (ones that result in 404 HTTP 
             # response code).  I don't know why they've removed some PDFs
@@ -223,9 +236,13 @@ class PhillyLegistarSiteWrapper (object):
         
         xml_data = scraperwiki.utils.pdftoxml(pdf_data)
         
-        soup = BeautifulSoup(xml_data)
-        self.__pdf_cache[pdf_data] = soup.find('pdf2xml').text
+        self.__pdf_cache[pdf_data] = self.extract_xml_text(xml_data, 'pdf2xml')
         return self.__pdf_cache[pdf_data]
+    
+    def extract_xml_text(self, xml_data, root_node_name):
+        soup = BeautifulSoup(xml_data)
+        xml_text = soup.find(root_node_name).text
+        return xml_text
     
     def convert_date(self, orig_date):
         if orig_date:
@@ -253,7 +270,7 @@ class PhillyLegistarSiteWrapper (object):
             more_tries = 10
             while True:
                 try:
-                    html = urllib2.urlopen(url)
+                    html = self.urlopen(url)
                     break
 
                 # Sometimes the server will respond with a status line that httplib
@@ -282,6 +299,7 @@ class PhillyLegistarSiteWrapper (object):
 
 class ScraperWikiSourceWrapper (object):
     __cursor = None
+    urlopen = urllib2.urlopen
     
     def scrape_legis_file(self, key, cursor):
         '''Extract a record from the given document (soup). The key is for the
@@ -390,7 +408,7 @@ class ScraperWikiSourceWrapper (object):
         
     def __download_db(self):
         print "Downloading the database (~40M -- this may take a while)..."
-        db_file = urllib2.urlopen('http://scraperwiki.com/scrapers/export_sqlite/philadelphia_legislative_files/')
+        db_file = self.urlopen('http://scraperwiki.com/scrapers/export_sqlite/philadelphia_legislative_files/')
         db = db_file.read()
         outfile = open('swdata.sqlite3', 'w')
         outfile.write(db)

@@ -1,6 +1,8 @@
 from unittest import TestCase
 import os
 import BeautifulSoup as bs
+import datetime as dt
+import mock
 
 from phillyleg.management.scraper_wrappers import PhillyLegistarSiteWrapper
 
@@ -58,3 +60,36 @@ class LegistarTests (TestCase):
         attachment_pdf = 'http://legislation.phila.gov/attachments/115954.pdf'
         attachment_text = wrapper.extract_pdf_text(attachment_pdf)
         self.assertEqual(attachment_text, expected_text)
+    
+    def test_MinutesDateParsedCorrectly(self):
+        wrapper = PhillyLegistarSiteWrapper()
+        
+        expected_date = dt.date(2083, 12, 6) # They learned nothing from Y2K
+        taken_date = wrapper.get_minutes_date('http://www.bogus.com/path/mydoc_83-12-06_bill.pdf')
+        
+        self.assertEqual(taken_date, expected_date)
+    
+    def test_MinutesDocumentConstructedCorrectly(self):
+        wrapper = PhillyLegistarSiteWrapper()
+        wrapper.get_minutes_date = mock.Mock(return_value=dt.date(2083, 12, 6))
+        wrapper.extract_pdf_text = mock.Mock(return_value='This is the text')
+        
+        expected_doc = {'url': 'http://www.example.com/doc.pdf',
+                        'fulltext': 'This is the text',
+                        'date_taken': dt.date(2083, 12, 6)}
+        minutes_doc = wrapper.get_minutes_doc('http://www.example.com/doc.pdf')
+        
+        self.assertEqual(minutes_doc, expected_doc)
+        
+    def test_PdfDataIsCached(self):
+        from StringIO import StringIO
+        wrapper = PhillyLegistarSiteWrapper()
+        wrapper.urlopen = mock.Mock(return_value=StringIO('<doc><pdf2xml></pdf2xml></doc>'))
+        wrapper.extract_xml_text = mock.Mock()
+        
+        actions = [{'minutes_url': 'http://www.sample.com/file.pdf'},
+                   {'minutes_url': 'http://www.sample.com/file.pdf'},
+                   {'minutes_url': 'http://www.sample.com/other/file.pdf'}]
+        minutes = wrapper.collect_minutes(actions)
+        
+        self.assertEqual(wrapper.urlopen.call_count, 2)
