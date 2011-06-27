@@ -3,6 +3,7 @@ import os
 import BeautifulSoup as bs
 import datetime as dt
 import mock
+from StringIO import StringIO
 
 from phillyleg.management.scraper_wrappers import PhillyLegistarSiteWrapper
 
@@ -17,11 +18,14 @@ class LegistarTests (TestCase):
             os.path.dirname(os.path.abspath(__file__)),
             'pdfs'
         )
-        
+    
+    def open_legfile(self, key):
+        return open(os.path.join(self.legfiles_dir, 'key%s.html' % key))
+    
     def test_RecognizeNotesRow(self):
         # The history on some filings (like key=73) have notes.  These need to
         # be detected.
-        html = open(os.path.join(self.legfiles_dir, 'key73.html')).read()
+        html = self.open_legfile('73').read()
         soup = bs.BeautifulSoup(html)
         
         wrapper = PhillyLegistarSiteWrapper()
@@ -82,7 +86,6 @@ class LegistarTests (TestCase):
         self.assertEqual(minutes_doc, expected_doc)
         
     def test_PdfDataIsCached(self):
-        from StringIO import StringIO
         wrapper = PhillyLegistarSiteWrapper()
         wrapper.urlopen = mock.Mock(return_value=StringIO('<doc><pdf2xml></pdf2xml></doc>'))
         wrapper.extract_xml_text = mock.Mock()
@@ -98,3 +101,32 @@ class LegistarTests (TestCase):
         wrapper = PhillyLegistarSiteWrapper()
         
         self.assertEqual(wrapper.convert_date(None), '')
+    
+    def test_detectsErrorsCorrectly(self):
+        wrapper = PhillyLegistarSiteWrapper()
+        
+        soup = bs.BeautifulSoup(self.open_legfile('12000').read())
+        self.assertTrue(wrapper.is_error_page(soup))
+        
+        soup = bs.BeautifulSoup(self.open_legfile('73').read())
+        self.assertTrue(not wrapper.is_error_page(soup))
+    
+    def test_ExitsSilentlyOnNoNewContent(self):
+        wrapper = PhillyLegistarSiteWrapper()
+        error_page = self.open_legfile('12000').read()
+        wrapper.urlopen = mock.Mock(
+            side_effect=lambda *a, **k: StringIO(error_page))
+        
+        wrapper.check_for_new_content(73)
+        self.assertEqual(wrapper.urlopen.call_count, 10)
+    
+    def test_RaisesErrorOnTooMany404(self):
+        from httplib import BadStatusLine
+        wrapper = PhillyLegistarSiteWrapper()
+        wrapper.urlopen = mock.Mock(
+            side_effect=BadStatusLine(500))
+        
+        self.assertRaises(BadStatusLine, wrapper.check_for_new_content, 73)
+        self.assertEqual(wrapper.urlopen.call_count, 10)
+
+
