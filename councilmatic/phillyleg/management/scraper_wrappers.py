@@ -306,6 +306,7 @@ class PhillyLegistarSiteWrapper (object):
 class ScraperWikiSourceWrapper (object):
     __cursor = None
     urlopen = urllib2.urlopen
+    db_file_name = 'swdata.sqlite3'
     
     def scrape_legis_file(self, key, cursor):
         '''Extract a record from the given document (soup). The key is for the
@@ -411,20 +412,25 @@ class ScraperWikiSourceWrapper (object):
             actions.append(action)
         
         return actions
-        
+    
     def __download_db(self):
         print "Downloading the database (~40M -- this may take a while)..."
         db_file = self.urlopen('http://scraperwiki.com/scrapers/export_sqlite/philadelphia_legislative_files/')
         db = db_file.read()
-        outfile = open('swdata.sqlite3', 'w')
+        outfile = open(self.db_file_name, 'w')
         outfile.write(db)
         outfile.close()
     
     def __check_db_exists(self):
-        return os.path.exists('swdata.sqlite3')
+        if os.path.exists(self.db_file_name):
+            print "Local copy of database already exists."
+            return True
+        else:
+            print "No local copy of database exists."
+            return False
     
     def __connect_to_db(self):
-        conn = sqlite3.connect('swdata.sqlite3')
+        conn = sqlite3.connect(self.db_file_name)
         self.__cursor = conn.cursor()
 
     def check_for_new_content(self, last_key, force_download=False):
