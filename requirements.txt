@@ -18,5 +18,7 @@ whoosh
 # Testing tools
 django-nose
 coverage
+mock
 
+# Mamangement and deployment
 fabric
