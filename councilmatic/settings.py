@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     
     'phillyleg',
     'subscriptions',
+    'main',
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
