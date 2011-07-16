@@ -127,6 +127,8 @@ INSTALLED_APPS = (
     'uni_form',
     'django_nose',
     
+    'model_blocks',
+    
     'phillyleg',
     'subscriptions',
     'main',
