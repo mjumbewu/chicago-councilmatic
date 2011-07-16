@@ -1,13 +1,21 @@
+import datetime
 from django.db import models
 
 import django.contrib.auth.models as auth
-
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
 
 class DistributionChannel (models.Model):
     recipient = models.ForeignKey(auth.User, null=True)
+    
+    class Meta:
+        abstract = True
 
 class EmailChannel (DistributionChannel):
     email = models.CharField(max_length=256)
+    
+    def __unicode__(self):
+        return "Email to %s" % self.email
 
 class RssChannel (DistributionChannel):
     pass
@@ -15,10 +23,13 @@ class RssChannel (DistributionChannel):
 class SmsChannel (DistributionChannel):
     number = models.CharField(max_length=32)
     carrier = models.CharField(max_length=32)
+    
+    def __unitcode__(self):
+        return "Send SMS to %s number %s" % (self.carrier, self.number)
 
     
 class Subscription (models.Model):
-    channel = models.ForeignKey('DistributionChannel', null=True)
+    channel = models.ForeignKey('EmailChannel', null=True)
     last_sent = models.DateTimeField()
     
     def save(self, *args, **kwargs):
