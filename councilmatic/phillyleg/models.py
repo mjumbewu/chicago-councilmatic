@@ -1,6 +1,7 @@
 import datetime
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 # Create your models here.
 
@@ -34,6 +35,10 @@ class LegFile(models.Model):
     def __unicode__(self):
         return "(%s) %s%s" % (self.key, self.title[:100], 
             '...' if len(self.title) > 100 else '')
+    
+    @models.permalink
+    def get_absolute_url(self):
+        return ('legislation_detail', [str(self.pk)])
 
 class LegFileAttachment(models.Model):
     file = models.ForeignKey(LegFile)
