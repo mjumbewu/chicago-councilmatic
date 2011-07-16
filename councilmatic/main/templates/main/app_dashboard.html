@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load model_blocks %}
+{% load uni_form_tags %}
+
+{% block content %}
+    <header>
+        <h1>Councilmatic</h1>
+    </header>
+    
+    <form action="{% url legfile_search %}" method="POST">
+        {{ searchform|as_uni_form }}
+        <button type="submit">Search</button>
+    </form>
+    
+    {{ legfiles|as_list_block }}
+    <a href="{% url legislation_list %}">More...</a>
+{% endblock %}
