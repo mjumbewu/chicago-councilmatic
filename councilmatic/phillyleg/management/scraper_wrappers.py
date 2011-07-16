@@ -305,9 +305,11 @@ class PhillyLegistarSiteWrapper (object):
 
 class ScraperWikiSourceWrapper (object):
     __cursor = None
-    urlopen = urllib2.urlopen
     db_file_name = 'swdata.sqlite3'
     
+    def urlopen(self, *args, **kwargs):
+        return urllib2.urlopen(*args, **kwargs)
+
     def scrape_legis_file(self, key, cursor):
         '''Extract a record from the given document (soup). The key is for the
            sake of record-keeping.  It is the key passed to the site URL.'''
