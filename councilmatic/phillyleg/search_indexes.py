@@ -20,7 +20,7 @@ class LegislationIndex(indexes.SearchIndex):
 
 class MinutesIndex(indexes.SearchIndex):
     text = indexes.CharField(document=True, model_attr='fulltext')
-    taken_date = indexes.DateField(null=True)
+    date_taken = indexes.DateField(null=True)
 
 
 site.register(LegFile, LegislationIndex)
