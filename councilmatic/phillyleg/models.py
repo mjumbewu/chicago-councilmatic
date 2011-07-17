@@ -62,14 +62,18 @@ class LegAction(models.Model):
         unique_together = (('file','date_taken','description','notes'),)
 
 class LegMinutes(models.Model):
-    url = models.CharField(max_length=2048, primary_key=True)
+    url = models.CharField(max_length=2048, unique=True)
     fulltext = models.TextField()
     date_taken = models.DateField(null=True)
-
+    
     def __unicode__(self):
         return "(%s) %s%s" % (self.date_taken, self.fulltext[:100], 
             '...' if len(self.fulltext) > 100 else '')
-
+    
+    @models.permalink
+    def get_absolute_url(self):
+        return ('minutes_detail', [str(self.pk)])
+    
 #
 # Subscription models
 #

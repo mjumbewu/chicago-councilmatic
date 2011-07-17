@@ -35,6 +35,11 @@ urlpatterns = patterns('',
         template_name='phillyleg/legfile_detail.html'),
         name='legislation_detail'),
 
+    url(r'^minutes/(?P<pk>\d+)$', DetailView.as_view(
+        model=phillyleg.models.LegFile,
+        template_name='phillyleg/legminutes_detail.html'),
+        name='minutes_detail'),
+
     url(r'^subs/$', 'phillyleg.views.subscribe'),
     url(r'^subs/create/$', 'phillyleg.views.create'),
     url(r'^subs/unsubscribe/$', 'phillyleg.views.unsubscribe'),
