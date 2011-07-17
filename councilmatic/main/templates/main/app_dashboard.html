@@ -7,7 +7,7 @@
         <h1>Councilmatic</h1>
     </header>
     
-    <form action="{% url legfile_search %}" method="POST">
+    <form action="{% url legfile_search %}" method="GET">
         {{ searchform|as_uni_form }}
         <button type="submit">Search</button>
     </form>
