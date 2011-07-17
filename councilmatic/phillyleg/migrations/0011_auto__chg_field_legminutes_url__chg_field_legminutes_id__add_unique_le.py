@@ -23,11 +23,11 @@ class Migration(SchemaMigration):
         # Removing unique constraint on 'LegMinutes', fields ['id']
         db.delete_unique('phillyleg_legminutes', ['id'])
 
-        # Changing field 'LegMinutes.url'
-        db.alter_column('phillyleg_legminutes', 'url', self.gf('django.db.models.fields.CharField')(max_length=2048, primary_key=True))
-
         # Changing field 'LegMinutes.id'
         db.alter_column('phillyleg_legminutes', 'id', self.gf('django.db.models.fields.IntegerField')())
+
+        # Changing field 'LegMinutes.url'
+        db.alter_column('phillyleg_legminutes', 'url', self.gf('django.db.models.fields.CharField')(max_length=2048, primary_key=True))
 
 
     models = {
