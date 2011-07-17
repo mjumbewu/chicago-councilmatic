@@ -8,26 +8,20 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Changing field 'LegMinutes.url'
-        db.alter_column('phillyleg_legminutes', 'url', self.gf('django.db.models.fields.CharField')(unique=True, max_length=2048))
+        # Adding field 'LegAction.minutes_tmpid'
+        db.add_column('phillyleg_legaction', 'minutes_tmpid', self.gf('django.db.models.fields.IntegerField')(null=True), keep_default=False)
 
-        # Changing field 'LegMinutes.id'
-        db.alter_column('phillyleg_legminutes', 'id', self.gf('django.db.models.fields.AutoField')(primary_key=True))
-
-        # Adding unique constraint on 'LegMinutes', fields ['id']
-        db.create_unique('phillyleg_legminutes', ['id'])
+        # Adding field 'LegMinutes.id'
+        db.add_column('phillyleg_legminutes', 'id', self.gf('django.db.models.fields.IntegerField')(default=0), keep_default=False)
 
 
     def backwards(self, orm):
         
-        # Removing unique constraint on 'LegMinutes', fields ['id']
-        db.delete_unique('phillyleg_legminutes', ['id'])
+        # Deleting field 'LegAction.minutes_tmpid'
+        db.delete_column('phillyleg_legaction', 'minutes_tmpid')
 
-        # Changing field 'LegMinutes.id'
-        db.alter_column('phillyleg_legminutes', 'id', self.gf('django.db.models.fields.IntegerField')())
-
-        # Changing field 'LegMinutes.url'
-        db.alter_column('phillyleg_legminutes', 'url', self.gf('django.db.models.fields.CharField')(max_length=2048, primary_key=True))
+        # Deleting field 'LegMinutes.id'
+        db.delete_column('phillyleg_legminutes', 'id')
 
 
     models = {
@@ -56,6 +50,7 @@ class Migration(SchemaMigration):
             'file': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['phillyleg.LegFile']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'minutes': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['phillyleg.LegMinutes']", 'null': 'True'}),
+            'minutes_tmpid': ('django.db.models.fields.IntegerField', [], {'null': 'True'}),
             'motion': ('django.db.models.fields.CharField', [], {'max_length': '1000'}),
             'notes': ('django.db.models.fields.TextField', [], {})
         },
@@ -88,8 +83,8 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'LegMinutes'},
             'date_taken': ('django.db.models.fields.DateField', [], {'null': 'True'}),
             'fulltext': ('django.db.models.fields.TextField', [], {}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'url': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '2048'})
+            'id': ('django.db.models.fields.IntegerField', [], {'unique': 'True'}),
+            'url': ('django.db.models.fields.CharField', [], {'max_length': '2048', 'primary_key': 'True'})
         },
         'phillyleg.subscription': {
             'Meta': {'object_name': 'Subscription'},

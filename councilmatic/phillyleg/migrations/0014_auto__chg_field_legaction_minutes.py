@@ -1,41 +1,31 @@
 # encoding: utf-8
 import datetime
 from south.db import db
-from south.v2 import DataMigration
+from south.v2 import SchemaMigration
 from django.db import models
 
-class Migration(DataMigration):
+class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        "Write your forwards methods here."
-        curr_id = 0
-        for minutes in orm.LegMinutes.objects.all().order_by('date_taken'):
-            minutes.id = curr_id
-            minutes.save()
-            curr_id += 1
         
-        for action in orm.LegAction.objects.all():
-            minutes_url = action.minutes
-            if minutes_url:
-                try:
-                    minutes = orm.LegMinutes.objects.get(url=minutes_url)
-                    action.minutes_tmpid = minutes.id
-                except:
-                    pass
-                action.save()
+        # Renaming column for 'LegAction.minutes' to match new field type.
+        db.rename_column('phillyleg_legaction', 'minutes', 'minutes_id')
+        # Changing field 'LegAction.minutes'
+        db.alter_column('phillyleg_legaction', 'minutes_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['phillyleg.LegMinutes'], null=True))
+
+        # Adding index on 'LegAction', fields ['minutes']
+        db.create_index('phillyleg_legaction', ['minutes_id'])
 
 
     def backwards(self, orm):
-        "Write your backwards methods here."
-        for action in orm.LegAction.objects.all():
-            minutes_id = action.minutes_tmpid
-            if minutes_id:
-                try:
-                    minutes = orm.LegMinutes.objects.get(id=minutes_id)
-                    action.minutes = minutes.url
-                except:
-                    pass
-                action.save()
+        
+        # Removing index on 'LegAction', fields ['minutes']
+        db.delete_index('phillyleg_legaction', ['minutes_id'])
+
+        # Renaming column for 'LegAction.minutes' to match new field type.
+        db.rename_column('phillyleg_legaction', 'minutes_id', 'minutes')
+        # Changing field 'LegAction.minutes'
+        db.alter_column('phillyleg_legaction', 'minutes', self.gf('django.db.models.fields.IntegerField')(null=True))
 
 
     models = {
@@ -96,8 +86,8 @@ class Migration(DataMigration):
             'Meta': {'object_name': 'LegMinutes'},
             'date_taken': ('django.db.models.fields.DateField', [], {'null': 'True'}),
             'fulltext': ('django.db.models.fields.TextField', [], {}),
-            'id': ('django.db.models.fields.IntegerField', [], {}),
-            'url': ('django.db.models.fields.CharField', [], {'max_length': '2048', 'primary_key': 'True'})
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'url': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '2048'})
         },
         'phillyleg.subscription': {
             'Meta': {'object_name': 'Subscription'},
