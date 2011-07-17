@@ -1,0 +1,7 @@
+{{ object.text }}
+{{ object.file_id }}
+{{ object.status }}
+{{ object.controlling_body }}
+{{ object.file_type }}
+{{ object.key }}
+{{ object.sponsors }}
