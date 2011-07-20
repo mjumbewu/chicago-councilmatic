@@ -39,21 +39,17 @@ urlpatterns = patterns('',
         model=phillyleg.models.LegMinutes,
         template_name='phillyleg/legminutes_detail.html'),
         name='minutes_detail'),
-
+    
+    url(r'^search/$', subscriptions.views.SearchView(),
+        name='legfile_search'),
+    url(r'^subscribe$', subscriptions.views.SubscribeToSearchView.as_view()),
+    url(r'^(?P<subscription_id>\d+)/$', 'phillyleg.views.dashboard'),
+#    url(r'^search/', include('haystack.urls')),
+    
+    # Older views.  Work with them.
     url(r'^subs/$', 'phillyleg.views.subscribe'),
     url(r'^subs/create/$', 'phillyleg.views.create'),
     url(r'^subs/unsubscribe/$', 'phillyleg.views.unsubscribe'),
     #url(r'^subs/(?P<subscription_id>\d+)/$', 'phillyleg.views.edit'),
     url(r'^subs/delete/$', 'phillyleg.views.delete'),
-    
-    url(r'^legislation/files', ListView.as_view(
-        model=phillyleg.models.LegFile,
-        template_name='legfile_list.html',
-        context_object_name='legfile_list')),
-    
-    url(r'^search$', subscriptions.views.SearchView(),
-        name='legfile_search'),
-    url(r'^subscribe$', subscriptions.views.SubscribeToSearchView.as_view()),
-    url(r'^(?P<subscription_id>\d+)/$', 'phillyleg.views.dashboard'),
-#    url(r'^search/', include('haystack.urls')),
 )
