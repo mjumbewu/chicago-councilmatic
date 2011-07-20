@@ -52,7 +52,7 @@ class Migration(SchemaMigration):
         db.send_create_signal('subscriptions', ['DistributionChannel'])
 
         # Adding field 'RssChannel.distributionchannel_ptr'
-        db.add_column('subscriptions_rsschannel', 'distributionchannel_ptr', self.gf('django.db.models.fields.related.OneToOneField')(default=None, to=orm['subscriptions.DistributionChannel'], unique=True, primary_key=True), keep_default=False)
+        db.add_column('subscriptions_rsschannel', 'distributionchannel_ptr', self.gf('django.db.models.fields.related.OneToOneField')(default=0, to=orm['subscriptions.DistributionChannel'], unique=True, primary_key=True), keep_default=False)
 
         # Deleting field 'RssChannel.id'
         db.delete_column('subscriptions_rsschannel', 'id')
