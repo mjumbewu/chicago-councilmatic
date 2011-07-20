@@ -4,14 +4,27 @@
 
 {% block content %}
     <header>
-        <h1>Councilmatic</h1>
+        <h1>Search</h1>
     </header>
     
-    <form action="{% url legfile_search %}" method="GET">
+    <form method="GET" action=".">
         {{ form|as_uni_form }}
+        
         <button type="submit">Search</button>
+
+        {% if query %}
+            {{ object_list|as_list_block:"Results" }}
+
+            {% if page.has_previous or page.has_next %}
+                <div>
+                    {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+                    |
+                    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            {# Show some example queries to run, maybe query syntax, something else? #}
+        {% endif %}
     </form>
-    
-    {{ object_list|as_list_block }}
-    <a href="{% url legislation_list %}">More...</a>
 {% endblock %}
+
