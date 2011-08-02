@@ -22,17 +22,15 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', admin.site.urls),
     
-    url(r'^$', main.views.AppDashboardView.as_view(),
+    url(r'^$', 
+        main.views.AppDashboardView.as_view(),
         name='main_dashboard'),
     
-    url(r'^legislation/$', ListView.as_view(
-        model=phillyleg.models.LegFile,
-        template_name='phillyleg/legfile_list.html',
-        paginate_by=20),
+    url(r'^legislation/$', 
+        main.views.LegislationListView.as_view(),
         name='legislation_list'),
-    url(r'^legislation/(?P<pk>\d+)$', DetailView.as_view(
-        model=phillyleg.models.LegFile,
-        template_name='phillyleg/legfile_detail.html'),
+    url(r'^legislation/(?P<pk>\d+)$', 
+        main.views.LegislationDetailView.as_view(),
         name='legislation_detail'),
 
     url(r'^minutes/(?P<pk>\d+)$', DetailView.as_view(
