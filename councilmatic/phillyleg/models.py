@@ -51,12 +51,15 @@ class LegFileAttachment(models.Model):
 
 class LegAction(models.Model):
     file = models.ForeignKey(LegFile)
-    date_taken = models.CharField(max_length=1000)
+    date_taken = models.DateTimeField()
     description = models.CharField(max_length=1000)
     minutes = models.ForeignKey('LegMinutes', null=True)
     motion = models.CharField(max_length=1000)
     acting_body = models.CharField(max_length=1000)
     notes = models.TextField()
+    
+    def __unicode__(self):
+        return "%s - %s" % (self.date_taken.date(), self.description)
     
     class Meta:
         unique_together = (('file','date_taken','description','notes'),)
