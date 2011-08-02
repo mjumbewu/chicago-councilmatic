@@ -1,0 +1,22 @@
+.dashboard_browse > header {
+  display: none;
+}
+
+.legfile_list_item a {
+  text-decoration: none;
+  font: inherit;
+  color: inherit;
+}
+
+.legfile_teaser_wrapper .title {
+  display: block;
+  font-weight: bold;
+}
+
+.legfile_teaser_wrapper .status {
+  font-size: 0.8em;
+}
+
+.legfile_teaser_wrapper {
+  padding: 1.2em 0em;
+}

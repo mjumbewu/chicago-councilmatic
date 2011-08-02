@@ -1,0 +1,41 @@
+{% load model_tags %}
+
+{% spaceless %}
+<section class="instance_detail_wrapper {{ model }}_detail_wrapper {{ model }}_{{ instance.pk }}_detail_wrapper">
+  <header class="instance_header {{ model }}_header">
+    <h1>{{ title|default:instance }}</h1>
+  </header>
+
+  <div class="instance_detail {{ model }}_detail">
+    {% for name, label, value, is_list in fields %}
+      
+      <div class="instance_field {{ model }}_{{ name }}">
+        {% if name == 'minutes' %}
+          <span class="instance_field_value {{ model }}_{{ name }}_value">
+            <a href="{{ value.get_absolute_url }}">Minutes</a>
+          </span>
+        {% else %}
+          {% if not is_list and value != None %}
+            <span class="instance_field_label {{ model }}_{{ name }}_label">{{ label|capfirst }}</span>
+            <span class="instance_field_value {{ model }}_{{ name }}_value">
+            
+                {% if value.get_absolute_url %}
+                  <a href="{{ value.get_absolute_url }}">{{ value }}</a>
+                {% else %}
+                  {{ value }}
+                {% endif %}
+              
+            </span>
+          {% endif %}
+        {% endif %}
+        
+        {% if is_list and value.all|length %}
+          {% with title=label %}
+            {% list_block value.all %}
+          {% endwith %}
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endspaceless %}

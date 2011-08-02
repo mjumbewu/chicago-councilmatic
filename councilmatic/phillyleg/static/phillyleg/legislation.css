@@ -1,0 +1,35 @@
+.legfile_detail_wrapper {
+    width: 60em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.legfile_key,
+.legfile_id,
+.legfile_version {
+    display: none;
+}
+
+.legfileattachment_id {
+    display: none;
+}
+
+.legfile_detail .instance_field_label {
+    font-weight: bold;
+    display: block;
+}
+
+.legfile_detail .instance_field {
+    margin-bottom: 1em;
+}
+
+.legfile_detail {
+    padding: 1em;
+}
+
+.legfile_detail .legaction_id,
+.legfile_detail .legaction_date_taken,
+.legfile_detail .legaction_description,
+.legfile_detail .legaction_file {
+    display: none;
+}

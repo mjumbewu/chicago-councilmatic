@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% load model_blocks %}
 
+{% block load_early %}
+	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">
+{% endblock %}
+
 {% block content %}
+  {% with phillyleg_legfileattachment_detail_template="phillyleg/attachment_detail.html" %}
+  {% with phillyleg_legaction_detail_template="phillyleg/legfile_action_detail.html" %}
     {% detail_block object %}
+  {% endwith %}
+  {% endwith %}
 {% endblock %}

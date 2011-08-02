@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load model_blocks %}
+{% load uni_form_tags %}
+
+{% block content %}
+  <section class="browse dashboard_browse">
+    <header>
+      <h1>Browse</h1>
+    </header>
+    
+    {{ legfiles|as_list_block }}
+    {% comment %}
+    {{ minutes|as_list_block }}
+    {{ agendas|as_list_block }}
+    {% endcomment %}
+    <a href="{% url legislation_list %}">More...</a>
+  </section>
+{% endblock %}

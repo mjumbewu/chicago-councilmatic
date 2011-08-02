@@ -1,0 +1,3 @@
+[submodule "councilmatic/static/web-app-theme"]
+	path = councilmatic/static/web-app-theme
+	url = https://github.com/pilu/web-app-theme.git

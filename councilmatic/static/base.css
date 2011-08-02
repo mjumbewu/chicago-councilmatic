@@ -1,0 +1,130 @@
+/**{*/
+/*	margin:0;*/
+/*	padding:0;	*/
+/*}*/
+
+body{
+  margin: 0px;
+  padding: 0px;
+  
+	font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+	color:#333;
+	background-color:#aaa;
+/*	background-image: url(http://subtlepatterns.com/patterns/whitey.png);*/
+}
+
+/*.center{*/
+/*	width:963px;*/
+/*	margin:auto;*/
+/*	background:#fff url(bg.gif) repeat-x top left;*/
+/*	height:650px;*/
+/*	padding:18px;*/
+/*	border:5px solid #ccc;*/
+/*	border-top:none;*/
+/*}*/
+
+/*h1{*/
+/*	color:#CB2A3C;*/
+/*	padding:9px;*/
+/*}*/
+
+/*p, input, label, ul{*/
+/*	margin:18px;*/
+/*}*/
+
+/*select, textarea{*/
+/*	margin:9px 18px;*/
+/*}*/
+
+/*li{*/
+/*	list-style-type:none;*/
+/*	line-height:150%;*/
+/*}*/
+
+/*#email{*/
+/*	width:250px;*/
+/*	padding:4px;*/
+/*}*/
+
+/*#subscribe, #unsubscribe{*/
+/*	border:3px solid #666;*/
+/*	background-color:#ABCDEF;*/
+/*	padding:9px;*/
+/*	font-size:14px;*/
+/*	cursor:pointer;*/
+/*	color:#000;*/
+/*}*/
+
+/*body > header {*/
+/*  width: 100%;*/
+/*  border-bottom: 1px solid black;*/
+/*  height: 4em;*/
+/*  background-color: #eee;*/
+/*}*/
+
+h1 {
+  margin: 0px;
+  padding: 0px;
+  padding-top: 0.5em;
+}
+
+.simple_search {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+}
+
+.simple_search form {
+  margin: 0px;
+  padding: 0px;
+}
+
+.simple_search form > * {
+  display: inline-block;
+}
+
+.simple_search label {
+  display: inline-block;
+  height: 3em;
+  line-height: 3em;
+}
+
+.simple_search input {
+  float: none !important;
+  
+  height: 3em;
+}
+
+.simple_search button {
+  width: 3em;
+  height: 3em;
+}
+
+/*
+.simple_search button {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 4em;
+}
+
+.simple_search label {
+  position: absolute;
+  font-size: 1em;
+  top: 0px;
+  right: 18em;
+  margin: 0px;
+}
+
+.simple_search input {
+  position: absolute;
+  font-size: 1em;
+  top: 0px;
+  right: 5em;
+  width: 12em;
+  margin: 0px;
+}*/
+
+#header {
+  background-image: none;
+}

@@ -15,7 +15,8 @@ class AppDashboardView (view.TemplateView):
         context_data = super(AppDashboardView, self).get_context_data(
             **kwargs)
         context_data.update({'legfiles': legfiles, 
-                             'searchform': searchform})
+                             'searchform': searchform,
+                             'simple_search_form': searchform})
                        
         return context_data
             

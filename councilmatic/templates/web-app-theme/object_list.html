@@ -1,0 +1,43 @@
+{% load model_tags %}
+
+{% spaceless %}
+<section class="instance_list_wrapper {{ model }}_list_wrapper">
+  <header class="instance_list_header {{ model }}_list_header">
+    <h1>{{ title|default:model|capfirst }}{% if not title %} List{% endif %}</h1>
+  </header>
+
+  <ul class="list instance_list {{ model }}_list">
+    {% for instance in instance_list %}
+      <li class="instance_list_item {{ model }}_list_item {{ model }}_{{ instance.pk }}_list_item">
+        
+        {% comment %}
+         #
+         # If the model has absolute URLs, then the list will just contain 
+         # links to each individual instance of the model.  Otherwise, each
+         # instance will be listed out in a detail block.  If this is not your
+         # desired behavior, override this template for your model:
+         #
+         #  {% load model_tags %}
+         #  ...
+         #  {% with (appname)_(modelname)_list_template="override_file.html" %}
+         #    {% list_block (your_queryset) %}
+         #  {% endwith %}
+         #
+        {% endcomment %}
+        
+        {# Reset the title, so that child blocks don't use it mistakenly #}
+        {% with title='' %}
+        
+          {% if instance.get_absolute_url %}
+            <a href="{{ instance.get_absolute_url }}">{% teaser_block instance %}</a>
+          {% else %}
+            {% detail_block instance %}
+          {% endif %}
+          
+        {% endwith %}
+        
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endspaceless %}

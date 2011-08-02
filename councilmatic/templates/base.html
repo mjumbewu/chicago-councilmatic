@@ -1,68 +1,41 @@
+{% load uni_form_tags %}
+
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Philadelphia City Council Email Service</title>
 	<style>
-		*{
-			margin:0;
-			padding:0;	
-		}
-
-		body{
-			font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
-			color:#333;
-			background-color:#aaa;
-			background-image: url(http://subtlepatterns.com/patterns/whitey.png);
-		}
-
-		.center{
-			width:963px;
-			margin:auto;
-			background:#fff url(bg.gif) repeat-x top left;
-			height:650px;
-			padding:18px;
-			border:5px solid #ccc;
-			border-top:none;
-		}
-
-		h1{
-			color:#CB2A3C;
-			padding:9px;
-		}
-
-		p, input, label, ul{
-			margin:18px;
-		}
-
-		select, textarea{
-			margin:9px 18px;
-		}
-
-		li{
-			list-style-type:none;
-			line-height:150%;
-		}
-
-		#email{
-			width:250px;
-			padding:4px;
-		}
-
-		#subscribe, #unsubscribe{
-			border:3px solid #666;
-			background-color:#ABCDEF;
-			padding:9px;
-			font-size:14px;
-			-moz-border-radius: 12px; /* FF1+ */
-			-webkit-border-radius: 12px; /* Saf3-4, iOS 1+, Android 1.5+ */
-			border-radius: 12px; /* Opera 10.5, IE9, Saf5, Chrome, FF4 */
-			cursor:pointer;
-			color:#000;
-		}
-	</style>		
+	</style>
+	
+	<link rel="stylesheet" href="{{ STATIC_URL }}web-app-theme/stylesheets/base.css">
+	<link rel="stylesheet" href="{{ STATIC_URL }}web-app-theme/stylesheets/themes/default/style.css">
+	<link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form.css">
+	<link rel="stylesheet" href="{{ STATIC_URL }}base.css">
+	
+	{% block load_early %}
+	  {# Here go things that would be in the head, like extra css imports.     #}
+	{% endblock %}
+	
 </head>
 <body>
+  <header id="header">
+    <h1>Councilmatic</h1>
+  </header>
+  
+  <section class="simple_search">
+    <form action="{% url legfile_search %}" method="GET" class="uniForm">
+      {{ simple_search_form|as_uni_form }}
+      <button type="submit">Go</button>
+    </form>
+  </section>
+  
 	{% block content %}
 	{% endblock %}
+	
+	{% block load_late %}
+	  {# Here go things that would be in at the end of the body, like large    #}
+	  {# javascript files.                                                     #}
+	{% endblock %}
+	
 </body>
 </html>
