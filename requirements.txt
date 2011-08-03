@@ -9,6 +9,9 @@ django-model-blocks
 # pure Python).  May use pysolr later, but may not need to.
 whoosh
 
+# Registration!
+-e hg+http://bitbucket.org/ubernostrum/django-registration/#egg=django-registration
+
 # Using a version of beautiful soup that I've patched with better string
 # representation for Tags.  I have submitted a merge proposal to the main
 # branch.
