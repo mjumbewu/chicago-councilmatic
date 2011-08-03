@@ -4,4 +4,9 @@
     <label>Status:</label>
     {{ instance.status }}
   </span>
+  {% if user and user in instance.bookmarks %}
+    <span class="bookmark active">
+      <a href="xx"></a>
+    </span>
+  {% endif %}
 </article>

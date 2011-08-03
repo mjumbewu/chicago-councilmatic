@@ -19,4 +19,24 @@
 
 .legfile_teaser_wrapper {
   padding: 1.2em 0em;
+  padding-left: 50px;
+  position: relative;
+}
+
+.legfile_teaser_wrapper .bookmark.active {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  
+  width: 21px;
+  height: 38px;
+  background-image: url(../bookmarks/bookmark_active.png);
+}
+
+.legfile_teaser_wrapper .bookmark a {
+  display: block;
+  background: transparent;
+  width: 21px;
+  height: 38px;
 }

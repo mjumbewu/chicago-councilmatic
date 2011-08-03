@@ -6,6 +6,18 @@
 {% endblock %}
 
 {% block content %}
+  {% if user.is_authenticated %}
+    {% if user in object.bookmarks %}
+      <div class="bookmark active">
+        <a href="remove_bookmark?next={{ request.get_full_path }}"></a>
+      </div>
+    {% else %}
+      <div class="bookmark inactive">
+        <a href="add_bookmark?next={{ request.get_full_path }}"></a>
+      </div>
+    {% endif %}
+  {% endif %}
+  
   {% with phillyleg_legfileattachment_detail_template="phillyleg/attachment_detail.html" %}
   {% with phillyleg_legaction_detail_template="phillyleg/legfile_action_detail.html" %}
     {% detail_block object %}
