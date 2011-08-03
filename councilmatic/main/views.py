@@ -10,8 +10,11 @@ class SearchBarMixin (object):
     
     
     def get_context_data(self, **kwargs):
-        return super(SearchBarMixin, self).get_context_data(
-            searchbar_form=self.get_searchbar_form(), **kwargs)
+        context_data = super(SearchBarMixin, self).get_context_data(
+            **kwargs)
+        context_data.update({'searchbar_form': self.get_searchbar_form()})
+        
+        return context_data
 
 
 class AppDashboardView (SearchBarMixin, view.TemplateView):
