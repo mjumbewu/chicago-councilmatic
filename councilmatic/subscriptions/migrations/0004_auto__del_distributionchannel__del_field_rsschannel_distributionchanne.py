@@ -11,29 +11,20 @@ class Migration(SchemaMigration):
         # Deleting model 'DistributionChannel'
         db.delete_table('subscriptions_distributionchannel')
 
-        # Deleting field 'RssChannel.distributionchannel_ptr'
-        db.delete_column('subscriptions_rsschannel', 'distributionchannel_ptr_id')
-
-        # Adding field 'RssChannel.id'
-        db.add_column('subscriptions_rsschannel', 'id', self.gf('django.db.models.fields.AutoField')(default=0, primary_key=True), keep_default=False)
+        # Renaming field 'RssChannel.distributionchannel_ptr' as 'RssChannel.id'
+        db.rename_column('subscriptions_rsschannel', 'distributionchannel_ptr_id', 'id')
 
         # Adding field 'RssChannel.recipient'
         db.add_column('subscriptions_rsschannel', 'recipient', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True), keep_default=False)
 
-        # Deleting field 'EmailChannel.distributionchannel_ptr'
-        db.delete_column('subscriptions_emailchannel', 'distributionchannel_ptr_id')
-
-        # Adding field 'EmailChannel.id'
-        db.add_column('subscriptions_emailchannel', 'id', self.gf('django.db.models.fields.AutoField')(default=0, primary_key=True), keep_default=False)
+        # Renaming field 'EmailChannel.distributionchannel_ptr' as 'EmailChannel.id'
+        db.rename_column('subscriptions_emailchannel', 'distributionchannel_ptr_id', 'id')
 
         # Adding field 'EmailChannel.recipient'
         db.add_column('subscriptions_emailchannel', 'recipient', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True), keep_default=False)
 
-        # Deleting field 'SmsChannel.distributionchannel_ptr'
-        db.delete_column('subscriptions_smschannel', 'distributionchannel_ptr_id')
-
-        # Adding field 'SmsChannel.id'
-        db.add_column('subscriptions_smschannel', 'id', self.gf('django.db.models.fields.AutoField')(default=0, primary_key=True), keep_default=False)
+        # Deleting field 'SmsChannel.distributionchannel_ptr' as 'SmsChannel.id'
+        db.rename_column('subscriptions_smschannel', 'distributionchannel_ptr_id', 'id')
 
         # Adding field 'SmsChannel.recipient'
         db.add_column('subscriptions_smschannel', 'recipient', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True), keep_default=False)
