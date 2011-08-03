@@ -1,5 +1,5 @@
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from phillyleg.models import Subscription,KeywordSubscription,LegFile,CouncilMember,CouncilMemberSubscription
 from django.template import Context, loader
 from django.views.generic.list_detail import object_list
@@ -62,3 +62,13 @@ def dashboard(request, subscription_id):
     })
     return HttpResponse(t.render(c))
 
+# ==============================================================================
+
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def add_bookmark(request, pk):
+    legfile = LegFile.objects.get(pk=pk)
+    if request.user not in legfile.bookmarks.all():
+        legfile.bookmarks.add(request.user)
+    return HttpResponseRedirect(request.GET.get('next', '/'))

@@ -8,6 +8,7 @@ from django.views.generic import ListView, DetailView
 import phillyleg.models
 
 import main.views
+import phillyleg.views
 import subscriptions.views
 import haystack.views
 
@@ -32,6 +33,9 @@ urlpatterns = patterns('',
     url(r'^legislation/(?P<pk>\d+)$', 
         main.views.LegislationDetailView.as_view(),
         name='legislation_detail'),
+   url(r'^legislation/(?P<pk>\d+)/add_bookmark$', 
+        phillyleg.views.add_bookmark,
+        name='add_bookmark'),
 
     url(r'^minutes/(?P<pk>\d+)$', DetailView.as_view(
         model=phillyleg.models.LegMinutes,

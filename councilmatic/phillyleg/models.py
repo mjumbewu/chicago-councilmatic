@@ -32,6 +32,11 @@ class LegFile(models.Model):
     url = models.CharField(max_length=2048)
     version = models.CharField(max_length=100)
     
+    ##
+    # Just for the demo, for now.
+    #
+    bookmarks = models.ManyToManyField(User, related_name='bookmarks')
+    
     def __unicode__(self):
         return "(%s) %s%s" % (self.key, self.title[:100], 
             '...' if len(self.title) > 100 else '')
