@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse
 
 class CouncilMember(models.Model):
     name = models.CharField(max_length=100)
+    headshot = models.URLField(null=True)
     
     def __unicode__(self):
         return self.name.lstrip("Councilmember")
