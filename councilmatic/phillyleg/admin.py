@@ -27,8 +27,23 @@ class LegFileAdmin(admin.ModelAdmin):
 class LegMinutesAdmin(admin.ModelAdmin):
     inlines = [LegActionInline]
 
+class LegFileInline (admin.TabularInline):
+    model = LegFile
+    fields = ['id', 'title']
+    extra = 1
+
+class LegFileMetaDataInline(admin.TabularInline):
+    model = LegFileMetaData.words.through
+    extra = 1
+
+class WordAdmin (admin.ModelAdmin):
+    model = MetaData_Word
+    inlines = [LegFileMetaDataInline]
+
 
 admin.site.register(Subscription, SubscriptionAdmin)
 admin.site.register(LegFile, LegFileAdmin)
 admin.site.register(LegMinutes, LegMinutesAdmin)
 admin.site.register(CouncilMember)
+admin.site.register(MetaData_Word, WordAdmin)
+admin.site.register(LegFileMetaData)

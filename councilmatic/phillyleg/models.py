@@ -85,7 +85,29 @@ class LegMinutes(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('minutes_detail', [str(self.pk)])
+
+
+#
+# Meta-data
+#
+
+class LegFileMetaData (models.Model):
+    legfile = models.OneToOneField('LegFile', related_name='metadata')
+    words = models.ManyToManyField('MetaData_Word', related_name='references')
+    mentioned_legfiles = models.ManyToManyField('LegFile', related_name='references')
     
+    def __unicode__(self):
+        return (u'%s (mentions %s other files, mentioned by %s other files)' % \
+            (self.legfile.pk, len(self.mentioned_legfiles.all()), len(self.legfile.references.all())))
+
+
+class MetaData_Word (models.Model):
+    value = models.CharField(max_length=64)
+    
+    def __unicode__(self):
+        return '%r (used in %s files)' % (self.value, len(self.references.all()))
+
+
 #
 # Subscription models
 #
