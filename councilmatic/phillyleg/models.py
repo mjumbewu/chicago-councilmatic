@@ -45,6 +45,7 @@ class LegFile(models.Model):
     def get_absolute_url(self):
         return ('legislation_detail', [str(self.pk)])
 
+
 class LegFileAttachment(models.Model):
     file = models.ForeignKey(LegFile)
     description = models.CharField(max_length=1000)
@@ -53,6 +54,7 @@ class LegFileAttachment(models.Model):
     
     class Meta:
         unique_together = (('file','url'),)
+
 
 class LegAction(models.Model):
     file = models.ForeignKey(LegFile)
@@ -68,6 +70,7 @@ class LegAction(models.Model):
     
     class Meta:
         unique_together = (('file','date_taken','description','notes'),)
+
 
 class LegMinutes(models.Model):
     url = models.CharField(max_length=2048, unique=True)
