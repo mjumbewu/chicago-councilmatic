@@ -7,7 +7,7 @@
 
 {% block content %}
   {% if user.is_authenticated %}
-    {% if user in object.bookmarks %}
+    {% if user in object.bookmarks.all %}
       <div class="bookmark active">
         <a href="remove_bookmark?next={{ request.get_full_path }}"></a>
       </div>
