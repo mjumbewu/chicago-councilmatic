@@ -1,3 +1,9 @@
 [submodule "councilmatic/static/web-app-theme"]
 	path = councilmatic/static/web-app-theme
 	url = https://github.com/pilu/web-app-theme.git
+[submodule "councilmatic/static/formtastic"]
+	path = councilmatic/static/formtastic
+	url = https://github.com/justinfrench/formtastic.git
+[submodule "councilmatic/static/attrtastic"]
+	path = councilmatic/static/attrtastic
+	url = https://github.com/MBO/attrtastic.git
