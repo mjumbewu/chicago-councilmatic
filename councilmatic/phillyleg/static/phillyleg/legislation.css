@@ -14,6 +14,11 @@
     display: none;
 }
 
+.legfile_intro_date.instance_field > span,
+.legfile_final_date.instance_field > span {
+  display: inline;
+}
+
 .legfile_detail .instance_field_label {
     font-weight: bold;
     display: block;

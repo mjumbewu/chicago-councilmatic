@@ -9,6 +9,7 @@
 	
 	<link rel="stylesheet" href="{{ STATIC_URL }}web-app-theme/stylesheets/base.css">
 	<link rel="stylesheet" href="{{ STATIC_URL }}web-app-theme/stylesheets/themes/default/style.css">
+	<link rel="stylesheet" href="{{ STATIC_URL }}formtastic/app/assets/stylesheets/formtastic.css">
 	<link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form.css">
 	<link rel="stylesheet" href="{{ STATIC_URL }}base.css">
 	
@@ -25,7 +26,7 @@
   <section class="simple_search">
     <form action="{% url legfile_search %}" method="GET" class="uniForm">
       {{ searchbar_form|as_uni_form }}
-      <button type="submit">Go</button>
+      <button type="submit">Search</button>
     </form>
   </section>
   

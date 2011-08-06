@@ -39,7 +39,7 @@ class LegFile(models.Model):
     bookmarks = models.ManyToManyField(User, related_name='bookmarks')
     
     def __unicode__(self):
-        return "(%s) %s%s" % (self.key, self.title[:100], 
+        return "(%s) %s%s" % (self.id, self.title[:100], 
             '...' if len(self.title) > 100 else '')
     
     @models.permalink

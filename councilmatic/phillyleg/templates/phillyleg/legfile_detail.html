@@ -2,7 +2,7 @@
 {% load model_blocks %}
 
 {% block load_early %}
-	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">
 {% endblock %}
 
 {% block content %}
@@ -18,9 +18,24 @@
     {% endif %}
   {% endif %}
   
-  {% with phillyleg_legfileattachment_detail_template="phillyleg/attachment_detail.html" %}
-  {% with phillyleg_legaction_detail_template="phillyleg/legfile_action_detail.html" %}
-    {% detail_block object %}
-  {% endwith %}
-  {% endwith %}
+  <div id="main">
+    {% with phillyleg_legfile_exclude="date_scraped, last_scraped, legfileattachment_set, legaction_set, metadata, type, status" %}
+    {% with phillyleg_legfile_fields="intro_date, final_date, controlling_body, contact, title, url" %}
+      {% detail_block object %}
+    {% endwith %}
+    {% endwith %}
+  </div>
+  
+  <div id="sidebar">
+    {% if object.metadata.mentioned_legfiles.all %}
+      <div class="block">
+        <h3>Bills mentioned in this file</h3>
+        <ul class="navigation">
+          {% for mentioned_legfile in object.metadata.mentioned_legfiles.all %}
+            <li><a href="{{ mentioned_legfile.get_absolute_url }}">{{ mentioned_legfile }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
 {% endblock %}
