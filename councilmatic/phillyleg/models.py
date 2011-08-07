@@ -11,7 +11,9 @@ from django.core.urlresolvers import reverse
 
 class CouncilMember(models.Model):
     name = models.CharField(max_length=100)
-    headshot = models.CharField(max_length=255, null=True) # Path to councilmember image, relative to static files dir
+    headshot = models.CharField(max_length=255, 
+        # Path to councilmember image, relative to static files dir
+        default='phillyleg/noun_project_416.png') 
     
     def __unicode__(self):
         return self.name.lstrip("Councilmember")
@@ -38,8 +40,12 @@ class LegFile(models.Model):
     #
     bookmarks = models.ManyToManyField(User, related_name='bookmarks')
     
+    class Meta:
+        ordering = ['-key']
+    
+    
     def __unicode__(self):
-        return "(%s) %s%s" % (self.id, self.title[:100], 
+        return "%s %s: %s%s" % (self.type, self.id, self.title[:100], 
             '...' if len(self.title) > 100 else '')
     
     @models.permalink
