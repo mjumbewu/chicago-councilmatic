@@ -11,17 +11,6 @@
   </header>
 
   <div class="instance_detail {{ model }}_detail">
-    {% if instance.sponsors.all|length %}
-      <div class="instance_field {{ model }}_sponsors">
-        <span class="instance_field_label {{ model }}_sponsors_label">{{ instance.sponsors.all|length }} Sponsor{{ instance.sponsors.all|length|pluralize }} from Council</span>
-        <ul class="instance_field_value {{ model }}_sponsors_value">
-          {% for sponsor in instance.sponsors.all %}
-            <li><img width="40" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}"></li>
-          {% endfor %}
-        </ul>
-      </div>
-    {% endif %}
-    
     <div class="legfile_dates">
       {% if instance.intro_date != None %}
         <div class="instance_field {{ model }}_intro_date">
@@ -53,7 +42,7 @@
         </div>
       {% endif %}
       
-      {% if instance.contact != None %}
+      {% if instance.contact %}
         <div class="instance_field {{ model }}_contact">
           <span class="instance_field_label {{ model }}_contact_label">Contact</span>
           <span class="instance_field_value {{ model }}_contact_value">{{ instance.contact }}</span>

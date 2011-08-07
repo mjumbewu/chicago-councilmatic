@@ -35,15 +35,24 @@
  */
 .legfile_detail .legfile_sponsors {
     float: right;
-    width: 40%;
 }
 
 .legfile_detail .legfile_sponsors ul > li {
     list-style: none;
 }
 
-.legfile_detail .legfile_sponsors ul > li {
-    float: left;
+#sidebar .legfile_sponsors li {
+    padding: 3px 0px;
+    background: transparent;
+}
+
+#sidebar .legfile_sponsors ul > li > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#sidebar .legfile_sponsors img {
+    padding-right: 1em;
 }
 
 

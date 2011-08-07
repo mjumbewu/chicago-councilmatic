@@ -29,6 +29,17 @@
   </div>
   
   <div id="sidebar">
+    {% if object.sponsors.all|length %}
+      <div class="instance_field legfile_sponsors">
+        <h3 class="instance_field_label legfile_sponsors_label">{{ object.sponsors.all|length }} Sponsor{{ object.sponsors.all|length|pluralize }} from Council</h3>
+        <ul class="instance_field_value legfile_sponsors_value">
+          {% for sponsor in object.sponsors.all %}
+            <li><img width="40" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}"><span>{{ sponsor.name }}<span></li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    
     {% if object.metadata.mentioned_legfiles.all %}
       <div class="block">
         <h3>Bills mentioned in this file</h3>
