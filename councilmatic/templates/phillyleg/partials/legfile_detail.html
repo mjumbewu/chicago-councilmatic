@@ -1,0 +1,80 @@
+{% load model_tags %}
+
+{% spaceless %}
+<section class="instance_detail_wrapper {{ model }}_detail_wrapper {{ model }}_{{ instance.pk }}_detail_wrapper">
+  <header class="instance_header {{ model }}_header">
+    <h1>
+      <span class="{{ model }}_type_value">{{ instance.type }}</span>
+      <span class="{{ model }}_id_value">{{ instance.id }}</span>
+      <span class="{{ model }}_title_value">{{ instance.title|truncatewords:20 }}</span>
+    </h1>
+  </header>
+
+  <div class="instance_detail {{ model }}_detail">
+    {% if instance.sponsors.all|length %}
+      <div class="instance_field {{ model }}_sponsors">
+        <span class="instance_field_label {{ model }}_sponsors_label">{{ instance.sponsors.all|length }} Sponsor{{ instance.sponsors.all|length|pluralize }} from Council</span>
+        <ul class="instance_field_value {{ model }}_sponsors_value">
+          {% for sponsor in instance.sponsors.all %}
+            <li><img width="40" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}"></li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    
+    <div class="legfile_dates">
+      {% if instance.intro_date != None %}
+        <div class="instance_field {{ model }}_intro_date">
+          <span class="instance_field_label {{ model }}_intro_date_label">Introduced on</span>
+          <span class="instance_field_value {{ model }}_intro_date_value">{{ instance.intro_date }}</span>
+        </div>
+      {% endif %}
+      
+      {% if instance.final_date != None %}
+        <div class="instance_field {{ model }}_final_date">
+          <span class="instance_field_label {{ model }}_final_date_label">Final action on</span>
+          <span class="instance_field_value {{ model }}_final_date_value">{{ instance.final_date }}</span>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="legfile_data">
+      {% if instance.controlling_body != None %}
+        <div class="instance_field {{ model }}_controlling_body">
+          <span class="instance_field_label {{ model }}_controlling_body_label">Controlling body</span>
+          <span class="instance_field_value {{ model }}_controlling_body_value">{{ instance.controlling_body }}</span>
+        </div>
+      {% endif %}
+      
+      {% if instance.status != None %}
+        <div class="instance_field {{ model }}_status">
+          <span class="instance_field_label {{ model }}_status_label">Status</span>
+          <span class="instance_field_value {{ model }}_status_value">{{ instance.status }}</span>
+        </div>
+      {% endif %}
+      
+      {% if instance.contact != None %}
+        <div class="instance_field {{ model }}_contact">
+          <span class="instance_field_label {{ model }}_contact_label">Contact</span>
+          <span class="instance_field_value {{ model }}_contact_value">{{ instance.contact }}</span>
+        </div>
+      {% endif %}
+    </div>
+    
+    <div class="legfile_content">
+      {% if instance.title != None %}
+        <div class="instance_field {{ model }}_title">
+          <p class="instance_field_value {{ model }}_title_value">{{ instance.title }}</p>
+        </div>
+      {% endif %}
+      
+      {% if instance.url != None %}
+        <div class="instance_field {{ model }}_url">
+          <a href="{{ instance.url }}" class="instance_field_value {{ model }}_final_date_value">{{ instance.url }}</a>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+{% endspaceless %}

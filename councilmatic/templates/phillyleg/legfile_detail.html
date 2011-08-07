@@ -19,9 +19,11 @@
   {% endif %}
   
   <div id="main">
+    {% with phillyleg_legfile_detail_template="phillyleg/partials/legfile_detail.html" %}
     {% with phillyleg_legfile_exclude="date_scraped, last_scraped, legfileattachment_set, legaction_set, metadata, type, status" %}
-    {% with phillyleg_legfile_fields="intro_date, final_date, controlling_body, contact, title, url" %}
+    {% with phillyleg_legfile_fields="intro_date, final_date, controlling_body, sponsors, contact, title, url" %}
       {% detail_block object %}
+    {% endwith %}
     {% endwith %}
     {% endwith %}
   </div>

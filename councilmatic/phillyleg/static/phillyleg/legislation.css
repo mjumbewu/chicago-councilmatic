@@ -4,16 +4,6 @@
     margin-right: auto;
 }
 
-.legfile_key,
-.legfile_id,
-.legfile_version {
-    display: none;
-}
-
-.legfileattachment_id {
-    display: none;
-}
-
 .legfile_intro_date.instance_field > span,
 .legfile_final_date.instance_field > span {
   display: inline;
@@ -32,12 +22,30 @@
     padding: 1em;
 }
 
-.legfile_detail .legaction_id,
-.legfile_detail .legaction_date_taken,
-.legfile_detail .legaction_description,
-.legfile_detail .legaction_file {
-    display: none;
+.legfile_header .legfile_type_value:after {
+    content: ' ';
 }
+
+.legfile_header .legfile_id_value:after {
+    content: ': ';
+}
+
+/* ====================================
+ * Lay out the sponsoring councilmember faces 
+ */
+.legfile_detail .legfile_sponsors {
+    float: right;
+    width: 40%;
+}
+
+.legfile_detail .legfile_sponsors ul > li {
+    list-style: none;
+}
+
+.legfile_detail .legfile_sponsors ul > li {
+    float: left;
+}
+
 
 .bookmark {
     display: block;
