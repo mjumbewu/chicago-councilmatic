@@ -1,4 +1,5 @@
 import datetime
+import re
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -52,7 +53,72 @@ class LegFile(models.Model):
     def get_absolute_url(self):
         return ('legislation_detail', [str(self.pk)])
     
-    # TODO: Rewrite save to do metdata as well
+    
+    def unique_words(self):
+        """
+        Gets all the white-space separated words in the file.  A word is 
+        anything that starts and ends with word characters and has no internal
+        white space.
+        
+        """
+        # Get rid of any punctuation on the outside of words.
+        only_words = re.sub(r'(\s\W+|\W+\s|\W+$)', ' ', self.title)
+        
+        # Pick out and return the unique values by spliting on whitespace, and 
+        # lowercasing everything.
+        unique_words = set(word.lower() for word in only_words.split())
+        return unique_words
+    
+    
+    def mentioned_legfiles(self):
+        """
+        Gets a generator for any files (specifically, bills) mentioned in the
+        file.
+        
+        """
+        # Find all the strings that match the characteristic regular expression
+        # for a bill id.
+        id_matches = re.findall(r'\s(\d{6}(-A+)?)', self.title)
+        
+        # The id matches may each have two groups (the second of which will 
+        # contain only the A's).  We only care about the first.
+        mentioned_legfile_ids = set(groups[0] for groups in id_matches)
+        
+        for mentioned_legfile_id in mentioned_legfile_ids:
+            # It's possible that no legfile in our database may match the id 
+            # we've parsed out.  When this is the case, there's nothing we can
+            # do about it, so just fail "silently" (with a log message).
+            try:
+                mentioned_legfile = LegFile.objects.get(id=mentioned_legfile_id)
+                yield mentioned_legfile
+            except LegFile.DoesNotExist:
+                # TODO: Use a log message.
+                print 'LegFile %r, referenced from key %s, does not exist!!!' % (mentioned_legfile_id, self.pk)
+    
+    
+    def save(self, *args, **kwargs):
+        """
+        Calls the default ``Models.save()`` method, and creates or updates 
+        metadata for the legislative file as well.
+        
+        """
+        super(LegFile, self).save(*args, **kwargs)
+        
+        metadata = LegFileMetaData.objects.get_or_create(legfile=self)[0]
+        
+        # Add the unique words to the metadata
+        metadata.words.clear()
+        unique_words = self.unique_words()
+        for word in unique_words:
+            md_word = MetaData_Word.objects.get_or_create(value=word)[0]
+            metadata.words.add(md_word)
+        
+        # Add the mentioned files to the metadata
+        metadata.mentioned_legfiles.clear()
+        for mentioned_legfile in self.mentioned_legfiles():
+            metadata.mentioned_legfiles.add(mentioned_legfile)
+        
+        metadata.save()
 
 
 class LegFileAttachment(models.Model):
