@@ -51,6 +51,8 @@ class LegFile(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('legislation_detail', [str(self.pk)])
+    
+    # TODO: Rewrite save to do metdata as well
 
 
 class LegFileAttachment(models.Model):
