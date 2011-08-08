@@ -1,8 +1,8 @@
 #!/bin/bash
 
 mkdir councilmatic/whoosh_index
-python manage.py councilmatic/loadlegfiles
-python manage.py councilmatic/rebuild_index --noinput
+python councilmatic/manage.py loadlegfiles
+python councilmatic/manage.py rebuild_index --noinput
 
 crontab - <<EOF
 MAILTO=""
