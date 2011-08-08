@@ -14,13 +14,13 @@ class Migration(DataMigration):
             
             metadata.words.clear()
             only_words = re.sub(r'(\s\W+|\W+\s)', ' ', legfile.title)
-            unique_words = {word.lower() for word in only_words.split()}
+            unique_words = set(word.lower() for word in only_words.split())
             for word in unique_words:
                 md_word = orm.MetaData_Word.objects.get_or_create(value=word)[0]
                 metadata.words.add(md_word)
             
             metadata.mentioned_legfiles.clear()
-            mentioned_legfile_ids = {groups[0] for groups in re.findall(r'\s(\d{6}(-A+)?)', legfile.title)}
+            mentioned_legfile_ids = set(groups[0] for groups in re.findall(r'\s(\d{6}(-A+)?)', legfile.title))
             for mentioned_legfile_id in mentioned_legfile_ids:
                 try:
                     mentioned_legfile = orm.Legfile.objects.get(id=mentioned_legfile_id)
