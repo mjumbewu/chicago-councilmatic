@@ -9,11 +9,11 @@
   {% if user.is_authenticated %}
     {% if user in object.bookmarks.all %}
       <div class="bookmark active">
-        <a href="remove_bookmark?next={{ request.get_full_path }}"></a>
+        <a href="remove_bookmark?next={{ request.get_full_path }}"><img src="{{ STATIC_URL }}bookmarks/bookmark_active.png" alt="Unbookmark"></a>
       </div>
     {% else %}
       <div class="bookmark inactive">
-        <a href="add_bookmark?next={{ request.get_full_path }}"></a>
+        <a href="add_bookmark?next={{ request.get_full_path }}"><img src="{{ STATIC_URL }}bookmarks/bookmark.png" alt="Bookmark"></a>
       </div>
     {% endif %}
   {% endif %}

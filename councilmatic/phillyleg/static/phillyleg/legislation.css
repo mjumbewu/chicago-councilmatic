@@ -62,16 +62,18 @@
     left: 50px;
     top: 80px;
     
-    width: 21px;
-    height: 38px;
+    width: 42px;
+    height: 76px;
 }
 
-.bookmark.active {
-  background-image: url(../bookmarks/bookmark_active.png);
+.bookmark.active img {
+/*  background-image: url(../bookmarks/bookmark_active.png);*/
+    width: 42px;
 }
 
-.bookmark.inactive {
-  background-image: url(../bookmarks/bookmark.png);
+.bookmark.inactive img {
+/*  background-image: url(../bookmarks/bookmark.png);*/
+    width: 42px;
 }
 
 .bookmark a {
