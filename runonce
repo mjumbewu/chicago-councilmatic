@@ -1,0 +1,11 @@
+#!/bin/bash
+
+mkdir councilmatic/whoosh_index
+python manage.py councilmatic/loadlegfiles
+python manage.py councilmatic/rebuild_index --noinput
+
+crontab - <<EOF
+MAILTO=""
+$[$RANDOM%60] $[$RANDOM%24] * * * "~/current/crons/daily_jobs ~/current"
+EOF
+

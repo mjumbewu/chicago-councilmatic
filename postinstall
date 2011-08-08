@@ -8,7 +8,8 @@
 #   * Build the search indexes
 #   * Set up daily cron jobs
 
-crontab - <<EOF
-MAILTO=""
-$[$RANDOM%60] $[$RANDOM%24] * * * "~/current/crons/daily_jobs ~/current"
-EOF
+python councilmatic/manage.py syncdb --noinput
+python councilmatic/manage.py migrate --noinput
+
+python councilmatic/manage.py collectstatic --noinput
+
