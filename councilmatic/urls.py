@@ -44,7 +44,7 @@ urlpatterns = patterns('',
         name='minutes_detail'),
     
     url(r'^search/$', subscriptions.views.SearchView(),
-        name='legfile_search'),
+        name='search'),
     url(r'^subscribe$', subscriptions.views.SubscribeToSearchView.as_view()),
     url(r'^(?P<subscription_id>\d+)/$', 'phillyleg.views.dashboard'),
 #    url(r'^search/', include('haystack.urls')),

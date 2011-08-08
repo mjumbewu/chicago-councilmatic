@@ -9,13 +9,26 @@
 {% block content %}
   <section id="main">
     <div class="block">
+      
+      <nav class="secondary-navigation">
+        <ul class="wat-cf">
+          <li class="first"><a href="/">Home</a></li>
+          <li class="active"><a href="#">Legislation</a></li>
+          <li><a href="#">Minutes</a></li>
+          <li><a href="#">Agendas</a></li>
+          <li><a href="#">Bookmarks</a></li>
+        </ul>
+      </nav>
+      
       <div class="content">
         <div class="inner">
           {% with phillyleg_legfile_list_template='web-app-theme/object_list.html' %}
           {% with phillyleg_legfile_teaser_template='main/partials/dashboard_legfile_teaser.html' %}
+          {% with title=' ' %}
           
             {% list_block object_list %}
           
+          {% endwith %}
           {% endwith %}
           {% endwith %}
   

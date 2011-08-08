@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load model_blocks %}
+{% load uni_form_tags %}
 
 {% block load_early %}
 	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">
@@ -12,8 +13,8 @@
     
       <nav class="secondary-navigation">
         <ul class="wat-cf">
-          <li class="first"><a href="#">All</a></li>
-          <li class="active"><a href="#">Legislation</a></li>
+          <li class="first active"><a href="#">Home</a></li>
+          <li><a href="/legislation">Legislation</a></li>
           <li><a href="#">Minutes</a></li>
           <li><a href="#">Agendas</a></li>
           <li><a href="#">Bookmarks</a></li>
@@ -22,6 +23,14 @@
       
       <div class="content">
         <div class="inner">
+          <header>
+            <h1>Find and Subscribe to Legislation</h1>
+          </header>
+          
+          {% uni_form search_form search_form.helper %}
+          
+          {% comment %}
+          
           {% with title=' ' %}
           {% with phillyleg_legfile_list_template='web-app-theme/object_list.html' %}
           {% with phillyleg_legfile_teaser_template='main/partials/dashboard_legfile_teaser.html' %}
@@ -32,13 +41,15 @@
           {% endwith %}
           {% endwith %}
 
-          {% comment %}
-          {{ minutes|as_list_block }}
-          {{ agendas|as_list_block }}
-          {% endcomment %}
           <a href="{% url legislation_list %}">More...</a>
+          
+          {% endcomment %}
         </div>
       </div>
     </div>
   </section>
+{% endblock %}
+
+{% block load_late %}
+  <script src="{{ STATIC_URL }}main/dashboard_search.js"></script>
 {% endblock %}
