@@ -8,11 +8,6 @@
 #   * Build the search indexes
 #   * Set up daily cron jobs
 
-python manage.py syncdb --noinput
-python manage.py migrate --noinput
-python manage.py loadlegfiles
-python manage.py rebuild_index --noinput
-
 crontab - <<EOF
 MAILTO=""
 $[$RANDOM%60] $[$RANDOM%24] * * * "~/current/crons/daily_jobs ~/current"
