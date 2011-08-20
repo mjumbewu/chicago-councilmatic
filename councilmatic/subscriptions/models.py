@@ -37,8 +37,12 @@ class ContentFeed (models.Model):
 # Subscriber
 
 class Subscriber (auth.User):
-    def subscribe(self, feed):
-        pass
+    def subscribe(self, feed, commit=True):
+        """Subscribe the user to a content feed."""
+        subscription = Subscription(user=self, feed=feed)
+        if commit:
+            subscription.save()
+        return subscription
 
 
 class Subscription (models.Model):
@@ -47,8 +51,12 @@ class Subscription (models.Model):
     last_sent = models.DateTimeField()
     
     def save(self, *args, **kwargs):
-        """On create, set the timestamp."""
+        """
+        Sets the last_sent datetime to the current time when instance is new.
+        Doesn't change the last_sent datetime on instance if it's already
+        saved.
         
+        """
         # We could use Django's built-in ability to make this an auto_now_add 
         # field, but then we couldn't change the value when we want.
         if not self.id:
