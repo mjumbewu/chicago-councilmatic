@@ -34,6 +34,27 @@ class ContentFeed (models.Model):
         return query.run()
 
     
+# Subscriber
+
+class Subscriber (auth.User):
+    def subscribe(self, feed):
+        pass
+
+
+class Subscription (models.Model):
+    user = models.ForeignKey('Subscriber', related_name='subscriptions')
+    feed = models.ForeignKey('ContentFeed')
+    last_sent = models.DateTimeField()
+    
+    def save(self, *args, **kwargs):
+        """On create, set the timestamp."""
+        
+        # We could use Django's built-in ability to make this an auto_now_add 
+        # field, but then we couldn't change the value when we want.
+        if not self.id:
+            self.last_sent = datetime.datetime.now()
+        super(Subscription, self).save(*args, **kwargs)
+
 
 class DistributionChannel (models.Model):
     recipient = models.ForeignKey(auth.User, null=True)
@@ -56,23 +77,6 @@ class SmsChannel (DistributionChannel):
     
     def __unitcode__(self):
         return "Send SMS to %s number %s" % (self.carrier, self.number)
-
-    
-class Subscription (models.Model):
-    channel = models.ForeignKey('EmailChannel', null=True)
-    last_sent = models.DateTimeField()
-    
-    def save(self, *args, **kwargs):
-        """On save, update timestamps."""
-        
-        # We could use Django's built-in ability to make this an auto_now field,
-        # but then we couldn't change the value when we want.
-        if not self.id:
-            self.last_sent = datetime.datetime.now()
-        super(Subscription, self).save(*args, **kwargs)
-    
-    def __unicode__(self):
-        return self.email
 
 class SearchSubscription (Subscription):
     query = models.TextField()
