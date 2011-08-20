@@ -5,6 +5,8 @@ import django.contrib.auth.models as auth
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
+# Content Feeds
+
 class StoredQuery (models.Model):
     code = models.TextField(max_length=1024)
     
@@ -14,13 +16,23 @@ class StoredQuery (models.Model):
         queryset = eval(code)
         return queryset
 
+
 class ContentFeed (models.Model):
+    """
+    Stores information necessary for retrieving a queryset of content.
+    
+    The query for the ``ContentFeed`` is stored as a line of python code that
+    will actually construct the query. Don't judge me!!! Calling ``get_content``
+    on a ``ContentFeed`` will return you the results of the query.
+    
+    """
     query = models.OneToOneField('StoredQuery')
     
     def get_content(self):
         """Returns the results of the stored query's ``run`` method."""
         query = self.query
         return query.run()
+
     
 
 class DistributionChannel (models.Model):
