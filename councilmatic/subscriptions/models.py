@@ -5,6 +5,24 @@ import django.contrib.auth.models as auth
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
+class StoredQuery (models.Model):
+    code = models.TextField(max_length=1024)
+    
+    def run(self):
+        """Returns the results of the stored query."""
+        code = self.code
+        queryset = eval(code)
+        return queryset
+
+class ContentFeed (models.Model):
+    query = models.OneToOneField('StoredQuery')
+    
+    def get_content(self):
+        """Returns the results of the stored query's ``run`` method."""
+        query = self.query
+        return query.run()
+    
+
 class DistributionChannel (models.Model):
     recipient = models.ForeignKey(auth.User, null=True)
     
