@@ -27,6 +27,7 @@ class ContentFeed (models.Model):
     
     """
     query = models.OneToOneField('StoredQuery')
+    last_updated = models.DateTimeField()
     
     def get_content(self):
         """Returns the results of the stored query's ``run`` method."""
