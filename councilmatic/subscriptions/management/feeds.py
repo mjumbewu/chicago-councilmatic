@@ -6,7 +6,7 @@ class FeedUpdater (object):
         """Changes the last_updated of a legfiles feed to most recent intro
            date"""
         content = feed.get_content()
-        latest = feed.get_last_updated(content)
+        latest = max(feed.get_last_updated(item) for item in content)
         feed.last_updated = latest
         feed.save()
     

@@ -34,11 +34,10 @@ class ContentFeed (models.Model):
         queryset = pickle.loads(self.queryset)
         return queryset
     
-    def get_last_updated(self, content):
-        """Returns the time that the most recently updated item in the queryset
-           was updated."""
+    def get_last_updated(self, item):
+        """Returns the time that the given item was last updated."""
         last_updated_calc = pickle.loads(self.last_updated_calc)
-        last_updated = last_updated_calc(content)
+        last_updated = last_updated_calc(item)
         return last_updated
     
     @classmethod

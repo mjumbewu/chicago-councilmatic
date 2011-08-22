@@ -80,9 +80,9 @@ class Test_Subscriber_subscribe (TestCase):
 
 # Management commands
 
-import phillyleg.models as phillyleg
-def _get_latest_legfile_datetime(legfiles):
-    return max([legfile.intro_date for legfile in legfiles])
+from phillyleg.models import LegFile
+def _get_latest_legfile_datetime(legfile):
+    return legfile.intro_date
 
 class Test_FeedUpdater_update (TestCase):
     
@@ -99,15 +99,11 @@ class Test_FeedUpdater_update (TestCase):
                                datetime.date(2006, 12, 12)), 
                               (datetime.date(2006, 12, 12), 
                                datetime.date(2006, 12, 13)) ]:
-            phillyleg.LegFile(
-                intro_date=intro, 
-                final_date=final,
-                key=key).save()
+            LegFile(intro_date=intro, final_date=final, key=key).save()
             key += 1
         
-        self.feed = ContentFeed.factory(
-            phillyleg.LegFile.objects.all(), 
-            _get_latest_legfile_datetime)
+        self.feed = ContentFeed.factory(LegFile.objects.all(), 
+                                        _get_latest_legfile_datetime)
     
     def test_changes_the_lastUpdated_of_a_legfiles_feed_to_most_recent_intro_date(self):
         updater = FeedUpdater()
@@ -120,8 +116,8 @@ class Test_FeedUpdater_update (TestCase):
 class Test_FeedUpdater_updateAll (TestCase):
     
     def setUp(self):
-        self.feeds = [ ContentFeed.factory('hello', None),
-                       ContentFeed.factory('world', None) ]
+        self.feeds = [ ContentFeed.factory(['hello'], None),
+                       ContentFeed.factory(['world'], None) ]
     
     def test_calls_get_last_updated_on_all_feed_objects(self):
         self.feeds[0].get_last_updated = Mock(return_value=datetime.datetime.now())
