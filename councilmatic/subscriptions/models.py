@@ -12,9 +12,16 @@ class ContentFeed (models.Model):
     """
     Stores information necessary for retrieving a queryset of content.
     
-    The query for the ``ContentFeed`` is stored as a line of python code that
-    will actually construct the query. Don't judge me!!! Calling ``get_content``
-    on a ``ContentFeed`` will return you the results of the query.
+    The query for the ``ContentFeed`` is stored as a pickled iterable object.
+    Don't judge me!!! Calling ``get_content`` on a ``ContentFeed`` will return
+    you the results of the query. Calling ``get_last_updated`` will return you
+    the last time the given set of content was updated.
+
+    To create a ``ContentFeed`` object, use the ``factory`` method. This will
+    take your parameters and pickle them for you, returning a valid
+    ``ContentFeed`` object. you must specify a last_updated_calc callable,
+    because each set of content may have a different way of determining when it
+    was last updated.
     
     """
     queryset = models.TextField()
@@ -27,11 +34,11 @@ class ContentFeed (models.Model):
         queryset = pickle.loads(self.queryset)
         return queryset
     
-    def get_last_updated(self, queryset):
+    def get_last_updated(self, content):
         """Returns the time that the most recently updated item in the queryset
            was updated."""
         last_updated_calc = pickle.loads(self.last_updated_calc)
-        last_updated = last_updated_calc(queryset)
+        last_updated = last_updated_calc(content)
         return last_updated
     
     @classmethod

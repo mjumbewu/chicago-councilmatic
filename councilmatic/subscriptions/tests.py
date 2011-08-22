@@ -104,13 +104,33 @@ class Test_FeedUpdater_update (TestCase):
                 final_date=final,
                 key=key).save()
             key += 1
-    
-    def test_changes_the_lastUpdated_of_a_legfiles_feed_to_most_recent_intro_date(self):
-        feed = ContentFeed.factory(
+        
+        self.feed = ContentFeed.factory(
             phillyleg.LegFile.objects.all(), 
             _get_latest_legfile_datetime)
+    
+    def test_changes_the_lastUpdated_of_a_legfiles_feed_to_most_recent_intro_date(self):
         updater = FeedUpdater()
         
-        updater.update(feed)
+        updater.update(self.feed)
         
-        self.assertEqual(feed.last_updated, datetime.date(2011, 8, 17))
+        self.assertEqual(self.feed.last_updated, datetime.date(2011, 8, 17))
+
+
+class Test_FeedUpdater_updateAll (TestCase):
+    
+    def setUp(self):
+        self.feeds = [ ContentFeed.factory('hello', None),
+                       ContentFeed.factory('world', None) ]
+    
+    def test_calls_get_last_updated_on_all_feed_objects(self):
+        self.feeds[0].get_last_updated = Mock(return_value=datetime.datetime.now())
+        self.feeds[1].get_last_updated = Mock(return_value=datetime.datetime.now())
+        
+        updater = FeedUpdater()
+        
+        updater.update_all(self.feeds)
+        
+        self.feeds[0].get_last_updated.assert_called_with('hello')
+        self.feeds[1].get_last_updated.assert_called_with('world')
+
