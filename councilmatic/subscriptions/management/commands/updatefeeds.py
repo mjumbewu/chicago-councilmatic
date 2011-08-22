@@ -1,6 +1,3 @@
-#will send out daily email for users - first will read all keywords
-#create text files, then email text files to all each user subscribed.
-
 from django.core.management.base import BaseCommand, CommandError
 
 from subscriptions.management.feeds import FeedUpdater

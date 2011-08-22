@@ -11,6 +11,7 @@ from subscriptions.models import ContentFeed
 from subscriptions.models import Subscriber
 from subscriptions.models import Subscription
 
+from subscriptions.management.feeds import FeedCollector
 from subscriptions.management.feeds import FeedUpdater
 
 # Models
@@ -130,3 +131,16 @@ class Test_FeedUpdater_updateAll (TestCase):
         self.feeds[0].get_last_updated.assert_called_with('hello')
         self.feeds[1].get_last_updated.assert_called_with('world')
 
+
+class Test_FeedCollector_collectNewContent (TestCase):
+    
+    def test_returns_exactly_those_items_newer_than_the_last_sent_datetime(self):
+        feed = Mock()
+        feed.get_content = Mock(return_value=[False, '1', '2', '3', '4', '5'])
+        feed.get_last_updated = lambda item: int(item)
+        last_sent = 2
+        
+        collector = FeedCollector()
+        content = collector.collect_new_content(feed, last_sent)
+        
+        self.assertEqual(content, ['3', '4', '5'])

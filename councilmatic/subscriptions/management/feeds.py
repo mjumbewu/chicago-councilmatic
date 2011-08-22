@@ -14,3 +14,10 @@ class FeedUpdater (object):
         """Updates all the feeds in a collection (yes, it's just a for loop)"""
         for feed in feeds:
             self.update(feed)
+
+
+class FeedCollector (object):
+    def collect_new_content(self, feed, last_sent):
+        content = [item for item in feed.get_content() 
+                   if feed.get_last_updated(item) > last_sent]
+        return content
