@@ -2,48 +2,43 @@
 """
 
 import datetime
-
+import pickle
+        
 from django.test import TestCase
 from mock import Mock
 
 from subscriptions.models import ContentFeed
-from subscriptions.models import StoredQuery
 from subscriptions.models import Subscriber
 from subscriptions.models import Subscription
 
-class Test_StoredQuery_run (TestCase):
-    
-    def setUp(self):
-        StoredQuery(code='a').save()
-        StoredQuery(code='b').save()
-        StoredQuery(code='c').save()
-    
-    def test_returns_the_results_of_the_stored_query(self):
-        query = StoredQuery()
-        query.code = 'StoredQuery.objects.all()'
-        
-        queryset = query.run()
-        self.assertEqual(list(queryset), list(StoredQuery.objects.all()))
+from subscriptions.management.feeds import FeedUpdater
 
+# Models
 
 class Test_ContentFeed_getContent (TestCase):
     
-    def test_returns_the_results_of_the_stored_querys_run_method(self):
+    def test_returns_the_unpickled_queryset(self):
         feed = ContentFeed()
-        feed.query = StoredQuery()
-        feed.query.run = Mock(return_value='value')
+        feed.queryset = pickle.dumps([1, 2])
         
         content = feed.get_content()
-        self.assertEqual(content, 'value')
+        self.assertEqual(content, [1,2])
+
+
+class Test_ContentFeed_factory (TestCase):
+    
+    def test_creates_a_content_feed_object_with_pickled_queryset_and_updated_calculator(self):
+        feed = ContentFeed().factory('hello', 'world')
+        
+        self.assertEqual(pickle.loads(feed.queryset), 'hello')
+        self.assertEqual(pickle.loads(feed.last_updated_calc), 'world')
 
 
 class Test_Subscription_save (TestCase):
     
     def setUp(self):
-        query = StoredQuery(code='query code'); query.save()
-        
         user = self.user = Subscriber(); user.save()
-        feed = self.feed = ContentFeed(query=query); feed.save()
+        feed = self.feed = ContentFeed.factory([], []); feed.save()
         
         sub = self.sub = Subscription(subscriber=user, feed=feed); sub.save()
         
@@ -68,8 +63,7 @@ class Test_Subscription_save (TestCase):
 class Test_Subscriber_subscribe (TestCase):
     
     def setUp(self):
-        query = StoredQuery(code='query code'); query.save()
-        feed = self.feed = ContentFeed(query=query); feed.save()
+        feed = self.feed = ContentFeed.factory([], int); feed.save()
         subscriber = self.subscriber = Subscriber(); subscriber.save()
     
     def test_creates_a_new_subscription_associating_the_user_and_feed(self):
@@ -83,3 +77,40 @@ class Test_Subscriber_subscribe (TestCase):
         
         self.assertIsNone(subscription.pk)
 
+
+# Management commands
+
+import phillyleg.models as phillyleg
+def _get_latest_legfile_datetime(legfiles):
+    return max([legfile.intro_date for legfile in legfiles])
+
+class Test_FeedUpdater_update (TestCase):
+    
+    def setUp(self):
+        
+        key = 0
+        for intro, final in [ (datetime.date(2011, 1, 28), 
+                               datetime.date(2011, 1, 29)), 
+                              (datetime.date(2010, 7, 28), 
+                               datetime.date(2010, 7, 29)), 
+                              (datetime.date(2011, 8, 17), 
+                               datetime.date(2011, 8, 18)), 
+                              (datetime.date(2006, 12, 11), 
+                               datetime.date(2006, 12, 12)), 
+                              (datetime.date(2006, 12, 12), 
+                               datetime.date(2006, 12, 13)) ]:
+            phillyleg.LegFile(
+                intro_date=intro, 
+                final_date=final,
+                key=key).save()
+            key += 1
+    
+    def test_changes_the_lastUpdated_of_a_legfiles_feed_to_most_recent_intro_date(self):
+        feed = ContentFeed.factory(
+            phillyleg.LegFile.objects.all(), 
+            _get_latest_legfile_datetime)
+        updater = FeedUpdater()
+        
+        updater.update(feed)
+        
+        self.assertEqual(feed.last_updated, datetime.date(2011, 8, 17))

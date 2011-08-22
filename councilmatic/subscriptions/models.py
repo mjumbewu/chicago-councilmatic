@@ -1,4 +1,5 @@
 import datetime
+import pickle
 from django.db import models
 
 import django.contrib.auth.models as auth
@@ -6,16 +7,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
 # Content Feeds
-
-class StoredQuery (models.Model):
-    code = models.TextField(max_length=1024)
-    
-    def run(self):
-        """Returns the results of the stored query."""
-        code = self.code
-        queryset = eval(code)
-        return queryset
-
 
 class ContentFeed (models.Model):
     """
@@ -26,13 +17,32 @@ class ContentFeed (models.Model):
     on a ``ContentFeed`` will return you the results of the query.
     
     """
-    query = models.OneToOneField('StoredQuery')
-    last_updated = models.DateTimeField()
+    queryset = models.TextField()
+    last_updated_calc = models.TextField()
+    last_updated = models.DateTimeField(
+        default=datetime.datetime(1970, 1, 1, 0, 0, 0))
     
     def get_content(self):
         """Returns the results of the stored query's ``run`` method."""
-        query = self.query
-        return query.run()
+        queryset = pickle.loads(self.queryset)
+        return queryset
+    
+    def get_last_updated(self, queryset):
+        """Returns the time that the most recently updated item in the queryset
+           was updated."""
+        last_updated_calc = pickle.loads(self.last_updated_calc)
+        last_updated = last_updated_calc(queryset)
+        return last_updated
+    
+    @classmethod
+    def factory(cls, queryset, last_updated_calc):
+        """Creates a ContentFeed object with a pickled version of the queryset
+           and a pickled version of the last_updated_calc. Note that both
+           objects must be picklable."""
+        feed = cls()
+        feed.queryset = pickle.dumps(queryset)
+        feed.last_updated_calc = pickle.dumps(last_updated_calc)
+        return feed
 
     
 # Subscriber
