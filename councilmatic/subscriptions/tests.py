@@ -45,10 +45,10 @@ class Test_Subscription_save (TestCase):
         user = self.user = Subscriber(); user.save()
         feed = self.feed = ContentFeed(query=query); feed.save()
         
-        sub = self.sub = Subscription(user=user, feed=feed); sub.save()
+        sub = self.sub = Subscription(subscriber=user, feed=feed); sub.save()
         
     def test_sets_lastSent_datetime_to_current_time_when_instance_is_new(self):
-        subscription = Subscription(user=self.user, feed=self.feed)
+        subscription = Subscription(subscriber=self.user, feed=self.feed)
         
         before = datetime.datetime.now()
         subscription.save()
@@ -75,7 +75,7 @@ class Test_Subscriber_subscribe (TestCase):
     def test_creates_a_new_subscription_associating_the_user_and_feed(self):
         subscription = self.subscriber.subscribe(self.feed)
         
-        self.assertEqual(subscription.user, self.subscriber)
+        self.assertEqual(subscription.subscriber, self.subscriber)
         self.assertEqual(subscription.feed, self.feed)
         
     def test_doesnt_save_subscription_if_commit_is_false(self):

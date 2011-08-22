@@ -39,14 +39,14 @@ class ContentFeed (models.Model):
 class Subscriber (auth.User):
     def subscribe(self, feed, commit=True):
         """Subscribe the user to a content feed."""
-        subscription = Subscription(user=self, feed=feed)
+        subscription = Subscription(subscriber=self, feed=feed)
         if commit:
             subscription.save()
         return subscription
 
 
 class Subscription (models.Model):
-    user = models.ForeignKey('Subscriber', related_name='subscriptions')
+    subscriber = models.ForeignKey('Subscriber', related_name='subscriptions')
     feed = models.ForeignKey('ContentFeed')
     last_sent = models.DateTimeField()
     
