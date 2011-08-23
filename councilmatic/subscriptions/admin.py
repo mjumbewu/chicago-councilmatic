@@ -27,13 +27,12 @@ from subscriptions import models
 #    inlines = [LegActionInline]
 
 
-#admin.site.register(Subscription, SubscriptionAdmin)
-#admin.site.register(LegFile, LegFileAdmin)
-#admin.site.register(LegMinutes, LegMinutesAdmin)
-#admin.site.register(CouncilMember)
+admin.site.register(models.Subscription)
+admin.site.register(models.Subscriber)
+admin.site.register(models.ContentFeed)
 
-admin.site.register(models.SearchSubscription)
-admin.site.register(models.EmailChannel)
-admin.site.register(models.RssChannel)
-admin.site.register(models.SmsChannel)
+#admin.site.register(models.SearchSubscription)
+#admin.site.register(models.EmailChannel)
+#admin.site.register(models.RssChannel)
+#admin.site.register(models.SmsChannel)
 
