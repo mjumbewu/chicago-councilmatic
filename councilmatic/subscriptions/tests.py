@@ -18,21 +18,43 @@ from subscriptions.management.feeds import FeedUpdater
 
 class Test_ContentFeed_getContent (TestCase):
     
-    def test_returns_the_unpickled_queryset(self):
+    def test_returns_the_query_results(self):
+        qs = ContentFeed.querystore
+        ContentFeed.querystore = Mock()
+        
         feed = ContentFeed()
-        feed.queryset = pickle.dumps([1, 2])
+        feed.querystore = Mock()
+        feed.querystore.results = lambda: [1, 2]
         
         content = feed.get_content()
-        self.assertEqual(content, [1,2])
+        self.assertEqual(content, [1, 2])
+        
+        ContentFeed.qerystore = qs
 
 
 class Test_ContentFeed_factory (TestCase):
     
-    def test_creates_a_content_feed_object_with_pickled_queryset_and_updated_calculator(self):
-        feed = ContentFeed().factory('hello', 'world')
+    def test_creates_a_content_feed_object_with_a_ListQueryStore_from_a_list(self):
+        query = []
         
-        self.assertEqual(pickle.loads(feed.queryset), 'hello')
-        self.assertEqual(pickle.loads(feed.last_updated_calc), 'world')
+        feed = ContentFeed().factory(query, None)
+        
+        self.assertEqual(feed.querystore_type.name, 'list query store')
+    
+    def test_creates_a_content_feed_object_with_a_ModelQueryStore_from_a_QuerySet(self):
+        query = Subscriber.objects.all()
+        
+        feed = ContentFeed().factory(query, None)
+        
+        self.assertEqual(feed.querystore_type.name, 'model query store')
+    
+    def test_creates_a_content_feed_object_with_a_SearchQueryStore_from_a_SearchQuerySet(self):
+        import haystack.query
+        query = haystack.query.SearchQuerySet().all()
+        
+        feed = ContentFeed().factory(query, None)
+        
+        self.assertEqual(feed.querystore_type.name, 'search query store')
 
 
 class Test_Subscription_save (TestCase):
@@ -64,7 +86,7 @@ class Test_Subscription_save (TestCase):
 class Test_Subscriber_subscribe (TestCase):
     
     def setUp(self):
-        feed = self.feed = ContentFeed.factory([], int); feed.save()
+        feed = self.feed = ContentFeed.factory([], None); feed.save()
         subscriber = self.subscriber = Subscriber(); subscriber.save()
     
     def test_creates_a_new_subscription_associating_the_user_and_feed(self):

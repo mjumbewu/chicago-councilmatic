@@ -5,8 +5,58 @@ from django.db import models
 import django.contrib.auth.models as auth
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+import haystack.query as haystack
+
+# Fields
+
+class SerializedObjectField(models.TextField):
+    description = "SerializedObject"
+
+    def get_internal_type(self):
+        return "TextField"
+
+    def get_prep_value(self, value):
+        return pickle.dumps(value)
+
+    def to_python(self, value):
+        return pickle.loads(value)
+
+#
+# This little bit of magic is here because I tried to migrate with a 
+# SerializedObjectField, and got an error that directed me to
+# http://south.aeracode.org/wiki/MyFieldsDontWork
+#
+from south.modelsinspector import add_introspection_rules
+add_introspection_rules([], ["^subscriptions\.models\.SerializedObjectField"])
+
 
 # Content Feeds
+
+class ListQueryStore (models.Model):
+    value = SerializedObjectField()
+    
+    def results(self):
+        return iter(self.value)
+
+
+class ModelQueryStore (models.Model):
+    model = SerializedObjectField()
+    query = SerializedObjectField()
+    
+    def results(self):
+        qs = self.model.objects.all()
+        qs.query = self.query
+        return qs
+
+
+class SearchQueryStore (models.Model):
+    query = SerializedObjectField()
+    
+    def results(self):
+        qs = haystack.SearchQuerySet().all()
+        qs.query = self.query
+        return qs
+
 
 class ContentFeed (models.Model):
     """
@@ -24,20 +74,26 @@ class ContentFeed (models.Model):
     was last updated.
     
     """
-    queryset = models.TextField()
-    last_updated_calc = models.TextField()
+    QUERYTYPE_CHOICES = (('list','model'),
+                         ('model','model'),
+                         ('search','search'))
+    
+    querystore_type = models.ForeignKey('contenttypes.ContentType')
+    querystore_id = models.PositiveIntegerField()
+    querystore = generic.GenericForeignKey('querystore_type', 'querystore_id')
+    
+    last_updated_calc = SerializedObjectField()
     last_updated = models.DateTimeField(
         default=datetime.datetime(1970, 1, 1, 0, 0, 0))
     
     def get_content(self):
         """Returns the results of the stored query's ``run`` method."""
-        queryset = pickle.loads(self.queryset)
+        queryset = self.querystore.results()
         return queryset
     
     def get_last_updated(self, item):
         """Returns the time that the given item was last updated."""
-        last_updated_calc = pickle.loads(self.last_updated_calc)
-        last_updated = last_updated_calc(item)
+        last_updated = self.last_updated_calc(item)
         return last_updated
     
     @classmethod
@@ -46,8 +102,18 @@ class ContentFeed (models.Model):
            and a pickled version of the last_updated_calc. Note that both
            objects must be picklable."""
         feed = cls()
-        feed.queryset = pickle.dumps(queryset)
-        feed.last_updated_calc = pickle.dumps(last_updated_calc)
+        
+        if isinstance(queryset, list):
+            feed.querystore = ListQueryStore(value=queryset)
+        elif hasattr(queryset, 'model') and hasattr(queryset, 'query'):
+            feed.querystore = ModelQueryStore(model=queryset.model,
+                                              query=queryset.query)
+        elif isinstance(queryset, haystack.SearchQuerySet):
+            feed.querystore = SearchQueryStore(query=queryset.query)
+        else:
+            raise ValueError('Invalid value for queryset: %r' % (queryset,))
+        
+        feed.last_updated_calc = last_updated_calc
         return feed
 
     
