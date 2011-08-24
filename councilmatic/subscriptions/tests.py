@@ -10,6 +10,7 @@ from mock import Mock
 from subscriptions.models import ContentFeed
 from subscriptions.models import Subscriber
 from subscriptions.models import Subscription
+from subscriptions.models import SerializedObjectField
 
 from subscriptions.management.feeds import FeedCollector
 from subscriptions.management.feeds import FeedUpdater
@@ -158,11 +159,52 @@ class Test_FeedCollector_collectNewContent (TestCase):
     
     def test_returns_exactly_those_items_newer_than_the_last_sent_datetime(self):
         feed = Mock()
-        feed.get_content = Mock(return_value=[False, '1', '2', '3', '4', '5'])
-        feed.get_last_updated = lambda item: int(item)
-        last_sent = 2
+        feed.get_content = Mock(return_value=[datetime.datetime(2009, 1, 1),
+                                              datetime.datetime(2010, 1, 1),
+                                              datetime.datetime(2011, 1, 1),
+                                              datetime.datetime(2012, 1, 1),])
+        feed.get_last_updated = lambda item: item
+        last_sent = datetime.datetime(2010, 1, 1)
         
         collector = FeedCollector()
         content = collector.collect_new_content(feed, last_sent)
         
-        self.assertEqual(content, ['3', '4', '5'])
+        self.assertEqual(content, [datetime.datetime(2011, 1, 1), 
+                                   datetime.datetime(2012, 1, 1),])
+    
+    def test_converts_dates_to_datetimes_for_comparison(self):
+        feed = Mock()
+        feed.get_content = Mock(return_value=[False, '1', '2', '3', '4', '5'])
+        
+        # The last_sent value is compared with feed.get_last_updated(...), so
+        # check one direction first...
+        feed.get_last_updated = lambda item: datetime.date(2011, 8, 23)
+        last_sent = datetime.datetime(2011, 8, 23)
+        
+        collector = FeedCollector()
+        try:
+            content = collector.collect_new_content(feed, last_sent)
+        except TypeError, e:
+            self.fail(e)
+        
+        # ...then check the other direction.
+        feed.get_last_updated = lambda item: datetime.datetime(2011, 8, 23)
+        last_sent = datetime.date(2011, 8, 23)
+        
+        collector = FeedCollector()
+        try:
+            content = collector.collect_new_content(feed, last_sent)
+        except TypeError, e:
+            self.fail(e)
+
+
+class Test_SerializedObjectField_toPython (TestCase):
+    
+    def test_converts_unicode_strings_to_nonunicode_before_loading(self):
+        pickled_list = u'(lp0\n.'
+        field = SerializedObjectField()
+        
+        result = field.to_python(pickled_list)
+        
+        self.assertEqual(result, [])
+

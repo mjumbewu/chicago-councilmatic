@@ -11,6 +11,7 @@ import haystack.query as haystack
 
 class SerializedObjectField(models.TextField):
     description = "SerializedObject"
+    __metaclass__ = models.SubfieldBase
 
     def get_internal_type(self):
         return "TextField"
@@ -19,7 +20,14 @@ class SerializedObjectField(models.TextField):
         return pickle.dumps(value)
 
     def to_python(self, value):
-        return pickle.loads(value)
+        try:
+            return pickle.loads(str(value))
+        
+        # Assume that, if we get an error either in the string conversion or in
+        # the unpickling of that string, we mean that this is the exact value we
+        # want.
+        except:
+            return value
 
 #
 # This little bit of magic is here because I tried to migrate with a 
@@ -44,6 +52,7 @@ class ModelQueryStore (models.Model):
     query = SerializedObjectField()
     
     def results(self):
+        print self.model
         qs = self.model.objects.all()
         qs.query = self.query
         return qs
@@ -85,6 +94,9 @@ class ContentFeed (models.Model):
     last_updated_calc = SerializedObjectField()
     last_updated = models.DateTimeField(
         default=datetime.datetime(1970, 1, 1, 0, 0, 0))
+    
+    def __unicode__(self):
+        return u'a %s feed' % (self.querystore,)
     
     def get_content(self):
         """Returns the results of the stored query's ``run`` method."""
@@ -132,6 +144,9 @@ class Subscription (models.Model):
     subscriber = models.ForeignKey('Subscriber', related_name='subscriptions')
     feed = models.ForeignKey('ContentFeed')
     last_sent = models.DateTimeField()
+    
+    def __unicode__(self):
+        return u"%s's subscription to %s" % (self.subscriber, self.feed)
     
     def save(self, *args, **kwargs):
         """

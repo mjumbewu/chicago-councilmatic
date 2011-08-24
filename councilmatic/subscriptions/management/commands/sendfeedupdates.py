@@ -43,8 +43,8 @@ class Command(BaseCommand):
     
     def get_new_content_for(self, subscriber):
         new_content = chain(self.get_new_content_in(subscription)
-                            for subscription in subscriber.subscriptions)
-        return set(new_content)
+                            for subscription in subscriber.subscriptions.all())
+        return set(list(new_content)[0])
         
     def handle(self, *args, **options):
         new_content = {}
@@ -68,7 +68,7 @@ class Command(BaseCommand):
             self.send_email(subscriber.email, emailbody)
             
             # Update the subscription last sent time
-            for subscription in subscriber.subscriptions:
+            for subscription in subscriber.subscriptions.all():
                 subscription.last_sent = now
                 subscription.save()
             
