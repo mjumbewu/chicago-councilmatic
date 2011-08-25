@@ -30,9 +30,6 @@ from subscriptions import models
 admin.site.register(models.Subscription)
 admin.site.register(models.Subscriber)
 admin.site.register(models.ContentFeed)
-admin.site.register(models.ListQueryStore)
-admin.site.register(models.ModelQueryStore)
-admin.site.register(models.SearchQueryStore)
 
 #admin.site.register(models.SearchSubscription)
 #admin.site.register(models.EmailChannel)

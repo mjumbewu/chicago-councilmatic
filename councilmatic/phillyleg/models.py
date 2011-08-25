@@ -20,9 +20,6 @@ class CouncilMember(models.Model):
         return self.name.lstrip("Councilmember")
 
 
-def get_legfile_intro_date(legfile):
-    return legfile.intro_date
-
 class LegFile(models.Model):
     key = models.IntegerField(primary_key=True)
     id = models.CharField(max_length=100, null=True)
