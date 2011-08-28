@@ -32,7 +32,6 @@ class Tests_describing_legislation_index_GET:
         
         # Check that the context feed is the same as the stock feed.
         intro_dates = [obj.intro_date for obj in response.context['object_list']]
-#        print intro_dates
         assert_equal(intro_dates, [date(2011,8,24),
                                    date(2011,8,23),
                                    date(2011,8,21),
