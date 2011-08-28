@@ -6,7 +6,7 @@ from StringIO import StringIO
 
 from phillyleg.models import *
 
-class LegFileTests (TestCase):
+class Tests_describing_LegFileTests (TestCase):
     
     def setUp(self):
         pass
