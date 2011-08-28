@@ -1,0 +1,210 @@
+[
+    {
+        "pk": 1,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Blackwell",
+            "headshot": "phillyleg/JBlackwellSM.jpg"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Kenney",
+            "headshot": "phillyleg/JimKennySM.jpg"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Krajewski",
+            "headshot": "phillyleg/KrajewskiSM.jpg"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember DiCicco",
+            "headshot": "phillyleg/DiCiccoSM.jpg"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Mariano",
+            "headshot": "phillyleg/noun_project_416.png"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember O'Neill",
+            "headshot": "phillyleg/Councilman_ONeillsmall.gif"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Tasco",
+            "headshot": "phillyleg/TascoSM.jpg"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Cohen",
+            "headshot": "phillyleg/noun_project_416.png"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Nutter",
+            "headshot": "phillyleg/noun_project_416.png"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Miller",
+            "headshot": "phillyleg/drmSM.jpg"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Reynolds Brown",
+            "headshot": "phillyleg/BRBphoto_SM.jpg"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Ortiz",
+            "headshot": "phillyleg/noun_project_416.png"
+        }
+    },
+    {
+        "pk": 13,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Rizzo",
+            "headshot": "phillyleg/RizzoSM.jpg"
+        }
+    },
+    {
+        "pk": 14,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Clarke",
+            "headshot": "phillyleg/ClarkeSM.jpg"
+        }
+    },
+    {
+        "pk": 15,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Goode",
+            "headshot": "phillyleg/GoodeSM.jpg"
+        }
+    },
+    {
+        "pk": 16,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Council President Verna",
+            "headshot": "phillyleg/VernaSM.jpg"
+        }
+    },
+    {
+        "pk": 18,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Longstreth",
+            "headshot": "phillyleg/noun_project_416.png"
+        }
+    },
+    {
+        "pk": 19,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Ramos",
+            "headshot": "phillyleg/noun_project_416.png"
+        }
+    },
+    {
+        "pk": 20,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Kelly",
+            "headshot": "phillyleg/jackKellySM.jpg"
+        }
+    },
+    {
+        "pk": 21,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Greenlee",
+            "headshot": "phillyleg/williamGreenleeSM.jpg"
+        }
+    },
+    {
+        "pk": 22,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Savage",
+            "headshot": "phillyleg/noun_project_416.png"
+        }
+    },
+    {
+        "pk": 23,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Campbell",
+            "headshot": "phillyleg/noun_project_416.png"
+        }
+    },
+    {
+        "pk": 24,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Sanchez",
+            "headshot": "phillyleg/MDQSSM.jpg"
+        }
+    },
+    {
+        "pk": 25,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Jones",
+            "headshot": "phillyleg/cJonesSM.jpg"
+        }
+    },
+    {
+        "pk": 26,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Green",
+            "headshot": "phillyleg/billGreenSM.jpg"
+        }
+    },
+    {
+        "pk": 28,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Kenny",
+            "headshot": "phillyleg/JimKennySM.jpg"
+        }
+    }
+]
