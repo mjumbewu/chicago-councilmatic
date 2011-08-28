@@ -70,6 +70,10 @@ class LegislationListView (SearchBarMixin, ContentFeedMixin, view.ListView):
     paginate_by = 20
     feed_data = feeds.NewLegislationFeed
     
+    def get_queryset(self):
+        queryset = super(LegislationListView, self).get_queryset()
+        return queryset.order_by('-intro_date')
+    
 
 class LegislationDetailView (SearchBarMixin, view.DetailView):
     model = phillyleg.models.LegFile

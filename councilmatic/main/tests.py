@@ -1,10 +1,10 @@
 from django.test.client import Client
 from nose.tools import *
 
-class Test_legislation_index_GET:
+class Tests_describing_legislation_index_GET:
     
     @istest
-    def has_new_legislation_list_feed_in_context(self):
+    def it_has_new_legislation_list_feed_in_context(self):
         from subscriptions.models import ContentFeed
         from main.feeds import NewLegislationFeed
         
@@ -14,6 +14,29 @@ class Test_legislation_index_GET:
         
         # Check that the context feed is the same as the stock feed.
         assert_equal(type(response.context['feed'].data), NewLegislationFeed)
+
+    @istest
+    def it_sorts_legislation_by_date_introduced(self):
+        
+        from phillyleg.models import LegFile
+        from datetime import date
+        
+        LegFile(key=1, intro_date=date(2011,8,23)).save()
+        LegFile(key=2, intro_date=date(2011,8,21)).save()
+        LegFile(key=3, intro_date=date(2011,8,24)).save()
+        LegFile(key=4, intro_date=date(2011,8,21)).save()
+        
+        # Make the request.
+        client = Client()
+        response = client.get('/legislation/')
+        
+        # Check that the context feed is the same as the stock feed.
+        intro_dates = [obj.intro_date for obj in response.context['object_list']]
+#        print intro_dates
+        assert_equal(intro_dates, [date(2011,8,24),
+                                   date(2011,8,23),
+                                   date(2011,8,21),
+                                   date(2011,8,21)])
 
     @istest
     def has_isSubscribed_set_to_true_when_current_user_is_subscribed(self):
