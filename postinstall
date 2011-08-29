@@ -13,3 +13,4 @@ python councilmatic/manage.py migrate --noinput
 
 python councilmatic/manage.py collectstatic --noinput
 
+./runonce
