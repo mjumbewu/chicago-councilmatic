@@ -11,6 +11,8 @@
 python councilmatic/manage.py syncdb --noinput
 python councilmatic/manage.py migrate --noinput
 
+git submodule init
+git submodule update
 python councilmatic/manage.py collectstatic --noinput
 
 ./runonce
