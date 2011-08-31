@@ -4,6 +4,6 @@
 COUNCILMATIC_DIR=$1
 
 cd "$COUNCILMATIC_DIR"
-python councilmatic/manage.py updatelegfiles
-python councilmatic/manage.py rebuild_index --noinput
-python councilmatic/manage.py sendemail
+python manage.py updatelegfiles
+python manage.py rebuild_index --noinput
+python manage.py sendemail

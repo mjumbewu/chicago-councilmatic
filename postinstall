@@ -8,12 +8,29 @@
 #   * Build the search indexes
 #   * Set up daily cron jobs
 
-python councilmatic/manage.py syncdb --noinput
-python councilmatic/manage.py migrate --noinput
+# Link to the static files folder.
+ln councilmatic/static/
 
-git submodule init
-git submodule update
-python councilmatic/manage.py collectstatic --noinput
-mv councilmatic/static .
+# Do the management commands.
+cd councilmatic
+python manage.py syncdb --noinput
+python manage.py migrate --noinput
+python manage.py collectstatic --noinput
 
-./runonce
+# Update the search index.
+mkdir whoosh_index
+python manage.py rebuild_index --noinput
+
+# These are submodules of the project, but dotcloud doesn't handle submodules,
+# so just clone the projects in their appropriate place.
+cd static
+git clone https://github.com/pilu/web-app-theme.git
+git clone https://github.com/MBO/attrtastic.git
+git clone https://github.com/justinfrench/formtastic.git
+
+# Schedule the cron jobs
+cd ../../
+crontab - <<EOF
+MAILTO=""
+$[$RANDOM%60] $[$RANDOM%24] * * * "~/current/crons/daily_jobs ~/current/councilmatic"
+EOF
