@@ -1,11 +1,24 @@
 import os
 
-
 # Make filepaths relative to settings.
 def rel_path(*subs):
     """Make filepaths relative to this settings file"""
     root_path = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(root_path, *subs)
+
+
+# If the environment is DotCloud...
+if os.path.exists('/home/dotcloud/current'):
+    SQL3DB_PATH = '/home/dotcloud/philly_leg.sqlite3'
+    WHOOSH_PATH = '/home/dotcloud/whoosh_index'
+    LOGFILE_PATH= '/home/dotcloud/logs/councilmatic.log'
+
+# Otherwise, if it's dev...
+else:
+    SQL3DB_PATH = rel_path('philly_leg.sqlite3')
+    WHOOSH_PATH = rel_path('whoosh_index')
+    LOGFILE_PATH= rel_path('logs/councilmatic.log')
+
 
 # Django settings for councilmatic project.
 
@@ -18,17 +31,10 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-# Very DotCloud-centric, but works for now.
-if os.path.exists('/home/dotcloud/current'):
-    DB_PATH = '/home/dotcloud/philly_leg.sqlite3'
-else:
-    DB_PATH = rel_path('philly_leg.sqlite3')
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': DB_PATH,                      # Or path to database file if using sqlite3.
+        'NAME': SQL3DB_PATH,                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -119,7 +125,7 @@ TEMPLATE_DIRS = (
 
 HAYSTACK_SITECONF = 'search_sites'
 HAYSTACK_SEARCH_ENGINE = 'whoosh'
-HAYSTACK_WHOOSH_PATH = rel_path('whoosh_index')
+HAYSTACK_WHOOSH_PATH = WHOOSH_PATH
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -135,9 +141,9 @@ INSTALLED_APPS = (
     'haystack',
     'uni_form',
     'django_nose',
-    
+
     'model_blocks',
-    
+
     'phillyleg',
     'subscriptions',
     'main',
@@ -146,3 +152,57 @@ INSTALLED_APPS = (
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 #AUTH_PROFILE_MODULE = 'phillyleg.subscription'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+
+    'filters': {
+    },
+
+    'handlers': {
+        'null': {
+            'level':'DEBUG',
+            'class':'django.utils.log.NullHandler',
+        },
+        'console':{
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+        },
+        'logfile':{
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename':LOGFILE_PATH,
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        }
+    },
+
+    'loggers': {
+        'django': {
+            'handlers':['null'],
+            'propagate': True,
+            'level':'INFO',
+        },
+        'django.request': {
+            'handlers': ['logfile', 'mail_admins'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+        'councilmatic': {
+            'handlers': ['console', 'logfile', 'mail_admins'],
+            'level': 'DEBUG',
+        }
+    }
+}
