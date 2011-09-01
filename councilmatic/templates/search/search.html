@@ -2,29 +2,68 @@
 {% load model_blocks %}
 {% load uni_form_tags %}
 
-{% block content %}
-    <header>
-        <h1>Search</h1>
-    </header>
-    
-    <form method="GET" action=".">
-        {{ form|as_uni_form }}
-        
-        <button type="submit">Search</button>
-
-        {% if query %}
-            {{ object_list|as_list_block:"Results" }}
-
-            {% if page.has_previous or page.has_next %}
-                <div>
-                    {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
-                    |
-                    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
-                </div>
-            {% endif %}
-        {% else %}
-            {# Show some example queries to run, maybe query syntax, something else? #}
-        {% endif %}
-    </form>
+{% block load_early %}
+	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}main/app_dashboard.css">
 {% endblock %}
 
+{% block content %}
+  <section id="main" class="browse dashboard_browse">
+    <div class="block">
+
+      <nav class="secondary-navigation">
+        <ul class="wat-cf">
+          <li class="first active"><a href="/search">Search</a></li>
+          <li><a href="/legislation">Legislation</a></li>
+          <li><a href="#">Minutes</a></li>
+          <li><a href="#">Agendas</a></li>
+          <li><a href="#">Bookmarks</a></li>
+        </ul>
+      </nav>
+
+      <div class="content">
+        <div class="inner">
+          <header>
+            <h1>Find and Subscribe to Legislation</h1>
+          </header>
+
+          {# It may either be called `search_form` or just `form` #}
+
+          {% if search_form %}
+            {% uni_form search_form search_form.helper %}
+          {% else %}
+            {% uni_form form form.helper %}
+          {% endif %}
+
+          {% if query %}
+            {% with title='Results' %}
+            {% with phillyleg_legfile_list_template='web-app-theme/object_list.html' %}
+            {% with phillyleg_legfile_teaser_template='main/partials/dashboard_legfile_teaser.html' %}
+            {% with phillyleg_legminutes_list_template='web-app-theme/object_list.html' %}
+            {% with phillyleg_legminutes_teaser_template='main/partials/dashboard_legfile_teaser.html' %}
+              {% list_block object_list %}
+            {% endwith %}
+            {% endwith %}
+            {% endwith %}
+            {% endwith %}
+            {% endwith %}
+
+            {% if page.has_previous or page.has_next %}
+              <div>
+                {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+                |
+                {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+              </div>
+            {% endif %}
+          {% else %}
+            {# Show some example queries to run, maybe query syntax, something else? #}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block load_late %}
+  <script src="{{ STATIC_URL }}main/dashboard_search.js"></script>
+{% endblock %}
