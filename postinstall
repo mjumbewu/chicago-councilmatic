@@ -9,7 +9,7 @@
 #   * Set up daily cron jobs
 
 # Link to the static files folder.
-ln councilmatic/static/
+ln -s councilmatic/static/
 
 # Do the management commands.
 cd councilmatic
