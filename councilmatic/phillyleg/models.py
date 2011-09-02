@@ -33,7 +33,7 @@ class LegFile(models.Model):
     status = models.CharField(max_length=1000)
     title = models.TextField()
     type = models.CharField(max_length=1000)
-    url = models.CharField(max_length=2048)
+    url = models.URLField()
     version = models.CharField(max_length=100)
     
     ##
@@ -124,7 +124,7 @@ class LegFile(models.Model):
 class LegFileAttachment(models.Model):
     file = models.ForeignKey(LegFile)
     description = models.CharField(max_length=1000)
-    url = models.CharField(max_length=2048)
+    url = models.URLField()
     fulltext = models.TextField()
     
     class Meta:
@@ -148,7 +148,7 @@ class LegAction(models.Model):
 
 
 class LegMinutes(models.Model):
-    url = models.CharField(max_length=2048, unique=True)
+    url = models.URLField(unique=True)
     fulltext = models.TextField()
     date_taken = models.DateField(null=True)
     
