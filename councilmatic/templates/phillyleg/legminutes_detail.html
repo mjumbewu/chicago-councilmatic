@@ -1,6 +1,86 @@
 {% extends "base.html" %}
 {% load model_blocks %}
+{% load uni_form_tags %}
+{% load comments %}
+
+{% block load_early %}
+  <link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/minutes.css">
+{% endblock %}
 
 {% block content %}
-    {% detail_block object %}
+  <div id="main">
+    <div class="block">
+      <div class="content">
+{#      {% with phillyleg_legminutes_detail_template="phillyleg/partials/legminutes_detail.html" %} #}
+      {% with phillyleg_legminutes_exclude="id, fulltext" %}
+{#      {% with phillyleg_legminutes_fields="intro_date, final_date, controlling_body, sponsors, contact, title, url" %} #}
+      {% with phillyleg_legaction_list_template="phillyleg/partials/legaction_list.html" %}
+      {% with phillyleg_legaction_detail_template="phillyleg/partials/legaction_detail.html" %}
+      {% with phillyleg_legaction_fields="acting_body, description, file, motion, notes" %}
+        <div class="inner">
+          {% detail_block object %}
+        </div>
+        
+      {% endwith %}
+      {% endwith %}
+      {% endwith %}
+{#      {% endwith %} #}
+      {% endwith %}
+{#      {% endwith %} #}
+    
+      {% comment %}
+       <!--
+       | TODO: Comments! I want a rated comment system. Commenters should be able
+       |       to say whether their comment is in support of or opposition to the
+       |       file under question, and other users should be able to mark the
+       |       comment as helpful or not (up or down).  This will hopefully 
+       |       create a system where you'll have most helpful comments in support
+       |       of and in opposition to a given file.  Also, you'll have a read on
+       |       how many people support or oppose a file, and what they're saying.
+       |
+      {% get_comment_count for object as comment_count %}
+      {{ comment_count }} comment{{ comment_count|pluralize }}
+      
+      {% get_comment_form for object as form %}
+      <form action="{% comment_form_target %}" method="post">
+        {% csrf_token %}
+        {{ form|as_uni_form }}
+        <div>
+          <input type="submit" name="submit" value="Post">
+          <input type="submit" name="preview" value="Preview">
+        </div>
+      </form>
+      
+      {% render_comment_list for object %}
+       |
+       -->
+      {% endcomment %}
+      
+      </div>
+    </div>
+  </div>
+  
+  <div id="sidebar">
+    {% if object.sponsors.all|length %}
+      <div class="instance_field legfile_sponsors">
+        <h3 class="instance_field_label legfile_sponsors_label">{{ object.sponsors.all|length }} Sponsor{{ object.sponsors.all|length|pluralize }} from Council</h3>
+        <ul class="instance_field_value legfile_sponsors_value">
+          {% for sponsor in object.sponsors.all %}
+            <li><img width="40" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}"><span>{{ sponsor.name }}<span></li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+    
+    {% if object.metadata.mentioned_legfiles.all %}
+      <div class="block">
+        <h3>Bills mentioned in this file</h3>
+        <ul class="navigation">
+          {% for mentioned_legfile in object.metadata.mentioned_legfiles.all %}
+            <li><a href="{{ mentioned_legfile.get_absolute_url }}">{{ mentioned_legfile }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
 {% endblock %}
