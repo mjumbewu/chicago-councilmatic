@@ -38,6 +38,10 @@ urlpatterns = patterns('',
         phillyleg.views.add_bookmark,
         name='add_bookmark'),
 
+    url(r'^minutes/$', ListView.as_view(
+        model=phillyleg.models.LegMinutes,
+        template_name='phillyleg/legminutes_list.html'),
+        name='minutes_list'),
     url(r'^minutes/(?P<pk>\d+)$', DetailView.as_view(
         model=phillyleg.models.LegMinutes,
         template_name='phillyleg/legminutes_detail.html'),
