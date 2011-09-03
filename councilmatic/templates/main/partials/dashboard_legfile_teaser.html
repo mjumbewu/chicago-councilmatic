@@ -1,5 +1,5 @@
 <article class="instance_teaser_wrapper {{ model }}_teaser_wrapper {{ model }}_{{ instance.pk }}_teaser_wrapper">
-  <span class="title">{{ instance }}</span>
+  <span class="title"><a href="{{ instance.get_absolute_url }}">{{ instance }}</a></span>
   <span class="status">
     <label>Status:</label>
     {{ instance.status }}
