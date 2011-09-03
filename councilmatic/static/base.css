@@ -55,3 +55,21 @@
 #header {
   background-image: none;
 }
+
+
+/* ===== Attributes ===== */
+
+.list_item .wrapper {
+  padding: 1.2em 0em;
+  padding-left: 50px;
+  position: relative;
+}
+
+.detail .field {
+  font-size: 13px;
+  font-style: normal;
+  font-weight: normal;
+  text-transform: normal;
+  letter-spacing: normal;
+  line-height: 1.45em;
+}
