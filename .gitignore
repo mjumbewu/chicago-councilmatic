@@ -12,6 +12,9 @@ stylesheets/
 # The whoosh_index (assuming it will create the dir automatically)
 whoosh_index/
 
+# Log files
+logs/
+
 # The virtual environment
 .env/
 
