@@ -3,6 +3,7 @@
 {% load uni_form_tags %}
 
 {% block load_early %}
+	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/minutes.css">
 	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">
   <link rel="stylesheet" href="{{ STATIC_URL }}main/app_dashboard.css">
 {% endblock %}
@@ -11,15 +12,9 @@
   <section id="main" class="browse dashboard_browse">
     <div class="block">
 
-      <nav class="secondary-navigation">
-        <ul class="wat-cf">
-          <li class="first active"><a href="/search">Search</a></li>
-          <li><a href="/legislation">Legislation</a></li>
-          <li><a href="#">Minutes</a></li>
-          <li><a href="#">Agendas</a></li>
-          <li><a href="#">Bookmarks</a></li>
-        </ul>
-      </nav>
+      {% with active='search' %}
+        {% include 'main/partials/dashboard_menu.html' %}
+      {% endwith %}
 
       <div class="content">
         <div class="inner">
@@ -37,14 +32,10 @@
 
           {% if query %}
             {% with title='Results' %}
-            {% with phillyleg_legfile_list_template='web-app-theme/object_list.html' %}
             {% with phillyleg_legfile_teaser_template='main/partials/dashboard_legfile_teaser.html' %}
-            {% with phillyleg_legminutes_list_template='web-app-theme/object_list.html' %}
-            {% with phillyleg_legminutes_teaser_template='main/partials/dashboard_legfile_teaser.html' %}
+            
               {% list_block object_list %}
-            {% endwith %}
-            {% endwith %}
-            {% endwith %}
+              
             {% endwith %}
             {% endwith %}
 

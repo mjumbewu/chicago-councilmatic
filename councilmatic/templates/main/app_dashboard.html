@@ -10,16 +10,10 @@
 {% block content %}
   <section id="main" class="browse dashboard_browse">
     <div class="block">
-    
-      <nav class="secondary-navigation">
-        <ul class="wat-cf">
-          <li class="first active"><a href="#">Home</a></li>
-          <li><a href="/legislation">Legislation</a></li>
-          <li><a href="#">Minutes</a></li>
-          <li><a href="#">Agendas</a></li>
-          <li><a href="#">Bookmarks</a></li>
-        </ul>
-      </nav>
+      
+      {% with active='home' %}
+        {% include 'main/partials/dashboard_menu.html' %}
+      {% endwith %}
       
       <div class="content">
         <div class="inner">

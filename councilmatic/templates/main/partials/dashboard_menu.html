@@ -1,0 +1,10 @@
+<nav class="secondary-navigation">
+  <ul class="wat-cf">
+    <li class="first{% if active == 'home' or active == 'search' %} active{% endif %}"><a href="/">Home</a></li>
+    <li class="{% if active == 'legislation' %} active{% endif %}"><a href="/legislation">Legislation</a></li>
+    <li class="{% if active == 'minutes' %} active{% endif %}"><a href="/minutes">Minutes</a></li>
+    <li class="{% if active == 'agendas' %} active{% endif %}"><a href="#">Agendas</a></li>
+    <li class="{% if active == 'bookmarks' %} active{% endif %}"><a href="/bookmarks">Bookmarks</a></li>
+  </ul>
+</nav>
+
