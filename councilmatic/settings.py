@@ -107,11 +107,13 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
 )
+INTERNAL_IPS = ('127.0.0.1',)
 
 ROOT_URLCONF = 'urls'
 
@@ -141,6 +143,7 @@ INSTALLED_APPS = (
     'haystack',
     'uni_form',
     'django_nose',
+    'debug_toolbar',
 
     'model_blocks',
 
