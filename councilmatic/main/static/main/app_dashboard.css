@@ -40,3 +40,15 @@
   width: 21px;
   height: 38px;
 }
+
+.legminutes_teaser_wrapper {
+  background: url('/static/phillyleg/noun_project_347_2-small.svg');
+  background-repeat: no-repeat;
+  background-position: 0% 50%;
+}
+
+.legfile_teaser_wrapper {
+  background: url('/static/phillyleg/noun_project_450-small.svg');
+  background-repeat: no-repeat;
+  background-position: 0% 50%;
+}
