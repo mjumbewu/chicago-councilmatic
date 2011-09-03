@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block content %}
+
   {% if user.is_authenticated %}
     {% if user in object.bookmarks.all %}
       <div class="bookmark active">
@@ -20,44 +21,51 @@
     {% endif %}
   {% endif %}
   
-  <div id="main">
-    {% with phillyleg_legfile_detail_template="phillyleg/partials/legfile_detail.html" %}
-    {% with phillyleg_legfile_exclude="date_scraped, last_scraped, legfileattachment_set, legaction_set, metadata, type, status" %}
-    {% with phillyleg_legfile_fields="intro_date, final_date, controlling_body, sponsors, contact, title, url" %}
-      {% detail_block object %}
-    {% endwith %}
-    {% endwith %}
-    {% endwith %}
-    
-    {% comment %}
-     <!--
-     | TODO: Comments! I want a rated comment system. Commenters should be able
-     |       to say whether their comment is in support of or opposition to the
-     |       file under question, and other users should be able to mark the
-     |       comment as helpful or not (up or down).  This will hopefully 
-     |       create a system where you'll have most helpful comments in support
-     |       of and in opposition to a given file.  Also, you'll have a read on
-     |       how many people support or oppose a file, and what they're saying.
-     |
-    {% get_comment_count for object as comment_count %}
-    {{ comment_count }} comment{{ comment_count|pluralize }}
-    
-    {% get_comment_form for object as form %}
-    <form action="{% comment_form_target %}" method="post">
-      {% csrf_token %}
-      {{ form|as_uni_form }}
-      <div>
-        <input type="submit" name="submit" value="Post">
-        <input type="submit" name="preview" value="Preview">
+  <section id="main" class="browse dashboard_browse">
+    <div class="block">
+      <div class="content">
+        <div class="inner">
+
+          {% with phillyleg_legfile_detail_template="phillyleg/partials/legfile_detail.html" %}
+          {% with phillyleg_legfile_exclude="date_scraped, last_scraped, legfileattachment_set, legaction_set, metadata, type, status" %}
+          {% with phillyleg_legfile_fields="intro_date, final_date, controlling_body, sponsors, contact, title, url" %}
+            {% detail_block object %}
+          {% endwith %}
+          {% endwith %}
+          {% endwith %}
+          
+          {% comment %}
+           <!--
+           | TODO: Comments! I want a rated comment system. Commenters should be able
+           |       to say whether their comment is in support of or opposition to the
+           |       file under question, and other users should be able to mark the
+           |       comment as helpful or not (up or down).  This will hopefully 
+           |       create a system where you'll have most helpful comments in support
+           |       of and in opposition to a given file.  Also, you'll have a read on
+           |       how many people support or oppose a file, and what they're saying.
+           |
+          {% get_comment_count for object as comment_count %}
+          {{ comment_count }} comment{{ comment_count|pluralize }}
+          
+          {% get_comment_form for object as form %}
+          <form action="{% comment_form_target %}" method="post">
+            {% csrf_token %}
+            {{ form|as_uni_form }}
+            <div>
+              <input type="submit" name="submit" value="Post">
+              <input type="submit" name="preview" value="Preview">
+            </div>
+          </form>
+          
+          {% render_comment_list for object %}
+           |
+           -->
+          {% endcomment %}
+          
+        </div>
       </div>
-    </form>
-    
-    {% render_comment_list for object %}
-     |
-     -->
-    {% endcomment %}
-    
-  </div>
+    </div>
+  </section>
   
   <div id="sidebar">
     {% if object.sponsors.all|length %}
@@ -82,4 +90,5 @@
       </div>
     {% endif %}
   </div>
+      
 {% endblock %}
