@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load model_blocks %}
+{% load uni_form_tags %}
+{% load comments %}
+
+{% block load_early %}
+<!--  <link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">-->
+{% endblock %}
+
+{% block content %}
+  <div id="box">
+    <div class="block" id="block-signup">
+      <h2>Sign Up...</h2>
+      <div class="content">
+        <div class="flash">
+          <div class="message error">
+            <p>Account could not be activated</p>
+          </div>
+        </div>
+        <p>We're sorry, but the activation key you provided is not valid. This
+           may mean that the key has expred (have you waited too many days?).
+           Please either contact us or <a href="{% registration_register %}">
+           register</a> again.</p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

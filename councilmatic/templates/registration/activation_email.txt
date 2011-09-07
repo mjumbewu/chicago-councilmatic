@@ -1,0 +1,5 @@
+Activation key:
+{{ activation_key }}
+
+Expiration days:
+{{ expiration_days }}

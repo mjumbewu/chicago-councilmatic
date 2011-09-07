@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load model_blocks %}
+{% load uni_form_tags %}
+{% load comments %}
+
+{% block load_early %}
+<!--  <link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">-->
+{% endblock %}
+
+{% block content %}
+  <div id="box">
+    <div class="block" id="block-signup">
+      <h2>Sign Up...</h2>
+      <div class="content">
+        <div class="flash">
+          <div class="message notice">
+            <p>Confirmation has been sent</p>
+          </div>
+        </div>
+        <p>We've sent an email to the address you provided us. Your account
+           will be actived as soon as you follow the directions in the email to
+           confirm it.</p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load model_blocks %}
+{% load uni_form_tags %}
+{% load comments %}
+
+{% block load_early %}
+<!--  <link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">-->
+{% endblock %}
+
+{% block content %}
+  <div id="box">
+    <div class="block" id="block-signup">
+      <h2>Sign Up...</h2>
+      <form class="uniForm" method="POST" action="{% url registration_register %}">{% csrf_token %}
+        {{ form|as_uni_form }}
+        <div class="buttonHolder">
+          <button type="submit" class="primaryAction">Done</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
