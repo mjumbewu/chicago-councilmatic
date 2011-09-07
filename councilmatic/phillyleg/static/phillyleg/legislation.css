@@ -31,7 +31,7 @@
 }
 
 /* ====================================
- * Lay out the sponsoring councilmember faces 
+ * Lay out the sponsoring councilmember faces
  */
 .legfile_detail .legfile_sponsors {
     float: right;
@@ -57,13 +57,16 @@
 
 
 .bookmark {
-    display: block;
-    position: absolute;
-    left: 50px;
-    top: 80px;
-    
+    float: left;
+    margin-top: -16px;
+    margin-right: 20px;
+
     width: 42px;
     height: 76px;
+}
+
+.bookmark button:hover {
+    cursor: pointer;
 }
 
 .bookmark.active img {
@@ -76,9 +79,11 @@
     width: 42px;
 }
 
-.bookmark a {
+.bookmark a,
+.bookmark button {
   display: block;
   background: transparent;
+  border: none;
   width: 100%;
   height: 100%;
 }
