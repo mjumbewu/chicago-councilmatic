@@ -9,21 +9,21 @@
 {% block content %}
   <section id="main">
     <div class="block">
-      
+
       {% with active='legislation' %}
         {% include 'main/partials/dashboard_menu.html' %}
       {% endwith %}
-      
+
       <div class="content">
         <div class="inner">
           {% with phillyleg_legfile_teaser_template='main/partials/dashboard_legfile_teaser.html' %}
           {% with title=' ' %}
-          
+
             {% list_block object_list %}
-          
+
           {% endwith %}
           {% endwith %}
-  
+
           <div class="pagination">
             <span class="step-links">
               {% if page_obj.has_previous %}
@@ -41,6 +41,12 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="sidebar">
+    <div class="block">
+      {% include 'subscriptions/subscribe_form.html' %}
     </div>
   </section>
 {% endblock %}
