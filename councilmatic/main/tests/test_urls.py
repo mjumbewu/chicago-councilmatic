@@ -1,35 +1,36 @@
 from django.test.client import Client
 from nose.tools import *
+from mock import *
 
 class Tests_describing_legislation_index_GET:
-    
+
     @istest
     def it_has_new_legislation_list_feed_in_context(self):
         from subscriptions.models import ContentFeed
         from main.feeds import NewLegislationFeed
-        
+
         # Make the request.
         client = Client()
         response = client.get('/legislation/')
-        
+
         # Check that the context feed is the same as the stock feed.
         assert_equal(type(response.context['feed'].data), NewLegislationFeed)
 
     @istest
     def it_sorts_legislation_by_date_introduced(self):
-        
+
         from phillyleg.models import LegFile
         from datetime import date
-        
+
         LegFile(key=1, intro_date=date(2011,8,23)).save()
         LegFile(key=2, intro_date=date(2011,8,21)).save()
         LegFile(key=3, intro_date=date(2011,8,24)).save()
         LegFile(key=4, intro_date=date(2011,8,21)).save()
-        
+
         # Make the request.
         client = Client()
         response = client.get('/legislation/')
-        
+
         # Check that the context feed is the same as the stock feed.
         intro_dates = [obj.intro_date for obj in response.context['object_list']]
         assert_equal(intro_dates, [date(2011,8,24),
@@ -42,22 +43,31 @@ class Tests_describing_legislation_index_GET:
         from django.contrib.auth.models import User
         from subscriptions.models import ContentFeed, Subscriber, Subscription
         from main.feeds import NewLegislationFeed
-        
+
         subscriber = Subscriber(username="hello")
         subscriber.set_password("world")
         subscriber.save()
-        
+
         feed = ContentFeed.factory(data=NewLegislationFeed())
         feed.save()
-        
+
         subscriber.subscribe(feed)
         subscriber.save()
-        
+
         # Make the request.
         client = Client()
         assert client.login(username="hello", password="world")
         response = client.get('/legislation/')
-        
+
         # Check the context
         assert response.context['is_subscribed']
 
+
+class Test_NewLegislationFeed_calcLastUpdated:
+
+    @istest
+    def returns_the_last_updated_date_of_a_piece_of_legislation (self):
+        legislation = Mock()
+        legislation.intro_date = 5
+
+        feed_data = ContentFeed
