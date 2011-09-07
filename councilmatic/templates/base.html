@@ -6,42 +6,45 @@
 	<title>Philadelphia City Council Email Service</title>
 	<style>
 	</style>
-	
+
 	<link rel="stylesheet" href="{{ STATIC_URL }}web-app-theme/stylesheets/base.css">
 	<link rel="stylesheet" href="{{ STATIC_URL }}web-app-theme/stylesheets/themes/default/style.css">
 	<link rel="stylesheet" href="{{ STATIC_URL }}formtastic/app/assets/stylesheets/formtastic.css">
 	<link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form.css">
 	<link rel="stylesheet" href="{{ STATIC_URL }}uni_form/default.uni-form.css">
 	<link rel="stylesheet" href="{{ STATIC_URL }}base.css">
-	
+
 	{% block load_early %}
 	  {# Here go things that would be in the head, like extra css imports.     #}
 	{% endblock %}
-	
+
 </head>
 <body>
   <header id="header">
     <h1><a href="/">Councilmatic</a></h1>
   </header>
-  
+
   <section class="simple_search">
     <form action="{% url search %}" method="GET" class="uniForm">
-      {{ searchbar_form|as_uni_form }}
-      <button type="submit">Search</button>
+<!--      {{ searchbar_form|as_uni_form }}-->
+      <input name="q" type="text" class="textinput textInput">
+      <div class="buttonHolder">
+        <button type="submit" class="primaryAction">Search</button>
+      </div>
     </form>
   </section>
-  
+
   <div id="wrapper" class="wat-cf">
 	  {% block content %}
 	  {% endblock %}
 	 </div>
-	
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 	<script src="{{ STATIC_URL }}uni_form/uni-form.jquery.js" type="text/javascript"></script>
 	{% block load_late %}
 	  {# Here go things that would be in at the end of the body, like large    #}
 	  {# javascript files.                                                     #}
 	{% endblock %}
-	
+
 </body>
 </html>

@@ -25,13 +25,13 @@
 
 .simple_search > .uniForm input {
   float: none;
-  height: 2.5em;
+  height: 2em;
   border: 1px solid white;
-  
+
   border-radius: 3px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
-  
+
   background-color: inherit;
   color: white;
   width: auto;
@@ -41,12 +41,22 @@
   display: none;
 }
 
+.simple_search .uniForm .buttonHolder {
+  margin: 0px;
+  padding: 0px;
+  background: none;
+}
+
+.simple_search .uniForm .buttonHolder .primaryAction {
+  background-color: silver;
+}
+
 .simple_search button {
 /*  width: 4em;*/
 /*  height: 3em;*/
   padding: 5px;
   border: 1px solid silver;
-  
+
   border-radius: 3px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;

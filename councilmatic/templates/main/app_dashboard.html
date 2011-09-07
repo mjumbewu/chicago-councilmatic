@@ -10,36 +10,42 @@
 {% block content %}
   <section id="main" class="browse dashboard_browse">
     <div class="block">
-      
+
       {% with active='home' %}
         {% include 'main/partials/dashboard_menu.html' %}
       {% endwith %}
-      
+
       <div class="content">
         <div class="inner">
           <header>
             <h1>Find and Subscribe to Legislation</h1>
           </header>
-          
+
           {% uni_form search_form search_form.helper %}
-          
+
           {% comment %}
-          
+
           {% with title=' ' %}
           {% with phillyleg_legfile_list_template='web-app-theme/object_list.html' %}
           {% with phillyleg_legfile_teaser_template='main/partials/dashboard_legfile_teaser.html' %}
-          
+
             {% list_block legfiles %}
-          
+
           {% endwith %}
           {% endwith %}
           {% endwith %}
 
           <a href="{% url legislation_list %}">More...</a>
-          
+
           {% endcomment %}
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="sidebar">
+    <div class="block">
+      {% include 'subscriptions/subscribe_form.html' %}
     </div>
   </section>
 {% endblock %}
