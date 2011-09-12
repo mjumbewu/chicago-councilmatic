@@ -1,6 +1,8 @@
 import os
 import tempfile
 
+# Adapted from Scraperwiki utils
+
 def pdftoxml(pdfdata):
     """converts pdf file to xml file"""
     pdffout = tempfile.NamedTemporaryFile(suffix='.pdf')
