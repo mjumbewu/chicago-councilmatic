@@ -4,15 +4,26 @@ import sqlite3
 import urllib2
 
 class ScraperWikiSourceWrapper (object):
+    """
+    A wrapper around the Scraperwiki sqlite3 database. This is a good source for
+    historical data, but not so much real time as it takes so long to update the
+    files. It is responsible for fetching and reading the data that has been
+    scraped into the ScraperWiki data store.
+    """
+
     __cursor = None
+    """The sqlite3 database cursor"""
+
     db_file_name = 'swdata.sqlite3'
+    """The local file name of the datastore."""
 
     def urlopen(self, *args, **kwargs):
+        """A facade over urlopen; mainly used for stubbing in tests"""
         return urllib2.urlopen(*args, **kwargs)
 
     def scrape_legis_file(self, key, cursor):
-        '''Extract a record from the given document (soup). The key is for the
-           sake of record-keeping.  It is the key passed to the site URL.'''
+        """Extract a record from the given document (soup). The key is for the
+           sake of record-keeping.  It is the key passed to the site URL."""
 
         cursor.execute('''select
             id,type,url,status,title,controlling_body,intro_date,final_date,
@@ -136,8 +147,8 @@ class ScraperWikiSourceWrapper (object):
         self.__cursor = conn.cursor()
 
     def check_for_new_content(self, last_key, force_download=False):
-        '''Look through the next 10 keys to see if there are any more files.
-           10 is arbitrary, but I feel like it's large enough to be safe.'''
+        """Look through the next 10 keys to see if there are any more files.
+           10 is arbitrary, but I feel like it's large enough to be safe."""
 
         if not self.__cursor:
             if force_download or not self.__check_db_exists():
