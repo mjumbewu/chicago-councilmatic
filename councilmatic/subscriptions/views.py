@@ -1,3 +1,5 @@
+import logging as log
+
 from django.views import generic as views
 from django import http
 from haystack import views as haystack_views
@@ -34,7 +36,7 @@ class SingleSubscriptionMixin (object):
             try:
                 subscriber = self.request.user.subscriber
 
-            except models.Subsciber.DoesNotExist:
+            except models.Subscriber.DoesNotExist:
                 return None
 
             if not self.request.user.subscriber.is_subscribed(feed):
@@ -62,9 +64,15 @@ class SingleSubscriptionMixin (object):
 class CreateSubscriptionView (views.CreateView):
     model = models.Subscription
 
+    def get_success_url(self):
+        return self.request.REQUEST['success']
+
 
 class DeleteSubscriptionView (views.DeleteView):
     model = models.Subscription
+
+    def get_success_url(self):
+        return self.request.REQUEST['success']
 
 
 class SearchView (haystack_views.SearchView):
