@@ -41,14 +41,21 @@
     list-style: none;
 }
 
+#sidebar .legfile_sponsors ul {
+    display: table;
+    border-collapse: collapse;
+}
+
 #sidebar .legfile_sponsors li {
-    padding: 3px 0px;
+    display: table-row;
     background: transparent;
 }
 
 #sidebar .legfile_sponsors ul > li > * {
-    display: inline-block;
+    display: table-cell;
     vertical-align: middle;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 #sidebar .legfile_sponsors img {
