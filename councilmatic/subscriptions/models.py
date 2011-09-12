@@ -97,8 +97,7 @@ class ContentFeed (models.Model):
 
     @classmethod
     def factory(cls, data):
-        feed = cls()
-        feed.data = data
+        feed = cls.objects.get_or_create(data=data)[0]
         return feed
 
 
@@ -150,7 +149,7 @@ def create_subscriber_for_user(sender, **kwargs):
 class Subscription (models.Model):
     subscriber = models.ForeignKey('Subscriber', related_name='subscriptions')
     feed = models.ForeignKey('ContentFeed')
-    last_sent = models.DateTimeField()
+    last_sent = models.DateTimeField(blank=True)
 
     def __unicode__(self):
         return u"%s's subscription to %s" % (self.subscriber, self.feed)
