@@ -1,7 +1,6 @@
 import datetime
 import phillyleg
 
-import phillyleg.management.scraperwiki as scraperwiki
 from phillyleg.models import \
     LegFile, LegFileAttachment, LegAction, LegMinutes, CouncilMember
 
