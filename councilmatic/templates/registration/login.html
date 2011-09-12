@@ -15,8 +15,9 @@
         {{ form|as_uni_form }}
         <div class="buttonHolder">
           <button type="submit" class="primaryAction">Done</button>
-          {% if next %}
-            <a href="{{ next }}" class="secondaryAction">Cancel</a>
+          {% if request.GET.next %}
+            <input type="hidden" value="{{ request.GET.next }}">
+            <a href="{{ request.GET.next }}" class="secondaryAction">Cancel</a>
           {% endif %}
         </div>
       </form>
