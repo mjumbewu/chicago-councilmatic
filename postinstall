@@ -17,9 +17,9 @@ python manage.py syncdb --noinput
 python manage.py migrate --noinput
 python manage.py collectstatic --noinput
 
-# Update the search index.
+# Get ready for the search index.
 mkdir ~/whoosh_index
-python manage.py rebuild_index --noinput
+#python manage.py rebuild_index --noinput
 
 # Get ready for logs
 mkdir ~/logs

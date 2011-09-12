@@ -51,7 +51,7 @@ class Tests_describing_legislation_index_GET:
         feed = ContentFeed.factory(data=NewLegislationFeed())
         feed.save()
 
-        subscriber.subscribe(feed)
+        subscription = subscriber.subscribe(feed)
         subscriber.save()
 
         # Make the request.
@@ -61,13 +61,4 @@ class Tests_describing_legislation_index_GET:
 
         # Check the context
         assert response.context['is_subscribed']
-
-
-class Test_NewLegislationFeed_calcLastUpdated:
-
-    @istest
-    def returns_the_last_updated_date_of_a_piece_of_legislation (self):
-        legislation = Mock()
-        legislation.intro_date = 5
-
-        feed_data = ContentFeed
+        assert_equal(response.context['subscription'], subscription)

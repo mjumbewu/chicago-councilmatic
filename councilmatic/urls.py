@@ -30,7 +30,7 @@ urlpatterns = patterns('',
     url(r'', include('registration.backends.default.urls')),
 
     url(r'^subscribe/$', subscriptions.views.CreateSubscriptionView.as_view(), name='subscribe'),
-    url(r'^unsubscribe/$', subscriptions.views.DeleteSubscriptionView.as_view(), name='unsubscribe'),
+    url(r'^unsubscribe/(?P<pk>\d+)/$', subscriptions.views.DeleteSubscriptionView.as_view(), name='unsubscribe'),
 
     url(r'^bookmark/$', bookmarks.views.CreateBookmarkView.as_view(), name='bookmark'),
     url(r'^unbookmark/(?P<pk>\d+)/$', bookmarks.views.DeleteBookmarkView.as_view(), name='unbookmark'),

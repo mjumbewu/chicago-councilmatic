@@ -26,8 +26,7 @@ class SingleBookmarkedObjectMixin (object):
                 bookmark_form = None
 
             except models.Bookmark.DoesNotExist:
-                bookmark = models.Bookmark(content_id=self.object.pk,
-                                           content_type=contenttype)
+                bookmark = None
                 is_bookmarked = False
                 bookmark_form = forms.BookmarkForm({'user': self.request.user.pk,
                                                     'content_id': self.object.pk,
