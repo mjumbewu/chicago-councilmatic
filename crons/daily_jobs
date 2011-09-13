@@ -6,4 +6,5 @@ COUNCILMATIC_DIR=$1
 cd "$COUNCILMATIC_DIR"
 python manage.py updatelegfiles
 python manage.py rebuild_index --noinput
+python manage.py updatefeeds
 python manage.py sendfeedupdates
