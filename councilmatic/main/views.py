@@ -2,6 +2,9 @@ import logging as log
 from django.views import generic as view
 
 from main import feeds
+from main import forms
+
+import haystack.views
 import bookmarks.views
 import phillyleg.models
 import subscriptions.forms
@@ -11,7 +14,7 @@ import subscriptions.views
 
 class SearchBarMixin (object):
     def get_searchbar_form(self):
-        return subscriptions.forms.SimpleSearchForm()
+        return forms.SimpleSearchForm()
 
     def get_context_data(self, **kwargs):
         context_data = super(SearchBarMixin, self).get_context_data(**kwargs)
@@ -23,7 +26,7 @@ class AppDashboardView (SearchBarMixin, view.TemplateView):
     template_name = 'main/app_dashboard.html'
 
     def get_context_data(self, **kwargs):
-        search_form = subscriptions.forms.FullSearchForm()
+        search_form = forms.FullSearchForm()
 
         legfiles = phillyleg.models.LegFile.objects.all()[:8]
 
@@ -32,6 +35,44 @@ class AppDashboardView (SearchBarMixin, view.TemplateView):
         context_data.update({'legfiles': legfiles, 'search_form': search_form})
 
         return context_data
+
+
+class SearchView (SearchBarMixin, subscriptions.views.SingleSubscriptionMixin, view.ListView):
+    template_name = 'search/search.html'
+    paginate_by = 20
+    feed_data = None
+
+    def dispatch(self, request, *args, **kwargs):
+        # Construct and run a haystack SearchView so that we can use the
+        # resulting values.
+        self.search_view = haystack.views.SearchView(form_class=forms.SimpleSearchForm)
+        self.search_view.request = request
+
+        self.search_view.form = self.search_view.build_form()
+        self.search_view.query = self.search_view.get_query()
+        self.search_view.results = self.search_view.get_results()
+
+        # The, continue with the dispatch
+        return super(SearchView, self).dispatch(request, *args, **kwargs)
+
+    def on_queryset_gotten(self, queryset):
+        # Construct the feed data
+        if self.feed_data is None:
+            self.feed_data = lambda: feeds.SearchResultsFeed(self.search_view.results.query.query_filter)
+
+    def get_queryset(self):
+        queryset = self.search_view.results
+        self.on_queryset_gotten(queryset)
+        return [result.object for result in queryset]
+
+    def get_context_data(self, **kwargs):
+        """
+        Generates the actual HttpResponse to send back to the user.
+        """
+        context = super(SearchView, self).get_context_data(**kwargs)
+        context['form'] = self.search_view.form
+        log.debug(context)
+        return context
 
 
 class LegislationListView (SearchBarMixin, subscriptions.views.SingleSubscriptionMixin, view.ListView):
@@ -52,8 +93,6 @@ class LegislationDetailView (SearchBarMixin, subscriptions.views.SingleSubscript
 
     def on_object_gotten(self, legfile):
         # Construct the feed_data factory
-#        raise Exception(dir(logging))
-        log.debug('Construct the feed data factory for %r' % legfile)
         if not self.feed_data:
             self.feed_data = lambda: feeds.LegislationUpdatesFeed(pk=legfile.pk)
 
