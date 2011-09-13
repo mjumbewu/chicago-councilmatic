@@ -42,6 +42,7 @@ class SingleBookmarkedObjectMixin (object):
 
 class CreateBookmarkView (views.CreateView):
     form_class = forms.BookmarkForm
+    http_method_names = ['post']
 
     def form_invalid(self, form):
         messages.add_message(request, messages.ERROR, 'Could not bookmark content')
@@ -54,6 +55,7 @@ class CreateBookmarkView (views.CreateView):
 
 class DeleteBookmarkView (views.DeleteView):
     model = models.Bookmark
+    http_method_names = ['post']
 
     def get_success_url(self):
         return self.request.POST['next']
