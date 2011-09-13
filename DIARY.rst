@@ -1,3 +1,6 @@
+SOAP Suds
+=========
+
 As ugly as SOAP is, SUDS makes it wonderfully painless.  Just point it at a WSDL
 file URL and let it rip!
 
@@ -46,3 +49,65 @@ in ``options`` did the trick.
 Anyways, once I set up my ``client`` correctly, it went pretty smoothly.  The
 API isn't all that well documented, so I have to feel my way around and discover
 what things mean.
+
+
+Search and Subscriptions
+========================
+
+I had some pretty good momentum going.  I was hooking up the search views to
+the subscription mixins.  This wasn't trivial, but was proving to be altogether
+doable.  The issue: I want to continue to use class-based views in the project,
+but haystack has its own view classes that preceded the core class-based views.
+What I ended up doing was writing my own ``SearchView`` class that created and
+called a haystack ``SearchView`` in the ``dispatch`` method::
+
+    def dispatch(self, *args, **kwargs):
+        # Construct and run a haystack SearchView so that we can use the
+        # resulting values.
+        self.search_view = haystack.views.SearchView(form_class=forms.SimpleSearchForm)
+        self.search_view(*args, **kwargs)
+
+        # The, continue with the dispatch
+        return super(SearchView, self).dispatch(*args, **kwargs)
+
+This way, I can still have acces to the ``search_view`` members that I want
+(like ``form`` for the search form, and ``results`` for the search results).
+And ``dispatch`` is the first point of contact that I care about in class-based
+views anyway.
+
+So, I derived from ``generic.ListView``, had ``get_queryset`` return the
+``self.search_view.results``, and things seemed to be going alright, until I
+hit this wall::
+
+    You must not use 8-bit bytestrings unless you use a text_factory that can
+    interpret 8-bit bytestrings (like text_factory = str). It is highly
+    recommended that you instead just switch your application to Unicode
+    strings.
+
+What?  I mean, it's nice that it recommends that I switch my application to
+unicode, but I have no idea why this happened.  Some light searching turns up a
+couple of StackOverflow posts about sqlite3.  `This guy
+<http://stackoverflow.com/questions/3425320/sqlite3-programmingerror-you-must-not-use-8-bit-bytestrings-unless-you-use-a-tex/3425465#3425465>`_
+wants me to convert the value I'm inserting into the DB to a ``buffer`` object.
+Unfortunately, I don't think I'm inserting anything when this happens.  So, the
+solution doesn't apply for me.
+
+While trying to debug the 8-bit thing, I ran into another issue. In order to
+subscribe to a search, I had to find a portion of a haystack ``SearchQuerySet``
+that would pickle without evaluating the search. Eventually I found that
+``searchqueryset.query.query_filter`` would do it, and I could reconstruct a
+queryset by just passing the resultant value back into ``SearchQuerySet(...)``.
+
+And then, after that I ran into a disappearing ``object_list`` bug.  This time,
+even though I was deriving from ``ListView``, and my context was being returned
+with an ``object_list`` variable in it (I know because I logged it as such),
+it was not showing up in the template context (debug_toolbar couldn't find it
+either).  Turns out this was because I was calling the ``search_view``, or
+specifically, because it was calling ``search_view.create_response()``.  As
+soon as I restricted what i was calling to what I neede to  from ``search_view``
+everything worked out fine.
+
+So, finally, I was free to return to my 8-bit problem.  Or so I thought!  While
+I wasn't looking, the problem fixed itself.  I don't know which bit of tinkering
+made it go away, but it's gone.  And, while I'd prefer to know why, I won't
+complain for now.
