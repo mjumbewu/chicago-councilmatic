@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 # Set COUNCILMATIC_DIR to the absolute path of the Django project's root folder.
-COUNCILMATIC_DIR=$1
+COUNCILMATIC_DIR=/home/dotcloud/current/councilmatic
+COUNCILMATIC_ENV=/home/dotcloud/env/bin/activate
 
+source "$COUNCILMATIC_ENV"
 cd "$COUNCILMATIC_DIR"
 python manage.py updatelegfiles
 python manage.py rebuild_index --noinput
