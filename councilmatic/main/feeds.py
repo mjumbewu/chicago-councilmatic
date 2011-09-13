@@ -3,6 +3,7 @@ from itertools import chain
 
 from subscriptions.models import FeedData
 from phillyleg.models import LegFile
+from phillyleg.models import LegMinutes
 from haystack.query import SearchQuerySet
 
 
@@ -42,7 +43,7 @@ class SearchResultsFeed (FeedData):
     def queryset(self):
         return SearchQuerySet().filter(self.filter)
 
-    def calc_last_updated(self, legfile):
+    def calc_last_updated(self, item):
         if isinstance(item, LegFile):
             return item.intro_date
         elif isinstance(item, LegMinutes):

@@ -16,6 +16,33 @@ class Test_NewLegislationFeed_calcLastUpdated:
         assert_equal(last_updated, 5)
 
 
+class Test_SearchResultsFeed_calcLastUpdated:
+
+    @istest
+    def returns_the_intro_date_of_a_piece_of_legislation (self):
+        from phillyleg.models import LegFile
+        from datetime import date
+        legislation = LegFile()
+        legislation.intro_date = date(2011,8,22)
+
+        feed_data = SearchResultsFeed(None)
+        last_updated = feed_data.calc_last_updated(legislation)
+
+        assert_equal(last_updated, date(2011,8,22))
+
+    @istest
+    def returns_the_date_taken_of_a_minutes_document (self):
+        from phillyleg.models import LegMinutes
+        from datetime import date
+        minutes = LegMinutes()
+        minutes.date_taken = date(2011,8,23)
+
+        feed_data = SearchResultsFeed(None)
+        last_updated = feed_data.calc_last_updated(minutes)
+
+        assert_equal(last_updated, date(2011,8,23))
+
+
 class Test_LegislationUpdatesFeed_queryset:
 
     @istest
