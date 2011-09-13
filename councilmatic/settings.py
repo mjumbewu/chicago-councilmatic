@@ -225,6 +225,7 @@ LOGGING = {
             'level':'DEBUG',
             'class':'logging.handlers.RotatingFileHandler',
             'filename':LOGFILE_PATH,
+            'formatter':'verbose',
         },
         'mail_admins': {
             'level': 'ERROR',
