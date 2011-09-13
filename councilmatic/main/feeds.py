@@ -30,7 +30,8 @@ class LegislationUpdatesFeed (FeedData):
     def calc_last_updated(self, legfile):
         legfile_date = max(legfile.intro_date,
                            legfile.final_date or datetime.date(1970, 1, 1))
-        action_dates = [action.date_taken for action in legfile.actions.all()]
+        action_dates = [action.date_taken.date()
+                        for action in legfile.actions.all()]
 
         return max([legfile_date] + action_dates)
 
