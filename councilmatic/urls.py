@@ -58,7 +58,7 @@ urlpatterns = patterns('',
         template_name='phillyleg/legminutes_detail.html'),
         name='minutes_detail'),
 
-    url(r'^search/$', subscriptions.views.SearchView(),
+    url(r'^search/$', main.views.SearchView.as_view(),
         name='search'),
 
     url(r'^(?P<user_pk>\d+)/subscriptions/$', TemplateView.as_view(template_name='base.html'), name='user_subscriptions'),
