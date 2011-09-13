@@ -6,4 +6,4 @@ class Bookmark (models.Model):
     user = models.ForeignKey('auth.User', related_name='bookmarks')
     content_id = models.PositiveIntegerField()
     content_type = models.ForeignKey(ContentType)
-    content = generic.GenericForeignKey('content_id', 'content_type')
+    content = generic.GenericForeignKey('content_type', 'content_id')
