@@ -240,8 +240,15 @@ class PhillyLegistarSiteWrapper (object):
 
     def extract_xml_text(self, xml_data, root_node_name):
         soup = BeautifulSoup(xml_data)
-        xml_text = soup.find(root_node_name).text
-        return xml_text
+        root_node = soup.find(root_node_name)
+
+        if root_node:
+            xml_text = root_node.text
+            return xml_text
+
+        # Some PDFs are images
+        else:
+            return ''
 
     def convert_date(self, orig_date):
         if orig_date:
