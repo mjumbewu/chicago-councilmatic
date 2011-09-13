@@ -37,7 +37,9 @@ class AppDashboardView (SearchBarMixin, view.TemplateView):
         return context_data
 
 
-class SearchView (SearchBarMixin, subscriptions.views.SingleSubscriptionMixin, view.ListView):
+class SearchView (SearchBarMixin,
+                  subscriptions.views.SingleSubscriptionMixin,
+                  view.ListView):
     template_name = 'search/search.html'
     paginate_by = 20
     feed_data = None
@@ -75,7 +77,9 @@ class SearchView (SearchBarMixin, subscriptions.views.SingleSubscriptionMixin, v
         return context
 
 
-class LegislationListView (SearchBarMixin, subscriptions.views.SingleSubscriptionMixin, view.ListView):
+class LegislationListView (SearchBarMixin,
+                           subscriptions.views.SingleSubscriptionMixin,
+                           view.ListView):
     model = phillyleg.models.LegFile
     template_name = 'phillyleg/legfile_list.html'
     paginate_by = 20
@@ -86,7 +90,10 @@ class LegislationListView (SearchBarMixin, subscriptions.views.SingleSubscriptio
         return queryset.order_by('-intro_date')
 
 
-class LegislationDetailView (SearchBarMixin, subscriptions.views.SingleSubscriptionMixin, bookmarks.views.SingleBookmarkedObjectMixin, view.DetailView):
+class LegislationDetailView (SearchBarMixin,
+                             subscriptions.views.SingleSubscriptionMixin,
+                             bookmarks.views.SingleBookmarkedObjectMixin,
+                             view.DetailView):
     model = phillyleg.models.LegFile
     template_name = 'phillyleg/legfile_detail.html'
     feed_data = None
@@ -103,3 +110,15 @@ class LegislationDetailView (SearchBarMixin, subscriptions.views.SingleSubscript
         self.on_object_gotten(legfile)
 
         return legfile
+
+
+class BookmarkListView (SearchBarMixin,
+                        view.ListView):
+    template_name = 'main/bookmark_list.html'
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated():
+            return [bm.content for bm in user.bookmarks.all()]
+        else:
+            return []

@@ -45,9 +45,6 @@ urlpatterns = patterns('',
     url(r'^legislation/(?P<pk>\d+)$',
         main.views.LegislationDetailView.as_view(),
         name='legislation_detail'),
-   url(r'^legislation/(?P<pk>\d+)/add_bookmark$',
-        phillyleg.views.add_bookmark,
-        name='add_bookmark'),
 
     url(r'^minutes/$', ListView.as_view(
         model=phillyleg.models.LegMinutes,
@@ -57,6 +54,10 @@ urlpatterns = patterns('',
         model=phillyleg.models.LegMinutes,
         template_name='phillyleg/legminutes_detail.html'),
         name='minutes_detail'),
+
+    url(r'^bookmarks/$',
+        main.views.BookmarkListView.as_view(),
+        name='bookmark_list'),
 
     url(r'^search/$', main.views.SearchView.as_view(),
         name='search'),
