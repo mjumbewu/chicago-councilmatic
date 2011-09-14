@@ -39,7 +39,6 @@ class LegFile(models.Model):
     class Meta:
         ordering = ['-key']
 
-
     def __unicode__(self):
         return "%s %s: %s%s" % (self.type, self.id, self.title[:100],
             '...' if len(self.title) > 100 else '')
@@ -48,6 +47,28 @@ class LegFile(models.Model):
     def get_absolute_url(self):
         return ('legislation_detail', [str(self.pk)])
 
+    @property
+    def last_action_date(self):
+        """
+        Gets the date of the latest action
+
+        """
+        actions = self.actions.all()
+
+        if len(actions) == 0:
+            return None
+
+        return max([action.date_taken for action in actions])
+
+    @property
+    def timeline(self):
+        """
+        Gets a timeline object that represents the legfile actions grouped by
+        ``date_taken``.
+
+        """
+        class Timeline (object):
+            pass
 
     def unique_words(self):
         """
@@ -117,7 +138,7 @@ class LegFile(models.Model):
 
 
 class LegFileAttachment(models.Model):
-    file = models.ForeignKey(LegFile)
+    file = models.ForeignKey(LegFile, related_name='attachments')
     description = models.CharField(max_length=1000)
     url = models.URLField()
     fulltext = models.TextField()

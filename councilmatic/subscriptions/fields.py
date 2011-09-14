@@ -12,20 +12,16 @@ class SerializedObjectField(fields.TextField):
 
     @classmethod
     def get_prep_value(cls, value):
-#        if callable(value):
-#            value = value()
         return pickle.dumps(value)
 
     def to_python(self, value):
         try:
-            print 'unpickled:', pickle.loads(str(value))
             return pickle.loads(str(value))
 
         # Assume that, if we get an error either in the string conversion or in
         # the unpickling of that string, we mean that this is the exact value we
         # want.
         except:
-            print 'verbatim:', repr(value)
             return value
 
 #

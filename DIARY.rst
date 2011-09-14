@@ -111,3 +111,13 @@ So, finally, I was free to return to my 8-bit problem.  Or so I thought!  While
 I wasn't looking, the problem fixed itself.  I don't know which bit of tinkering
 made it go away, but it's gone.  And, while I'd prefer to know why, I won't
 complain for now.
+
+
+User Interaction
+================
+
+I'm going to focus on the user interaction/experience elements until launch; no
+more legislation stuff for now.  I spent some time today getting the
+``sendfeedupdates`` command working.  Still needs some love (and some tests).
+Now I'm working on getting a tweet-this button.  I might as well put that
+facebook share button on as well.

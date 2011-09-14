@@ -83,3 +83,17 @@
   letter-spacing: normal;
   line-height: 1.45em;
 }
+
+
+/* ==== Share widgets ==== */
+
+.share_bar {
+  float: right;
+}
+
+.share_twitter,
+.share_facebook {
+/*  float: left;
+  clear: left;*/
+  display: inline-block;
+}
