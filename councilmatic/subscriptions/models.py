@@ -13,48 +13,9 @@ from subscriptions.fields import SerializedObjectField
 
 class FeedData (object):
     queryset = None
+
     def calc_last_updated(self, item):
         raise NotImplementedError()
-
-
-#class ListQueryStore (models.Model):
-#    value = SerializedObjectField()
-#
-#    def is_the_same_as(self, querystore):
-#        return type(querystore) is type(self) \
-#            and querystore.value == self.value
-#
-#    def results(self):
-#        return iter(self.value)
-
-
-#class ModelQueryStore (models.Model):
-#    model = SerializedObjectField()
-#    query = SerializedObjectField()
-#
-#    def is_the_same_as(self, querystore):
-#        return type(querystore) is type(self) \
-#            and querystore.query == self.query \
-#            and querystore.model == self.model
-#
-#    def results(self):
-#        print self.model
-#        qs = self.model.objects.all()
-#        qs.query = self.query
-#        return qs
-
-
-#class SearchQueryStore (models.Model):
-#    query = SerializedObjectField()
-#
-#    def is_the_same_as(self, querystore):
-#        return type(querystore) == type(self) \
-#            and querystore.query == self.query
-#
-#    def results(self):
-#        qs = haystack.SearchQuerySet().all()
-#        qs.query = self.query
-#        return qs
 
 
 class ContentFeed (models.Model):
@@ -80,7 +41,6 @@ class ContentFeed (models.Model):
     last_updated = models.DateTimeField(
         default=datetime.datetime(1970, 1, 1, 0, 0, 0))
     """The stored value of the last time content in the feed was updated."""
-
 
     def __unicode__(self):
         return u'a %s feed' % (self.data,)
@@ -125,7 +85,7 @@ class Subscriber (auth.User):
 
     def is_subscribed(self, content_feed):
         """Returns the set of subscriptions that have the same data as the given
-           content feed.  If there are none, this evaluates to False."""
+           content feed. If there are none, this evaluates to False."""
         return (self.subscription(content_feed) is not None)
 
 

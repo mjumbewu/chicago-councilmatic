@@ -245,7 +245,6 @@ class PhillyLegistarSiteWrapper (object):
         if root_node:
             xml_text = root_node.text
             return xml_text
-
         # Some PDFs are images
         else:
             return ''
