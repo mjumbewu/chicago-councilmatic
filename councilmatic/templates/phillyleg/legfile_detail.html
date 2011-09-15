@@ -75,9 +75,21 @@
 
             <div class="legfile_attachments">
               {% for attachment in object.attachments.all %}
-                <a href="{{ attachment.url }}">{{ attachment.description }}</a>
+
+                {% if forloop.first %}
+                  <ul>
+                {% endif %}
+
+                  <li><a href="{{ attachment.url }}">{{ attachment.description }}</a></li>
+
+                {% if forloop.last %}
+                  </ul>
+                {% endif %}
+
               {% empty %}
+
                 <p>(No attachments)</p>
+
               {% endfor %}
             </div>
           </section>

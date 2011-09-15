@@ -58,6 +58,10 @@
   text-align: right;
 }
 
+.legfile_attachments ul {
+  list-style: none;
+}
+
 /* ====================================
  * Lay out the sponsoring councilmember faces
  */
@@ -95,6 +99,7 @@
     float: left;
     margin-top: -16px;
     margin-right: 20px;
+    margin-bottom: 16px;
 
     width: 42px;
     height: 76px;
