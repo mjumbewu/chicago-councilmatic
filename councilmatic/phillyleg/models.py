@@ -67,8 +67,17 @@ class LegFile(models.Model):
         ``date_taken``.
 
         """
-        class Timeline (object):
-            pass
+        from collections import defaultdict
+        class LegActionTimeline (defaultdict):
+            def __init__(self):
+                super(LegActionTimeline, self).__init__(list)
+
+        timeline = LegActionTimeline()
+        for action in self.actions.all().order_by('id'):
+            print action.date_taken
+            timeline[action.date_taken].append(action)
+
+        return timeline
 
     def unique_words(self):
         """
