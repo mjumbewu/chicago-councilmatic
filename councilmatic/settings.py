@@ -191,6 +191,7 @@ INSTALLED_APPS = (
     'subscriptions',
     'bookmarks',
     'activity_log',
+    'opinions',
     'main',
 )
 
