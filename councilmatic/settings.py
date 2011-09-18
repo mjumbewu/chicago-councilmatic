@@ -190,6 +190,7 @@ INSTALLED_APPS = (
     'phillyleg',
     'subscriptions',
     'bookmarks',
+    'activity_log',
     'main',
 )
 
