@@ -16,17 +16,21 @@ class Voice (object):
 
     >>> voice = Voice(user)
     >>> opinion = voice.express_opinion_about(item,
-    ...                                       position='support',
+    ...                                       position=Voice.SUPPORT,
     ...                                       statement='It\'s a good idea')
     >>> voice.revise(opinion,
-    ...              position='oppose',
+    ...              position=Voice.OPPOSE,
     ...              statement='I don\'t like it anymore')
     >>> voice.agree_with(other_opinion)
 
     """
 
+    SUPPORT = 'support'
+    OPPOSE = 'oppose'
+    ABSTAIN = 'abstain'
+
     def __init__(self, user):
-      self.user = user
+        self.user = user
 
     def express_opinion_about(self, target, statement, position, commit=True):
         opinion = Opinion(
@@ -82,8 +86,6 @@ class Voice (object):
             # This must be called to save the revision.
 
             self.save_revision = save_revision
-
-        return opinion
 
     def agree_with(self, opinion):
         pass
