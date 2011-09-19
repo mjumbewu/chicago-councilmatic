@@ -12,6 +12,7 @@ import phillyleg.views
 import subscriptions.views
 import bookmarks.views
 import haystack.views
+import opinions.views
 
 urlpatterns = patterns('',
     # Example:
@@ -34,6 +35,9 @@ urlpatterns = patterns('',
 
     url(r'^bookmark/$', bookmarks.views.CreateBookmarkView.as_view(), name='bookmark'),
     url(r'^unbookmark/(?P<pk>\d+)/$', bookmarks.views.DeleteBookmarkView.as_view(), name='unbookmark'),
+
+    url(r'express_opinion/$', opinions.views.ExpressOpinionView.as_view(), name='express_opinion'),
+    url(r'revise_opinion/(?P<pk>\d+)/$', opinions.views.ReviseOpinionView.as_view(), name='revise_opinion'),
 
     url(r'^$',
         main.views.AppDashboardView.as_view(),

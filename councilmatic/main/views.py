@@ -6,6 +6,7 @@ from main import forms
 
 import haystack.views
 import bookmarks.views
+import opinions.views
 import phillyleg.models
 import subscriptions.forms
 import subscriptions.models
@@ -93,6 +94,7 @@ class LegislationListView (SearchBarMixin,
 class LegislationDetailView (SearchBarMixin,
                              subscriptions.views.SingleSubscriptionMixin,
                              bookmarks.views.SingleBookmarkedObjectMixin,
+                             opinions.views.SingleOpinionTargetMixin,
                              view.DetailView):
     model = phillyleg.models.LegFile
     template_name = 'phillyleg/legfile_detail.html'
