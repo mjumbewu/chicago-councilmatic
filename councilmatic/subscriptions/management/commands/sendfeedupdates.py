@@ -53,6 +53,17 @@ class Command(BaseCommand):
             return set()
 
     def handle(self, *args, **options):
+        # Assuming that the feeds have been updated
+
+#        dispatcher = SubscriptionDispatcher()
+
+#        subscribers = Subscriber.objects.all()
+#        for subscriber in subscribers:
+#            subscriptions = subscriber.subscriptions.all()
+#            for subscription in subscriptions:
+#                dispatcher.dispatch(subscription)
+
+
         new_content = {}
 
         # We're ignoring channels for now.
@@ -75,7 +86,7 @@ class Command(BaseCommand):
 
             # Update the subscription last sent time
             for subscription in subscriber.subscriptions.all():
-                subscription.last_sent = now
+                subscription.last_sent = subscription.feed.last_updated
                 subscription.save()
 
     def make_feed_email(self, content, subscriptions):
