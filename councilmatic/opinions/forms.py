@@ -4,7 +4,7 @@ from django.contrib.contenttypes.models import ContentType
 from opinions import models
 
 
-class OpinionStatementForm (forms.Form):
+class OpinionStatementForm (forms.ModelForm):
     POSITION_CHOICES = (
         ('support', 'Support'),
         ('oppose', 'Oppose'),
@@ -14,8 +14,12 @@ class OpinionStatementForm (forms.Form):
     opiner = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.HiddenInput)
     target_type = forms.ModelChoiceField(queryset=ContentType.objects.all(), widget=forms.HiddenInput)
     target_id = forms.IntegerField(min_value=0, widget=forms.HiddenInput)
-    position = forms.ChoiceField(choices=POSITION_CHOICES, widget=forms.RadioSelect)
-    statement = forms.CharField(widget=forms.Textarea)
+    position = forms.ChoiceField(choices=POSITION_CHOICES, help_text="How would you vote on this legislation?")
+    statement = forms.CharField(widget=forms.Textarea, help_text="Argue your case.")
+
+    class Meta:
+        model = models.Opinion
+        exclude = ('agreers',)
 
     def save(self, commit=True):
         opiner = self.cleaned_data['opiner']
