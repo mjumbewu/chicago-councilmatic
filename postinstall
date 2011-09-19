@@ -35,5 +35,5 @@ git clone https://github.com/justinfrench/formtastic.git
 cd ../../
 crontab - <<EOF
 MAILTO=""
-$[$RANDOM%60] $[$RANDOM%24] * * * "/home/dotcloud/current/crons/daily_jobs"
+0 5 * * * "/home/dotcloud/current/crons/daily_jobs"
 EOF
