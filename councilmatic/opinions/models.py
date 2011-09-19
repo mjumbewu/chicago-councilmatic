@@ -9,6 +9,11 @@ class Voice (object):
     only need to use the Opinion or StatementRevision classes directly when
     querying the models.
 
+    These methods are not on the Opinion class itself because it is not the
+    responsibility of an Opinion to revise itself.  It's really the user that
+    does.  However, to avoid monkey-patching Userto add a voice property,
+    voice is just a separate class altogether.
+
     >>> voice = Voice(user)
     >>> opinion = voice.express_opinion_about(item,
     ...                                       position='support',
@@ -23,14 +28,29 @@ class Voice (object):
     def __init__(self, user):
       self.user = user
 
-    def express_opinion_about(self, target, statement, position):
-        opinion = Opinion.objects.create(
+    def express_opinion_about(self, target, statement, position, commit=True):
+        opinion = Opinion(
             opiner=self.user,
             target=target)
-        self.__create_revision(
-            opinion,
-            statement=statement,
-            position=position)
+
+        def save_revision():
+            self.__create_revision(opinion, statement, position)
+
+        if commit:
+            # When commit is True, we want to save the opinion and the revision
+            # immediately.
+
+            opinion.save()
+            save_revision()
+
+        else:
+            # When commit is False, we will not save the opinion immediately.
+            # As a consequence, we cannot save the revision either, as it
+            # requires a primary key from an Opinion.  So, we create a method
+            # on the Voice called save_revision.  When the opinion is saved,
+            # this must be called as well.
+
+            self.save_revision = save_revision
 
         return opinion
 
@@ -42,13 +62,28 @@ class Voice (object):
 
         return revision
 
-    def revise(self, opinion, statement=None, position=None):
+    def revise(self, opinion, statement=None, position=None, commit=True):
         if statement is None:
             statement = opinion.latest.statement
         if position is None:
             position = opinion.latest.position
 
-        self.__create_revision(opinion, statement, position)
+        def save_revision():
+            self.__create_revision(opinion, statement, position)
+
+        if commit:
+            # When commit is True, we want to save the revision immediately.
+
+            save_revision()
+
+        else:
+            # When commit is False, we will not save the revision immediately.
+            # Instead we create a method on the Voice called save_revision.
+            # This must be called to save the revision.
+
+            self.save_revision = save_revision
+
+        return opinion
 
     def agree_with(self, opinion):
         pass
