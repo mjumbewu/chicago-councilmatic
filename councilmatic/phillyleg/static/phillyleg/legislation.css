@@ -76,6 +76,7 @@
 #sidebar .legfile_sponsors ul {
     display: table;
     border-collapse: collapse;
+    width: 100%;
 }
 
 #sidebar .legfile_sponsors li {
