@@ -81,6 +81,16 @@
  * The opinions
  */
 
+.uniForm .buttonHolder {
+  background: none;
+  margin: 0px;
+  padding: 1em;
+}
+
+.uniForm .ctrlHolder {
+  border-color: grey;
+}
+
 #main #opinions {
   display: table;
   width: 100%;
