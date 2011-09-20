@@ -24,11 +24,16 @@
 
           {# It may either be called `search_form` or just `form` #}
 
-          {% if search_form %}
-            {% uni_form search_form search_form.helper %}
-          {% else %}
-            {% uni_form form form.helper %}
-          {% endif %}
+          <form action="{% url search %}" method="GET" class="uniForm">
+            <fieldset class="inlineLabels">
+              {% if search_form %}
+                {{ search_form|as_uni_form }}
+              {% else %}
+                {{ form|as_uni_form }}
+              {% endif %}
+              <div class="buttonHolder"><button type="submit" class="primaryAction">Search</button></div>
+            </fieldset>
+          </form>
 
           {% if object_list %}
             {% with title='Results' %}
