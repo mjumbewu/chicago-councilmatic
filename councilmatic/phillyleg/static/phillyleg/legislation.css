@@ -77,6 +77,10 @@
   list-style: none;
 }
 
+.legfile_attachments p {
+  margin: 0px;
+}
+
 /* ========================================
  * The opinions
  */
@@ -223,14 +227,30 @@ h2 ul.legfile_sponsors li img {
 .field_label.instance_field_label.legminutes_url_label,
 .field_label.instance_field_label.legaction_description_label,
 .field_label.instance_field_label.legaction_acting_body_label,
-.field_label.instance_field_label.legaction_file_label {
+.field_label.instance_field_label.legaction_file_label,
+.field_label.instance_field_label.legaction_date_taken_label {
   display: none;
 }
 
 .field.instance_field.legaction_acting_body,
 .field.instance_field.legaction_description,
-.field.instance_field.legaction_file {
+.field.instance_field.legaction_file,
+.field.instance_field.legaction_date_taken {
   display: inline;
+}
+
+.field.instance_field.legaction_date_taken {
+  font-weight: bold;
+}
+
+.field.instance_field.legaction_date_taken:before {
+  content: 'On ';
+  font-weight: normal;
+}
+
+.field.instance_field.legaction_date_taken:after {
+  content: ',';
+  font-weight: normal;
 }
 
 .field_value.instance_field_value.legaction_acting_body_value {
