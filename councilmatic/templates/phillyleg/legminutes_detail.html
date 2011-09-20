@@ -15,32 +15,32 @@
       {% with phillyleg_legminutes_exclude="id, fulltext" %}
 {#      {% with phillyleg_legminutes_fields="intro_date, final_date, controlling_body, sponsors, contact, title, url" %} #}
       {% with phillyleg_legaction_list_template="phillyleg/partials/legaction_list.html" %}
-      {% with phillyleg_legaction_detail_template="phillyleg/partials/legaction_detail.html" %}
+      {% with phillyleg_legaction_detail_template="phillyleg/partials/legminutes_legaction_detail.html" %}
       {% with phillyleg_legaction_fields="acting_body, description, file, motion, notes" %}
         <div class="inner">
           {% detail_block object %}
         </div>
-        
+
       {% endwith %}
       {% endwith %}
       {% endwith %}
 {#      {% endwith %} #}
       {% endwith %}
 {#      {% endwith %} #}
-    
+
       {% comment %}
        <!--
        | TODO: Comments! I want a rated comment system. Commenters should be able
        |       to say whether their comment is in support of or opposition to the
        |       file under question, and other users should be able to mark the
-       |       comment as helpful or not (up or down).  This will hopefully 
+       |       comment as helpful or not (up or down).  This will hopefully
        |       create a system where you'll have most helpful comments in support
        |       of and in opposition to a given file.  Also, you'll have a read on
        |       how many people support or oppose a file, and what they're saying.
        |
       {% get_comment_count for object as comment_count %}
       {{ comment_count }} comment{{ comment_count|pluralize }}
-      
+
       {% get_comment_form for object as form %}
       <form action="{% comment_form_target %}" method="post">
         {% csrf_token %}
@@ -50,16 +50,16 @@
           <input type="submit" name="preview" value="Preview">
         </div>
       </form>
-      
+
       {% render_comment_list for object %}
        |
        -->
       {% endcomment %}
-      
+
       </div>
     </div>
   </div>
-  
+
   <div id="sidebar">
     {% if object.sponsors.all|length %}
       <div class="instance_field legfile_sponsors">
@@ -71,7 +71,7 @@
         </ul>
       </div>
     {% endif %}
-    
+
     {% if object.metadata.mentioned_legfiles.all %}
       <div class="block">
         <h3>Bills mentioned in this file</h3>
