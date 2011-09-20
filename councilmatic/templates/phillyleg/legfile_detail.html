@@ -79,14 +79,14 @@
             <header class="instance_header legfile_header">
               <h1>{{ object.type }} {{ object.id }}</h1>
               <h2>
-                <div>Controlled by <span class="legfile_controlling_body">{{ object.controlling_body }}</span></div>
-                <div>Sponsored by
+                <div>
                   <ul class="legfile_sponsors">
                     {% for sponsor in object.sponsors.all %}
-                      <li><img width="20" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}" title="{{ sponsor.name }}"></li>
+                      <li><img width="30" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}" title="{{ sponsor.name }}"></li>
                     {% endfor %}
                   </ul>
                 </div>
+                <div>Controlled by <span class="legfile_controlling_body">{{ object.controlling_body }}</span></div>
               </h2>
             </header>
 
