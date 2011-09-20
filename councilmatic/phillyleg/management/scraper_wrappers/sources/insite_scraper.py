@@ -57,14 +57,14 @@ class PhillyLegistarSiteWrapper (object):
             'key' : key,
             'id' : lid,
             'url' : self.STARTING_URL + str(key),
-            'type' : ltype,
-            'status' : lstatus,
-            'title' : ltitle,
+            'type' : ltype.strip(),
+            'status' : lstatus.strip(),
+            'title' : ltitle.strip(),
             'controlling_body' : lbody,
             'intro_date' : self.convert_date(lintro),
             'final_date' : self.convert_date(lfinal),
             'version' : lversion,
-            'contact' : lcontact,
+            'contact' : lcontact.strip(),
             'sponsors' : lsponsors
         }
 
@@ -176,16 +176,16 @@ class PhillyLegistarSiteWrapper (object):
                 # Luckily (?) their rows have only two cells instead of four, so
                 # we can easily tell that they're there.
                 action = actions[-1]
-                action['notes'] = cells[1].text
+                action['notes'] = cells[1].text.strip()
                 continue
 
             action = {
                 'key' : key,
                 'date_taken' : self.convert_date(get_action_cell_text(cells[0])),
-                'acting_body' : get_action_cell_text(cells[1]),
-                'description' : get_action_cell_text(cells[2]),
-                'motion' : get_action_cell_text(cells[3]),
-                'minutes_url' : get_action_cell_resource(cells[0]),
+                'acting_body' : get_action_cell_text(cells[1]).strip(),
+                'description' : get_action_cell_text(cells[2]).strip(),
+                'motion' : get_action_cell_text(cells[3]).strip(),
+                'minutes_url' : get_action_cell_resource(cells[0]).strip(),
                 'notes' : '',
             }
             actions.append(action)
