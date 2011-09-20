@@ -78,7 +78,16 @@
           <section class="instance instance_detail legfile_detail">
             <header class="instance_header legfile_header">
               <h1>{{ object.type }} {{ object.id }}</h1>
-              <h2>Controlled by <span class="legfile_controlling_body">{{ object.controlling_body }}</span></h2>
+              <h2>
+                <div>Controlled by <span class="legfile_controlling_body">{{ object.controlling_body }}</span></div>
+                <div>Sponsored by
+                  <ul class="legfile_sponsors">
+                    {% for sponsor in object.sponsors.all %}
+                      <li><img width="20" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}"></li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </h2>
             </header>
 
             <div class="overview_bar legfile_overview_bar">
@@ -98,15 +107,9 @@
             <div class="legfile_attachments">
               {% for attachment in object.attachments.all %}
 
-                {% if forloop.first %}
-                  <ul>
-                {% endif %}
-
+                {% if forloop.first %}<ul>{% endif %}
                   <li><a href="{{ attachment.url }}">{{ attachment.description }}</a></li>
-
-                {% if forloop.last %}
-                  </ul>
-                {% endif %}
+                {% if forloop.last %}</ul>{% endif %}
 
               {% empty %}
 
@@ -148,6 +151,43 @@
            -->
           {% endcomment %}
 
+        </div>
+      </div>
+    </div>
+
+    <div class="block" id="opinions">
+      <div class="content">
+        <div class="support opinions">
+          {% for opinion in support_opinions %}
+            {% if forloop.first %}<ul>{% endif %}
+              <li>
+                <blockquote class="statement">{{ opinion.latest.statement }}</blockquote>
+                <span class="opiner">{{ opinion.opiner.username }}</span>
+              </li>
+            {% if forloop.last %}</ul>{% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="abstain opinions">
+          {% for opinion in abstain_opinions %}
+            {% if forloop.first %}<ul>{% endif %}
+              <li>
+                <blockquote class="statement">{{ opinion.latest.statement }}</blockquote>
+                <span class="opiner">{{ opinion.opiner.username }}</span>
+              </li>
+            {% if forloop.last %}</ul>{% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="oppose opinions">
+          {% for opinion in oppose_opinions %}
+            {% if forloop.first %}<ul>{% endif %}
+              <li>
+                <blockquote class="statement">{{ opinion.latest.statement }}</blockquote>
+                <span class="opiner">{{ opinion.opiner.username }}</span>
+              </li>
+            {% if forloop.last %}</ul>{% endif %}
+          {% endfor %}
         </div>
       </div>
     </div>
@@ -212,17 +252,6 @@
   </section>
 
   <div id="sidebar">
-    {% if object.sponsors.all|length %}
-      <div class="block instance_field legfile_sponsors">
-        <h3 class="instance_field_label legfile_sponsors_label">{{ object.sponsors.all|length }} Sponsor{{ object.sponsors.all|length|pluralize }} from Council</h3>
-        <ul class="instance_field_value legfile_sponsors_value">
-          {% for sponsor in object.sponsors.all %}
-            <li><img width="40" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}"><span>{{ sponsor.name }}<span></li>
-          {% endfor %}
-        </ul>
-      </div>
-    {% endif %}
-
     {% if object.metadata.mentioned_legfiles.all %}
       <div class="block">
         <h3>Bills mentioned in this file</h3>

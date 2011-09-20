@@ -154,37 +154,22 @@
 /* ========================================
  * Lay out the sponsoring councilmember faces
  */
-.legfile_detail .legfile_sponsors {
-    float: right;
+h2 ul.legfile_sponsors {
+  list-style: none;
+  display: inline;
 }
 
-.legfile_detail .legfile_sponsors ul > li {
-    list-style: none;
+h2 ul.legfile_sponsors li {
+  display: inline;
 }
 
-#sidebar .legfile_sponsors ul {
-    display: table;
-    border-collapse: collapse;
-    width: 100%;
+h2 ul.legfile_sponsors li img {
+  vertical-align: middle;
 }
 
-#sidebar .legfile_sponsors li {
-    display: table-row;
-    background: transparent;
-}
-
-#sidebar .legfile_sponsors ul > li > * {
-    display: table-cell;
-    vertical-align: middle;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-
-#sidebar .legfile_sponsors img {
-    padding-right: 1em;
-}
-
-
+/* ========================================
+ * Bookmarks
+ */
 .bookmark {
     float: left;
     margin-top: -16px;
