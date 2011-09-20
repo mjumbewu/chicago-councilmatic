@@ -62,7 +62,85 @@
   list-style: none;
 }
 
-/* ====================================
+/* ========================================
+ * The opinions
+ */
+
+#main #opinions {
+  display: table;
+  width: 100%;
+  padding: 0px;
+  margin: inherit 0px;
+
+  background: transparent;
+  box-shadow: none;
+  -mox-box-shadow: none;
+}
+
+#opinions .content {
+  display: table-row;
+}
+
+#opinions .content .opinions {
+  display: table-cell;
+  vertical-align: top;
+  border-left: 1px solid grey;
+  width: 33%;
+  padding: 0px;
+  margin: 0px;
+
+  background-repeat: no-repeat;
+  background-position: 50% 0%;
+  padding-top: 50px;
+}
+
+#opinions .content .opinions:first-child {
+  border: none;
+}
+
+.opinions.support {
+  background-image: url('/static/phillyleg/support.svg');
+}
+
+.opinions.abstain {
+  background-image: url('/static/phillyleg/abstain.svg');
+}
+
+.opinions.oppose {
+  background-image: url('/static/phillyleg/oppose.svg');
+}
+
+#opinions .content .opinions ul {
+  list-style: none;
+  padding: 1em;
+}
+
+.opinions blockquote {
+  padding-left: 1em;
+  font-size: 1.2em;
+  line-height: 1.5em;
+
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+
+  min-height: 20px;
+  background-image: url('/static/phillyleg/statement.svg');
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+.opinions .opiner {
+  display: block;
+  text-align: right;
+}
+
+.opinions .opiner:before {
+  content: '- ';
+}
+
+/* ========================================
  * Lay out the sponsoring councilmember faces
  */
 .legfile_detail .legfile_sponsors {
