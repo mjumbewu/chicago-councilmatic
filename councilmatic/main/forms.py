@@ -86,8 +86,7 @@ class FullSearchForm (haystack.forms.SearchForm):
         if self.is_valid():
             query = self.cleaned_data['q']
             statuses = self.cleaned_data['statuses']
-            sponsors = [Councilmember.get(pk=sponsor)
-                        for sponsor in self.cleaned_data['sponsors']]
+            sponsor_pks = self.cleaned_data['sponsors']
             file_types = self.cleaned_data['file_types']
             controlling_bodies = self.cleaned_data['controlling_bodies']
 
@@ -97,8 +96,8 @@ class FullSearchForm (haystack.forms.SearchForm):
             if statuses:
                 sqs = sqs.filter(status__in=statuses)
 
-            if sponsors:
-                sqs = sqs.filter(sponsor__in=sponsors)
+            if sponsor_pks:
+                sqs = sqs.filter(sponsor__pk__in=sponsor_pks)
 
             if file_types:
                 sqs = sqs.filter(type__in=file_types)
