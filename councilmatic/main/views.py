@@ -48,7 +48,7 @@ class SearchView (SearchBarMixin,
     def dispatch(self, request, *args, **kwargs):
         # Construct and run a haystack SearchView so that we can use the
         # resulting values.
-        self.search_view = haystack.views.SearchView(form_class=forms.SimpleSearchForm)
+        self.search_view = haystack.views.SearchView(form_class=forms.FullSearchForm)
         self.search_view.request = request
 
         self.search_view.form = self.search_view.build_form()
