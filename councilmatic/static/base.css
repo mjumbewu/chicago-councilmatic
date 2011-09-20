@@ -48,7 +48,12 @@
 }
 
 .simple_search .uniForm .buttonHolder .primaryAction {
-  background-color: silver;
+  background-color: gray;
+  border-color: #666;
+
+  box-shadow: 1px 1px 0 #aaa;
+  -webkit-box-shadow: 1px 1px 0 #aaa;
+  -moz-box-shadow: 1px 1px 0 #aaa;
 }
 
 .simple_search button {
