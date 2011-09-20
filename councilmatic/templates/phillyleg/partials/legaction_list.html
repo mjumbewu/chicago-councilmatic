@@ -6,23 +6,29 @@
     <h1>Actions taken</h1>
   </header>
 
-  <ul class="list instance_list {{ model }}_list">
-    {% for instance in instance_list %}
+  {% for instance in instance_list %}
+
+    {% if loop.first %}<ul class="list instance_list {{ model }}_list">{% endif %}
       <li class="item list_item instance_list_item {{ model }}_list_item {{ model }}_{{ instance.pk }}_list_item">
-      
+
         {# Reset the title, so that child blocks don't use it mistakenly #}
         {% with title='' %}
-        
+
           {% if instance.get_absolute_url %}
             {% teaser_block instance %}
           {% else %}
             {% detail_block instance %}
           {% endif %}
-          
+
         {% endwith %}
-        
+
       </li>
-    {% endfor %}
-  </ul>
+    {% if loop.last %}</ul>{% endif %}
+
+  {% empty %}
+
+    <p>No actions have been taken yet.</p>
+
+  {% endfor %}
 </section>
 {% endspaceless %}
