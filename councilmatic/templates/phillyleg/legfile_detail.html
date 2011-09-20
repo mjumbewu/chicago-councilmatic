@@ -196,16 +196,11 @@
       <div class="content">
         <div class="inner">
 
-          <header class="list_header legfile_attachments_header">
-            <h1>Timeline</h1>
-          </header>
-
-          {% for action in object.actions.all %}
-          {% endfor %}
-
-          {% with title="Actions" %}
-          {% with phillyleg_legaction_fields="date_taken, description, motion, notes, minutes" %}
+          {% with title="Timeline" %}
+          {% with hide_empty="True" %}
+          {% with phillyleg_legaction_fields="date_taken, acting_body, description, motion, notes" %}
             {% list_block object.actions.all %}
+          {% endwith %}
           {% endwith %}
           {% endwith %}
 
