@@ -97,7 +97,7 @@ class FullSearchForm (haystack.forms.SearchForm):
                 sqs = sqs.filter(status__in=statuses)
 
             if sponsor_pks:
-                sqs = sqs.filter(sponsor__pk__in=sponsor_pks)
+                sqs = sqs.filter(sponsors__pk__in=sponsor_pks)
 
             if file_types:
                 sqs = sqs.filter(type__in=file_types)
