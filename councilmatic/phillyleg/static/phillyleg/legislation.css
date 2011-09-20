@@ -58,6 +58,17 @@
   text-align: right;
 }
 
+.legfile_attachments {
+  padding-left: 36px;
+  padding-top: 10px;
+  margin-left: -10px;
+
+  background-image: url('/static/phillyleg/attachment.svg');
+  background-repeat: no-repeat;
+  background-attachment: 0% 0%;
+  min-height: 36px;
+}
+
 .legfile_attachments ul {
   list-style: none;
 }
