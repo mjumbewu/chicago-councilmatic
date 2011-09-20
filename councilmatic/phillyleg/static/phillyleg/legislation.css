@@ -37,6 +37,10 @@
   font-weight: normal;
 }
 
+.legfile_text p {
+  margin-right: 62px;
+}
+
 .legfile_overview_bar {
   clear: both;
   margin: 1em 0em;
