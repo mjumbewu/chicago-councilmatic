@@ -221,8 +221,9 @@ LOGGING = {
             'class':'django.utils.log.NullHandler',
         },
         'console':{
-            'level':'DEBUG',
+            'level':'INFO',
             'class':'logging.StreamHandler',
+            'formatter':'verbose',
         },
         'logfile':{
             'level':'DEBUG',
@@ -251,6 +252,10 @@ LOGGING = {
         'councilmatic': {
             'handlers': ['console', 'logfile', 'mail_admins'],
             'level': 'DEBUG',
-        }
+        },
+        'phillyleg.management': {
+            'handlers': ['console', 'logfile', 'mail_admins'],
+            'level': 'DEBUG',
+        },
     }
 }
