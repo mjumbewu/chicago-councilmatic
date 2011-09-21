@@ -12,31 +12,66 @@ import django
 from phillyleg.management.scraper_wrappers import CouncilmaticDataStoreWrapper
 from phillyleg.management.scraper_wrappers import PhillyLegistarSiteWrapper
 
+
+def import_leg_files(start_key, source, ds, save_key=False):
+    """
+    Imports the legislative filings starting at the given key, and going either
+    until there it reaches the end of the available records, or the script times
+    out.
+    """
+    curr_key = start_key
+    while True:
+        curr_key, source_obj = source.check_for_new_content(curr_key)
+
+        if source_obj is None:
+            break
+
+        record, attachments, actions, minutes = \
+            source.scrape_legis_file(curr_key, source_obj)
+        ds.save_legis_file(record, attachments, actions, minutes)
+        if save_key:
+            ds.save_continuation_key(curr_key)
+
+
 class Command(BaseCommand):
     help = "Load new legislative file data from the Legistar city council site."
-    
+
     def handle(self, *args, **options):
-        self._get_updated_files()
-        self._get_new_files()
-    
-    def _get_updated_files(self):
-        pass
-    
-    def _get_new_files(self):
         # Create a datastore wrapper object
-        ds = CouncilmaticDataStoreWrapper()
-        source = PhillyLegistarSiteWrapper()
+        ds = self.ds = CouncilmaticDataStoreWrapper()
+        source = self.source = PhillyLegistarSiteWrapper()
+
+        # Seed the PDF cache with already-downloaded content.
+        #
+        # Downloading and parsing PDF content really slows down the scraping
+        # process.  If we had to redownload all of them every time we scraped,
+        # it would take a really long time to refresh all of the old stuff.  So
+        # that PDFs that have already been downloaded won't be again, seed the
+        # source cache with that data.
+        #
+        # Hopefully this won't be too much of a burden on memory :).
+        source.init_pdf_cache(ds.pdf_mapping)
+
+        self._get_new_files()
+        self._get_updated_files()
+
+    def _get_updated_files(self):
+        ds = self.ds
+        source = self.source
+
+        # Continue updating the entire datastore
+        cont_key = ds.get_continuation_key()
+        import_leg_files(cont_key, source, ds, save_key=True)
+
+        # If we've made it here, then we have all the latest filings, and we have gone
+        # through and updated the entire datastore.  Now, reset the continuation key to
+        # get ready for the next go-around.
+        ds.set_continuation_key(72)
+
+    def _get_new_files(self):
+        ds = self.ds
+        source = self.source
 
         # Get the latest filings
         curr_key = ds.get_latest_key()
-
-        while True:
-            curr_key, source_obj = source.check_for_new_content(curr_key)
-            
-            if source_obj is None:
-                break
-            
-            record, attachments, actions, minutes = \
-                source.scrape_legis_file(curr_key, source_obj)
-            ds.save_legis_file(record, attachments, actions, minutes)
-
+        import_leg_files(curr_key, source, ds)
