@@ -1,9 +1,12 @@
 import datetime
 import httplib
+import logging
 import re
 import urllib2
 import utils
 from BeautifulSoup import BeautifulSoup
+
+log = logging.getLogger(__name__)
 
 STARTING_KEY = 72 # The highest key was 11001 as of 5 Apr 2011
 
@@ -72,7 +75,8 @@ class PhillyLegistarSiteWrapper (object):
         actions = self.scrape_legis_actions(key, soup)
         minutes = self.collect_minutes(actions)
 
-        print record, attachments, actions, minutes
+        log.info('Scraped legfile with key %r' % (key,))
+        log.debug("%r %r %r %r" % (record, attachments, actions, minutes))
         return record, attachments, actions, minutes
 
     def get_minutes_date(self, minutes_url):
@@ -286,16 +290,18 @@ class PhillyLegistarSiteWrapper (object):
                 # tries.
                 except httplib.BadStatusLine, ex:
                     more_tries -= 1;
-                    print 'Received BadStatusLine exception %r for url %r' % (ex, url)
+                    log.warning('Received BadStatusLine exception %r for url %r' % (ex, url))
                     if not more_tries:
+                        log.error('Ran out of tries for new content')
                         raise
 
                 # Sometimes the server will do things like just take too long to
                 # respond.  When it does, try again 10 times.
                 except urllib2.URLError, ex:
                     more_tries -= 1;
-                    print 'Received URLError exception %r for url %r' % (ex, url)
+                    log.warning('Received URLError exception %r for url %r' % (ex, url))
                     if not more_tries:
+                        log.error('Ran out of tries for new content')
                         raise
             soup = BeautifulSoup(html)
 
