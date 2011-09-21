@@ -193,8 +193,10 @@ class PhillyLegistarSiteWrapper (object):
         return actions
 
     __pdf_cache = None
-    def init_pdf_cache(self):
-        self.__pdf_cache = self.__pdf_cache or {}
+    def init_pdf_cache(self, seed=None):
+        if seed is None:
+            seed = {}
+        self.__pdf_cache = self.__pdf_cache or seed
 
     def extract_pdf_text(self, pdf_data, tries_left=5):
         """
