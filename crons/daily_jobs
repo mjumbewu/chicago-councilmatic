@@ -10,3 +10,7 @@ python manage.py updatelegfiles
 python manage.py rebuild_index --noinput
 python manage.py updatefeeds
 python manage.py sendfeedupdates
+
+# Update previous legfiles.  This means that updates to older content will
+# always be a little behind, but it's better than nothing.
+python manage.py updatelegfiles --update
