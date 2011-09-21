@@ -24,6 +24,12 @@ class ScraperWikiDataStoreWrapper (object):
 
         return int(max_key)
 
+    def get_continuation_key(self):
+        scraperwiki.sqlite.get_var('continuation_key', 72)
+
+    def save_continuation_key(self, key):
+        scraperwiki.sqlite.save_var('continuation_key', key)
+
     def save_legis_file(self, record, attachments, actions, minuteses):
         """
         Take a legislative file record and do whatever needs to be
@@ -37,3 +43,21 @@ class ScraperWikiDataStoreWrapper (object):
             scraperwiki.sqlite.save(['url'], minutes, table_name='minutes')
         for action in actions:
             scraperwiki.sqlite.save(['key','date_taken','description','notes'], action, table_name='actions')
+
+    @property
+    def pdf_mapping(self):
+        """
+        Build a mapping of the URLs and PDF test that already exist in the
+        database.
+        """
+        mapping = {}
+
+        attachments = scraperwiki.sqlite.select('* from attachments')
+        for attachment in attachments:
+            mapping[attachment['url']] = attachment['fulltext']
+
+        minuteses = scraperwiki.sqlite.select('* from minuteses')
+        for minutes in minuteses:
+            mapping[minutes['url']] = minutes['fulltext']
+
+        return mapping

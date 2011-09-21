@@ -1,8 +1,9 @@
 import datetime
 import phillyleg
+from django.db import transaction
 
 from phillyleg.models import \
-    LegFile, LegFileAttachment, LegAction, LegMinutes, CouncilMember
+    LegFile, LegFileAttachment, LegAction, LegMinutes, CouncilMember, LegKeys
 
 class CouncilmaticDataStoreWrapper (object):
     """
@@ -13,6 +14,8 @@ class CouncilmaticDataStoreWrapper (object):
     place where you can find data about anything you want, so it's important to
     have the data available on SW as well.
     """
+    STARTING_KEY = 72
+
     def get_latest_key(self):
         '''Check the datastore for the key of the most recent filing.'''
 
@@ -20,8 +23,40 @@ class CouncilmaticDataStoreWrapper (object):
         try:
             return records[0].key
         except IndexError:
-            return STARTING_KEY
+            return self.STARTING_KEY
 
+    def get_continuation_key(self):
+        records = LegKeys.objects.all()
+        try:
+            return records[0].continuation_key
+        except IndexError:
+            return self.STARTING_KEY
+
+    def save_continuation_key(self, key):
+        try:
+            keys = LegKeys.objects.get(pk=1)
+        except LegKeys.DoesNotExist:
+            keys = LegKeys(pk=1)
+
+        keys.continuation_key = key
+        keys.save()
+
+    def has_text_changed(self, key, new_legfile):
+        """
+        Check if the legfile text has changed to determine whether the metadata
+        should be updated on save.  If not, then for the sake of time we may
+        just not update it.
+        """
+        try:
+            old_legfile = LegFile.objects.get(key=key)
+
+            # For now, the text is just the contents of the title
+            return old_legfile.title != new_legfile.title
+
+        except LegFile.DoesNotExist:
+            return True
+
+    @transaction.commit_on_success
     def save_legis_file(self, file_record, attachment_records,
                         action_records, minutes_records):
         """
@@ -39,12 +74,21 @@ class CouncilmaticDataStoreWrapper (object):
 
         # Create the record
         legfile = LegFile(**file_record)
-        legfile.save()
+
+        # Changing the text in a legfile is an expensive operation.  Not only
+        # do we save the file, but also a record for each unique word in the
+        # file.  So, if we can avoid updating that metadata we should.
+        changed = self.has_text_changed(legfile.key, legfile)
+        legfile.save(update_words=changed, update_mentions=changed)
+
         for sponsor_name in sponsor_names.split(','):
             sponsor_name = sponsor_name.strip()
             sponsor = CouncilMember.objects.get_or_create(name=sponsor_name)[0]
-            legfile.sponsors.add(sponsor)
-        legfile.save()
+
+            # Add the legislation to the sponsor and save, instead of the other
+            # way around, because saving legislation can be expensive.
+            sponsor.legislation.add(legfile)
+            sponsor.save()
 
         # Create notes attached to the record
         for attachment_record in attachment_records:
@@ -60,6 +104,22 @@ class CouncilmaticDataStoreWrapper (object):
             action_record = self.__replace_key_with_legfile(action_record)
             action_record = self.__replace_url_with_minutes(action_record)
             self.__save_or_ignore(LegAction, action_record)
+
+    @property
+    def pdf_mapping(self):
+        """
+        Build a mapping of the URLs and PDF test that already exist in the
+        database.
+        """
+        mapping = {}
+
+        for attachment in LegFileAttachment.objects.all():
+            mapping[attachment.url] = attachment.fulltext
+
+        for minutes in LegMinutes.objects.all():
+            mapping[minutes.url] = minutes.fulltext
+
+        return mapping
 
     def __convert_or_delete_date(self, file_record, date_key):
         if file_record[date_key]:
