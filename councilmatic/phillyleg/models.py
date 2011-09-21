@@ -4,7 +4,13 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
-# Create your models here.
+#
+# Metadata about the scraping process
+#
+
+class LegKeys(models.Model):
+    continuation_key = models.IntegerField()
+
 
 #
 # Legislative File models
@@ -29,7 +35,7 @@ class LegFile(models.Model):
     last_scraped = models.DateTimeField(auto_now=True)
     final_date = models.DateField(null=True)
     intro_date = models.DateField(null=True)
-    sponsors = models.ManyToManyField(CouncilMember)
+    sponsors = models.ManyToManyField(CouncilMember, related_name='legislation')
     status = models.CharField(max_length=1000)
     title = models.TextField()
     type = models.CharField(max_length=1000)
@@ -121,7 +127,7 @@ class LegFile(models.Model):
                 print 'LegFile %r, referenced from key %s, does not exist!!!' % (mentioned_legfile_id, self.pk)
 
 
-    def save(self, *args, **kwargs):
+    def save(self, update_words=True, update_mentions=True, *args, **kwargs):
         """
         Calls the default ``Models.save()`` method, and creates or updates
         metadata for the legislative file as well.
@@ -131,17 +137,19 @@ class LegFile(models.Model):
 
         metadata = LegFileMetaData.objects.get_or_create(legfile=self)[0]
 
-        # Add the unique words to the metadata
-        metadata.words.clear()
-        unique_words = self.unique_words()
-        for word in unique_words:
-            md_word = MetaData_Word.objects.get_or_create(value=word)[0]
-            metadata.words.add(md_word)
+        if update_words:
+            # Add the unique words to the metadata
+            metadata.words.clear()
+            unique_words = self.unique_words()
+            for word in unique_words:
+                md_word = MetaData_Word.objects.get_or_create(value=word)[0]
+                metadata.words.add(md_word)
 
-        # Add the mentioned files to the metadata
-        metadata.mentioned_legfiles.clear()
-        for mentioned_legfile in self.mentioned_legfiles():
-            metadata.mentioned_legfiles.add(mentioned_legfile)
+        if update_mentions:
+            # Add the mentioned files to the metadata
+            metadata.mentioned_legfiles.clear()
+            for mentioned_legfile in self.mentioned_legfiles():
+                metadata.mentioned_legfiles.add(mentioned_legfile)
 
         metadata.save()
 
