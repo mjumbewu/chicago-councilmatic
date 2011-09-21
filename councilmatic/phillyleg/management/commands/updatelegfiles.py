@@ -8,6 +8,8 @@
 
 from django.core.management.base import BaseCommand, CommandError
 import django
+import logging
+import optparse
 
 from phillyleg.management.scraper_wrappers import CouncilmaticDataStoreWrapper
 from phillyleg.management.scraper_wrappers import PhillyLegistarSiteWrapper
@@ -35,8 +37,19 @@ def import_leg_files(start_key, source, ds, save_key=False):
 
 class Command(BaseCommand):
     help = "Load new legislative file data from the Legistar city council site."
+    option_list = BaseCommand.option_list + (
+            optparse.make_option('--update',
+                action='store_true',
+                dest='update_files',
+                default=False,
+                help='Update existing files as well'),
+            )
+
 
     def handle(self, *args, **options):
+        log = logging.getLogger()
+        log.setLevel(logging.INFO)
+
         # Create a datastore wrapper object
         ds = self.ds = CouncilmaticDataStoreWrapper()
         source = self.source = PhillyLegistarSiteWrapper()
@@ -52,8 +65,11 @@ class Command(BaseCommand):
         # Hopefully this won't be too much of a burden on memory :).
         source.init_pdf_cache(ds.pdf_mapping)
 
+        update_files = options['update_files']
+
         self._get_new_files()
-        self._get_updated_files()
+        if update_files:
+            self._get_updated_files()
 
     def _get_updated_files(self):
         ds = self.ds
