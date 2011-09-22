@@ -13,6 +13,7 @@ whoosh
 
 # Registration!
 -e hg+http://bitbucket.org/ubernostrum/django-registration/#egg=django-registration
+-e git+git://github.com/mjumbewu/django-recaptcha.git
 
 # Using a version of beautiful soup that I've patched with better string
 # representation for Tags.  I have submitted a merge proposal to the main
