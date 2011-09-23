@@ -78,8 +78,11 @@ class LegFile(models.Model):
             def __init__(self):
                 super(LegActionTimeline, self).__init__(list)
 
+            def __iter__(self):
+                return iter(sorted(self.keys()))
+
         timeline = LegActionTimeline()
-        for action in self.actions.all().order_by('id'):
+        for action in self.actions.all():
             print action.date_taken
             timeline[action.date_taken].append(action)
 
