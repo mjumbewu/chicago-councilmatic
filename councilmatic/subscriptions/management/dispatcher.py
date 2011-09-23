@@ -1,2 +1,7 @@
 class SubscriptionDispatcher (object):
-    pass
+    def dispatch(self, subscription):
+
+        # Send the email
+
+        # ...and then...
+        subscription.last_sent = subscription.feed.last_updated
