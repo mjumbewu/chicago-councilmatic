@@ -28,7 +28,7 @@ urlpatterns = patterns('',
     url(r'^login/$', 'django.contrib.auth.views.login', name='registration_login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', name='registration_logout'),
 #    url(r'', include('social_auth.urls')),
-    url(r'', include('registration.backends.default.urls')),
+    url(r'', include('captcha.backends.default.urls')),
 
     url(r'^subscribe/$', subscriptions.views.CreateSubscriptionView.as_view(), name='subscribe'),
     url(r'^unsubscribe/(?P<pk>\d+)/$', subscriptions.views.DeleteSubscriptionView.as_view(), name='unsubscribe'),
