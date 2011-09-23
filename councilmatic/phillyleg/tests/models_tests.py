@@ -56,11 +56,11 @@ class Test__LegFile_lastActionDate:
     def is_last_action_dateTaken (self):
         legfile = LegFile(id='123456', key=1)
         legfile.save()
-        legfile.actions.add(LegAction(date_taken=dt.datetime(2011, 8, 11)))
-        legfile.actions.add(LegAction(date_taken=dt.datetime(2011, 8, 19)))
-        legfile.actions.add(LegAction(date_taken=dt.datetime(2011, 8, 12)))
+        legfile.actions.add(LegAction(date_taken=dt.date(2011, 8, 11)))
+        legfile.actions.add(LegAction(date_taken=dt.date(2011, 8, 19)))
+        legfile.actions.add(LegAction(date_taken=dt.date(2011, 8, 12)))
 
-        assert_equal(legfile.last_action_date, dt.datetime(2011, 8, 19))
+        assert_equal(legfile.last_action_date, dt.date(2011, 8, 19))
 
 
 class Test__LegFile_timeline:
@@ -79,11 +79,29 @@ class Test__LegFile_timeline:
     def collects_actions_by_date_taken (self):
         legfile = LegFile(id='123456', key=1)
         legfile.save()
-        legfile.actions.add(LegAction(date_taken=dt.datetime(2011, 8, 11), description='a'))
-        legfile.actions.add(LegAction(date_taken=dt.datetime(2011, 8, 11), description='b'))
-        legfile.actions.add(LegAction(date_taken=dt.datetime(2011, 8, 12), description='c'))
+        legfile.actions.add(LegAction(date_taken=dt.date(2011, 8, 11), description='a'))
+        legfile.actions.add(LegAction(date_taken=dt.date(2011, 8, 11), description='b'))
+        legfile.actions.add(LegAction(date_taken=dt.date(2011, 8, 12), description='c'))
         legfile.save()
 
         assert_equal(len(legfile.timeline), 2)
-        assert_equal(len(legfile.timeline[dt.datetime(2011, 8, 11)]), 2)
-        assert_equal(len(legfile.timeline[dt.datetime(2011, 8, 12)]), 1)
+        assert_equal(len(legfile.timeline[dt.date(2011, 8, 11)]), 2)
+        assert_equal(len(legfile.timeline[dt.date(2011, 8, 12)]), 1)
+
+    @istest
+    def always_iterates_through_keys_sorted (self):
+        legfile = LegFile(id='123456', key=1)
+        legfile.save()
+        legfile.actions.add(LegAction(date_taken=dt.date(2011, 8, 11), description='a'))
+        legfile.actions.add(LegAction(date_taken=dt.date(2011, 8, 12), description='b'))
+        legfile.actions.add(LegAction(date_taken=dt.date(2011, 8, 10), description='c'))
+        legfile.actions.add(LegAction(date_taken=dt.date(2011, 8, 15), description='d'))
+        legfile.actions.add(LegAction(date_taken=dt.date(2011, 8, 13), description='e'))
+        legfile.save()
+
+        dates = [date for date in legfile.timeline]
+        assert_equal(dates, [dt.date(2011, 8, 10),
+                             dt.date(2011, 8, 11),
+                             dt.date(2011, 8, 12),
+                             dt.date(2011, 8, 13),
+                             dt.date(2011, 8, 15)])
