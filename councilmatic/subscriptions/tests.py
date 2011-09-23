@@ -8,7 +8,7 @@ from django.test import TestCase
 from mock import Mock
 from nose.tools import *
 
-from subscriptions.decorators import serializable
+from subscriptions.management.dispatcher import SubscriptionDispatcher
 from subscriptions.models import ContentFeed
 from subscriptions.models import FeedData
 from subscriptions.models import Subscriber
@@ -65,6 +65,10 @@ class Test_Subscription_save (TestCase):
     fixtures = []
 
     def setUp(self):
+        Subscriber.objects.all().delete()
+        ContentFeed.objects.all().delete()
+        Subscription.objects.all().delete()
+
         user = self.user = Subscriber(); user.save()
         feed = self.feed = ContentFeed(); feed.data = FeedData(); feed.save()
 
@@ -96,6 +100,10 @@ class Test_Subscription_save (TestCase):
 class Test_Subscriber_subscribe (TestCase):
 
     def setUp(self):
+        Subscriber.objects.all().delete()
+        ContentFeed.objects.all().delete()
+        Subscription.objects.all().delete()
+
         feed = self.feed = ContentFeed(); feed.data = FeedData(); feed.save()
         subscriber = self.subscriber = Subscriber(); subscriber.save()
 
@@ -124,6 +132,10 @@ class Test_Subscriber_isSubscribed (TestCase):
         return StubFeedData(content)
 
     def setUp(self):
+        Subscriber.objects.all().delete()
+        ContentFeed.objects.all().delete()
+        Subscription.objects.all().delete()
+
         feed = self.feed = ContentFeed.factory(self._makeFeedData([1,2,3])); feed.save()
         subscriber = self.subscriber = Subscriber(); subscriber.save()
 
@@ -166,7 +178,7 @@ class Test_FeedUpdater_update (TestCase):
                                datetime.date(2006, 12, 12)),
                               (datetime.date(2006, 12, 12),
                                datetime.date(2006, 12, 13)) ]:
-            LegFile(intro_date=intro, final_date=final, key=key).save()
+            LegFile(intro_date=intro, final_date=final, key=key, date_scraped=datetime.date.today()).save()
             key += 1
 
         self.feed = ContentFeed()
@@ -269,26 +281,6 @@ class Test_ContentFeed_filtering (TestCase):
         assert feeds
 
 
-class Test_serializable_decorator:
-
-    @istest
-    def calls_the_decorated_function_when_called_with_parameters(self):
-        def myfunc(arg):
-            return arg+5
-        serializable_func = serializable(myfunc)
-
-        assert serializable_func(5) == 10
-
-    @istest
-    def returns_the_decorated_function_when_called_without_parameters(self):
-        @serializable
-        def myfunc(arg):
-            return arg+5
-        serializable_func = serializable(myfunc)
-
-        assert serializable_func() == myfunc
-
-
 class Test_SingleSubscriptionMixin_getContextData:
 
     def setUp(self):
@@ -354,3 +346,17 @@ class Test_SingleSubscriptionMixin_getContextData:
         assert_equal(data['is_subscribed'], False)
         assert_is_none(data['subscription'])
         assert_is_not_none(data['subscription_form'])
+
+
+class Test__SubscriptionDispatcher_dispatch:
+
+    @istest
+    def updates_the_lastSent_time_of_the_subscription_to_the_feeds_lastUpdated_time (self):
+        dispatcher = SubscriptionDispatcher()
+        subscription = Mock()
+#        subscription.feed = Mock()
+        subscription.feed.last_updated = datetime.datetime(2011,8,4,6,50)
+
+        dispatcher.dispatch(subscription)
+
+        assert_equal(subscription.last_sent, datetime.datetime(2011,8,4,6,50))
