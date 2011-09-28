@@ -4,7 +4,7 @@
     <label>Status:</label>
     {{ instance.status }}
   </span>
-  {% if user and user in instance.bookmarks.all %}
+  {% if user.bookmarks and instance in user.bookmarks.all %}
     <span class="bookmark active">
       <a href="xx"></a>
     </span>
