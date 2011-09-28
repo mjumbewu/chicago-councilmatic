@@ -8,7 +8,6 @@ from django.views.generic import ListView, DetailView, TemplateView
 import phillyleg.models
 
 import main.views
-import phillyleg.views
 import subscriptions.views
 import bookmarks.views
 import haystack.views
@@ -69,14 +68,4 @@ urlpatterns = patterns('',
     url(r'^(?P<user_pk>\d+)/subscriptions/$', TemplateView.as_view(template_name='base.html'), name='user_subscriptions'),
     url(r'^(?P<user_pk>\d+)/subscriptions/(?P<bookmark_pk>\d+)/$', TemplateView.as_view(template_name='base.html'), name='user_subscription'),
 
-#    url(r'^subscribe$', subscriptions.views.SubscribeToSearchView.as_view()),
-#    url(r'^(?P<subscription_id>\d+)/$', 'phillyleg.views.dashboard'),
-#    url(r'^search/', include('haystack.urls')),
-
-    # Older views.  Work with them.
-    url(r'^subs/$', 'phillyleg.views.subscribe'),
-    url(r'^subs/create/$', 'phillyleg.views.create'),
-    url(r'^subs/unsubscribe/$', 'phillyleg.views.unsubscribe'),
-    #url(r'^subs/(?P<subscription_id>\d+)/$', 'phillyleg.views.edit'),
-    url(r'^subs/delete/$', 'phillyleg.views.delete'),
 )
