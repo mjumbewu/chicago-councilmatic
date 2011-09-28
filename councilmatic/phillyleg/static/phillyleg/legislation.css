@@ -224,6 +224,14 @@ h2 ul.legfile_sponsors li img {
 /* ========================================
  * The timeline
  */
+
+#main #timeline {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+}
+
 .field_label.instance_field_label.legminutes_url_label,
 .field_label.instance_field_label.legaction_description_label,
 .field_label.instance_field_label.legaction_acting_body_label,
@@ -235,7 +243,8 @@ h2 ul.legfile_sponsors li img {
 .field.instance_field.legaction_acting_body,
 .field.instance_field.legaction_description,
 .field.instance_field.legaction_file,
-.field.instance_field.legaction_date_taken {
+.field.instance_field.legaction_date_taken,
+.field.instance_field.legaction_motion {
   display: inline;
 }
 
@@ -243,13 +252,8 @@ h2 ul.legfile_sponsors li img {
   font-weight: bold;
 }
 
-.field.instance_field.legaction_date_taken:before {
-  content: 'On ';
-  font-weight: normal;
-}
-
 .field.instance_field.legaction_date_taken:after {
-  content: ',';
+  content: ' - ';
   font-weight: normal;
 }
 
@@ -266,11 +270,6 @@ h2 ul.legfile_sponsors li img {
   font-weight: bold;
 }
 
-.field_value.instance_field_value.legaction_description_value:after {
-  content: ' the legislation.';
-  font-weight: normal;
-}
-
 .instance_header.legaction_header {
   display: none;
 }
@@ -279,6 +278,16 @@ h2 ul.legfile_sponsors li img {
   font-style: italic;
 }
 
+.field.instance_field.legaction_motion:before {
+  content: ' - ';
+}
+
 .field_label.instance_field_label.legaction_motion_label:after {
   content: ':';
 }
+
+.list_item .wrapper {
+  padding: 0em;
+  padding-left: 50px;
+}
+
