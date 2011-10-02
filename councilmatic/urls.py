@@ -26,7 +26,8 @@ urlpatterns = patterns('',
     url(r'^comments/', include('django.contrib.comments.urls')),
     url(r'^login/$', 'django.contrib.auth.views.login', name='registration_login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', name='registration_logout'),
-#    url(r'', include('social_auth.urls')),
+
+    url(r'^social/', include('social_auth.urls')),
     url(r'', include('captcha.backends.default.urls')),
 
     url(r'^subscribe/$', subscriptions.views.CreateSubscriptionView.as_view(), name='subscribe'),
@@ -67,5 +68,10 @@ urlpatterns = patterns('',
 
     url(r'^(?P<user_pk>\d+)/subscriptions/$', TemplateView.as_view(template_name='base.html'), name='user_subscriptions'),
     url(r'^(?P<user_pk>\d+)/subscriptions/(?P<bookmark_pk>\d+)/$', TemplateView.as_view(template_name='base.html'), name='user_subscription'),
+
+    # Flat pages
+    url(r'about/',
+        TemplateView.as_view(template_name='about.html'),
+        name='about')
 
 )
