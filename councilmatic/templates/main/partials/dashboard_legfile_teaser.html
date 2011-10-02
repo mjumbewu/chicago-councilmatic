@@ -1,12 +1,16 @@
 <article class="instance_teaser_wrapper {{ model }}_teaser_wrapper {{ model }}_{{ instance.pk }}_teaser_wrapper">
-  <span class="title"><a href="{{ instance.get_absolute_url }}">{{ instance }}</a></span>
-  <span class="status">
-    <label>Status:</label>
-    {{ instance.status }}
-  </span>
-  {% if user.bookmarks and instance in user.bookmarks.all %}
-    <span class="bookmark active">
-      <a href="xx"></a>
+    <span class="title">
+        <a href="{{ instance.get_absolute_url }}">{{ instance.type }} {{ instance.id }}: {{ instance.title }}</a>
     </span>
-  {% endif %}
+
+    <span class="status">
+        <label>Status:</label>
+        {{ instance.status }}
+    </span>
+
+    {% if user.bookmarks and instance in user.bookmarks.all %}
+    <span class="bookmark active">
+        <a href="xx"></a>
+    </span>
+    {% endif %}
 </article>

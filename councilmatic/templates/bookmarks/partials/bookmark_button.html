@@ -1,0 +1,18 @@
+{% if user.is_authenticated %}
+    {% if is_bookmarked %}
+        <div class="bookmark active">
+            <form action="{% url unbookmark bookmark.pk %}" method="POST">{% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <button type="submit"><img src="{{ STATIC_URL }}bookmarks/bookmark_on.svg" alt="Unbookmark"></button>
+            </form>
+        </div>
+    {% else %}
+        <div class="bookmark inactive">
+            <form action="{% url bookmark %}" method="POST">{% csrf_token %}
+                {{ bookmark_form }}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <button type="submit"><img src="{{ STATIC_URL }}bookmarks/bookmark_off.svg" alt="Bookmark"></button>
+            </form>
+        </div>
+    {% endif %}
+{% endif %}

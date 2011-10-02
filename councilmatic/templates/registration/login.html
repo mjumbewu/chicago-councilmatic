@@ -21,6 +21,15 @@
           {% endif %}
         </div>
       </form>
+      
+      <div class="social_auth">
+        <p>Or log in with:</p>
+        <ul>
+          <li><a rel="nofollow" href="{% url socialauth_begin "twitter" %}"><img src="http://w.sharethis.com/images/twitter_32.png" alt="Twitter" title="Twitter"></a></li>
+          <li><a rel="nofollow" href="{% url socialauth_begin "facebook" %}"><img src="http://w.sharethis.com/images/facebook_32.png" alt="Facebook" title="Facebook"></a></li>
+          <li><a rel="nofollow" href="{% url socialauth_begin "google" %}"><img src="http://w.sharethis.com/images/google_bmarks_32.png" alt="Google" title="Google"></a></li>
+          <li><a rel="nofollow" href="{% url socialauth_begin "linkedin" %}"><img src="http://w.sharethis.com/images/linkedin_32.png" alt="LinkedIn" title="LinkedIn"></a></li>
+        </ul>
     </div>
   </div>
 {% endblock %}
