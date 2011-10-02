@@ -1,8 +1,11 @@
 .simple_search {
-  position: absolute;
+/*  position: absolute;
   right: 1em;
-  top: 0px;
+  top: 0px;*/
   height: 80px;
+  float: right;
+  margin-right: 1em;
+  
 }
 
 .simple_search form {
@@ -69,6 +72,17 @@
 
 #header {
   background-image: none;
+}
+
+#header .login {
+  float: right;
+  margin-right: 2em;
+}
+
+#header .login a {
+  color: white;
+  line-height: 80px;
+  margin-right: 2em;
 }
 
 

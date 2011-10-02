@@ -7,8 +7,6 @@
 @import "compass/css3/text-shadow";
 @import "mixins";
 
-$etched-color: rgba(0,0,0,.9);
-
 body {
     margin-top: 5em;
 
@@ -17,10 +15,10 @@ body {
 
         // Make the header a grid container
         @include container;
+        @include box-shadow($shadow-color, 0px, 2px, $shadow-spread);
 
         background-color: white;
         border-bottom: 1px solid black;
-        box-shadow: rgba(black, 0.3) 0px 2px 2px;
         margin-top: -5em;
         padding: 0.5em;
         position: fixed;
