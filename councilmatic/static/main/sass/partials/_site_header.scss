@@ -1,0 +1,98 @@
+@import "blueprint/buttons";
+@import "blueprint/form";
+@import "blueprint/grid";
+@import "blueprint/liquid";
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+@import "compass/css3/text-shadow";
+@import "mixins";
+
+$etched-color: rgba(0,0,0,.9);
+
+body {
+    margin-top: 5em;
+
+    // The top-level header
+    #site_header {
+
+        // Make the header a grid container
+        @include container;
+
+        background-color: white;
+        border-bottom: 1px solid black;
+        box-shadow: rgba(black, 0.3) 0px 2px 2px;
+        margin-top: -5em;
+        padding: 0.5em;
+        position: fixed;
+        z-index: 100;
+
+        /*
+         * The site logo/header style
+         */
+        .header {
+            @include column(8);
+
+            h1, h2, h3, h4, h5, h6 {
+                line-height: 1em;
+                margin: 0px;
+                padding: 0px;
+                vertical-align: middle;
+            }
+
+            a:hover,
+            a:visited,
+            a:active,
+            a {
+                @include text-shadow($etched-color, 0px, 0px, 3px);
+                color: $etched-color;
+            }
+        }
+
+        /*
+         * The registration links
+         */
+        .registration {
+            @include column(4);
+
+            line-height: 3em;
+            text-align: right;
+        }
+
+        /*
+         * The persistent search form
+         */
+        .search {
+            @include blueprint-form;
+            @include column(8, true);
+            @include push(0);
+
+            text-align: right;
+
+            button { @include button-button; }
+            input, button {
+                @include quattro;
+
+                margin: 0.5em 0em;
+                vertical-align: middle;
+            }
+
+            // The search box should look like it is etched into the desk.
+            input[type="text"] {
+                @include border-radius(3px);
+                @include box-shadow($etched-color, 0px, 0px, 2px);
+
+                background: transparent;
+                border: 2px solid $etched-color;
+            }
+
+            button {
+                @include box-shadow($etched-color, 0px, 0px, 2px);
+
+                background-color: $etched-color;
+                border: none;
+                color: white;
+                font-weight: bold;
+            }
+        }
+    }
+}

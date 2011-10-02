@@ -1,0 +1,24 @@
+@import "blueprint/grid";
+@import "mixins";
+
+body {
+    @extend .bp;
+
+//    background-image: url('../images/wood.jpg');
+
+    // Bold all the header text
+    h1, h2, h3, h4, h5, h6 {
+        @include quattro;
+        font-weight: bold;
+    }
+
+    // No underline on links
+    a { text-decoration: none; }
+
+    // Make the content wrapper a grid
+    > #wrapper {
+        @include container;
+    }
+}
+
+@import "site_header";

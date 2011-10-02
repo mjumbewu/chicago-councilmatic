@@ -1,0 +1,15 @@
+@import "blueprint/grid";
+
+.inner {
+    @include container;
+
+    .bookmark {
+        @include column(2);
+
+        height: 6em;
+    }
+
+    .share_bar {
+        float: right;
+    }
+}
