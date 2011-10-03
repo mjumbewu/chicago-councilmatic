@@ -187,6 +187,10 @@ RECAPTCHA_PRIVATE_KEY = cmk.get('RECAPTCHA_PRIVATE_KEY', '')
 HAYSTACK_SITECONF = 'search_sites'
 HAYSTACK_SEARCH_ENGINE = 'whoosh'
 HAYSTACK_WHOOSH_PATH = WHOOSH_PATH
+# There were some queries that were taking waaaaaay too long (as in, timing
+# out in production) because there were too many results.  In short, to "fix",
+# I found this: https://github.com/toastdriven/django-haystack/issues/159
+HAYSTACK_ITERATOR_LOAD_PER_QUERY = 800
 
 ###############################################################################
 #
