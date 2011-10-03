@@ -29,7 +29,7 @@ class AppDashboardView (SearchBarMixin, view.TemplateView):
     def get_context_data(self, **kwargs):
         search_form = forms.FullSearchForm()
 
-        legfiles = phillyleg.models.LegFile.objects.all()[:8]
+        legfiles = phillyleg.models.LegFile.objects.all().order_by('-key')[:8]
 
         context_data = super(AppDashboardView, self).get_context_data(
             **kwargs)
