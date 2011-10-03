@@ -1,4 +1,5 @@
 import os
+from application_keys import councilmatic_keys
 
 # Make filepaths relative to settings.
 def rel_path(*subs):
@@ -6,6 +7,11 @@ def rel_path(*subs):
     root_path = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(root_path, *subs)
 
+
+###############################################################################
+#
+# Platform-specific values
+#
 
 # If the environment is DotCloud...
 if os.path.exists('/home/dotcloud/current'):
@@ -115,9 +121,29 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
 )
 
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': False
-}
+ROOT_URLCONF = 'urls'
+
+TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates" or
+    # "C:/www/django/templates". Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    rel_path('phillyleg'),
+    rel_path('templates'),
+)
+
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+)
+
+###############################################################################
+#
+# Authentication
+#
 
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',
@@ -130,45 +156,66 @@ AUTHENTICATION_BACKENDS = (
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
-TWITTER_CONSUMER_KEY         = ''
-TWITTER_CONSUMER_SECRET      = ''
-FACEBOOK_APP_ID              = ''
-FACEBOOK_API_SECRET          = ''
-LINKEDIN_CONSUMER_KEY        = ''
-LINKEDIN_CONSUMER_SECRET     = ''
-GOOGLE_CONSUMER_KEY          = ''
-GOOGLE_CONSUMER_SECRET       = ''
-
 LOGIN_URL          = '/login/'
 LOGIN_REDIRECT_URL = '/login/success'
 LOGIN_ERROR_URL    = '/login/error'
 
-RECAPTCHA_PUBLIC_KEY = '76wtgdfsjhsydt7r5FFGFhgsdfytd656sad75fgh'
-RECAPTCHA_PRIVATE_KEY = '98dfg6df7g56df6gdfgdfg65JHJH656565GFGFGs'
+###############################################################################
+#
+# 3rd-party service configuration and keys
+#
 
-MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-)
-INTERNAL_IPS = ('127.0.0.1',)
+cmk = councilmatic_keys
 
-ROOT_URLCONF = 'urls'
+TWITTER_CONSUMER_KEY         = cmk.get('TWITTER_CONSUMER_KEY', '')
+TWITTER_CONSUMER_SECRET      = cmk.get('TWITTER_CONSUMER_SECRET', '')
+FACEBOOK_APP_ID              = cmk.get('FACEBOOK_APP_ID', '')
+FACEBOOK_API_SECRET          = cmk.get('FACEBOOK_API_SECRET', '')
+LINKEDIN_CONSUMER_KEY        = cmk.get('LINKEDIN_CONSUMER_KEY', '')
+LINKEDIN_CONSUMER_SECRET     = cmk.get('LINKEDIN_CONSUMER_SECRET', '')
+GOOGLE_CONSUMER_KEY          = cmk.get('GOOGLE_CONSUMER_KEY', '')
+GOOGLE_CONSUMER_SECRET       = cmk.get('GOOGLE_CONSUMER_SECRET', '')
 
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or
-    # "C:/www/django/templates". Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    rel_path('phillyleg'),
-    rel_path('templates'),
-)
+RECAPTCHA_PUBLIC_KEY  = cmk.get('RECAPTCHA_PUBLIC_KEY', '')
+RECAPTCHA_PRIVATE_KEY = cmk.get('RECAPTCHA_PRIVATE_KEY', '')
+
+###############################################################################
+#
+# Site search configuration
+#
 
 HAYSTACK_SITECONF = 'search_sites'
 HAYSTACK_SEARCH_ENGINE = 'whoosh'
 HAYSTACK_WHOOSH_PATH = WHOOSH_PATH
+
+###############################################################################
+#
+# Applications
+#
+
+COMMUNITY_APPS = (
+    'registration',
+    'captcha',
+    'south',
+    'haystack',
+    'uni_form',
+    'django_nose',
+    'debug_toolbar',
+    'social_auth',
+)
+
+MY_REUSABLE_APPS = (
+   'model_blocks',
+)
+
+PROJECT_APPS = (
+    'phillyleg',
+    'subscriptions',
+    'bookmarks',
+    'activity_log',
+    'opinions',
+    'main',
+)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -179,31 +226,24 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.comments',
+) + COMMUNITY_APPS + MY_REUSABLE_APPS + PROJECT_APPS
 
-    'registration',
-    'captcha',
-    'south',
-    'haystack',
-    'uni_form',
-    'django_nose',
-    'debug_toolbar',
-    'social_auth',
+################################################################################
+#
+# Testing and administration
+#
 
-    'model_blocks',
-
-    'phillyleg',
-    'subscriptions',
-    'bookmarks',
-    'activity_log',
-    'opinions',
-    'main',
-)
-
+# Tests (nose)
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 SOUTH_TESTS_MIGRATE = False
 
-#AUTH_PROFILE_MODULE = 'phillyleg.subscription'
+# Debug toolbar
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False
+}
+INTERNAL_IPS = ('127.0.0.1',)
 
+# Logging
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
