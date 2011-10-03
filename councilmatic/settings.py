@@ -190,6 +190,9 @@ HAYSTACK_WHOOSH_PATH = WHOOSH_PATH
 # There were some queries that were taking waaaaaay too long (as in, timing
 # out in production) because there were too many results.  In short, to "fix",
 # I found this: https://github.com/toastdriven/django-haystack/issues/159
+#
+# I can't set this too high though, or I'll get a "Too many SQL variables"
+# error; i.e., http://stackoverflow.com/questions/7106016/too-many-sql-variables-error-in-django-witih-sqlite3
 HAYSTACK_ITERATOR_LOAD_PER_QUERY = 800
 
 ###############################################################################

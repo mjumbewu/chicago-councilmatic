@@ -20,6 +20,3 @@ logs/
 
 # Code coverage data
 .coverage
-
-# Settings
-councilmatic/settings.py
