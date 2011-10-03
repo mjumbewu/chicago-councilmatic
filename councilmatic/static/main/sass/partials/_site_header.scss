@@ -19,7 +19,7 @@ body {
 
         background-color: white;
         background-image: url('../images/exclusive_paper.png');
-        border-bottom: 4px solid $charcoal;
+        border-bottom: $cm-border;
         margin-top: -6em;
         padding: 0.5em;
         position: fixed;
@@ -42,8 +42,9 @@ body {
             a:visited,
             a:active,
             a {
-                @include text-shadow($etched-color, 0px, 0px, 3px);
-                color: $etched-color;
+//                @include text-shadow($etched-color, 0px, 0px, 3px);
+//                color: $etched-color;
+                color: inherit;
             }
         }
 
@@ -100,7 +101,6 @@ body {
 
             text-align: right;
 
-            button { @include button-button; }
             input, button {
                 @include quattro;
 
@@ -110,19 +110,19 @@ body {
 
             // The search box should look like it is etched into the desk.
             input[type="text"] {
-                @include border-radius(3px);
-                @include box-shadow($etched-color, 0px, 0px, 2px);
+//                @include border-radius(3px);
+//                @include box-shadow($etched-color, 0px, 0px, 2px);
 
                 background: transparent;
                 border: 2px solid $etched-color;
             }
 
             button {
-                @include box-shadow($etched-color, 0px, 0px, 2px);
+//                @include box-shadow($etched-color, 0px, 0px, 2px);
 
-                background-color: $etched-color;
-                border: none;
-                color: white;
+//                background-color: $etched-color;
+//                border: none;
+//                color: white;
                 font-weight: bold;
             }
         }

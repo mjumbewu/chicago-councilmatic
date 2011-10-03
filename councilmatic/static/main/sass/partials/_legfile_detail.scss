@@ -76,9 +76,9 @@
         @include quattro;
 
         clear: both;
-        border: 4px solid $charcoal;
+        border: $cm-border;
         border-image: url('../images/pen_stroke.png') 4 repeat;
-        border-width: 4px 0px;
+        border-width: $border-size 0px;
         padding: 0.5em 0em;
 
         span {
@@ -121,7 +121,7 @@
 
     .legfile_timeline {
         @include column(13);
-        @include colborder($charcoal, 4px);
+        @include colborder($border-color, $border-size);
 
         background-image: url('../images/timeline.svg');
 
@@ -181,7 +181,7 @@
     }
 
     .legfile_original_url {
-        border-bottom: 4px solid $charcoal;
+        border-bottom: $cm-border;
         clear: both;
         padding-bottom: 1em;
         padding-right: 8em;

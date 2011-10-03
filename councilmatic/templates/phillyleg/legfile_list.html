@@ -10,12 +10,12 @@
   <section id="main">
     <div class="block">
 
-      {% with active='legislation' %}
-        {% include 'main/partials/dashboard_menu.html' %}
-      {% endwith %}
-
       <div class="content">
         <div class="inner">
+          <header>
+            <h2>Browse Legislation</h2>
+          </header>
+
           {% with phillyleg_legfile_teaser_template='main/partials/dashboard_legfile_teaser.html' %}
           {% with title=' ' %}
 

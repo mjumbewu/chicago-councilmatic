@@ -16,15 +16,17 @@
             @include quattro;
 
             font-size: 1.5em;
+            line-height: normal;
+            vertical-align: middle;
         }
     }
 
     #dashboard_explanation {
         @include column(24);
 
-        border-bottom: 4px solid $charcoal;
-        margin-bottom: 4em;
-        padding-bottom: 3em;
+        border-bottom: $cm-border;
+        margin-bottom: 3em;
+        padding-bottom: 2em;
 
         > div {
             @include column(6);
