@@ -581,6 +581,75 @@ body .inner {
   overflow: hidden;
   *zoom: 1;
 }
+/* line 35, ../sass/partials/_main_base.scss */
+body .uniForm {
+  line-height: 3;
+}
+/* line 18, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
+body .uniForm label {
+  font-weight: bold;
+}
+/* line 19, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
+body .uniForm fieldset {
+  padding: 1.4em;
+  margin: 0 0 1.5em 0;
+}
+/* line 20, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
+body .uniForm legend {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+/* line 26, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
+body .uniForm input.text, body .uniForm input.title, body .uniForm input[type=email], body .uniForm input[type=text], body .uniForm input[type=password] {
+  margin: 0.5em 0;
+  background-color: white;
+  padding: 5px;
+}
+/* line 27, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
+body .uniForm input.title {
+  font-size: 1.5em;
+}
+/* line 31, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
+body .uniForm input[type=checkbox], body .uniForm input.checkbox, body .uniForm input[type=radio], body .uniForm input.radio {
+  position: relative;
+  top: 0.25em;
+}
+/* line 33, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
+body .uniForm textarea {
+  margin: 0.5em 0;
+  padding: 5px;
+}
+/* line 34, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
+body .uniForm select {
+  margin: 0.5em 0;
+}
+/* line 59, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
+body .uniForm fieldset {
+  border: 1px solid #cccccc;
+}
+/* line 62, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
+body .uniForm input.text, body .uniForm input.title, body .uniForm input[type=email], body .uniForm input[type=text], body .uniForm input[type=password],
+body .uniForm textarea, body .uniForm select {
+  border: 1px solid #bbbbbb;
+}
+/* line 64, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
+body .uniForm input.text:focus, body .uniForm input.title:focus, body .uniForm input[type=email]:focus, body .uniForm input[type=text]:focus, body .uniForm input[type=password]:focus,
+body .uniForm textarea:focus, body .uniForm select:focus {
+  border: 1px solid #666666;
+}
+/* line 48, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
+body .uniForm input.text, body .uniForm input.title, body .uniForm input[type=email], body .uniForm input[type=text], body .uniForm input[type=password] {
+  width: 300px;
+}
+/* line 50, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
+body .uniForm textarea {
+  width: 390px;
+  height: 250px;
+}
+/* line 6, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
+body .uniForm p {
+  margin-bottom: 0;
+}
 
 /* line 10, ../sass/partials/_site_header.scss */
 body {
@@ -1281,6 +1350,10 @@ body #site_header .search button {
   margin-top: 0.5em;
 }
 /* line 59, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_legislation .legislation_bookmark {
+  width: 4em;
+}
+/* line 63, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .bookmark button {
   background: transparent;
   border: none;
@@ -1290,22 +1363,22 @@ body #site_header .search button {
   padding: 0px;
   width: 4em;
 }
-/* line 71, ../sass/partials/_dashboard.scss */
+/* line 75, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_id,
 .dashboard .inner #dashboard_legislation .legislation_status,
 .dashboard .inner #dashboard_legislation .legislation_title {
   display: block;
   margin-left: 4em;
 }
-/* line 76, ../sass/partials/_dashboard.scss */
+/* line 80, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_id {
   font-weight: bold;
 }
-/* line 80, ../sass/partials/_dashboard.scss */
+/* line 84, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_intro_date {
   float: left;
 }
-/* line 84, ../sass/partials/_dashboard.scss */
+/* line 88, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_status {
   text-align: right;
 }

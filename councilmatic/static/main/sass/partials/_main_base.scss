@@ -31,6 +31,11 @@ body {
     .inner {
         @include container;
     }
+
+    .uniForm {
+        @include blueprint-form;
+        @include blueprint-inline-form;
+    }
 }
 
 @import "site_header";

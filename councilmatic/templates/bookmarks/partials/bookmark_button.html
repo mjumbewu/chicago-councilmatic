@@ -25,4 +25,11 @@
             </form>
         </div>
     {% endif %}
+{% else %}
+    <div class="bookmark inactive">
+        <form action="{% url registration_login %}" method="GET">{% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <button type="submit"><img src="{{ STATIC_URL }}bookmarks/bookmark_off.svg" alt="Bookmark"></button>
+        </form>
+    </div>
 {% endif %}
