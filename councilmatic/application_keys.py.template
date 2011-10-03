@@ -1,0 +1,19 @@
+"""
+This module will need to be uploaded to somewhere on your PYTHON_PATH, so that
+it can be imported by settings.py.  For example, when deploying to dotcloud, I
+just put it in my ~/env/lib/python2.6/site-packages/ folder.
+"""
+
+councilmatic_keys = {
+    'TWITTER_CONSUMER_KEY'       : 'XXXXXXXXXXXXXXXXXXXXX',
+    'TWITTER_CONSUMER_SECRET'    : 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'FACEBOOK_APP_ID'            : '',
+    'FACEBOOK_API_SECRET'        : '',
+    'LINKEDIN_CONSUMER_KEY'      : '',
+    'LINKEDIN_CONSUMER_SECRET'   : '',
+    'GOOGLE_CONSUMER_KEY'        : '',
+    'GOOGLE_CONSUMER_SECRET'     : '',
+
+    'RECAPTCHA_PUBLIC_KEY'  : 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'RECAPTCHA_PRIVATE_KEY' : 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+}
