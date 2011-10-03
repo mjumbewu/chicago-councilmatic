@@ -9,7 +9,7 @@
 
 {% block content %}
 
-    <section id="main" class="browse dashboard_browse">
+    <section id="main" class="browse legfile_detail dashboard_browse">
     <div class="block">
     <div class="content">
     <div class="inner">
@@ -34,9 +34,7 @@
             <div class="overview_bar legfile_overview_bar">
               <span>Introduced on {{ object.intro_date }}</span>
 
-              {% if object.last_action_date %}
-                <span>Last action on {{ object.last_action_date }}</span>
-              {% endif %}
+              <span>{% if object.last_action_date %}Last action on {{ object.last_action_date }}{% endif %}</span>
 
               <span>Status: {{ object.status }}</span>
             </div>
@@ -45,24 +43,60 @@
               <p>{{ object.title }}</p>
             </div>
 
-            <div class="legfile_attachments">
-              {% for attachment in object.attachments.all %}
-
-                {% if forloop.first %}<ul>{% endif %}
-                  <li><a href="{{ attachment.url }}">{{ attachment.description }}</a></li>
-                {% if forloop.last %}</ul>{% endif %}
-
-              {% empty %}
-
-                <p>(No attachments)</p>
-
-              {% endfor %}
+            <div class="legfile_original_url">
+              <a href="{{ legfile.url }}">Source</a>
             </div>
-          </section>
 
-          <div class="legfile_original_url">
-            <a href="{{ legfile.url }}">Source</a>
-          </div>
+            <div class="legfile_related_info">
+                <div class="legfile_timeline">
+                    {% for action in object.actions.all %}
+
+                        {% if forloop.first %}<ul>{% endif %}
+                            <li>
+                                {% if action.minutes.url %}
+                                {% ifchanged action.minutes.url %}
+                                <span class="legaction_minutes">
+                                    <a href="{{ action.minutes.url }}">(minutes)</a>
+                                </span>
+                                {% endifchanged %}
+                                {% endif %}
+
+                                {% ifchanged action.date_taken %}
+                                <span class="legaction_date_taken">{{ action.date_taken }}</span>
+                                {% endifchanged %}
+
+                                <span class="legaction_acting_body">{{ action.acting_body }}</span>
+                                <span class="legaction_status">
+                                    <span class="legaction_description">{{ action.description }}</span>
+                                    {% if action.motion %}<span class="legaction_motion">{{ action.motion }}</span>{% endif %}
+                                    {% if action.notes %}<span class="legaction_notes">{{ action.notes }}</span>{% endif %}
+                                </span>
+                            </li>
+                        {% if forloop.last %}</ul>{% endif %}
+
+                    {% empty %}
+
+                        <p>(No actions taken)</p>
+
+                    {% endfor %}
+                </div>
+
+                <div class="legfile_attachments">
+                  {% for attachment in object.attachments.all %}
+
+                    {% if forloop.first %}<ul>{% endif %}
+                      <li><a href="{{ attachment.url }}">{{ attachment.description }}</a></li>
+                    {% if forloop.last %}</ul>{% endif %}
+
+                  {% empty %}
+
+                    <p>(No attachments)</p>
+
+                  {% endfor %}
+                </div>
+            </div>
+
+          </section>
 
           {% comment %}
            <!--
@@ -92,8 +126,39 @@
            -->
           {% endcomment %}
 
+    </div>
+    </div>
+    </div>
+
+    <div id="sidebar">
+        <div class="block">
+          <h3>What's your opinion?</h3>
+          {% if is_opined %}
+          <form action="{% url revise_opinion opinion.pk %}" method="post" class="uniForm">{% csrf_token %}
+          {% else %}
+          <form action="{% url express_opinion %}" method="post" class="uniForm">{% csrf_token %}
+          {% endif %}
+            <fieldset class="inlineLabels">
+              <input type="hidden" name="next" value="{{ request.get_full_path }}">
+              {{ opinion_form|as_uni_form }}
+              <div class="buttonHolder">
+                <button type="submit" class="primaryAction">Post your statement</button>
+              </div>
+            </fieldset>
+          </form>
         </div>
-      </div>
+
+        {% if object.metadata.mentioned_legfiles.all %}
+          <div class="block">
+            <h3>Bills mentioned in this file</h3>
+            <ul class="navigation">
+              {% for mentioned_legfile in object.metadata.mentioned_legfiles.all %}
+                <li><a href="{{ mentioned_legfile.get_absolute_url }}">{{ mentioned_legfile }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
     </div>
 
     <div class="block" id="opinions">
@@ -129,22 +194,6 @@
               </li>
             {% if forloop.last %}</ul>{% endif %}
           {% endfor %}
-        </div>
-      </div>
-    </div>
-
-    <div class="block" id="timeline">
-      <div class="content">
-        <div class="inner">
-
-          {% with title="Timeline" %}
-          {% with hide_empty="True" %}
-          {% with phillyleg_legaction_fields="date_taken, acting_body, description, motion, notes" %}
-            {% list_block object.actions.all %}
-          {% endwith %}
-          {% endwith %}
-          {% endwith %}
-
         </div>
       </div>
     </div>
@@ -186,36 +235,5 @@
     {% endcomment %}
 
   </section>
-
-  <div id="sidebar">
-    <div class="block">
-      <h3>What's your opinion?</h3>
-      {% if is_opined %}
-      <form action="{% url revise_opinion opinion.pk %}" method="post" class="uniForm">{% csrf_token %}
-      {% else %}
-      <form action="{% url express_opinion %}" method="post" class="uniForm">{% csrf_token %}
-      {% endif %}
-        <fieldset class="inlineLabels">
-          <input type="hidden" name="next" value="{{ request.get_full_path }}">
-          {{ opinion_form|as_uni_form }}
-          <div class="buttonHolder">
-            <button type="submit" class="primaryAction">Post your statement</button>
-          </div>
-        </fieldset>
-      </form>
-    </div>
-
-    {% if object.metadata.mentioned_legfiles.all %}
-      <div class="block">
-        <h3>Bills mentioned in this file</h3>
-        <ul class="navigation">
-          {% for mentioned_legfile in object.metadata.mentioned_legfiles.all %}
-            <li><a href="{{ mentioned_legfile.get_absolute_url }}">{{ mentioned_legfile }}</a></li>
-          {% endfor %}
-        </ul>
-      </div>
-    {% endif %}
-
-  </div>
 
 {% endblock %}

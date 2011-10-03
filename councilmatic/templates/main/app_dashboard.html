@@ -3,45 +3,68 @@
 {% load uni_form_tags %}
 
 {% block load_early %}
-	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">
-  <link rel="stylesheet" href="{{ STATIC_URL }}main/app_dashboard.css">
+<!--	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">-->
+<!--  <link rel="stylesheet" href="{{ STATIC_URL }}main/app_dashboard.css">-->
 {% endblock %}
 
 {% block content %}
-  <section id="main" class="browse dashboard_browse">
-    <div class="block">
-
-      {% with active='home' %}
-        {% include 'main/partials/dashboard_menu.html' %}
-      {% endwith %}
-
-      <div class="content">
-        <div class="inner">
-          <header>
+<section id="main" class="dashboard dashboard_browse">
+<div class="block">
+    <div class="content">
+    <div class="inner">
+        <header>
             <h1>Find and Subscribe to Legislation</h1>
-          </header>
+        </header>
 
-          {% uni_form search_form search_form.helper %}
+        <form id="dashboard_search" class="search" action="{% url search %}" method="GET">
+            <input name="q" type="text">
+            <button type="submit">Search</button>
+        </form>
 
-          {% comment %}
+        <div id="dashboard_explanation">
+            <div class="subscription">
+                <h3>Subscription</h3>
+                <p>Subscribe to legislation as its made available. Councilmatic provides email subscriptions to the legislation relevant to you.</p>
+            </div>
 
-          {% with title=' ' %}
-          {% with phillyleg_legfile_list_template='web-app-theme/object_list.html' %}
-          {% with phillyleg_legfile_teaser_template='main/partials/dashboard_legfile_teaser.html' %}
+            <div class="contextualization">
+                <h3>Contextualization</h3>
+                <p>See relevant information around legislation, like the geographical areas mentioned, related legislation, and related information from around the internet.</p>
+            </div>
 
-            {% list_block legfiles %}
-
-          {% endwith %}
-          {% endwith %}
-          {% endwith %}
-
-          <a href="{% url legislation_list %}">More...</a>
-
-          {% endcomment %}
+            <div class="evaluation">
+                <h3>Evaluation</h3>
+                <p>See the pros and cons of an issue as discussed by the wider community. Councilmatic allows users to comment, in support of or opposition to, a bill.</p>
+            </div>
         </div>
-      </div>
+
+        <div id="dashboard_legislation">
+            <h2>Recent Legislation</h2>
+
+            <ul>
+            {% for file in legfiles %}
+                <li>
+                    <span class="legislation_bookmark">
+                        {% with is_bookmarked=file.is_bookmarked %}
+                        {% with bookmark=file.bookmark %}
+                            {% include "bookmarks/partials/bookmark_button.html" %}
+                        {% endwith %}
+                        {% endwith %}
+                    </span>
+                    <span class="legislation_id"><a href="{% url legislation_detail file.key %}">{{ file.type }} {{ file.id }}</a></span>
+                    <span class="legislation_intro_date">{{ file.intro_date }}</span>
+                    <span class="legislation_status">{{ file.status }}</span>
+                    <span class="legislation_title">{{ file.title|truncatewords:25 }}</span>
+                </li>
+            {% endfor %}
+            </ul>
+
+            <a href="{% url legislation_list %}">More...</a>
+        </div>
     </div>
-  </section>
+    </div>
+</div>
+</section>
 {% endblock %}
 
 {% block load_late %}

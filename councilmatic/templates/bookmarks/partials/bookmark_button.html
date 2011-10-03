@@ -1,3 +1,13 @@
+{% comment %}
+ %
+ % This partial expects the variables:
+ %
+ % * user
+ % * is_bookmarked
+ % * bookmark
+ %
+{% endcomment %}
+
 {% if user.is_authenticated %}
     {% if is_bookmarked %}
         <div class="bookmark active">

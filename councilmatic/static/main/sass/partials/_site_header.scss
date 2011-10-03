@@ -8,7 +8,7 @@
 @import "mixins";
 
 body {
-    margin-top: 5em;
+    margin-top: 6em;
 
     // The top-level header
     #site_header {
@@ -18,8 +18,9 @@ body {
         @include box-shadow($shadow-color, 0px, 2px, $shadow-spread);
 
         background-color: white;
-        border-bottom: 1px solid black;
-        margin-top: -5em;
+        background-image: url('../images/exclusive_paper.png');
+        border-bottom: 4px solid $charcoal;
+        margin-top: -6em;
         padding: 0.5em;
         position: fixed;
         z-index: 100;
@@ -28,7 +29,7 @@ body {
          * The site logo/header style
          */
         .header {
-            @include column(8);
+            @include column(6);
 
             h1, h2, h3, h4, h5, h6 {
                 line-height: 1em;
@@ -47,13 +48,46 @@ body {
         }
 
         /*
-         * The registration links
+         * The navgation links
          */
-        .registration {
+        .site_nav {
             @include column(4);
 
             line-height: 3em;
+            text-align: center;
+
+            ul {
+                list-style: none;
+                margin: 0px;
+                padding: 0px;
+            }
+
+            li {
+                display: inline-block;
+                margin-right: 1em;
+            }
+        }
+
+        /*
+         * The registration links
+         */
+        .registration {
+            @include column(5);
+
+            line-height: 3em;
             text-align: right;
+
+            p {
+                @include quattro;
+
+                margin: 0px;
+                padding: 0px;
+            }
+
+            p, span {
+                display: inline-block;
+                margin-right: 1em;
+            }
         }
 
         /*

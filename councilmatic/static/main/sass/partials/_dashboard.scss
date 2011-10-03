@@ -1,0 +1,91 @@
+@import "blueprint/form";
+@import "blueprint/grid";
+@import "mixins";
+
+.dashboard .inner {
+    padding-top: 6em;
+    text-align: center;
+
+    #dashboard_search {
+        @include blueprint-form;
+
+        padding-bottom: 6em;
+
+        input,
+        button {
+            @include quattro;
+
+            font-size: 1.5em;
+        }
+    }
+
+    #dashboard_explanation {
+        @include column(24);
+
+        border-bottom: 4px solid $charcoal;
+        margin-bottom: 4em;
+        padding-bottom: 3em;
+
+        > div {
+            @include column(6);
+            @include prepend(1);
+            @include append(1);
+
+            &:last-child {
+                @include last;
+            }
+
+            p {
+                text-align: justify;
+            }
+        }
+    }
+
+    #dashboard_legislation {
+        @include column(11);
+
+        ul {
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+            text-align: left;
+        }
+
+        li {
+            @include clearfix;
+            margin-top: 0.5em;
+        }
+
+        .bookmark button {
+            background: transparent;
+            border: none;
+            float: left;
+            font-size: inherit;
+            margin: 0px;
+            padding: 0px;
+            width: 4em;
+        }
+
+        .legislation_id,
+        .legislation_status,
+        .legislation_title {
+            display: block;
+            margin-left: 4em;
+        }
+
+        .legislation_id {
+            font-weight: bold;
+        }
+
+        .legislation_intro_date {
+            float: left;
+        }
+
+        .legislation_status {
+            text-align: right;
+        }
+
+        .legislation_title {
+        }
+    }
+}

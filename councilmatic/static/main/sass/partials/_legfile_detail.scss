@@ -1,15 +1,256 @@
 @import "blueprint/grid";
 
-.inner {
+#wrapper {
     @include container;
+}
+
+.legfile_detail .inner {
+    @include column(24);
+
+    overflow: visible;
+    position: relative;
+
+    .legfile_header {
+        margin-left: 7.5em;
+    }
 
     .bookmark {
-        @include column(2);
+        float: left;
 
-        height: 6em;
+        button {
+            background: transparent;
+            border: none;
+            height: 8em;
+            line-height: 8em;
+            margin: 0px;
+            padding: 0px;
+            position: relative;
+            text-align: center;
+            top: -1em;
+            width: 6em;
+
+            img {
+                height: 95px;
+                width: 55px;
+                vertical-align: top;
+            }
+        }
     }
 
     .share_bar {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+    }
+
+    .legfile_detail h1 {
+        font-size: 2.5em;
+        line-height: 1em;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .legfile_detail h2 {
+        font-size: 1.5em;
+        line-height: 1em;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .legfile_sponsors {
+        list-style: none;
+        margin: 0px;
+        padding: 0px;
+
+        li {
+            display: inline-block;
+        }
+
+        img {
+            height: 2em;
+            width: 2em;
+        }
+    }
+
+    .overview_bar {
+        @include quattro;
+
+        clear: both;
+        border: 4px solid $charcoal;
+        border-image: url('../images/pen_stroke.png') 4 repeat;
+        border-width: 4px 0px;
+        padding: 0.5em 0em;
+
+        span {
+            display: inline-block;
+            text-align: center;
+            width: 33%;
+
+            &:first-child {
+                text-align: left;
+            }
+
+            &:last-child {
+                text-align: right;
+            }
+        }
+    }
+
+    .legfile_text {
+        @include push(5);
+
+        float: left;
+        margin-top: 1em;
+        margin-bottom: 0px;
+        width: $blueprint-grid-width * 14 + $blueprint-grid-margin * (14 - 1);
+
+        p {
+            margin-top: 1em;
+        }
+    }
+
+    .legfile_related_info {
+        @include column(22);
+    }
+
+    .legfile_attachments {
+        @include column(7);
+
+        background-image: url('../images/attachment.svg');
+    }
+
+    .legfile_timeline {
+        @include column(13);
+        @include colborder($charcoal, 4px);
+
+        background-image: url('../images/timeline.svg');
+
+        li {
+            margin-left: 1em;
+            margin-bottom: 0.5em;
+        }
+    }
+
+    .legfile_attachments,
+    .legfile_timeline {
+        padding-top: 1em;
+        margin-top: 1em;
+
+        background-repeat: no-repeat;
+        background-attachment: 0% 0%;
+        min-height: 36px;
+
+        ul {
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+            padding-left: 3em;
+        }
+
+        p {
+            margin: 0px;
+            padding-left: 3em;
+        }
+    }
+
+    .legaction_date_taken {
+        font-weight: bold;
+        display: block;
+        margin-left: -1em;
+    }
+
+    .legaction_acting_body {
+        text-transform: lowercase;
+    }
+
+    .legaction_description {
+        text-transform: lowercase;
+    }
+
+    .legaction_minutes {
         float: right;
     }
+
+    .legaction_motion {
+        font-style: italic;
+        text-transform: lowercase;
+
+        &:before {
+            content: ' - motion: ';
+        }
+    }
+
+    .legfile_original_url {
+        border-bottom: 4px solid $charcoal;
+        clear: both;
+        padding-bottom: 1em;
+        padding-right: 8em;
+        text-align: right;
+    }
 }
+
+#opinions {
+    @include column(24);
+}
+
+#sidebar {
+    @include column(6);
+}
+
+#timeline {
+    @include column(15);
+
+    .legaction_header {
+        display: none;
+    }
+
+    .legaction_detail .field_label {
+        display: none;
+    }
+}
+
+/*
+.field.instance_field.legaction_acting_body,
+.field.instance_field.legaction_description,
+.field.instance_field.legaction_file,
+.field.instance_field.legaction_date_taken,
+.field.instance_field.legaction_motion {
+    display: inline;
+}
+
+.field.instance_field.legaction_date_taken {
+  font-weight: bold;
+}
+
+.field.instance_field.legaction_date_taken:after {
+  content: ' - ';
+  font-weight: normal;
+}
+
+.field_value.instance_field_value
+
+.detail.legaction_detail:first-letter {
+  text-transform: uppercase;
+}
+
+.field_value.instance_field_value.legaction_description_value {
+  text-transform: lowercase;
+  font-weight: bold;
+}
+
+.instance_header.legaction_header {
+  display: none;
+}
+
+.field.instance_field.legaction_motion {
+  font-style: italic;
+}
+
+.field.instance_field.legaction_motion:before {
+  content: ' - ';
+}
+
+.field_label.instance_field_label.legaction_motion_label:after {
+  content: ':';
+}
+*/
