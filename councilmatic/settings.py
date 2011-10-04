@@ -157,7 +157,7 @@ AUTHENTICATION_BACKENDS = (
 ACCOUNT_ACTIVATION_DAYS = 7
 
 LOGIN_URL          = '/login/'
-LOGIN_REDIRECT_URL = '/login/success'
+LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL    = '/login/error'
 
 ###############################################################################
