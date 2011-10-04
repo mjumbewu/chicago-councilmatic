@@ -892,7 +892,6 @@ body #site_header .search input, body #site_header .search button {
 /* line 112, ../sass/partials/_site_header.scss */
 body #site_header .search input[type="text"] {
   background: transparent;
-  border: 2px solid rgba(0, 0, 0, 0.9);
 }
 /* line 120, ../sass/partials/_site_header.scss */
 body #site_header .search button {
