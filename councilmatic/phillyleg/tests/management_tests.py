@@ -51,7 +51,7 @@ class LegistarTests (TestCase):
         resolution_text = wrapper.extract_pdf_text(resolution_pdf)
         self.assertEqual(resolution_text, expected_text)
 
-        # Web URL
+        # Web URL -- This will only work if you're online.
         resolution_pdf = 'http://legislation.phila.gov/attachments/11530.pdf'
         resolution_text = wrapper.extract_pdf_text(resolution_pdf)
         self.assertEqual(resolution_text, expected_text)
@@ -129,5 +129,3 @@ class LegistarTests (TestCase):
 
         self.assertRaises(BadStatusLine, wrapper.check_for_new_content, 73)
         self.assertEqual(wrapper.urlopen.call_count, 10)
-
-

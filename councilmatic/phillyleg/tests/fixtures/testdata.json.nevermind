@@ -1,0 +1,1449 @@
+[
+  {
+    "pk": 15, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "association", 
+      "name": "association", 
+      "app_label": "social_auth"
+    }
+  }, 
+  {
+    "pk": 33, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "bookmark", 
+      "name": "bookmark", 
+      "app_label": "bookmarks"
+    }
+  }, 
+  {
+    "pk": 9, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "comment", 
+      "name": "comment", 
+      "app_label": "comments"
+    }
+  }, 
+  {
+    "pk": 10, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "commentflag", 
+      "name": "comment flag", 
+      "app_label": "comments"
+    }
+  }, 
+  {
+    "pk": 26, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "contentfeed", 
+      "name": "content feed", 
+      "app_label": "subscriptions"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "contenttype", 
+      "name": "content type", 
+      "app_label": "contenttypes"
+    }
+  }, 
+  {
+    "pk": 16, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "councilmember", 
+      "name": "council member", 
+      "app_label": "phillyleg"
+    }
+  }, 
+  {
+    "pk": 25, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "councilmembersubscription", 
+      "name": "council member subscription", 
+      "app_label": "phillyleg"
+    }
+  }, 
+  {
+    "pk": 29, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "emailchannel", 
+      "name": "email channel", 
+      "app_label": "subscriptions"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "group", 
+      "name": "group", 
+      "app_label": "auth"
+    }
+  }, 
+  {
+    "pk": 24, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "keywordsubscription", 
+      "name": "keyword subscription", 
+      "app_label": "phillyleg"
+    }
+  }, 
+  {
+    "pk": 19, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "legaction", 
+      "name": "leg action", 
+      "app_label": "phillyleg"
+    }
+  }, 
+  {
+    "pk": 17, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "legfile", 
+      "name": "leg file", 
+      "app_label": "phillyleg"
+    }
+  }, 
+  {
+    "pk": 18, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "legfileattachment", 
+      "name": "leg file attachment", 
+      "app_label": "phillyleg"
+    }
+  }, 
+  {
+    "pk": 21, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "legfilemetadata", 
+      "name": "leg file meta data", 
+      "app_label": "phillyleg"
+    }
+  }, 
+  {
+    "pk": 20, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "legminutes", 
+      "name": "leg minutes", 
+      "app_label": "phillyleg"
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "logentry", 
+      "name": "log entry", 
+      "app_label": "admin"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "message", 
+      "name": "message", 
+      "app_label": "auth"
+    }
+  }, 
+  {
+    "pk": 22, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "metadata_word", 
+      "name": "meta data_ word", 
+      "app_label": "phillyleg"
+    }
+  }, 
+  {
+    "pk": 12, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "migrationhistory", 
+      "name": "migration history", 
+      "app_label": "south"
+    }
+  }, 
+  {
+    "pk": 14, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "nonce", 
+      "name": "nonce", 
+      "app_label": "social_auth"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "permission", 
+      "name": "permission", 
+      "app_label": "auth"
+    }
+  }, 
+  {
+    "pk": 11, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "registrationprofile", 
+      "name": "registration profile", 
+      "app_label": "registration"
+    }
+  }, 
+  {
+    "pk": 30, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "rsschannel", 
+      "name": "rss channel", 
+      "app_label": "subscriptions"
+    }
+  }, 
+  {
+    "pk": 32, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "searchsubscription", 
+      "name": "search subscription", 
+      "app_label": "subscriptions"
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "session", 
+      "name": "session", 
+      "app_label": "sessions"
+    }
+  }, 
+  {
+    "pk": 7, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "site", 
+      "name": "site", 
+      "app_label": "sites"
+    }
+  }, 
+  {
+    "pk": 31, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "smschannel", 
+      "name": "sms channel", 
+      "app_label": "subscriptions"
+    }
+  }, 
+  {
+    "pk": 27, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "subscriber", 
+      "name": "subscriber", 
+      "app_label": "subscriptions"
+    }
+  }, 
+  {
+    "pk": 23, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "subscription", 
+      "name": "subscription", 
+      "app_label": "phillyleg"
+    }
+  }, 
+  {
+    "pk": 28, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "subscription", 
+      "name": "subscription", 
+      "app_label": "subscriptions"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "user", 
+      "name": "user", 
+      "app_label": "auth"
+    }
+  }, 
+  {
+    "pk": 13, 
+    "model": "contenttypes.contenttype", 
+    "fields": {
+      "model": "usersocialauth", 
+      "name": "user social auth", 
+      "app_label": "social_auth"
+    }
+  }, 
+  {
+    "pk": "69b3a824fe30985f05e74a33a8fa7e9b", 
+    "model": "sessions.session", 
+    "fields": {
+      "expire_date": "2011-09-29 13:57:49", 
+      "session_data": "MmVmN2M0YzM1YWI3OTgwMzAyMTFlZjFlNzNjMTYxNjUxN2JlYzk3NjqAAn1xAShVEl9hdXRoX3Vz\nZXJfYmFja2VuZHECVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHED\nVQ1fYXV0aF91c2VyX2lkcQRLAXUu\n"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "sites.site", 
+    "fields": {
+      "domain": "example.com", 
+      "name": "example.com"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Blackwell", 
+      "headshot": "phillyleg/JBlackwellSM.jpg"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Kenney", 
+      "headshot": "phillyleg/JimKennySM.jpg"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Krajewski", 
+      "headshot": "phillyleg/KrajewskiSM.jpg"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember DiCicco", 
+      "headshot": "phillyleg/DiCiccoSM.jpg"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Mariano", 
+      "headshot": "phillyleg/noun_project_416.png"
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember O'Neill", 
+      "headshot": "phillyleg/Councilman_ONeillsmall.gif"
+    }
+  }, 
+  {
+    "pk": 7, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Tasco", 
+      "headshot": "phillyleg/TascoSM.jpg"
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Cohen", 
+      "headshot": "phillyleg/noun_project_416.png"
+    }
+  }, 
+  {
+    "pk": 9, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Nutter", 
+      "headshot": "phillyleg/noun_project_416.png"
+    }
+  }, 
+  {
+    "pk": 10, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Miller", 
+      "headshot": "phillyleg/drmSM.jpg"
+    }
+  }, 
+  {
+    "pk": 11, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Reynolds Brown", 
+      "headshot": "phillyleg/BRBphoto_SM.jpg"
+    }
+  }, 
+  {
+    "pk": 12, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Ortiz", 
+      "headshot": "phillyleg/noun_project_416.png"
+    }
+  }, 
+  {
+    "pk": 13, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Rizzo", 
+      "headshot": "phillyleg/RizzoSM.jpg"
+    }
+  }, 
+  {
+    "pk": 14, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Clarke", 
+      "headshot": "phillyleg/ClarkeSM.jpg"
+    }
+  }, 
+  {
+    "pk": 15, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Goode", 
+      "headshot": "phillyleg/GoodeSM.jpg"
+    }
+  }, 
+  {
+    "pk": 16, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Council President Verna", 
+      "headshot": "phillyleg/VernaSM.jpg"
+    }
+  }, 
+  {
+    "pk": 18, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Longstreth", 
+      "headshot": "phillyleg/noun_project_416.png"
+    }
+  }, 
+  {
+    "pk": 19, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Ramos", 
+      "headshot": "phillyleg/noun_project_416.png"
+    }
+  }, 
+  {
+    "pk": 20, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Kelly", 
+      "headshot": "phillyleg/jackKellySM.jpg"
+    }
+  }, 
+  {
+    "pk": 21, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Greenlee", 
+      "headshot": "phillyleg/williamGreenleeSM.jpg"
+    }
+  }, 
+  {
+    "pk": 22, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Savage", 
+      "headshot": "phillyleg/noun_project_416.png"
+    }
+  }, 
+  {
+    "pk": 23, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Campbell", 
+      "headshot": "phillyleg/noun_project_416.png"
+    }
+  }, 
+  {
+    "pk": 24, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Sanchez", 
+      "headshot": "phillyleg/MDQSSM.jpg"
+    }
+  }, 
+  {
+    "pk": 25, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Jones", 
+      "headshot": "phillyleg/cJonesSM.jpg"
+    }
+  }, 
+  {
+    "pk": 26, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Green", 
+      "headshot": "phillyleg/billGreenSM.jpg"
+    }
+  }, 
+  {
+    "pk": 28, 
+    "model": "phillyleg.councilmember", 
+    "fields": {
+      "name": "Councilmember Kenny", 
+      "headshot": "phillyleg/JimKennySM.jpg"
+    }
+  }, 
+  {
+    "pk": 22, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_logentry", 
+      "name": "Can add log entry", 
+      "content_type": 8
+    }
+  }, 
+  {
+    "pk": 23, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_logentry", 
+      "name": "Can change log entry", 
+      "content_type": 8
+    }
+  }, 
+  {
+    "pk": 24, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_logentry", 
+      "name": "Can delete log entry", 
+      "content_type": 8
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_group", 
+      "name": "Can add group", 
+      "content_type": 2
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_group", 
+      "name": "Can change group", 
+      "content_type": 2
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_group", 
+      "name": "Can delete group", 
+      "content_type": 2
+    }
+  }, 
+  {
+    "pk": 10, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_message", 
+      "name": "Can add message", 
+      "content_type": 4
+    }
+  }, 
+  {
+    "pk": 11, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_message", 
+      "name": "Can change message", 
+      "content_type": 4
+    }
+  }, 
+  {
+    "pk": 12, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_message", 
+      "name": "Can delete message", 
+      "content_type": 4
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_permission", 
+      "name": "Can add permission", 
+      "content_type": 1
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_permission", 
+      "name": "Can change permission", 
+      "content_type": 1
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_permission", 
+      "name": "Can delete permission", 
+      "content_type": 1
+    }
+  }, 
+  {
+    "pk": 7, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_user", 
+      "name": "Can add user", 
+      "content_type": 3
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_user", 
+      "name": "Can change user", 
+      "content_type": 3
+    }
+  }, 
+  {
+    "pk": 9, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_user", 
+      "name": "Can delete user", 
+      "content_type": 3
+    }
+  }, 
+  {
+    "pk": 98, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_bookmark", 
+      "name": "Can add bookmark", 
+      "content_type": 33
+    }
+  }, 
+  {
+    "pk": 99, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_bookmark", 
+      "name": "Can change bookmark", 
+      "content_type": 33
+    }
+  }, 
+  {
+    "pk": 100, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_bookmark", 
+      "name": "Can delete bookmark", 
+      "content_type": 33
+    }
+  }, 
+  {
+    "pk": 25, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_comment", 
+      "name": "Can add comment", 
+      "content_type": 9
+    }
+  }, 
+  {
+    "pk": 28, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "can_moderate", 
+      "name": "Can moderate comments", 
+      "content_type": 9
+    }
+  }, 
+  {
+    "pk": 26, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_comment", 
+      "name": "Can change comment", 
+      "content_type": 9
+    }
+  }, 
+  {
+    "pk": 27, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_comment", 
+      "name": "Can delete comment", 
+      "content_type": 9
+    }
+  }, 
+  {
+    "pk": 29, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_commentflag", 
+      "name": "Can add comment flag", 
+      "content_type": 10
+    }
+  }, 
+  {
+    "pk": 30, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_commentflag", 
+      "name": "Can change comment flag", 
+      "content_type": 10
+    }
+  }, 
+  {
+    "pk": 31, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_commentflag", 
+      "name": "Can delete comment flag", 
+      "content_type": 10
+    }
+  }, 
+  {
+    "pk": 13, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_contenttype", 
+      "name": "Can add content type", 
+      "content_type": 5
+    }
+  }, 
+  {
+    "pk": 14, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_contenttype", 
+      "name": "Can change content type", 
+      "content_type": 5
+    }
+  }, 
+  {
+    "pk": 15, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_contenttype", 
+      "name": "Can delete content type", 
+      "content_type": 5
+    }
+  }, 
+  {
+    "pk": 47, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_councilmember", 
+      "name": "Can add council member", 
+      "content_type": 16
+    }
+  }, 
+  {
+    "pk": 48, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_councilmember", 
+      "name": "Can change council member", 
+      "content_type": 16
+    }
+  }, 
+  {
+    "pk": 49, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_councilmember", 
+      "name": "Can delete council member", 
+      "content_type": 16
+    }
+  }, 
+  {
+    "pk": 74, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_councilmembersubscription", 
+      "name": "Can add council member subscription", 
+      "content_type": 25
+    }
+  }, 
+  {
+    "pk": 75, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_councilmembersubscription", 
+      "name": "Can change council member subscription", 
+      "content_type": 25
+    }
+  }, 
+  {
+    "pk": 76, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_councilmembersubscription", 
+      "name": "Can delete council member subscription", 
+      "content_type": 25
+    }
+  }, 
+  {
+    "pk": 71, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_keywordsubscription", 
+      "name": "Can add keyword subscription", 
+      "content_type": 24
+    }
+  }, 
+  {
+    "pk": 72, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_keywordsubscription", 
+      "name": "Can change keyword subscription", 
+      "content_type": 24
+    }
+  }, 
+  {
+    "pk": 73, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_keywordsubscription", 
+      "name": "Can delete keyword subscription", 
+      "content_type": 24
+    }
+  }, 
+  {
+    "pk": 56, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_legaction", 
+      "name": "Can add leg action", 
+      "content_type": 19
+    }
+  }, 
+  {
+    "pk": 57, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_legaction", 
+      "name": "Can change leg action", 
+      "content_type": 19
+    }
+  }, 
+  {
+    "pk": 58, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_legaction", 
+      "name": "Can delete leg action", 
+      "content_type": 19
+    }
+  }, 
+  {
+    "pk": 50, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_legfile", 
+      "name": "Can add leg file", 
+      "content_type": 17
+    }
+  }, 
+  {
+    "pk": 51, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_legfile", 
+      "name": "Can change leg file", 
+      "content_type": 17
+    }
+  }, 
+  {
+    "pk": 52, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_legfile", 
+      "name": "Can delete leg file", 
+      "content_type": 17
+    }
+  }, 
+  {
+    "pk": 53, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_legfileattachment", 
+      "name": "Can add leg file attachment", 
+      "content_type": 18
+    }
+  }, 
+  {
+    "pk": 54, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_legfileattachment", 
+      "name": "Can change leg file attachment", 
+      "content_type": 18
+    }
+  }, 
+  {
+    "pk": 55, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_legfileattachment", 
+      "name": "Can delete leg file attachment", 
+      "content_type": 18
+    }
+  }, 
+  {
+    "pk": 62, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_legfilemetadata", 
+      "name": "Can add leg file meta data", 
+      "content_type": 21
+    }
+  }, 
+  {
+    "pk": 63, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_legfilemetadata", 
+      "name": "Can change leg file meta data", 
+      "content_type": 21
+    }
+  }, 
+  {
+    "pk": 64, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_legfilemetadata", 
+      "name": "Can delete leg file meta data", 
+      "content_type": 21
+    }
+  }, 
+  {
+    "pk": 59, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_legminutes", 
+      "name": "Can add leg minutes", 
+      "content_type": 20
+    }
+  }, 
+  {
+    "pk": 60, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_legminutes", 
+      "name": "Can change leg minutes", 
+      "content_type": 20
+    }
+  }, 
+  {
+    "pk": 61, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_legminutes", 
+      "name": "Can delete leg minutes", 
+      "content_type": 20
+    }
+  }, 
+  {
+    "pk": 65, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_metadata_word", 
+      "name": "Can add meta data_ word", 
+      "content_type": 22
+    }
+  }, 
+  {
+    "pk": 66, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_metadata_word", 
+      "name": "Can change meta data_ word", 
+      "content_type": 22
+    }
+  }, 
+  {
+    "pk": 67, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_metadata_word", 
+      "name": "Can delete meta data_ word", 
+      "content_type": 22
+    }
+  }, 
+  {
+    "pk": 68, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_subscription", 
+      "name": "Can add subscription", 
+      "content_type": 23
+    }
+  }, 
+  {
+    "pk": 69, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_subscription", 
+      "name": "Can change subscription", 
+      "content_type": 23
+    }
+  }, 
+  {
+    "pk": 70, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_subscription", 
+      "name": "Can delete subscription", 
+      "content_type": 23
+    }
+  }, 
+  {
+    "pk": 32, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_registrationprofile", 
+      "name": "Can add registration profile", 
+      "content_type": 11
+    }
+  }, 
+  {
+    "pk": 33, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_registrationprofile", 
+      "name": "Can change registration profile", 
+      "content_type": 11
+    }
+  }, 
+  {
+    "pk": 34, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_registrationprofile", 
+      "name": "Can delete registration profile", 
+      "content_type": 11
+    }
+  }, 
+  {
+    "pk": 16, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_session", 
+      "name": "Can add session", 
+      "content_type": 6
+    }
+  }, 
+  {
+    "pk": 17, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_session", 
+      "name": "Can change session", 
+      "content_type": 6
+    }
+  }, 
+  {
+    "pk": 18, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_session", 
+      "name": "Can delete session", 
+      "content_type": 6
+    }
+  }, 
+  {
+    "pk": 19, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_site", 
+      "name": "Can add site", 
+      "content_type": 7
+    }
+  }, 
+  {
+    "pk": 20, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_site", 
+      "name": "Can change site", 
+      "content_type": 7
+    }
+  }, 
+  {
+    "pk": 21, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_site", 
+      "name": "Can delete site", 
+      "content_type": 7
+    }
+  }, 
+  {
+    "pk": 44, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_association", 
+      "name": "Can add association", 
+      "content_type": 15
+    }
+  }, 
+  {
+    "pk": 45, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_association", 
+      "name": "Can change association", 
+      "content_type": 15
+    }
+  }, 
+  {
+    "pk": 46, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_association", 
+      "name": "Can delete association", 
+      "content_type": 15
+    }
+  }, 
+  {
+    "pk": 41, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_nonce", 
+      "name": "Can add nonce", 
+      "content_type": 14
+    }
+  }, 
+  {
+    "pk": 42, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_nonce", 
+      "name": "Can change nonce", 
+      "content_type": 14
+    }
+  }, 
+  {
+    "pk": 43, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_nonce", 
+      "name": "Can delete nonce", 
+      "content_type": 14
+    }
+  }, 
+  {
+    "pk": 38, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_usersocialauth", 
+      "name": "Can add user social auth", 
+      "content_type": 13
+    }
+  }, 
+  {
+    "pk": 39, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_usersocialauth", 
+      "name": "Can change user social auth", 
+      "content_type": 13
+    }
+  }, 
+  {
+    "pk": 40, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_usersocialauth", 
+      "name": "Can delete user social auth", 
+      "content_type": 13
+    }
+  }, 
+  {
+    "pk": 35, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_migrationhistory", 
+      "name": "Can add migration history", 
+      "content_type": 12
+    }
+  }, 
+  {
+    "pk": 36, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_migrationhistory", 
+      "name": "Can change migration history", 
+      "content_type": 12
+    }
+  }, 
+  {
+    "pk": 37, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_migrationhistory", 
+      "name": "Can delete migration history", 
+      "content_type": 12
+    }
+  }, 
+  {
+    "pk": 77, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_contentfeed", 
+      "name": "Can add content feed", 
+      "content_type": 26
+    }
+  }, 
+  {
+    "pk": 78, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_contentfeed", 
+      "name": "Can change content feed", 
+      "content_type": 26
+    }
+  }, 
+  {
+    "pk": 79, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_contentfeed", 
+      "name": "Can delete content feed", 
+      "content_type": 26
+    }
+  }, 
+  {
+    "pk": 86, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_emailchannel", 
+      "name": "Can add email channel", 
+      "content_type": 29
+    }
+  }, 
+  {
+    "pk": 87, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_emailchannel", 
+      "name": "Can change email channel", 
+      "content_type": 29
+    }
+  }, 
+  {
+    "pk": 88, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_emailchannel", 
+      "name": "Can delete email channel", 
+      "content_type": 29
+    }
+  }, 
+  {
+    "pk": 89, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_rsschannel", 
+      "name": "Can add rss channel", 
+      "content_type": 30
+    }
+  }, 
+  {
+    "pk": 90, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_rsschannel", 
+      "name": "Can change rss channel", 
+      "content_type": 30
+    }
+  }, 
+  {
+    "pk": 91, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_rsschannel", 
+      "name": "Can delete rss channel", 
+      "content_type": 30
+    }
+  }, 
+  {
+    "pk": 95, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_searchsubscription", 
+      "name": "Can add search subscription", 
+      "content_type": 32
+    }
+  }, 
+  {
+    "pk": 96, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_searchsubscription", 
+      "name": "Can change search subscription", 
+      "content_type": 32
+    }
+  }, 
+  {
+    "pk": 97, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_searchsubscription", 
+      "name": "Can delete search subscription", 
+      "content_type": 32
+    }
+  }, 
+  {
+    "pk": 92, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_smschannel", 
+      "name": "Can add sms channel", 
+      "content_type": 31
+    }
+  }, 
+  {
+    "pk": 93, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_smschannel", 
+      "name": "Can change sms channel", 
+      "content_type": 31
+    }
+  }, 
+  {
+    "pk": 94, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_smschannel", 
+      "name": "Can delete sms channel", 
+      "content_type": 31
+    }
+  }, 
+  {
+    "pk": 80, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_subscriber", 
+      "name": "Can add subscriber", 
+      "content_type": 27
+    }
+  }, 
+  {
+    "pk": 81, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_subscriber", 
+      "name": "Can change subscriber", 
+      "content_type": 27
+    }
+  }, 
+  {
+    "pk": 82, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_subscriber", 
+      "name": "Can delete subscriber", 
+      "content_type": 27
+    }
+  }, 
+  {
+    "pk": 83, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "add_subscription", 
+      "name": "Can add subscription", 
+      "content_type": 28
+    }
+  }, 
+  {
+    "pk": 84, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "change_subscription", 
+      "name": "Can change subscription", 
+      "content_type": 28
+    }
+  }, 
+  {
+    "pk": 85, 
+    "model": "auth.permission", 
+    "fields": {
+      "codename": "delete_subscription", 
+      "name": "Can delete subscription", 
+      "content_type": 28
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "admin", 
+      "first_name": "", 
+      "last_name": "", 
+      "is_active": true, 
+      "is_superuser": true, 
+      "is_staff": true, 
+      "last_login": "2011-09-15 13:57:49", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "sha1$8311e$7dad4f02dd9d5ee32b353ed8a880a3bb9cf95ace", 
+      "email": "admin@localhost.me", 
+      "date_joined": "2011-09-15 13:55:55"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "subscriptions.subscriber", 
+    "fields": {
+      "user_permissions": [], 
+      "groups": []
+    }
+  }
+]

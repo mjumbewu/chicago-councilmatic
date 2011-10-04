@@ -196,6 +196,41 @@ class LegMinutes(models.Model):
     def get_absolute_url(self):
         return ('minutes_detail', [str(self.pk)])
 
+    def unique_words(self):
+        """
+        Gets all the white-space separated words in the minutes.  A word is
+        anything that starts and ends with word characters and has no internal
+        white space.
+
+        """
+        # Get rid of any punctuation on the outside of words.
+        only_words = re.sub(r'(\s\W+|\W+\s|\W+$)', ' ', self.fulltext)
+
+        # Pick out and return the unique values by spliting on whitespace, and
+        # lowercasing everything.
+        unique_words = set(word.lower() for word in only_words.split())
+        return unique_words
+
+    def save(self, update_words=True, *args, **kwargs):
+        """
+        Calls the default ``Models.save()`` method, and creates or updates
+        metadata for the minutes as well.
+
+        """
+        super(LegMinutes, self).save(*args, **kwargs)
+
+        metadata = LegMinutesMetaData.objects.get_or_create(legminutes=self)[0]
+
+        if update_words:
+            # Add the unique words to the metadata
+            metadata.words.clear()
+            unique_words = self.unique_words()
+            for word in unique_words:
+                md_word = MetaData_Word.objects.get_or_create(value=word)[0]
+                metadata.words.add(md_word)
+
+        metadata.save()
+
 
 #
 # Meta-data
@@ -203,12 +238,20 @@ class LegMinutes(models.Model):
 
 class LegFileMetaData (models.Model):
     legfile = models.OneToOneField('LegFile', related_name='metadata')
-    words = models.ManyToManyField('MetaData_Word', related_name='references')
-    mentioned_legfiles = models.ManyToManyField('LegFile', related_name='references')
+    words = models.ManyToManyField('MetaData_Word', related_name='references_in_legislation')
+    mentioned_legfiles = models.ManyToManyField('LegFile', related_name='references_in_legislation')
 
     def __unicode__(self):
         return (u'%s (mentions %s other files, mentioned by %s other files)' % \
             (self.legfile.pk, len(self.mentioned_legfiles.all()), len(self.legfile.references.all())))
+
+
+class LegMinutesMetaData (models.Model):
+    legminutes = models.OneToOneField('LegMinutes', related_name='metadata')
+    words = models.ManyToManyField('MetaData_Word', related_name='references_in_minutes')
+    
+    def __unicode__(self):
+        return u'metadata for %s' % self.legminutes
 
 
 class MetaData_Word (models.Model):
