@@ -9,12 +9,9 @@ import subscriptions.forms as forms
 import subscriptions.models as models
 
 class SingleSubscriptionMixin (object):
-    feed_data = None
-    """A factory for the feed_data object that describes this content feed"""
-
-    def get_content_feed(self, *args, **kwargs):
-        feed_data = self.feed_data(*args, **kwargs)
-        return models.ContentFeed.factory(feed_data)
+    def get_content_feed(self):
+        """A factory for the ContentFeed object that describes this content feed"""
+        raise NotImplementedError()
 
     def get_subscription(self, feed):
         if self.request.user and self.request.user.is_authenticated():
@@ -38,9 +35,11 @@ class SingleSubscriptionMixin (object):
             except models.Subscriber.DoesNotExist:
                 return None
 
-            if not self.request.user.subscriber.is_subscribed(feed):
-                form = forms.SubscriptionForm({'feed': feed,
-                                               'subscriber': subscriber})
+            subscription = self.request.user.subscriber.subscription(feed)
+            if subscription is not None:
+                form = forms.SubscriptionForm(
+                    {'feed_record': subscription.feed_record,
+                     'subscriber': subscriber})
                 return form
 
         return None

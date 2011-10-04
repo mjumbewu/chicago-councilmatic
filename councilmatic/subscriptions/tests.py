@@ -5,60 +5,30 @@ import datetime
 import pickle
 
 from django.test import TestCase
+from logging import getLogger
+from logging import CRITICAL, DEBUG, ERROR, INFO, WARN
 from mock import Mock
 from nose.tools import *
 
-from subscriptions.management.dispatcher import SubscriptionDispatcher
-from subscriptions.models import ContentFeed
-from subscriptions.models import FeedData
+from subscriptions.feeds import ContentFeed
+from subscriptions.feeds import ContentFeedLibrary
+from subscriptions.feeds import ContentFeedRecordUpdater
+from subscriptions.feeds import SubscriptionDispatcher
+from subscriptions.models import ContentFeedParameter
+from subscriptions.models import ContentFeedRecord
 from subscriptions.models import Subscriber
 from subscriptions.models import Subscription
 from subscriptions.models import SerializedObjectField
 from subscriptions.views import SingleSubscriptionMixin
 
-from subscriptions.management.feeds import FeedCollector
-from subscriptions.management.feeds import FeedUpdater
-
 # Models
 
-class DummyFeedData (FeedData):
-    queryset = [1,2,3,4]
+class DummyFeed (ContentFeed):
+    def get_content(self):
+        [1,2,3,4]
+
     def calc_last_updated(self, item):
         return 2
-
-class Test_ContentFeed_getContent (TestCase):
-
-    def test_returns_the_query_results(self):
-        feed = ContentFeed()
-        feed.data = DummyFeedData()
-
-        content = feed.get_content()
-        self.assertEqual(content, [1, 2, 3, 4])
-
-
-#class Test_ContentFeed_factory (TestCase):
-#
-#    def test_creates_a_content_feed_object_with_a_ListQueryStore_from_a_list(self):
-#        query = []
-#
-#        feed = ContentFeed().factory(query, None)
-#
-#        self.assertEqual(feed.querystore_type.name, 'list query store')
-#
-#    def test_creates_a_content_feed_object_with_a_ModelQueryStore_from_a_QuerySet(self):
-#        query = Subscriber.objects.all()
-#
-#        feed = ContentFeed().factory(query, None)
-#
-#        self.assertEqual(feed.querystore_type.name, 'model query store')
-#
-#    def test_creates_a_content_feed_object_with_a_SearchQueryStore_from_a_SearchQuerySet(self):
-#        import haystack.query
-#        query = haystack.query.SearchQuerySet().all()
-#
-#        feed = ContentFeed().factory(query, None)
-#
-#        self.assertEqual(feed.querystore_type.name, 'search query store')
 
 
 class Test_Subscription_save (TestCase):
@@ -66,16 +36,17 @@ class Test_Subscription_save (TestCase):
 
     def setUp(self):
         Subscriber.objects.all().delete()
-        ContentFeed.objects.all().delete()
+        ContentFeedRecord.objects.all().delete()
+        ContentFeedParameter.objects.all().delete()
         Subscription.objects.all().delete()
 
         user = self.user = Subscriber(); user.save()
-        feed = self.feed = ContentFeed(); feed.data = FeedData(); feed.save()
+        record = self.record = ContentFeedRecord(); record.save()
 
-        sub = self.sub = Subscription(subscriber=user, feed=feed); sub.save()
+        sub = self.sub = Subscription(subscriber=user, feed_record=record); sub.save()
 
     def test_sets_lastSent_datetime_to_current_time_when_instance_is_new(self):
-        subscription = Subscription(subscriber=self.user, feed=self.feed)
+        subscription = Subscription(subscriber=self.user, feed_record=self.record)
 
         before = datetime.datetime.now()
         subscription.save()
@@ -94,76 +65,110 @@ class Test_Subscription_save (TestCase):
     def test_will_retain_its_value_after_being_queryied(self):
         subscription = Subscription.objects.get(pk=self.sub.pk)
 
-        assert_equal(type(subscription.feed.data), type(self.feed.data))
+        assert_equal(type(subscription.feed_record), type(self.record))
 
+
+def fail(msg=None):
+    ok_(False, msg)
 
 class Test_Subscriber_subscribe (TestCase):
 
     def setUp(self):
         Subscriber.objects.all().delete()
-        ContentFeed.objects.all().delete()
+        ContentFeedRecord.objects.all().delete()
+        ContentFeedParameter.objects.all().delete()
         Subscription.objects.all().delete()
 
-        feed = self.feed = ContentFeed(); feed.data = FeedData(); feed.save()
-        subscriber = self.subscriber = Subscriber(); subscriber.save()
+        ContentFeedLibrary().register(ContentFeed, 'generic content feed')
+
+        record = self.record = ContentFeedRecord.objects.create(feed_name='generic content feed')
+        subscriber = self.subscriber = Subscriber.objects.create()
 
     def test_creates_a_new_subscription_associating_the_user_and_feed(self):
-        subscription = self.subscriber.subscribe(self.feed)
+        feed = ContentFeed()
+        feed.get_params = lambda: {}
+        subscription = self.subscriber.subscribe(feed)
 
         self.assertEqual(subscription.subscriber, self.subscriber)
-        self.assertEqual(subscription.feed, self.feed)
+        self.assertEqual(subscription.feed_record, self.record)
 
     def test_doesnt_save_subscription_if_commit_is_false(self):
-        subscription = self.subscriber.subscribe(self.feed, commit=False)
+        feed = ContentFeed()
+        feed.get_params = lambda: {}
+        subscription = self.subscriber.subscribe(feed, commit=False)
 
         self.assertIsNone(subscription.pk)
 
+    def test_raises_NotFound_when_feed_is_not_registered (self):
+        class BogusFeed(ContentFeed):
+            pass
 
-class StubFeedData (FeedData):
-    def __init__(self, content):
-        self.queryset = content
+        feed = BogusFeed()
+        try:
+            self.subscriber.subscribe(feed)
+            fail('Should have raised BogusFeed.NotFound exception')
+        except BogusFeed.NotFound:
+            pass
 
-    def calc_last_updated(self, item):
-        return 5
+
+class ListItemFeed (ContentFeed):
+    def __init__(self, items):
+        self.items = eval(items)
+
+    def get_content(self):
+        return self.items
+
+    def get_params(self):
+        return {'items': str(self.items)}
+
 
 class Test_Subscriber_isSubscribed (TestCase):
 
-    def _makeFeedData(self, content):
-        return StubFeedData(content)
-
     def setUp(self):
         Subscriber.objects.all().delete()
-        ContentFeed.objects.all().delete()
+        ContentFeedRecord.objects.all().delete()
+        ContentFeedParameter.objects.all().delete()
         Subscription.objects.all().delete()
 
-        feed = self.feed = ContentFeed.factory(self._makeFeedData([1,2,3])); feed.save()
-        subscriber = self.subscriber = Subscriber(); subscriber.save()
+        library = self.library = ContentFeedLibrary(shared=False)
+        library.register(ListItemFeed, 'list feed')
 
-        subscriber.subscribe(feed)
+        feed = self.feed = ListItemFeed('[1,2,3]')
+        record = self.record = library.get_record(feed)
+        subscriber = self.subscriber = Subscriber.objects.create()
+
+        subscriber.subscribe(feed, library)
         subscriber.save()
 
     def test_returns_true_when_feed_is_found(self):
-        feed2 = ContentFeed.factory(self._makeFeedData([1,2,3]))
-        is_subscribed = self.subscriber.is_subscribed(feed2)
+        feed2 = ListItemFeed('[1,2,3]')
+        record2 = self.library.get_record(feed2)
+        subscription = self.subscriber.subscription(feed2, self.library)
 
-        assert is_subscribed
+        assert subscription is not None
 
     def test_returns_false_when_feed_is_not_found(self):
-        feed2 = ContentFeed.factory(self._makeFeedData([2,3,4]))
-        is_subscribed = self.subscriber.is_subscribed(feed2)
+        feed2 = ListItemFeed('[2,3,4]')
+        record2 = self.library.get_record(feed2)
+        subscription = self.subscriber.subscription(feed2, self.library)
 
-        assert not is_subscribed
+        assert subscription is None
 
 
 # Management commands
 
 from phillyleg.models import LegFile
-class NewLegFilesData (FeedData):
-    queryset = LegFile.objects.all()
-    def calc_last_updated(self, legfile):
+class NewLegFilesFeed (ContentFeed):
+    def get_content(self):
+        return LegFile.objects.all()
+
+    def get_last_updated(self, legfile):
         return legfile.intro_date
 
-class Test_FeedUpdater_update (TestCase):
+    def get_params(self):
+        return {}
+
+class Test_ContentFeedUpdater_update (TestCase):
 
     def setUp(self):
 
@@ -181,81 +186,81 @@ class Test_FeedUpdater_update (TestCase):
             LegFile(intro_date=intro, final_date=final, key=key, date_scraped=datetime.date.today()).save()
             key += 1
 
-        self.feed = ContentFeed()
-        self.feed.data = NewLegFilesData()
+        self.library = ContentFeedLibrary(shared=False)
+        self.library.register(NewLegFilesFeed, 'feed_class_123456')
+        self.record = self.library.get_record(NewLegFilesFeed())
 
     def test_changes_the_lastUpdated_of_a_legfiles_feed_to_most_recent_intro_date(self):
-        updater = FeedUpdater()
+        updater = ContentFeedRecordUpdater()
 
-        updater.update(self.feed)
+        updater.update(self.record, self.library)
 
-        self.assertEqual(self.feed.last_updated, datetime.date(2011, 8, 17))
-
-
-class MyListFeedData (FeedData):
-    def __init__(self, l):
-        self.queryset = l
-
-class Test_FeedUpdater_updateAll (TestCase):
-
-    def setUp(self):
-
-        self.feeds = [ ContentFeed.factory(MyListFeedData(['hello'])),
-                       ContentFeed.factory(MyListFeedData(['world'])) ]
-
-    def test_calls_get_last_updated_on_all_feed_objects(self):
-        self.feeds[0].get_last_updated = Mock(return_value=datetime.datetime.now())
-        self.feeds[1].get_last_updated = Mock(return_value=datetime.datetime.now())
-
-        updater = FeedUpdater()
-
-        updater.update_all(self.feeds)
-
-        self.feeds[0].get_last_updated.assert_called_with('hello')
-        self.feeds[1].get_last_updated.assert_called_with('world')
+        self.assertEqual(self.record.last_updated, datetime.date(2011, 8, 17))
 
 
-class Test_FeedCollector_collectNewContent (TestCase):
+#class Test_ContentFeedUpdater_updateAll (TestCase):
 
-    def test_returns_exactly_those_items_newer_than_the_last_sent_datetime(self):
-        feed = Mock()
-        feed.get_content = Mock(return_value=[datetime.datetime(2009, 1, 1),
-                                              datetime.datetime(2010, 1, 1),
-                                              datetime.datetime(2011, 1, 1),
-                                              datetime.datetime(2012, 1, 1),])
-        feed.get_last_updated = lambda item: item
-        last_sent = datetime.datetime(2010, 1, 1)
+#    def setUp(self):
 
-        collector = FeedCollector()
-        content = collector.collect_new_content(feed, last_sent)
+#        library = self.library = ContentFeedLibrary(shared=False)
+#        library.register(ListItemFeed, 'list feed')
 
-        self.assertEqual(content, [datetime.datetime(2011, 1, 1),
-                                   datetime.datetime(2012, 1, 1),])
+#        self.feeds = [ ListItemFeed("['hello']"),
+#                       ListItemFeed("['world']") ]
 
-    def test_converts_dates_to_datetimes_for_comparison(self):
-        feed = Mock()
-        feed.get_content = Mock(return_value=[False, '1', '2', '3', '4', '5'])
+#        self.feed_records = [library.get_record(feed) for feed in self.feeds]
 
-        # The last_sent value is compared with feed.get_last_updated(...), so
-        # check one direction first...
-        feed.get_last_updated = lambda item: datetime.date(2011, 8, 23)
-        last_sent = datetime.datetime(2011, 8, 23)
+#    def test_calls_get_last_updated_on_all_feed_objects(self):
 
-        collector = FeedCollector()
-        try:
-            content = collector.collect_new_content(feed, last_sent)
-        except TypeError, e:
-            self.fail(e)
+#        updater = ContentFeedRecordUpdater()
 
-        # ...then check the other direction.
-        feed.get_last_updated = lambda item: datetime.datetime(2011, 8, 23)
-        last_sent = datetime.date(2011, 8, 23)
+#        updater.update_all(self.feed_records, self.library)
 
-        collector = FeedCollector()
-        try:
-            content = collector.collect_new_content(feed, last_sent)
-        except TypeError, e:
-            self.fail(e)
+#        self.feeds[0].get_last_updated.assert_called_with('hello')
+#        self.feeds[1].get_last_updated.assert_called_with('world')
+
+
+#class Test_FeedCollector_collectNewContent (TestCase):
+
+#    def test_returns_exactly_those_items_newer_than_the_last_sent_datetime(self):
+#        feed = Mock()
+#        feed.get_content = Mock(return_value=[datetime.datetime(2009, 1, 1),
+#                                              datetime.datetime(2010, 1, 1),
+#                                              datetime.datetime(2011, 1, 1),
+#                                              datetime.datetime(2012, 1, 1),])
+#        feed.get_last_updated = lambda item: item
+#        last_sent = datetime.datetime(2010, 1, 1)
+
+#        collector = FeedCollector()
+#        content = collector.collect_new_content(feed, last_sent)
+
+#        self.assertEqual(content, [datetime.datetime(2011, 1, 1),
+#                                   datetime.datetime(2012, 1, 1),])
+
+#    def test_converts_dates_to_datetimes_for_comparison(self):
+#        feed = Mock()
+#        feed.get_content = Mock(return_value=[False, '1', '2', '3', '4', '5'])
+
+#        # The last_sent value is compared with feed.get_last_updated(...), so
+#        # check one direction first...
+#        feed.get_last_updated = lambda item: datetime.date(2011, 8, 23)
+#        last_sent = datetime.datetime(2011, 8, 23)
+
+#        collector = FeedCollector()
+#        try:
+#            content = collector.collect_new_content(feed, last_sent)
+#        except TypeError, e:
+#            self.fail(e)
+
+#        # ...then check the other direction.
+#        feed.get_last_updated = lambda item: datetime.datetime(2011, 8, 23)
+#        last_sent = datetime.date(2011, 8, 23)
+
+#        collector = FeedCollector()
+#        try:
+#            content = collector.collect_new_content(feed, last_sent)
+#        except TypeError, e:
+#            self.fail(e)
 
 
 class Test_SerializedObjectField_toPython (TestCase):
@@ -269,18 +274,6 @@ class Test_SerializedObjectField_toPython (TestCase):
         self.assertEqual(result, [])
 
 
-class Test_ContentFeed_filtering (TestCase):
-
-    def test_matches_exact_when_same_object(self):
-        feed_data = FeedData()
-        content_feed = ContentFeed.factory(feed_data)
-        content_feed.save()
-
-        feeds = ContentFeed.objects.filter(data=feed_data)
-
-        assert feeds
-
-
 class Test_SingleSubscriptionMixin_getContextData:
 
     def setUp(self):
@@ -289,11 +282,12 @@ class Test_SingleSubscriptionMixin_getContextData:
                 return {}
 
         class SubscriptionView (SingleSubscriptionMixin, DoNothinView):
-            pass
+            def get_content_feed(self):
+                return ContentFeed()
 
         self.view = SubscriptionView()
         self.view.request = Mock()
-        self.view.feed_data = FeedData
+        self.view.feed_data = ContentFeed
 
     @istest
     def has_isSubscribed_set_to_False_when_unauthenticated (self):
@@ -321,7 +315,7 @@ class Test_SingleSubscriptionMixin_getContextData:
 
         assert_equal(data['is_subscribed'], True)
         assert_is_not_none(data['subscription'])
-        assert_is_none(data['subscription_form'])
+        assert_is_not_none(data['subscription_form'])
 
     @istest
     def has_isSubscribed_set_to_False_when_not_subscribed (self):
@@ -333,8 +327,6 @@ class Test_SingleSubscriptionMixin_getContextData:
                 class Subscriber (Mock):
                     def subscription(self, feed):
                         return None
-                    def is_subscribed(self, feed):
-                        return False
                 return Subscriber()
             def subscription(self, feed):
                 return None
@@ -345,18 +337,33 @@ class Test_SingleSubscriptionMixin_getContextData:
 
         assert_equal(data['is_subscribed'], False)
         assert_is_none(data['subscription'])
-        assert_is_not_none(data['subscription_form'])
+#        assert_is_not_none(data['subscription_form'])
 
 
-class Test__SubscriptionDispatcher_dispatch:
+class Test_SubscriptionDispatcher_dispatch:
+
+    def setup(self):
+        library = self.library = ContentFeedLibrary()
+        subscriber = self.subscriber = Mock()
+        subscription = self.subscription = Mock()
+        subscription.last_sent = datetime.datetime(2011,1,1,0,0)
+        subscription.feed_record.last_updated = datetime.datetime(2011,8,4,6,50)
+        subscription.feed_record.feed_name = 'MockFeed'
+        param1 = Mock(); param1.name = 'p1'; param1.value = '1'
+        param2 = Mock(); param2.name = 'p2'; param2.value = '2'
+        subscription.feed.feed_params.all = lambda: [param1, param2]
+        subscriber.subscriptions.all = lambda: [subscription]
 
     @istest
     def updates_the_lastSent_time_of_the_subscription_to_the_feeds_lastUpdated_time (self):
+        mock_feed = Mock()
+        self.library.get_feed = lambda *a, **k: mock_feed
+        mock_feed.get_updates_since = lambda *a, **k: []
+
         dispatcher = SubscriptionDispatcher()
-        subscription = Mock()
-#        subscription.feed = Mock()
-        subscription.feed.last_updated = datetime.datetime(2011,8,4,6,50)
+        dispatcher.template_name = 'subscriptions/subscription_email.txt'
+        dispatcher.deliver_to = Mock()
 
-        dispatcher.dispatch(subscription)
+        dispatcher.dispatch_subscriptions_for(self.subscriber, self.library)
 
-        assert_equal(subscription.last_sent, datetime.datetime(2011,8,4,6,50))
+        assert_equal(self.subscription.last_sent, datetime.datetime(2011,8,4,6,50))

@@ -1,33 +1,39 @@
 import datetime
 from itertools import chain
 
-from subscriptions.models import FeedData
+from subscriptions.feeds import ContentFeed
+from subscriptions.feeds import ContentFeedLibrary
 from phillyleg.models import LegFile
 from phillyleg.models import LegMinutes
 from haystack.query import SearchQuerySet
 
 
-class NewLegislationFeed (FeedData):
-    queryset = LegFile.objects.all()
+library = ContentFeedLibrary()
 
-    def calc_last_updated(self, legfile):
+class NewLegislationFeed (ContentFeed):
+    def get_content(self):
+        return LegFile.objects.all()
+
+    def get_last_updated(self, legfile):
         return legfile.intro_date
 
+    def get_params(self):
+        return {}
 
-class LegislationUpdatesFeed (FeedData):
+
+class LegislationUpdatesFeed (ContentFeed):
     manager = LegFile.objects
 
     def __init__(self, **selectors):
         self.selectors = selectors
 
-    @property
-    def queryset(self):
+    def get_content(self):
         if self.selectors:
             return self.manager.filter(**self.selectors)
         else:
             return self.manager.all()
 
-    def calc_last_updated(self, legfile):
+    def get_last_updated(self, legfile):
         legfile_date = max(legfile.intro_date,
                            legfile.final_date or datetime.date(1970, 1, 1))
         action_dates = [action.date_taken
@@ -35,17 +41,27 @@ class LegislationUpdatesFeed (FeedData):
 
         return max([legfile_date] + action_dates)
 
+    def get_params(self):
+        return self.selectors
 
-class SearchResultsFeed (FeedData):
+
+class SearchResultsFeed (ContentFeed):
     def __init__(self, search_filter):
         self.filter = search_filter
 
-    @property
-    def queryset(self):
+    def get_content(self):
         return SearchQuerySet().filter(self.filter)
 
-    def calc_last_updated(self, item):
+    def get_last_updated(self, item):
         if isinstance(item, LegFile):
             return item.intro_date
         elif isinstance(item, LegMinutes):
             return item.date_taken
+
+    def get_params(self):
+        return {'search_filter': self.filter}
+
+
+library.register(NewLegislationFeed, 'newly introduced legislation')
+library.register(LegislationUpdatesFeed, 'updates to a piece of legislation')
+library.register(SearchResultsFeed, 'results of a search query')

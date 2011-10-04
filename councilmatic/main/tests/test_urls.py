@@ -2,11 +2,10 @@ from django.test.client import Client
 from nose.tools import *
 from mock import *
 
-class Tests_describing_legislation_index_GET:
+class Tests_legislation_index_GET:
 
     @istest
-    def it_has_new_legislation_list_feed_in_context(self):
-        from subscriptions.models import ContentFeed
+    def has_new_legislation_list_feed_in_context(self):
         from main.feeds import NewLegislationFeed
 
         # Make the request.
@@ -14,10 +13,10 @@ class Tests_describing_legislation_index_GET:
         response = client.get('/legislation/')
 
         # Check that the context feed is the same as the stock feed.
-        assert_equal(type(response.context['feed'].data), NewLegislationFeed)
+        assert_equal(type(response.context['feed']), NewLegislationFeed)
 
     @istest
-    def it_sorts_legislation_by_date_introduced(self):
+    def sorts_legislation_by_date_introduced(self):
 
         from phillyleg.models import LegFile
         from datetime import date
@@ -41,16 +40,18 @@ class Tests_describing_legislation_index_GET:
     @istest
     def has_isSubscribed_set_to_true_when_current_user_is_subscribed(self):
         from django.contrib.auth.models import User
-        from subscriptions.models import ContentFeed, Subscriber, Subscription
+        from subscriptions.models import Subscriber, Subscription
+        from subscriptions.feeds import ContentFeedLibrary
         from main.feeds import NewLegislationFeed
 
         subscriber = Subscriber(username="hello")
         subscriber.set_password("world")
         subscriber.save()
 
-        feed = ContentFeed.factory(data=NewLegislationFeed())
-        feed.save()
+        library = ContentFeedLibrary()
+        library.register(NewLegislationFeed, 'blah blah')
 
+        feed = NewLegislationFeed()
         subscription = subscriber.subscribe(feed)
         subscriber.save()
 

@@ -3,7 +3,7 @@ from mock import *
 
 from main.feeds import *
 
-class Test_NewLegislationFeed_calcLastUpdated:
+class Test_NewLegislationFeed_getLastUpdated:
 
     @istest
     def returns_the_intro_date_of_a_piece_of_legislation (self):
@@ -11,12 +11,12 @@ class Test_NewLegislationFeed_calcLastUpdated:
         legislation.intro_date = 5
 
         feed_data = NewLegislationFeed()
-        last_updated = feed_data.calc_last_updated(legislation)
+        last_updated = feed_data.get_last_updated(legislation)
 
         assert_equal(last_updated, 5)
 
 
-class Test_SearchResultsFeed_calcLastUpdated:
+class Test_SearchResultsFeed_getLastUpdated:
 
     @istest
     def returns_the_intro_date_of_a_piece_of_legislation (self):
@@ -26,7 +26,7 @@ class Test_SearchResultsFeed_calcLastUpdated:
         legislation.intro_date = date(2011,8,22)
 
         feed_data = SearchResultsFeed(None)
-        last_updated = feed_data.calc_last_updated(legislation)
+        last_updated = feed_data.get_last_updated(legislation)
 
         assert_equal(last_updated, date(2011,8,22))
 
@@ -38,12 +38,12 @@ class Test_SearchResultsFeed_calcLastUpdated:
         minutes.date_taken = date(2011,8,23)
 
         feed_data = SearchResultsFeed(None)
-        last_updated = feed_data.calc_last_updated(minutes)
+        last_updated = feed_data.get_last_updated(minutes)
 
         assert_equal(last_updated, date(2011,8,23))
 
 
-class Test_LegislationUpdatesFeed_queryset:
+class Test_LegislationUpdatesFeed_getContent:
 
     @istest
     def uses_all_when_no_keywords_are_supplied_to_init (self):
@@ -51,7 +51,7 @@ class Test_LegislationUpdatesFeed_queryset:
         feed_data.manager = Mock()
         feed_data.manager.all = Mock(return_value=[5])
 
-        qs = feed_data.queryset
+        qs = feed_data.get_content()
 
         assert_equal(feed_data.manager.all.call_count, 1)
         assert_equal(qs, [5])
@@ -62,13 +62,13 @@ class Test_LegislationUpdatesFeed_queryset:
         feed_data.manager = Mock()
         feed_data.manager.filter = Mock(return_value=[5])
 
-        qs = feed_data.queryset
+        qs = feed_data.get_content()
 
         assert_equal(feed_data.manager.filter.call_count, 1)
         feed_data.manager.filter.assert_called_with(a=1,b=2)
         assert_equal(qs, [5])
 
-class Test_LegislationUpdatesFeed_calcLastUpdated:
+class Test_LegislationUpdatesFeed_getLastUpdated:
 
     @istest
     def returns_the_intro_date_if_has_no_actions_or_final_date (self):
@@ -79,7 +79,7 @@ class Test_LegislationUpdatesFeed_calcLastUpdated:
         legislation.actions.all = Mock(return_value=[])
         feed_data = LegislationUpdatesFeed()
 
-        last_updated = feed_data.calc_last_updated(legislation)
+        last_updated = feed_data.get_last_updated(legislation)
 
         assert_equal(last_updated, date(2011, 8, 5))
 
@@ -92,7 +92,7 @@ class Test_LegislationUpdatesFeed_calcLastUpdated:
         legislation.actions.all = Mock(return_value=[])
         feed_data = LegislationUpdatesFeed()
 
-        last_updated = feed_data.calc_last_updated(legislation)
+        last_updated = feed_data.get_last_updated(legislation)
 
         assert_equal(last_updated, date(2011, 8, 10))
 
@@ -108,7 +108,7 @@ class Test_LegislationUpdatesFeed_calcLastUpdated:
         legislation.actions.all = Mock(return_value=[action1, action2, action3])
         feed_data = LegislationUpdatesFeed()
 
-        last_updated = feed_data.calc_last_updated(legislation)
+        last_updated = feed_data.get_last_updated(legislation)
 
         assert_equal(last_updated, date(2011, 8, 8))
 
@@ -124,6 +124,6 @@ class Test_LegislationUpdatesFeed_calcLastUpdated:
         legislation.actions.all = Mock(return_value=[action1, action2, action3])
         feed_data = LegislationUpdatesFeed()
 
-        last_updated = feed_data.calc_last_updated(legislation)
+        last_updated = feed_data.get_last_updated(legislation)
 
         assert_equal(last_updated, date(2011, 8, 11))

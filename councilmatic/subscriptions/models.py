@@ -9,56 +9,58 @@ import haystack.query as haystack
 
 from subscriptions.fields import SerializedObjectField
 
-# Content Feeds
-
-class FeedData (object):
-    queryset = None
-
-    def calc_last_updated(self, item):
-        raise NotImplementedError()
+log = logging.getLogger(__name__)
 
 
-class ContentFeed (models.Model):
+class ContentFeedRecord (models.Model):
     """
-    Stores information necessary for retrieving a queryset of content.
+    Stores information necessary for retrieving a content feed.
 
     The query for the ``ContentFeed`` is stored as a pickled iterable object.
     Don't judge me!!! Calling ``get_content`` on a ``ContentFeed`` will return
     you the results of the query. Calling ``get_last_updated`` will return you
     the last time the given set of content was updated.
 
-    To create a ``ContentFeed`` object, use the ``factory`` method. This will
-    take your parameters and pickle them for you, returning a valid
-    ``ContentFeed`` object. you must specify a last_updated_calc callable,
+    To create a ``ContentFeedRecord`` object, use the ``factory`` method. This will
+    take your parameters and serialize them for you, returning a valid
+    ``ContentFeedRecord`` object. You must specify a last_updated_calc callable,
     because each set of content may have a different way of determining when it
     was last updated.
 
     """
 
-    data = SerializedObjectField()
-    """An object that contains the queryset and the last_updated function"""
+    feed_name = models.CharField(max_length=256)
+    """The identifier for the content feed type registered with the library"""
+
+    # feed_params (backref)
+    """The set of parameters used to retrieve the content feed from the
+       library"""
 
     last_updated = models.DateTimeField(
         default=datetime.datetime(1970, 1, 1, 0, 0, 0))
     """The stored value of the last time content in the feed was updated."""
 
     def __unicode__(self):
-        return u'a %s feed' % (self.data,)
+        return u'a %s record' % (self.feed_name,)
 
-    def get_content(self):
-        """Returns the results of the stored query's ``run`` method."""
-        queryset = self.data.queryset
-        return queryset
+    def __eq__(self, other):
+        if self.feed_name != other.feed_name:
+            return False
 
-    def get_last_updated(self, item):
-        """Returns the time that the given item was last updated."""
-        last_updated = self.data.calc_last_updated(item)
-        return last_updated
+        other_params = other.feed_params.all().values('name', 'value')
+        for self_param in self.feed_params.all().values('name', 'value'):
+            if self_param not in other_params:
+                return False
+        return True
 
-    @classmethod
-    def factory(cls, data):
-        feed = cls.objects.get_or_create(data=data)[0]
-        return feed
+
+class ContentFeedParameter (models.Model):
+    """One of the parameters used to retrieve the content feed from the
+       library"""
+
+    feed_record = models.ForeignKey(ContentFeedRecord, related_name='feed_params')
+    name = models.CharField(max_length=256)
+    value = models.TextField()
 
 
 # Subscriber
@@ -68,25 +70,47 @@ class Subscriber (auth.User):
     # subscriptions (backref)
     """The set of subscriptions for this user"""
 
-    def subscribe(self, feed, commit=True):
+    def subscribe(self, feed, library=None, commit=True):
         """Subscribe the user to a content feed."""
-        subscription = Subscription(subscriber=self, feed=feed)
+        if library is None:
+            from feeds import ContentFeedLibrary
+            library = ContentFeedLibrary()
+
+        record = library.get_record(feed)
+        subscription = Subscription(subscriber=self, feed_record=record)
         if commit:
             subscription.save()
         return subscription
 
-    def subscription(self, content_feed):
+    def subscription(self, feed, library=None):
         """Returns the subscription to the given content feed."""
+        if library is None:
+            from feeds import ContentFeedLibrary
+            library = ContentFeedLibrary()
+
+        log.debug('Checking whether %s is subscribed to %s at %s' %
+                  (self, feed, library))
+
+        record = library.get_record(feed)
         try:
-            sub = self.subscriptions.get(feed__data=content_feed.data)
-            return sub
+            subs = self.subscriptions.select_related() \
+                .filter(feed_record__feed_name=record.feed_name)
+
+            if not subs:
+                log.debug('No subscription record found with the name %s' %
+                          (record.feed_name,))
+                return None
+
+            other_params = list(record.feed_params.values('name', 'value'))
+            for sub in subs:
+                self_params = list(sub.feed_record.feed_params.values('name', 'value'))
+                log.debug('Checking parameters %r against %r' %
+                          (self_params, other_params))
+                if self_params == other_params:
+                    return sub
+
         except Subscription.DoesNotExist:
             return None
-
-    def is_subscribed(self, content_feed):
-        """Returns the set of subscriptions that have the same data as the given
-           content feed. If there are none, this evaluates to False."""
-        return (self.subscription(content_feed) is not None)
 
 
 from django.dispatch import receiver
@@ -108,11 +132,11 @@ def create_subscriber_for_user(sender, **kwargs):
 
 class Subscription (models.Model):
     subscriber = models.ForeignKey('Subscriber', related_name='subscriptions')
-    feed = models.ForeignKey('ContentFeed')
+    feed_record = models.ForeignKey('ContentFeedRecord')
     last_sent = models.DateTimeField(blank=True)
 
     def __unicode__(self):
-        return u"%s's subscription to %s" % (self.subscriber, self.feed)
+        return u"%s's subscription to %s" % (self.subscriber, self.feed_record)
 
     def save(self, *args, **kwargs):
         """

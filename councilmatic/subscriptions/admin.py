@@ -29,10 +29,9 @@ from subscriptions import models
 
 admin.site.register(models.Subscription)
 admin.site.register(models.Subscriber)
-admin.site.register(models.ContentFeed)
+admin.site.register(models.ContentFeedRecord)
 
 #admin.site.register(models.SearchSubscription)
 #admin.site.register(models.EmailChannel)
 #admin.site.register(models.RssChannel)
 #admin.site.register(models.SmsChannel)
-

@@ -58,15 +58,31 @@ class SearchView (SearchBarMixin,
         # The, continue with the dispatch
         return super(SearchView, self).dispatch(request, *args, **kwargs)
 
-    def on_queryset_gotten(self, queryset):
-        # Construct the feed data
-        if self.feed_data is None:
-            self.feed_data = lambda: feeds.SearchResultsFeed(self.search_view.results.query.query_filter)
+    def get_content_feed(self):
+        queryset = self.search_view.results
+        return feeds.SearchResultsFeed(queryset.query.query_filter)
 
     def get_queryset(self):
-        queryset = self.search_view.results
-        self.on_queryset_gotten(queryset)
-        return [result.object for result in queryset]
+        search_queryset = self.search_view.results
+
+        class SQSProxy (object):
+            """
+            Make a SearchQuerySet look enough like a QuerySet for a ListView
+            not to notice the difference.
+            """
+            def __init__(self, sqs):
+                self.sqs = sqs
+            def __len__(self):
+                return len(self.sqs)
+            def __iter__(self):
+                return (result.object for result in self.sqs)
+            def __getitem__(self, key):
+                if isinstance(key, slice):
+                    return [result.object for result in self.sqs[key]]
+                else:
+                    return self.sqs[key].object
+
+        return SQSProxy(search_queryset)
 
     def get_context_data(self, **kwargs):
         """
@@ -78,13 +94,25 @@ class SearchView (SearchBarMixin,
         return context
 
 
+class LegislationStatsMixin (object):
+    def get_queryset(self):
+        queryset = super(LegislationStatsMixin, self).get_queryset()
+
+        now = datetime.date.today()
+        four_weeks = datetime.timedelta(days=28)
+        queryset = queryset.filter(intro_date__gte=now-four_weeks)
+        return queryset
+
+
 class LegislationListView (SearchBarMixin,
                            subscriptions.views.SingleSubscriptionMixin,
                            view.ListView):
     model = phillyleg.models.LegFile
     template_name = 'phillyleg/legfile_list.html'
     paginate_by = 20
-    feed_data = feeds.NewLegislationFeed
+
+    def get_content_feed(self):
+        return feeds.NewLegislationFeed()
 
     def get_queryset(self):
         queryset = super(LegislationListView, self).get_queryset()
@@ -98,20 +126,23 @@ class LegislationDetailView (SearchBarMixin,
                              view.DetailView):
     model = phillyleg.models.LegFile
     template_name = 'phillyleg/legfile_detail.html'
-    feed_data = None
 
-    def on_object_gotten(self, legfile):
-        # Construct the feed_data factory
-        if not self.feed_data:
-            self.feed_data = lambda: feeds.LegislationUpdatesFeed(pk=legfile.pk)
+    def get_content_feed(self):
+        legfile = self.object
+        return feeds.LegislationUpdatesFeed(pk=legfile.pk)
 
-    def get_object(self):
-        legfile = super(LegislationDetailView, self).get_object()
+#    def on_object_gotten(self, legfile):
+#        # Construct the feed_data factory
+#        if not self.feed_data:
+#            self.feed_data = lambda: feeds.LegislationUpdatesFeed(pk=legfile.pk)
 
-        # Intercept the object
-        self.on_object_gotten(legfile)
+#    def get_object(self):
+#        legfile = super(LegislationDetailView, self).get_object()
 
-        return legfile
+#        # Intercept the object
+#        self.on_object_gotten(legfile)
+
+#        return legfile
 
 
 class BookmarkListView (SearchBarMixin,
