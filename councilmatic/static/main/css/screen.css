@@ -803,7 +803,7 @@ body #site_header .registration p {
   padding: 0px;
 }
 /* line 88, ../sass/partials/_site_header.scss */
-body #site_header .registration p, body #site_header .registration span {
+body #site_header .registration > p, body #site_header .registration span, body #site_header .registration a {
   display: inline-block;
   margin-right: 1em;
 }
