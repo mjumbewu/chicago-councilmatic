@@ -41,9 +41,9 @@ class ContentFeedRecord (models.Model):
     """The stored value of the last time content in the feed was updated."""
 
     def __unicode__(self):
-        return u'a %s record' % (self.feed_name,)
+        return u'a %s feed' % (self.feed_name,)
 
-    def __eq__(self, other):
+    def is_equivalent_to(self, other):
         if self.feed_name != other.feed_name:
             return False
 
@@ -117,6 +117,11 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 @receiver(post_save, sender=auth.User)
 def create_subscriber_for_user(sender, **kwargs):
+    """
+    Create a Subscriber object whenever a user is created.  This is useful so
+    that we don't have to patch whatever different registration processes we
+    end up using.
+    """
     user = kwargs.get('instance')
     created = kwargs.get('created')
     raw = kwargs.get('raw')
@@ -152,30 +157,10 @@ class Subscription (models.Model):
         super(Subscription, self).save(*args, **kwargs)
 
 
-class DistributionChannel (models.Model):
-    recipient = models.ForeignKey(auth.User, null=True)
+class SubscriptionDispatchRecord (models.Model):
+    """Records a subscription delivery"""
 
-    class Meta:
-        abstract = True
-
-class EmailChannel (DistributionChannel):
-    email = models.CharField(max_length=256)
-
-    def __unicode__(self):
-        return "Email to %s" % self.email
-
-class RssChannel (DistributionChannel):
-    pass
-
-class SmsChannel (DistributionChannel):
-    number = models.CharField(max_length=32)
-    carrier = models.CharField(max_length=32)
-
-    def __unitcode__(self):
-        return "Send SMS to %s number %s" % (self.carrier, self.number)
-
-class SearchSubscription (Subscription):
-    query = models.TextField()
-
-    def __unicode__(self):
-        return self.query
+    subscription = models.ForeignKey('Subscription', related_name='dispatches')
+    when = models.DateTimeField()
+    content = models.TextField()
+    dispatcher = models.CharField(max_length=256)
