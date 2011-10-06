@@ -707,6 +707,11 @@ body .uniForm button:hover {
   border-color: #d2f1ff #c2e1ef #c2e1ef #d2f1ff;
   color: #336699;
 }
+/* line 47, ../sass/partials/_main_base.scss */
+body .uniForm label {
+  display: inline-block;
+  width: 12em;
+}
 
 /* line 10, ../sass/partials/_site_header.scss */
 body {

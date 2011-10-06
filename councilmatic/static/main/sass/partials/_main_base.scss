@@ -43,6 +43,11 @@ body {
             @include button-active-colors;
             @include button-hover-colors;
         }
+
+        label {
+            display: inline-block;
+            width: 12em;
+        }
     }
 }
 
