@@ -398,6 +398,7 @@ class Test_SubscriptionDispatcher_dispatch:
         dispatcher = SubscriptionDispatcher()
         dispatcher.template_name = 'subscriptions/subscription_email.txt'
         dispatcher.deliver_to = Mock()
+        dispatcher.record_delivery = Mock()
 
         dispatcher.dispatch_subscriptions_for(self.subscriber, self.library)
 
