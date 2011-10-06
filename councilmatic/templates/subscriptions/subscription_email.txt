@@ -1,0 +1,18 @@
+Philadelphia Councilmatic!
+==========================
+
+You are subscribed to the following feeds:
+
+{% for subscription in subscriptions %}
+* {{ subscription.feed_record.feed_name }}
+{% endfor %}
+{% for item, item_updates in content_updates %}
+
+--------------------------------------------------------------------------------
+
+{{ item.type|upper }} {{ item.id }}
+{% for label, value in item_updates %}
+{{ label }}: {{ value }}
+{% endfor %}
+More at http://{{ SITE.domain }}{{ item.get_absolute_url }}
+{% endfor %}
