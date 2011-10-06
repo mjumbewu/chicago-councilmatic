@@ -1,17 +1,36 @@
+import json
 import smtplib
 
-from datetime import date
+from collections import defaultdict
+from datetime import date, datetime
 from email.mime.text import MIMEText
 from logging import getLogger
 
+from django.contrib.sites.models import Site
 from django.db.models.manager import Manager
 from django.template import Context
 from django.template.loader import get_template
+from django.utils.encoding import smart_str, smart_unicode
 
 from models import ContentFeedRecord
 from models import ContentFeedParameter
+from models import SubscriptionDispatchRecord
 
 log = getLogger(__name__)
+
+
+def import_all_feeds():
+    """
+    Import the feeds module from all the installed apps. The assumption is that
+    apps will register their feed classes in that module. If not, they're SOL.
+    """
+    import settings
+    for app in settings.INSTALLED_APPS:
+        feeds_mod = '.'.join([app, 'feeds'])
+        try:
+            __import__(feeds_mod)
+        except ImportError:
+            pass
 
 
 class ContentFeed (object):
@@ -168,7 +187,7 @@ class SubscriptionDispatcher (object):
         """
         log.debug('Checking for updates to %s in %s' % (subscriptions, library))
 
-        content_changes = {}
+        content_changes = defaultdict(dict)
 
         for subscription in subscriptions:
             feed = library.get_feed(subscription.feed_record)
@@ -192,9 +211,17 @@ class SubscriptionDispatcher (object):
         Render the given content updates to a template for the subscriber.
         """
         template = get_template(self.template_name)
+
+        # I was having some trouble iterating over content_items as a dict
+        # in the templates, so I'll just convert content updates to lists of
+        # tuples.
+        content_updates = content_updates.items()
+        content_updates = [(k, v.items()) for (k, v) in content_updates]
+
         context = Context({'subscriber':subscriber,
                            'subscriptions': subscriptions,
-                           'content':content_updates})
+                           'content_updates':content_updates,
+                           'SITE': Site.objects.get_current()})
         return template.render(context)
 
     def deliver_to(self, subscriber, delivery_text):
@@ -228,19 +255,51 @@ class SubscriptionDispatcher (object):
         content_updates = self.get_content_updates_for(subscriptions, library)
         delivery = self.render(subscriber, subscriptions, content_updates)
         self.deliver_to(subscriber, delivery)
+        self.record_delivery(subscriber, subscriptions, content_updates, delivery)
         self.update_subscriptions(subscriptions)
+
+    def record_delivery(self, subscriber, subscriptions, content_updates, delivery):
+        """
+        Add a record to the log in the database declaring the subscription(s)
+        as having been sent.
+        """
+        content_updates = dict([(unicode(key), value) for key, value in content_updates.items()])
+        content = 'Content updates:\n%s\nMessage:\n%s' % (json.dumps(content_updates, indent=2), delivery)
+        for subscription in subscriptions:
+            SubscriptionDispatchRecord.objects.create(
+                when=datetime.now(),
+                subscription=subscription,
+                dispatcher=self.__class__.__name__,
+                content=content
+            )
 
 
 class SubscriptionEmailer (SubscriptionDispatcher):
-    template_name = 'subscriptions/email.txt'
-    EMAIL_TITLE = "Philly Councilmatic %{date}s"
+    template_name = 'subscriptions/subscription_email.txt'
+    EMAIL_TITLE = "Philly Councilmatic %(date)s"
 
     def send_email(self, you, emailbody, emailsubject=None):
+#        from django.core.mail import send_mail
+
+#        subject = emailsubject or self.EMAIL_TITLE % {'date': date.today()}
+#        message = emailbody
+#        from_email = 'philly.legislative.list@gmail.com'
+#        recipient_list = [you]
+
+#        import settings
+#        settings.EMAIL_HOST = 'smtp.gmail.com'
+#        settings.EMAIL_PORT = '465'
+#        settings.EMAIL_HOST_USER = 'philly.legislative.list'
+#        settings.EMAIL_HOST_PASSWORD = 'phillydatacamp'
+#        settings.EMAIL_USE_TSL = True
+
+#        send_mail(subject, message, from_email, recipient_list)
+
         smtphost = "smtp.gmail.com"
         smtpport = '465'
         me =  'philly.legislative.list'
         msg = MIMEText(smart_str(emailbody))
-        msg['Subject'] = emailsubject or self.EMAIL_TITLE % {date: date.today()}
+        msg['Subject'] = emailsubject or self.EMAIL_TITLE % {'date': date.today()}
         msg['From'] = me
         msg['To'] = you
         s = smtplib.SMTP_SSL(smtphost, smtpport)
@@ -254,3 +313,4 @@ class SubscriptionEmailer (SubscriptionDispatcher):
         """
         email_addr = subscriber.email
         email_body = delivery_text
+        self.send_email(email_addr, email_body)
