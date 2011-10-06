@@ -1,7 +1,11 @@
+from datetime import (date, datetime, timedelta)
+
 from nose.tools import *
 from mock import *
 
-from main.feeds import *
+from main.feeds import (NewLegislationFeed, LegislationUpdatesFeed, SearchResultsFeed)
+from subscriptions.models import (ContentFeedRecord, Subscriber, Subscription)
+from subscriptions.feeds import (import_all_feeds, ContentFeedRecordUpdater, SubscriptionDispatcher)
 
 class Test_NewLegislationFeed_getLastUpdated:
 
@@ -21,7 +25,6 @@ class Test_SearchResultsFeed_getLastUpdated:
     @istest
     def returns_the_intro_date_of_a_piece_of_legislation (self):
         from phillyleg.models import LegFile
-        from datetime import date
         legislation = LegFile()
         legislation.intro_date = date(2011,8,22)
 
@@ -33,7 +36,6 @@ class Test_SearchResultsFeed_getLastUpdated:
     @istest
     def returns_the_date_taken_of_a_minutes_document (self):
         from phillyleg.models import LegMinutes
-        from datetime import date
         minutes = LegMinutes()
         minutes.date_taken = date(2011,8,23)
 
@@ -72,7 +74,6 @@ class Test_LegislationUpdatesFeed_getLastUpdated:
 
     @istest
     def returns_the_intro_date_if_has_no_actions_or_final_date (self):
-        from datetime import date
         legislation = Mock()
         legislation.intro_date = date(2011, 8, 5)
         legislation.final_date = None
@@ -85,7 +86,6 @@ class Test_LegislationUpdatesFeed_getLastUpdated:
 
     @istest
     def returns_the_final_date_if_available (self):
-        from datetime import date
         legislation = Mock()
         legislation.intro_date = date(2011, 8, 5)
         legislation.final_date = date(2011, 8, 10)
@@ -98,7 +98,6 @@ class Test_LegislationUpdatesFeed_getLastUpdated:
 
     @istest
     def returns_the_latest_action_date_if_has_no_final_date (self):
-        from datetime import date
         legislation = Mock()
         legislation.intro_date = date(2011, 8, 5)
         legislation.final_date = None
@@ -114,7 +113,6 @@ class Test_LegislationUpdatesFeed_getLastUpdated:
 
     @istest
     def returns_the_lasest_action_date_final_date (self):
-        from datetime import date
         legislation = Mock()
         legislation.intro_date = date(2011, 8, 5)
         legislation.final_date = date(2011, 8, 10)
@@ -127,3 +125,44 @@ class Test_LegislationUpdatesFeed_getLastUpdated:
         last_updated = feed_data.get_last_updated(legislation)
 
         assert_equal(last_updated, date(2011, 8, 11))
+
+
+class Test_Dispatching_feed_subscriptions:
+
+    def setup (self):
+        Subscriber.objects.all().delete()
+        Subscription.objects.all().delete()
+        ContentFeedRecord.objects.all().delete()
+
+        import_all_feeds()
+
+        subscriber = Subscriber.objects.create(email='bob@123.com')
+        updater = ContentFeedRecordUpdater()
+        dispatcher = SubscriptionDispatcher()
+        dispatcher.deliver_to = Mock()
+        dispatcher.render = Mock()
+
+        self.subscriber = Mock(wraps=subscriber)
+        self.updater = Mock(wraps=updater)
+        self.dispatcher = Mock(wraps=dispatcher)
+
+    def _dispatch_for_feed(self, feed):
+        self.subscriber.subscribe(feed)
+        self.subscriber.last_sent = datetime.now() - timedelta(days=180)
+        self.updater.update_all(ContentFeedRecord.objects.all())
+        self.dispatcher.dispatch_subscriptions_for(self.subscriber)
+
+    @istest
+    def works_for_NewLegislationFeeds (self):
+        feed = NewLegislationFeed()
+        self._dispatch_for_feed(feed)
+
+    @istest
+    def works_for_SearchResultsFeed (self):
+        feed = SearchResultsFeed("(AND: ('content', u'smoking'), ('type__in', [u'Bill']))")
+        self._dispatch_for_feed(feed)
+
+    @istest
+    def works_for_LegislationUpdatesFeed (self):
+        feed = LegislationUpdatesFeed(pk="12345")
+        self._dispatch_for_feed(feed)

@@ -53,10 +53,23 @@ class LegislationUpdatesFeed (ContentFeed):
 
 class SearchResultsFeed (ContentFeed):
     def __init__(self, search_filter):
+        """
+        As you'll see in main.SearchView.get_content_feed, we use the value of
+        search_view.results.queryset.query.query_filter to store the search.
+        I'm not certain, but I'm pretty sure this value is search backend-
+        specific.  Just keep that in mind.
+
+        """
         self.filter = search_filter
 
     def get_content(self):
-        return SearchQuerySet().filter(self.filter)
+        return SearchQuerySet().raw_search(self.filter)
+
+    def get_changes_to(self, item):
+        if isinstance(item, LegFile):
+            return {'Title': item.title}
+        elif isinstance(item, LegMinutes):
+            return {'Minutes': str(item)}
 
     def get_last_updated(self, item):
         if isinstance(item, LegFile):
