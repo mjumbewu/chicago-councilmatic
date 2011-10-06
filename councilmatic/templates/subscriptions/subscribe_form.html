@@ -12,8 +12,7 @@
   {% else %}
     {% if user.is_authenticated %}
     <form action="{% url subscribe %}" method="POST" class="uniForm">{% csrf_token %}
-      <input type="hidden" name="subscriber" value="{{ subscription_form.subscriber.value }}">
-      <input type="hidden" name="feed" value="{{ subscription_form.feed.value }}">
+      {{ subscription_form }}
       <input type="hidden" name="success" value="{{ request.get_full_path }}">
     {% else %}
     <form action="{% url registration_login %}" method="GET" class="uniForm">
@@ -26,4 +25,3 @@
       </div>
     </form>
   {% endif %}
-
