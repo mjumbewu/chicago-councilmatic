@@ -5,10 +5,15 @@ from django import http
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 
+import subscriptions.feeds as feeds
 import subscriptions.forms as forms
 import subscriptions.models as models
 
 class SingleSubscriptionMixin (object):
+    def get_content_feed_library(self):
+        """Return a ContentFeedLibrary to be used for the subscriptions"""
+        return feeds.ContentFeedLibrary()
+
     def get_content_feed(self):
         """A factory for the ContentFeed object that describes this content feed"""
         raise NotImplementedError()
@@ -23,7 +28,8 @@ class SingleSubscriptionMixin (object):
             except models.Subscriber.DoesNotExist:
                 return None
 
-            return subscriber.subscription(feed)
+            library = self.get_content_feed_library()
+            return subscriber.subscription(feed, library)
 
         return None
 
@@ -35,11 +41,13 @@ class SingleSubscriptionMixin (object):
             except models.Subscriber.DoesNotExist:
                 return None
 
-            subscription = self.request.user.subscriber.subscription(feed)
-            if subscription is not None:
+            subscription = self.get_subscription(feed)
+
+            if subscription is None:
+                library = self.get_content_feed_library()
                 form = forms.SubscriptionForm(
-                    {'feed_record': subscription.feed_record,
-                     'subscriber': subscriber})
+                    {'feed_record': library.get_record(feed).pk,
+                     'subscriber': subscriber.pk})
                 return form
 
         return None
@@ -71,11 +79,6 @@ class DeleteSubscriptionView (views.DeleteView):
 
     def get_success_url(self):
         return self.request.REQUEST['success']
-
-
-class SubscribeToSearchView (views.CreateView):
-    model = models.SearchSubscription
-    template_name = "subscriptions/searchsubscription_edit.html"
 
 
 def subscribe(request):
