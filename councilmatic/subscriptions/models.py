@@ -36,8 +36,7 @@ class ContentFeedRecord (models.Model):
     """The set of parameters used to retrieve the content feed from the
        library"""
 
-    last_updated = models.DateTimeField(
-        default=datetime.datetime(1970, 1, 1, 0, 0, 0))
+    last_updated = models.DateTimeField(default=datetime.datetime.min)
     """The stored value of the last time content in the feed was updated."""
 
     def __unicode__(self):

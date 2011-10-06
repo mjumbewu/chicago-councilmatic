@@ -82,22 +82,37 @@ class ContentFeedLibrary (object):
     _reverse = {}
     """Map of { ContentFeedClass : feed_name }. For reverse-lookup"""
 
+    _feed_cache = {}
+    _record_cache = {}
+
     def __init__(self, shared=True):
         if not shared:
             self.feeds = {}
             self._reverse = {}
+            self._feed_cache = {}
+            self._record_cache = {}
 
     def register(self, ContentFeedClass, name):
         """Add the given manager class to the registry by the given name."""
         self.feeds[name] = ContentFeedClass
         self._reverse[ContentFeedClass] = name
 
+    def _cache(self, feed, record):
+        self._feed_cache[record] = feed
+        self._record_cache[feed] = record
+
     def get_feed(self, record):
         """Retrieve a feed based on the given record."""
+
+        if record in self._feed_cache:
+            return self._feed_cache[record]
+
         ContentFeedClass = self.feeds[record.feed_name]
         kwargs = dict([(param.name, param.value)
                        for param in record.feed_params.all()])
         feed = ContentFeedClass(**kwargs)
+
+        self._cache(feed, record)
 
         log.debug('The record %r represents the feed %r' % (record, feed))
 
@@ -105,6 +120,10 @@ class ContentFeedLibrary (object):
 
     def get_record(self, feed):
         """Retrieve a record describing the given feed."""
+
+        if feed in self._record_cache:
+            return self._record_cache[feed]
+
         ContentFeedClass = feed.__class__
         try:
             name = self._reverse[ContentFeedClass]
@@ -126,6 +145,8 @@ class ContentFeedLibrary (object):
             record.feed_params.add(param)
             param.save()
 
+        self._cache(feed, record)
+
         return record
 
 
@@ -146,7 +167,10 @@ class ContentFeedRecordUpdater (object):
         feed = library.get_feed(record)
 
         all_content = feed.get_content()
-        latest = max(feed.get_last_updated(item) for item in all_content)
+        if all_content:
+            latest = max(feed.get_last_updated(item) for item in all_content)
+        else:
+            latest = datetime.min
         record.last_updated = latest
         record.save()
 

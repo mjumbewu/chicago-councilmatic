@@ -122,6 +122,9 @@ class ListItemFeed (ContentFeed):
     def get_params(self):
         return {'items': str(self.items)}
 
+    def get_last_updated(self, item):
+        return datetime.date.today()
+
 
 class Test_Subscriber_isSubscribed (TestCase):
 
@@ -155,6 +158,54 @@ class Test_Subscriber_isSubscribed (TestCase):
 
         assert subscription is None
 
+
+class Test_ContentFeedLibrary_caching:
+
+    @istest
+    def causes_the_same_content_feed_to_be_returned_on_different_calls_to_getFeed (self):
+        library = ContentFeedLibrary(shared=False)
+        library.register(ListItemFeed, 'li')
+
+        feed = ListItemFeed('[1, 2, 3]')
+        record = library.get_record(feed)
+
+        assert_is(feed, library.get_feed(record))
+
+    @istest
+    def causes_the_same_feed_record_to_be_returned_on_different_calls_to_getRecord (self):
+        library = ContentFeedLibrary(shared=False)
+        library.register(ListItemFeed, 'li')
+
+        feed = ListItemFeed('[1, 2, 3]')
+        record = library.get_record(feed)
+
+        assert_is(record, library.get_record(feed))
+
+    @istest
+    def doesnt_return_the_same_record_from_different_libraries (self):
+        library1 = ContentFeedLibrary(shared=False)
+        library1.register(ListItemFeed, 'li')
+
+        library2 = ContentFeedLibrary(shared=False)
+        library2.register(ListItemFeed, 'li')
+
+        feed = ListItemFeed('[1, 2, 3]')
+        record = library1.get_record(feed)
+
+        assert_is_not(record, library2.get_record(feed))
+
+    @istest
+    def doesnt_return_the_same_feed_from_different_libraries (self):
+        library1 = ContentFeedLibrary(shared=False)
+        library1.register(ListItemFeed, 'li')
+
+        library2 = ContentFeedLibrary(shared=False)
+        library2.register(ListItemFeed, 'li')
+
+        feed = ListItemFeed('[1, 2, 3]')
+        record = library1.get_record(feed)
+
+        assert_is_not(feed, library2.get_feed(record))
 
 # Management commands
 
@@ -191,34 +242,48 @@ class Test_ContentFeedUpdater_update (TestCase):
         self.library.register(NewLegFilesFeed, 'feed_class_123456')
         self.record = self.library.get_record(NewLegFilesFeed())
 
-    def test_changes_the_lastUpdated_of_a_legfiles_feed_to_most_recent_intro_date(self):
+    @istest
+    def changes_the_lastUpdated_of_a_legfiles_feed_to_most_recent_intro_date(self):
         updater = ContentFeedRecordUpdater()
 
         updater.update(self.record, self.library)
 
-        self.assertEqual(self.record.last_updated, datetime.date(2011, 8, 17))
+        assert_equal(self.record.last_updated, datetime.date(2011, 8, 17))
+
+    @istest
+    def returns_date_min_when_no_content_is_available(self):
+        LegFile.objects.all().delete()
+        updater = ContentFeedRecordUpdater()
+
+        updater.update(self.record, self.library)
+
+        assert_equal(self.record.last_updated, datetime.datetime.min)
 
 
-#class Test_ContentFeedUpdater_updateAll (TestCase):
+class Test_ContentFeedUpdater_updateAll (TestCase):
 
-#    def setUp(self):
+    def setUp(self):
 
-#        library = self.library = ContentFeedLibrary(shared=False)
-#        library.register(ListItemFeed, 'list feed')
+        library = self.library = ContentFeedLibrary(shared=False)
+        library.register(ListItemFeed, 'list feed')
 
-#        self.feeds = [ ListItemFeed("['hello']"),
-#                       ListItemFeed("['world']") ]
+        self.feeds = [ ListItemFeed("['hello']"),
+                       ListItemFeed("['world']") ]
 
-#        self.feed_records = [library.get_record(feed) for feed in self.feeds]
+        for feed in self.feeds:
+            feed.get_last_updated = Mock(return_value=datetime.date.today())
 
-#    def test_calls_get_last_updated_on_all_feed_objects(self):
+        self.feed_records = [library.get_record(feed) for feed in self.feeds]
 
-#        updater = ContentFeedRecordUpdater()
+    @istest
+    def calls_get_last_updated_on_all_feed_objects(self):
 
-#        updater.update_all(self.feed_records, self.library)
+        updater = ContentFeedRecordUpdater()
 
-#        self.feeds[0].get_last_updated.assert_called_with('hello')
-#        self.feeds[1].get_last_updated.assert_called_with('world')
+        updater.update_all(self.feed_records, self.library)
+
+        self.feeds[0].get_last_updated.assert_called_with('hello')
+        self.feeds[1].get_last_updated.assert_called_with('world')
 
 
 #class Test_FeedCollector_collectNewContent (TestCase):
