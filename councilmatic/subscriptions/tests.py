@@ -14,6 +14,7 @@ from subscriptions.feeds import ContentFeed
 from subscriptions.feeds import ContentFeedLibrary
 from subscriptions.feeds import ContentFeedRecordUpdater
 from subscriptions.feeds import SubscriptionDispatcher
+from subscriptions.forms import SubscriptionForm
 from subscriptions.models import ContentFeedParameter
 from subscriptions.models import ContentFeedRecord
 from subscriptions.models import Subscriber
@@ -90,7 +91,7 @@ class Test_Subscriber_subscribe (TestCase):
         subscription = self.subscriber.subscribe(feed)
 
         self.assertEqual(subscription.subscriber, self.subscriber)
-        self.assertEqual(subscription.feed_record, self.record)
+        self.assert_(subscription.feed_record.is_equivalent_to(self.record))
 
     def test_doesnt_save_subscription_if_commit_is_false(self):
         feed = ContentFeed()
@@ -279,11 +280,19 @@ class Test_SingleSubscriptionMixin_getContextData:
     def setUp(self):
         class DoNothinView (object):
             def get_context_data(self, **kwargs):
+                # This is just so that SingleSubscriptionMixin.get_context_data
+                # super has something to call.
                 return {}
 
+        library = ContentFeedLibrary(shared=False)
+        library.register(ListItemFeed, 'my list item feed')
+
         class SubscriptionView (SingleSubscriptionMixin, DoNothinView):
+            def get_content_feed_library(self):
+                return library
+
             def get_content_feed(self):
-                return ContentFeed()
+                return ListItemFeed('[1,2,3]')
 
         self.view = SubscriptionView()
         self.view.request = Mock()
@@ -307,7 +316,7 @@ class Test_SingleSubscriptionMixin_getContextData:
         class MyUser (Mock):
             def is_authenticated(self):
                 return True
-            def subscription(self, feed):
+            def subscription(self, feed, library):
                 return Mock()
         self.view.request.user = MyUser()
 
@@ -315,21 +324,19 @@ class Test_SingleSubscriptionMixin_getContextData:
 
         assert_equal(data['is_subscribed'], True)
         assert_is_not_none(data['subscription'])
-        assert_is_not_none(data['subscription_form'])
+        assert_is_none(data['subscription_form'])
 
     @istest
     def has_isSubscribed_set_to_False_when_not_subscribed (self):
+        class Subscriber (Mock):
+            def subscription(self, feed, library):
+                return None
         class MyUser (Mock):
             def is_authenticated(self):
                 return True
-            @property
-            def subscriber(self):
-                class Subscriber (Mock):
-                    def subscription(self, feed):
-                        return None
-                return Subscriber()
-            def subscription(self, feed):
+            def subscription(self, feed, library):
                 return None
+            subscriber = Subscriber()
 
         self.view.request.user = MyUser()
 
@@ -337,7 +344,35 @@ class Test_SingleSubscriptionMixin_getContextData:
 
         assert_equal(data['is_subscribed'], False)
         assert_is_none(data['subscription'])
-#        assert_is_not_none(data['subscription_form'])
+        assert_is_not_none(data['subscription_form'])
+
+    @istest
+    def configures_the_form_correctly_when_not_subscribed (self):
+        # i.e.:
+        #  * the form subscriber and feed_record are set to primary keys
+        #    instead of objects of types Subscriber and ContentFeedRecord
+        #  * their is no last_sent field on the form (it should be set
+        #    automatically)
+
+        class Subscriber (Mock):
+            def subscription(self, feed, library):
+                return None
+            pk = 1
+        class MyUser (Mock):
+            def is_authenticated(self):
+                return True
+            def subscription(self, feed, library):
+                return None
+            subscriber = Subscriber()
+
+        self.view.request.user = MyUser()
+
+        data = self.view.get_context_data()
+        form = data['subscription_form']
+
+        assert_is_instance(form.data['feed_record'], (int, basestring))
+        assert_is_instance(form.data['subscriber'], (int, basestring))
+        assert_not_in('last_sent', form.fields)
 
 
 class Test_SubscriptionDispatcher_dispatch:
@@ -367,3 +402,29 @@ class Test_SubscriptionDispatcher_dispatch:
         dispatcher.dispatch_subscriptions_for(self.subscriber, self.library)
 
         assert_equal(self.subscription.last_sent, datetime.datetime(2011,8,4,6,50))
+
+
+class Test_SubscriptionForm_save:
+
+    def setup(self):
+        Subscription.objects.all().delete()
+        Subscriber.objects.all().delete()
+        ContentFeedRecord.objects.all().delete()
+
+        self.library = ContentFeedLibrary(shared=False)
+        self.library.register(ListItemFeed, 'my list items')
+
+        self.subscriber = Subscriber.objects.create()
+        self.feed = ListItemFeed('[1, 2, 3]')
+        self.feed_record = self.library.get_record(self.feed)
+
+    @istest
+    def creates_a_subscription_for_the_subscriber_to_the_feed (self):
+        form = SubscriptionForm({'subscriber':self.subscriber.pk,
+                                 'feed_record':self.feed_record.pk})
+
+        assert form.is_valid(), 'The form had errors: %r' % (form.errors,)
+        form.save()
+        subscription = self.subscriber.subscription(self.feed, self.library)
+
+        assert subscription is not None
