@@ -1,8 +1,8 @@
 from django.core.management.base import BaseCommand, CommandError
 
-from subscriptions.feeds import SubscriptionDispatcher
+from subscriptions.feeds import import_all_feeds
+from subscriptions.feeds import SubscriptionEmailer
 from subscriptions.models import Subscriber
-
 
 class Command(BaseCommand):
     help = "Send a digest of the new items in the users' subscription lists."
@@ -10,7 +10,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # Assuming that the feeds have been updated
 
-        dispatcher = SubscriptionDispatcher()
+        import_all_feeds()
+        dispatcher = SubscriptionEmailer()
 
         subscribers = Subscriber.objects.all()
         for subscriber in subscribers:
