@@ -11,6 +11,7 @@
   <div id="box">
     <div class="block" id="block-signup">
       <h2>Sign Up...</h2>
+      <p>Register in order to subscribe to legislation feeds or to weigh in on legslation.</p>
       <form class="uniForm" method="POST" action="{% url registration_register %}">{% csrf_token %}
         {{ form|as_uni_form }}
         <div class="buttonHolder">
