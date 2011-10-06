@@ -14,6 +14,12 @@ class NewLegislationFeed (ContentFeed):
     def get_content(self):
         return LegFile.objects.all()
 
+    def get_updates_since(self, datetime):
+        return self.get_content().filter(intro_date__gt=datetime)
+
+    def get_changes_to(self, legfile):
+        return {'Title': legfile.title}
+
     def get_last_updated(self, legfile):
         return legfile.intro_date
 
