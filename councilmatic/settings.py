@@ -119,6 +119,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
+
+    'utils.context_processors.settings.GOOGLE_ANALYTICS_ACCOUNT',
 )
 
 ROOT_URLCONF = 'urls'
@@ -179,6 +181,8 @@ GOOGLE_CONSUMER_SECRET       = cmk.get('GOOGLE_CONSUMER_SECRET', '')
 RECAPTCHA_PUBLIC_KEY  = cmk.get('RECAPTCHA_PUBLIC_KEY', '')
 RECAPTCHA_PRIVATE_KEY = cmk.get('RECAPTCHA_PRIVATE_KEY', '')
 
+GOOGLE_ANALYTICS_ACCOUNT = cmk.get('GOOGLE_ANALYTICS_ACCOUNT', '')
+
 ###############################################################################
 #
 # Site search configuration
@@ -222,6 +226,7 @@ PROJECT_APPS = (
     'activity_log',
     'opinions',
     'main',
+    'utils',
 )
 
 INSTALLED_APPS = (
