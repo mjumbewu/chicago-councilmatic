@@ -1,0 +1,28 @@
+@import "blueprint/buttons";
+@import "blueprint/grid";
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+@import "mixins";
+
+#block-signin,
+#block-signup {
+    text-align: center;
+
+    .uniForm {
+        display: inline-block;
+
+        label {
+            text-align: left;
+        }
+    }
+
+    ul {
+        list-style: none;
+        margin: 0px;
+        padding: 0px;
+
+        li {
+            display: inline-block;
+        }
+    }
+}

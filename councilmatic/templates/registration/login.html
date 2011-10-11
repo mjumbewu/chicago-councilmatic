@@ -9,7 +9,7 @@
 
 {% block content %}
   <div id="box">
-    <div class="block" id="block-signup">
+    <div class="block" id="block-signin">
       <h2>Log In...</h2>
       <form class="uniForm" method="POST" action="{% url registration_login %}">{% csrf_token %}
         {{ form|as_uni_form }}

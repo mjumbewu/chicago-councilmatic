@@ -753,7 +753,7 @@ body #site_header .header {
   display: inline;
   float: left;
   overflow: hidden;
-  width: 24.212%;
+  width: 20.003%;
   margin-right: 1.042%;
 }
 /* line 34, ../sass/partials/_site_header.scss */
@@ -775,7 +775,7 @@ body #site_header .site_nav {
   display: inline;
   float: left;
   overflow: hidden;
-  width: 15.794%;
+  width: 24.212%;
   margin-right: 1.042%;
   line-height: 3em;
   text-align: center;
@@ -796,7 +796,7 @@ body #site_header .registration {
   display: inline;
   float: left;
   overflow: hidden;
-  width: 20.003%;
+  width: 15.794%;
   margin-right: 1.042%;
   line-height: 3em;
   text-align: right;
@@ -1384,4 +1384,32 @@ body #site_header .search button {
 /* line 90, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_status {
   text-align: right;
+}
+
+/* line 8, ../sass/partials/_registration.scss */
+#block-signin,
+#block-signup {
+  text-align: center;
+}
+/* line 11, ../sass/partials/_registration.scss */
+#block-signin .uniForm,
+#block-signup .uniForm {
+  display: inline-block;
+}
+/* line 14, ../sass/partials/_registration.scss */
+#block-signin .uniForm label,
+#block-signup .uniForm label {
+  text-align: left;
+}
+/* line 19, ../sass/partials/_registration.scss */
+#block-signin ul,
+#block-signup ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+/* line 24, ../sass/partials/_registration.scss */
+#block-signin ul li,
+#block-signup ul li {
+  display: inline-block;
 }

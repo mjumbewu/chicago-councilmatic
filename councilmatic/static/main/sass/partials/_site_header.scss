@@ -29,7 +29,7 @@ body {
          * The site logo/header style
          */
         .header {
-            @include column(6);
+            @include column(5);
 
             h1, h2, h3, h4, h5, h6 {
                 line-height: 1em;
@@ -52,7 +52,7 @@ body {
          * The navgation links
          */
         .site_nav {
-            @include column(4);
+            @include column(6);
 
             line-height: 3em;
             text-align: center;
@@ -73,7 +73,7 @@ body {
          * The registration links
          */
         .registration {
-            @include column(5);
+            @include column(4);
 
             line-height: 3em;
             text-align: right;
