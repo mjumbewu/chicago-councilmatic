@@ -1,5 +1,5 @@
 import logging as log
-from django.views import generic as view
+from django.views import generic as views
 
 from main import feeds
 from main import forms
@@ -23,7 +23,7 @@ class SearchBarMixin (object):
         return context_data
 
 
-class AppDashboardView (SearchBarMixin, view.TemplateView):
+class AppDashboardView (SearchBarMixin, views.TemplateView):
     template_name = 'main/app_dashboard.html'
 
     def get_context_data(self, **kwargs):
@@ -40,7 +40,7 @@ class AppDashboardView (SearchBarMixin, view.TemplateView):
 
 class SearchView (SearchBarMixin,
                   subscriptions.views.SingleSubscriptionMixin,
-                  view.ListView):
+                  views.ListView):
     template_name = 'search/search.html'
     paginate_by = 20
     feed_data = None
@@ -49,21 +49,21 @@ class SearchView (SearchBarMixin,
         # Construct and run a haystack SearchView so that we can use the
         # resulting values.
         self.search_view = haystack.views.SearchView(form_class=forms.FullSearchForm)
-        self.search_view.request = request
+        self.search_views.request = request
 
-        self.search_view.form = self.search_view.build_form()
-        self.search_view.query = self.search_view.get_query()
-        self.search_view.results = self.search_view.get_results()
+        self.search_views.form = self.search_views.build_form()
+        self.search_views.query = self.search_views.get_query()
+        self.search_views.results = self.search_views.get_results()
 
         # The, continue with the dispatch
         return super(SearchView, self).dispatch(request, *args, **kwargs)
 
     def get_content_feed(self):
-        queryset = self.search_view.results
+        queryset = self.search_views.results
         return feeds.SearchResultsFeed(queryset.query.query_filter)
 
     def get_queryset(self):
-        search_queryset = self.search_view.results
+        search_queryset = self.search_views.results
 
         class SQSProxy (object):
             """
@@ -89,7 +89,7 @@ class SearchView (SearchBarMixin,
         Generates the actual HttpResponse to send back to the user.
         """
         context = super(SearchView, self).get_context_data(**kwargs)
-        context['form'] = self.search_view.form
+        context['form'] = self.search_views.form
         log.debug(context)
         return context
 
@@ -106,7 +106,7 @@ class LegislationStatsMixin (object):
 
 class LegislationListView (SearchBarMixin,
                            subscriptions.views.SingleSubscriptionMixin,
-                           view.ListView):
+                           views.ListView):
     model = phillyleg.models.LegFile
     template_name = 'phillyleg/legfile_list.html'
     paginate_by = 20
@@ -123,7 +123,7 @@ class LegislationDetailView (SearchBarMixin,
                              subscriptions.views.SingleSubscriptionMixin,
                              bookmarks.views.SingleBookmarkedObjectMixin,
                              opinions.views.SingleOpinionTargetMixin,
-                             view.DetailView):
+                             views.DetailView):
     model = phillyleg.models.LegFile
     template_name = 'phillyleg/legfile_detail.html'
 
@@ -146,7 +146,7 @@ class LegislationDetailView (SearchBarMixin,
 
 
 class BookmarkListView (SearchBarMixin,
-                        view.ListView):
+                        views.ListView):
     template_name = 'main/bookmark_list.html'
 
     def get_queryset(self):
@@ -155,3 +155,8 @@ class BookmarkListView (SearchBarMixin,
             return [bm.content for bm in user.bookmarks.all()]
         else:
             return []
+
+
+class SubscriptionManagementView (SearchBarMixin,
+                                  views.TemplateView):
+    template_name = 'main/subscription_management.html'

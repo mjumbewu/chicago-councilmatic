@@ -583,72 +583,8 @@ body .inner {
 }
 /* line 36, ../sass/partials/_main_base.scss */
 body .uniForm {
-  line-height: 3;
-}
-/* line 18, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
-body .uniForm label {
-  font-weight: bold;
-}
-/* line 19, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
-body .uniForm fieldset {
-  padding: 1.4em;
-  margin: 0 0 1.5em 0;
-}
-/* line 20, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
-body .uniForm legend {
-  font-weight: bold;
-  font-size: 1.2em;
-}
-/* line 26, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
-body .uniForm input.text, body .uniForm input.title, body .uniForm input[type=email], body .uniForm input[type=text], body .uniForm input[type=password] {
-  margin: 0.5em 0;
-  background-color: white;
-  padding: 5px;
-}
-/* line 27, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
-body .uniForm input.title {
-  font-size: 1.5em;
-}
-/* line 31, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
-body .uniForm input[type=checkbox], body .uniForm input.checkbox, body .uniForm input[type=radio], body .uniForm input.radio {
-  position: relative;
-  top: 0.25em;
-}
-/* line 33, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
-body .uniForm textarea {
-  margin: 0.5em 0;
-  padding: 5px;
-}
-/* line 34, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
-body .uniForm select {
-  margin: 0.5em 0;
-}
-/* line 59, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
-body .uniForm fieldset {
-  border: 1px solid #cccccc;
-}
-/* line 62, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
-body .uniForm input.text, body .uniForm input.title, body .uniForm input[type=email], body .uniForm input[type=text], body .uniForm input[type=password],
-body .uniForm textarea, body .uniForm select {
-  border: 1px solid #bbbbbb;
-}
-/* line 64, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
-body .uniForm input.text:focus, body .uniForm input.title:focus, body .uniForm input[type=email]:focus, body .uniForm input[type=text]:focus, body .uniForm input[type=password]:focus,
-body .uniForm textarea:focus, body .uniForm select:focus {
-  border: 1px solid #666666;
-}
-/* line 48, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
-body .uniForm input.text, body .uniForm input.title, body .uniForm input[type=email], body .uniForm input[type=text], body .uniForm input[type=password] {
-  width: 300px;
-}
-/* line 50, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
-body .uniForm textarea {
-  width: 390px;
-  height: 250px;
-}
-/* line 6, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_form.scss */
-body .uniForm p {
-  margin-bottom: 0;
+  /*        @include blueprint-form;
+          @include blueprint-inline-form;*/
 }
 /* line 40, ../sass/partials/_main_base.scss */
 body .uniForm button {
@@ -711,6 +647,16 @@ body .uniForm button:hover {
 body .uniForm label {
   display: inline-block;
   width: 12em;
+}
+/* line 52, ../sass/partials/_main_base.scss */
+body .uniForm .formHint {
+  line-height: 1.2em;
+  font-size: 0.85em;
+  text-align: left;
+}
+/* line 58, ../sass/partials/_main_base.scss */
+body .uniForm .ctrlHolder {
+  margin-bottom: 0.5em;
 }
 
 /* line 10, ../sass/partials/_site_header.scss */
@@ -951,42 +897,46 @@ body #site_header .search button {
   width: 55px;
   vertical-align: top;
 }
-/* line 40, ../sass/partials/_legfile_detail.scss */
+/* line 38, ../sass/partials/_legfile_detail.scss */
+.legfile_detail .inner .bookmark button:hover {
+  cursor: pointer;
+}
+/* line 44, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .share_bar {
   position: absolute;
   right: 0px;
   top: 0px;
 }
-/* line 46, ../sass/partials/_legfile_detail.scss */
+/* line 50, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_detail h1 {
   font-size: 2.5em;
   line-height: 1em;
   margin: 0px;
   padding: 0px;
 }
-/* line 53, ../sass/partials/_legfile_detail.scss */
+/* line 57, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_detail h2 {
   font-size: 1.5em;
   line-height: 1em;
   margin: 0px;
   padding: 0px;
 }
-/* line 60, ../sass/partials/_legfile_detail.scss */
+/* line 64, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_sponsors {
   list-style: none;
   margin: 0px;
   padding: 0px;
 }
-/* line 65, ../sass/partials/_legfile_detail.scss */
+/* line 69, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_sponsors li {
   display: inline-block;
 }
-/* line 69, ../sass/partials/_legfile_detail.scss */
+/* line 73, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_sponsors img {
   height: 2em;
   width: 2em;
 }
-/* line 75, ../sass/partials/_legfile_detail.scss */
+/* line 79, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .overview_bar {
   font-family: 'Quattrocento', 'Garamond', serif;
   clear: both;
@@ -995,21 +945,21 @@ body #site_header .search button {
   border-width: 1px 0px;
   padding: 0.5em 0em;
 }
-/* line 84, ../sass/partials/_legfile_detail.scss */
+/* line 88, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .overview_bar span {
   display: inline-block;
   text-align: center;
   width: 33%;
 }
-/* line 89, ../sass/partials/_legfile_detail.scss */
+/* line 93, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .overview_bar span:first-child {
   text-align: left;
 }
-/* line 93, ../sass/partials/_legfile_detail.scss */
+/* line 97, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .overview_bar span:last-child {
   text-align: right;
 }
-/* line 99, ../sass/partials/_legfile_detail.scss */
+/* line 103, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_text {
   display: inline;
   float: right;
@@ -1020,11 +970,11 @@ body #site_header .search button {
   margin-bottom: 0px;
   width: 550px;
 }
-/* line 107, ../sass/partials/_legfile_detail.scss */
+/* line 111, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_text p {
   margin-top: 1em;
 }
-/* line 112, ../sass/partials/_legfile_detail.scss */
+/* line 116, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_related_info {
   display: inline;
   float: left;
@@ -1035,7 +985,7 @@ body #site_header .search button {
 * html .legfile_detail .inner .legfile_related_info {
   overflow-x: hidden;
 }
-/* line 116, ../sass/partials/_legfile_detail.scss */
+/* line 120, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_attachments {
   display: inline;
   float: left;
@@ -1047,7 +997,7 @@ body #site_header .search button {
 * html .legfile_detail .inner .legfile_attachments {
   overflow-x: hidden;
 }
-/* line 122, ../sass/partials/_legfile_detail.scss */
+/* line 126, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_timeline {
   display: inline;
   float: left;
@@ -1062,12 +1012,12 @@ body #site_header .search button {
 * html .legfile_detail .inner .legfile_timeline {
   overflow-x: hidden;
 }
-/* line 128, ../sass/partials/_legfile_detail.scss */
+/* line 132, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_timeline li {
   margin-left: 1em;
   margin-bottom: 0.5em;
 }
-/* line 135, ../sass/partials/_legfile_detail.scss */
+/* line 139, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_attachments,
 .legfile_detail .inner .legfile_timeline {
   padding-top: 1em;
@@ -1076,7 +1026,7 @@ body #site_header .search button {
   background-attachment: 0% 0%;
   min-height: 36px;
 }
-/* line 143, ../sass/partials/_legfile_detail.scss */
+/* line 147, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_attachments ul,
 .legfile_detail .inner .legfile_timeline ul {
   list-style: none;
@@ -1084,40 +1034,40 @@ body #site_header .search button {
   padding: 0px;
   padding-left: 3em;
 }
-/* line 150, ../sass/partials/_legfile_detail.scss */
+/* line 154, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_attachments p,
 .legfile_detail .inner .legfile_timeline p {
   margin: 0px;
   padding-left: 3em;
 }
-/* line 156, ../sass/partials/_legfile_detail.scss */
+/* line 160, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legaction_date_taken {
   font-weight: bold;
   display: block;
   margin-left: -1em;
 }
-/* line 162, ../sass/partials/_legfile_detail.scss */
+/* line 166, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legaction_acting_body {
   text-transform: lowercase;
 }
-/* line 166, ../sass/partials/_legfile_detail.scss */
+/* line 170, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legaction_description {
   text-transform: lowercase;
 }
-/* line 170, ../sass/partials/_legfile_detail.scss */
+/* line 174, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legaction_minutes {
   float: right;
 }
-/* line 174, ../sass/partials/_legfile_detail.scss */
+/* line 178, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legaction_motion {
   font-style: italic;
   text-transform: lowercase;
 }
-/* line 178, ../sass/partials/_legfile_detail.scss */
+/* line 182, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legaction_motion:before {
   content: ' - motion: ';
 }
-/* line 183, ../sass/partials/_legfile_detail.scss */
+/* line 187, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_original_url {
   border-bottom: 1px solid #cccccc;
   clear: both;
@@ -1125,8 +1075,59 @@ body #site_header .search button {
   padding-right: 8em;
   text-align: right;
 }
+/* line 195, ../sass/partials/_legfile_detail.scss */
+.legfile_detail .inner .block.mentions {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 390px;
+  padding-right: 24px;
+  margin-right: 25px;
+  border-right: 1px solid #cccccc;
+}
+/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html .legfile_detail .inner .block.mentions {
+  overflow-x: hidden;
+}
+/* line 200, ../sass/partials/_legfile_detail.scss */
+.legfile_detail .inner .block.references {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 390px;
+}
+/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html .legfile_detail .inner .block.references {
+  overflow-x: hidden;
+}
 
-/* line 192, ../sass/partials/_legfile_detail.scss */
+/* line 205, ../sass/partials/_legfile_detail.scss */
+#your_opinion {
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -o-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -khtml-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: black 0px 0px 5px 0;
+  -webkit-box-shadow: black 0px 0px 5px 0;
+  -o-box-shadow: black 0px 0px 5px 0;
+  box-shadow: black 0px 0px 5px 0;
+  background-image: url("../images/exclusive_paper.png");
+  border: 1px solid #B5B5B5;
+  bottom: 0px;
+  padding: 1em;
+  position: fixed;
+  right: 1em;
+  width: 20em;
+}
+/* line 217, ../sass/partials/_legfile_detail.scss */
+#your_opinion textarea {
+  font-family: 'Quattrocento', 'Garamond', serif;
+  height: 5em;
+}
+
+/* line 224, ../sass/partials/_legfile_detail.scss */
 #opinions {
   display: inline;
   float: left;
@@ -1138,7 +1139,7 @@ body #site_header .search button {
   overflow-x: hidden;
 }
 
-/* line 196, ../sass/partials/_legfile_detail.scss */
+/* line 228, ../sass/partials/_legfile_detail.scss */
 #sidebar {
   display: inline;
   float: left;
@@ -1150,7 +1151,7 @@ body #site_header .search button {
   overflow-x: hidden;
 }
 
-/* line 200, ../sass/partials/_legfile_detail.scss */
+/* line 232, ../sass/partials/_legfile_detail.scss */
 #timeline {
   display: inline;
   float: left;
@@ -1161,13 +1162,77 @@ body #site_header .search button {
 * html #timeline {
   overflow-x: hidden;
 }
-/* line 203, ../sass/partials/_legfile_detail.scss */
+/* line 235, ../sass/partials/_legfile_detail.scss */
 #timeline .legaction_header {
   display: none;
 }
-/* line 207, ../sass/partials/_legfile_detail.scss */
+/* line 239, ../sass/partials/_legfile_detail.scss */
 #timeline .legaction_detail .field_label {
   display: none;
+}
+
+/* line 244, ../sass/partials/_legfile_detail.scss */
+#opinions .content .opinions {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 270px;
+  background-repeat: no-repeat;
+  background-position: 50% 0%;
+  vertical-align: top;
+  padding-top: 50px;
+  margin-top: 2em;
+}
+/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html #opinions .content .opinions {
+  overflow-x: hidden;
+}
+
+/* line 254, ../sass/partials/_legfile_detail.scss */
+.opinions.support {
+  background-image: url("../images/support.svg");
+}
+
+/* line 258, ../sass/partials/_legfile_detail.scss */
+.opinions.abstain {
+  background-image: url("../images/abstain.svg");
+}
+
+/* line 262, ../sass/partials/_legfile_detail.scss */
+.opinions.oppose {
+  background-image: url("../images/oppose.svg");
+}
+
+/* line 266, ../sass/partials/_legfile_detail.scss */
+#opinions .content .opinions ul {
+  list-style: none;
+  padding: 1em;
+}
+
+/* line 271, ../sass/partials/_legfile_detail.scss */
+.opinions blockquote {
+  padding-left: 1em;
+  font-size: 1.2em;
+  line-height: 1.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  min-height: 20px;
+  background-image: url("../images/statement.svg");
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+}
+
+/* line 287, ../sass/partials/_legfile_detail.scss */
+.opinions .opiner {
+  display: block;
+  text-align: right;
+}
+
+/* line 292, ../sass/partials/_legfile_detail.scss */
+.opinions .opiner:before {
+  content: '- ';
 }
 
 /*
