@@ -1,4 +1,4 @@
-@import "blueprint/form";
+/*@import "blueprint/form";*/
 @import "blueprint/grid";
 @import "mixins";
 
@@ -7,14 +7,20 @@
     text-align: center;
 
     #dashboard_search {
-        @include blueprint-form;
+/*        @include blueprint-form;*/
 
         padding-bottom: 6em;
+
+        .ctrlHolder,
+        .buttonHolder {
+            display: inline;
+        }
 
         input,
         button {
             @include quattro;
 
+            float: none;
             font-size: 1.5em;
             line-height: normal;
             vertical-align: middle;

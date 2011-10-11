@@ -12,6 +12,7 @@
     <div class="block" id="block-signin">
       <h2>Log In...</h2>
       <form class="uniForm" method="POST" action="{% url registration_login %}">{% csrf_token %}
+        <fieldset class="inlineLabels">
         {{ form|as_uni_form }}
         <div class="buttonHolder">
           <button type="submit" class="primaryAction">Done</button>
@@ -20,6 +21,7 @@
             <a href="{{ request.GET.next }}" class="secondaryAction">Cancel</a>
           {% endif %}
         </div>
+        </fieldset>
       </form>
 
       <div class="social_auth">

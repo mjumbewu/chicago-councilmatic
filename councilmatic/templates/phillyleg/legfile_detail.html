@@ -154,6 +154,7 @@
     </div>
     </div>
 
+    {% if user.is_authenticated %}
     <div id="sidebar">
         <div class="block" id="your_opinion">
           <h3>What's your opinion?</h3>
@@ -172,6 +173,7 @@
           </form>
         </div>
     </div>
+    {% endif %}
 
     <div class="block" id="opinions">
       <div class="content">

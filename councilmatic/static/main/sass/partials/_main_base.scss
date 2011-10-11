@@ -1,4 +1,4 @@
-@import "blueprint/buttons";
+/*@import "blueprint/buttons";*/
 @import "blueprint/grid";
 @import "compass/css3/border-radius";
 @import "compass/css3/box-shadow";
@@ -37,27 +37,27 @@ body {
 /*        @include blueprint-form;
         @include blueprint-inline-form;*/
 
-        button {
-            @include button-button;
-            @include button-colors;
-            @include button-active-colors;
-            @include button-hover-colors;
-        }
+/*        button {*/
+/*            @include button-button;*/
+/*            @include button-colors;*/
+/*            @include button-active-colors;*/
+/*            @include button-hover-colors;*/
+/*        }*/
 
-        label {
-            display: inline-block;
-            width: 12em;
-        }
+/*        label {*/
+/*            display: inline-block;*/
+/*            width: 12em;*/
+/*        }*/
 
-        .formHint {
-            line-height: 1.2em;
-            font-size: 0.85em;
-            text-align: left;
-        }
+/*        .formHint {*/
+/*            line-height: 1.2em;*/
+/*            font-size: 0.85em;*/
+/*            text-align: left;*/
+/*        }*/
 
-        .ctrlHolder {
-            margin-bottom: 0.5em;
-        }
+/*        .ctrlHolder {*/
+/*            margin-bottom: 0.5em;*/
+/*        }*/
     }
 }
 

@@ -1,5 +1,5 @@
-@import "blueprint/buttons";
-@import "blueprint/form";
+/*@import "blueprint/buttons";*/
+/*@import "blueprint/form";*/
 @import "blueprint/grid";
 @import "blueprint/liquid";
 @import "compass/css3/border-radius";
@@ -95,34 +95,28 @@ body {
          * The persistent search form
          */
         .search {
-            @include blueprint-form;
+//            @include blueprint-form;
             @include column(8, true);
             @include push(0);
 
             text-align: right;
 
+            .buttonHolder,
+            .ctrlHolder {
+                display: inline;
+            }
+
             input, button {
                 @include quattro;
 
-                margin: 0.5em 0em;
-                vertical-align: middle;
+                float: none;
             }
 
-            // The search box should look like it is etched into the desk.
             input[type="text"] {
-//                @include border-radius(3px);
-//                @include box-shadow($etched-color, 0px, 0px, 2px);
-
                 background: transparent;
-//                border: 2px solid $etched-color;
             }
 
             button {
-//                @include box-shadow($etched-color, 0px, 0px, 2px);
-
-//                background-color: $etched-color;
-//                border: none;
-//                color: white;
                 font-weight: bold;
             }
         }

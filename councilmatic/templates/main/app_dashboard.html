@@ -17,8 +17,12 @@
         </header>
 
         <form id="dashboard_search" class="search uniForm" action="{% url search %}" method="GET">
-            <input name="q" type="text">
-            <button type="submit">Search</button>
+            <div class="ctrlHolder">
+                <input name="q" type="text" class="textInput">
+            </div>
+            <div class="buttonHolder">
+                <button type="submit" class="primaryAction">Search</button>
+            </div>
         </form>
 
         <div id="dashboard_explanation">

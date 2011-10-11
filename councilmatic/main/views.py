@@ -49,21 +49,21 @@ class SearchView (SearchBarMixin,
         # Construct and run a haystack SearchView so that we can use the
         # resulting values.
         self.search_view = haystack.views.SearchView(form_class=forms.FullSearchForm)
-        self.search_views.request = request
+        self.search_view.request = request
 
-        self.search_views.form = self.search_views.build_form()
-        self.search_views.query = self.search_views.get_query()
-        self.search_views.results = self.search_views.get_results()
+        self.search_view.form = self.search_view.build_form()
+        self.search_view.query = self.search_view.get_query()
+        self.search_view.results = self.search_view.get_results()
 
         # The, continue with the dispatch
         return super(SearchView, self).dispatch(request, *args, **kwargs)
 
     def get_content_feed(self):
-        queryset = self.search_views.results
+        queryset = self.search_view.results
         return feeds.SearchResultsFeed(queryset.query.query_filter)
 
     def get_queryset(self):
-        search_queryset = self.search_views.results
+        search_queryset = self.search_view.results
 
         class SQSProxy (object):
             """
@@ -89,7 +89,7 @@ class SearchView (SearchBarMixin,
         Generates the actual HttpResponse to send back to the user.
         """
         context = super(SearchView, self).get_context_data(**kwargs)
-        context['form'] = self.search_views.form
+        context['form'] = self.search_view.form
         log.debug(context)
         return context
 
