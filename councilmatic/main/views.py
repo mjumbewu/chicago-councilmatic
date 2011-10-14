@@ -106,6 +106,7 @@ class LegislationStatsMixin (object):
 
 class LegislationListView (SearchBarMixin,
                            subscriptions.views.SingleSubscriptionMixin,
+                           bookmarks.views.MultipleBookmarkedObjectsMixin,
                            views.ListView):
     model = phillyleg.models.LegFile
     template_name = 'phillyleg/legfile_list.html'
@@ -113,10 +114,6 @@ class LegislationListView (SearchBarMixin,
 
     def get_content_feed(self):
         return feeds.NewLegislationFeed()
-
-    def get_queryset(self):
-        queryset = super(LegislationListView, self).get_queryset()
-        return queryset.order_by('-intro_date')
 
 
 class LegislationDetailView (SearchBarMixin,
