@@ -111,7 +111,7 @@ class LegislationListView (SearchBarMixin,
                            views.ListView):
     model = phillyleg.models.LegFile
     template_name = 'phillyleg/legfile_list.html'
-    paginate_by = 20
+    paginate_by = 10
 
     def get_content_feed(self):
         return feeds.NewLegislationFeed()
