@@ -33,11 +33,9 @@
 
           {% if object_list %}
             {% with title='Results' %}
-            {% with phillyleg_legfile_teaser_template='main/partials/dashboard_legfile_teaser.html' %}
 
               {% list_block object_list %}
 
-            {% endwith %}
             {% endwith %}
 
             {% if page.has_previous or page.has_next %}

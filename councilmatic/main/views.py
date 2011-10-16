@@ -23,7 +23,9 @@ class SearchBarMixin (object):
         return context_data
 
 
-class AppDashboardView (SearchBarMixin, bookmarks.views.BaseBookmarkMixin, views.TemplateView):
+class AppDashboardView (SearchBarMixin,
+                        bookmarks.views.BaseBookmarkMixin,
+                        views.TemplateView):
     template_name = 'main/app_dashboard.html'
 
     def get_context_data(self, **kwargs):
