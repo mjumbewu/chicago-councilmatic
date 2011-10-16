@@ -2,13 +2,17 @@
 {% load model_blocks %}
 
 {% block load_early %}
-	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">
+<!--	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">-->
     <link rel="stylesheet" href="{{ STATIC_URL }}main/app_dashboard.css">
 {% endblock %}
 
 {% block content %}
-  <section id="main">
+  <section id="main" class="legfile_list">
     <div class="block">
+
+      <div class="block">
+          {% include 'subscriptions/subscribe_form.html' %}
+      </div>
 
       <div class="content">
         <div class="inner">
@@ -16,13 +20,9 @@
             <h2>Browse Legislation</h2>
           </header>
 
-          {% with phillyleg_legfile_teaser_template='main/partials/dashboard_legfile_teaser.html' %}
-          {% with title=' ' %}
-
-            {% list_block object_list %}
-
-          {% endwith %}
-          {% endwith %}
+          {% for file, bookmark, content_type, bookmark_form in bookmark_data %}
+            {% include "main/partials/dashboard_legfile_teaser.html" %}
+          {% endfor %}
 
           <div class="pagination">
             <span class="step-links">
@@ -41,12 +41,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section id="sidebar">
-    <div class="block">
-      {% include 'subscriptions/subscribe_form.html' %}
     </div>
   </section>
 {% endblock %}

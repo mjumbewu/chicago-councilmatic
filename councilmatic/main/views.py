@@ -23,17 +23,18 @@ class SearchBarMixin (object):
         return context_data
 
 
-class AppDashboardView (SearchBarMixin, views.TemplateView):
+class AppDashboardView (SearchBarMixin, bookmarks.views.BaseBookmarkMixin, views.TemplateView):
     template_name = 'main/app_dashboard.html'
 
     def get_context_data(self, **kwargs):
         search_form = forms.FullSearchForm()
 
         legfiles = phillyleg.models.LegFile.objects.all().order_by('-key')[:8]
+        bookmark_data = self.get_bookmarks_data(legfiles)
 
         context_data = super(AppDashboardView, self).get_context_data(
             **kwargs)
-        context_data.update({'legfiles': legfiles, 'search_form': search_form})
+        context_data.update({'legfiles': legfiles, 'bookmark_data': bookmark_data, 'search_form': search_form})
 
         return context_data
 

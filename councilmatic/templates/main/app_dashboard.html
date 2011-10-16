@@ -46,19 +46,9 @@
             <h2>Recent Legislation</h2>
 
             <ul>
-            {% for file in legfiles %}
+            {% for file, bookmark, contenttype, bookmark_form in bookmark_data %}
                 <li>
-                    <span class="legislation_bookmark">
-                        {% with is_bookmarked=file.is_bookmarked %}
-                        {% with bookmark=file.bookmark %}
-                            {% include "bookmarks/partials/bookmark_button.html" %}
-                        {% endwith %}
-                        {% endwith %}
-                    </span>
-                    <span class="legislation_id"><a href="{% url legislation_detail file.key %}">{{ file.type }} {{ file.id }}</a></span>
-                    <span class="legislation_intro_date">{{ file.intro_date }}</span>
-                    <span class="legislation_status">{{ file.status }}</span>
-                    <span class="legislation_title">{{ file.title|truncatewords:25 }}</span>
+                    {% include "main/partials/dashboard_legfile_teaser.html" %}
                 </li>
             {% endfor %}
             </ul>
