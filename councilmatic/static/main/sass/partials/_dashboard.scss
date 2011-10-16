@@ -11,6 +11,11 @@
     padding-top: 6em;
     text-align: center;
 
+    ul {
+        text-align: left;
+        list-style: none;
+    }
+
     #dashboard_search {
 /*        @include blueprint-form;*/
 

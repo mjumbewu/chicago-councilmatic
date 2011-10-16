@@ -2,8 +2,8 @@
 {% load model_blocks %}
 
 {% block load_early %}
-<!--	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">-->
-    <link rel="stylesheet" href="{{ STATIC_URL }}main/app_dashboard.css">
+	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">
+<!--    <link rel="stylesheet" href="{{ STATIC_URL }}main/app_dashboard.css">-->
 {% endblock %}
 
 {% block content %}
@@ -20,9 +20,11 @@
             <h2>Browse Legislation</h2>
           </header>
 
-          {% for file, bookmark, content_type, bookmark_form in bookmark_data %}
-            {% include "main/partials/dashboard_legfile_teaser.html" %}
-          {% endfor %}
+            <ul id="dashboard_legislation">
+            {% for file, bookmark, content_type, bookmark_form in bookmark_data %}
+                <li>{% include "main/partials/dashboard_legfile_teaser.html" %}</li>
+            {% endfor %}
+            </ul>
 
           <div class="pagination">
             <span class="step-links">
