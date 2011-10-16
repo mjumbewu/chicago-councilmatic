@@ -32,33 +32,6 @@ body {
     .inner {
         @include container;
     }
-
-    .uniForm {
-/*        @include blueprint-form;
-        @include blueprint-inline-form;*/
-
-/*        button {*/
-/*            @include button-button;*/
-/*            @include button-colors;*/
-/*            @include button-active-colors;*/
-/*            @include button-hover-colors;*/
-/*        }*/
-
-/*        label {*/
-/*            display: inline-block;*/
-/*            width: 12em;*/
-/*        }*/
-
-/*        .formHint {*/
-/*            line-height: 1.2em;*/
-/*            font-size: 0.85em;*/
-/*            text-align: left;*/
-/*        }*/
-
-/*        .ctrlHolder {*/
-/*            margin-bottom: 0.5em;*/
-/*        }*/
-    }
 }
 
 @import "site_header";

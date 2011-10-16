@@ -249,7 +249,7 @@ class LegFileMetaData (models.Model):
 class LegMinutesMetaData (models.Model):
     legminutes = models.OneToOneField('LegMinutes', related_name='metadata')
     words = models.ManyToManyField('MetaData_Word', related_name='references_in_minutes')
-    
+
     def __unicode__(self):
         return u'metadata for %s' % self.legminutes
 
