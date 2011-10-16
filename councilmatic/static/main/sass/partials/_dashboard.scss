@@ -2,7 +2,12 @@
 @import "blueprint/grid";
 @import "mixins";
 
-.dashboard .inner {
+.dashboard .inner #dashboard_legislation {
+    @include column(11);
+}
+
+.dashboard .inner,
+.legfile_list .inner {
     padding-top: 6em;
     text-align: center;
 
@@ -49,9 +54,8 @@
         }
     }
 
-    #dashboard_legislation {
-        @include column(11);
-
+    #dashboard_legislation,
+    .legfile_list_wrapper {
         ul {
             list-style: none;
             margin: 0px;

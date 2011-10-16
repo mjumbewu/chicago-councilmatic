@@ -582,29 +582,6 @@ body .inner {
   overflow: hidden;
   *zoom: 1;
 }
-/* line 36, ../sass/partials/_main_base.scss */
-body .uniForm {
-  /*        @include blueprint-form;
-          @include blueprint-inline-form;*/
-  /*        button {*/
-  /*            @include button-button;*/
-  /*            @include button-colors;*/
-  /*            @include button-active-colors;*/
-  /*            @include button-hover-colors;*/
-  /*        }*/
-  /*        label {*/
-  /*            display: inline-block;*/
-  /*            width: 12em;*/
-  /*        }*/
-  /*        .formHint {*/
-  /*            line-height: 1.2em;*/
-  /*            font-size: 0.85em;*/
-  /*            text-align: left;*/
-  /*        }*/
-  /*        .ctrlHolder {*/
-  /*            margin-bottom: 0.5em;*/
-  /*        }*/
-}
 
 /*@import "blueprint/buttons";*/
 /*@import "blueprint/form";*/
@@ -1174,65 +1151,6 @@ body #site_header .search button {
 */
 /*@import "blueprint/form";*/
 /* line 5, ../sass/partials/_dashboard.scss */
-.dashboard .inner {
-  padding-top: 6em;
-  text-align: center;
-}
-/* line 9, ../sass/partials/_dashboard.scss */
-.dashboard .inner #dashboard_search {
-  /*        @include blueprint-form;*/
-  padding-bottom: 6em;
-}
-/* line 15, ../sass/partials/_dashboard.scss */
-.dashboard .inner #dashboard_search .ctrlHolder,
-.dashboard .inner #dashboard_search .buttonHolder {
-  display: inline;
-}
-/* line 20, ../sass/partials/_dashboard.scss */
-.dashboard .inner #dashboard_search input,
-.dashboard .inner #dashboard_search button {
-  font-family: 'Quattrocento', 'Garamond', serif;
-  float: none;
-  font-size: 1.5em;
-  line-height: normal;
-  vertical-align: middle;
-}
-/* line 30, ../sass/partials/_dashboard.scss */
-.dashboard .inner #dashboard_explanation {
-  display: inline;
-  float: left;
-  margin-right: 10px;
-  width: 950px;
-  border-bottom: 1px solid #cccccc;
-  margin-bottom: 3em;
-  padding-bottom: 2em;
-}
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html .dashboard .inner #dashboard_explanation {
-  overflow-x: hidden;
-}
-/* line 37, ../sass/partials/_dashboard.scss */
-.dashboard .inner #dashboard_explanation > div {
-  display: inline;
-  float: left;
-  margin-right: 10px;
-  width: 230px;
-  padding-left: 40px;
-  padding-right: 40px;
-}
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html .dashboard .inner #dashboard_explanation > div {
-  overflow-x: hidden;
-}
-/* line 42, ../sass/partials/_dashboard.scss */
-.dashboard .inner #dashboard_explanation > div:last-child {
-  margin-right: 0;
-}
-/* line 46, ../sass/partials/_dashboard.scss */
-.dashboard .inner #dashboard_explanation > div p {
-  text-align: justify;
-}
-/* line 52, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation {
   display: inline;
   float: left;
@@ -1243,25 +1161,109 @@ body #site_header .search button {
 * html .dashboard .inner #dashboard_legislation {
   overflow-x: hidden;
 }
-/* line 55, ../sass/partials/_dashboard.scss */
-.dashboard .inner #dashboard_legislation ul {
+
+/* line 10, ../sass/partials/_dashboard.scss */
+.dashboard .inner,
+.legfile_list .inner {
+  padding-top: 6em;
+  text-align: center;
+}
+/* line 14, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_search,
+.legfile_list .inner #dashboard_search {
+  /*        @include blueprint-form;*/
+  padding-bottom: 6em;
+}
+/* line 20, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_search .ctrlHolder,
+.dashboard .inner #dashboard_search .buttonHolder,
+.legfile_list .inner #dashboard_search .ctrlHolder,
+.legfile_list .inner #dashboard_search .buttonHolder {
+  display: inline;
+}
+/* line 25, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_search input,
+.dashboard .inner #dashboard_search button,
+.legfile_list .inner #dashboard_search input,
+.legfile_list .inner #dashboard_search button {
+  font-family: 'Quattrocento', 'Garamond', serif;
+  float: none;
+  font-size: 1.5em;
+  line-height: normal;
+  vertical-align: middle;
+}
+/* line 35, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_explanation,
+.legfile_list .inner #dashboard_explanation {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 950px;
+  border-bottom: 1px solid #cccccc;
+  margin-bottom: 3em;
+  padding-bottom: 2em;
+}
+/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html .dashboard .inner #dashboard_explanation, * html
+.legfile_list .inner #dashboard_explanation {
+  overflow-x: hidden;
+}
+/* line 42, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_explanation > div,
+.legfile_list .inner #dashboard_explanation > div {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 230px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html .dashboard .inner #dashboard_explanation > div, * html
+.legfile_list .inner #dashboard_explanation > div {
+  overflow-x: hidden;
+}
+/* line 47, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_explanation > div:last-child,
+.legfile_list .inner #dashboard_explanation > div:last-child {
+  margin-right: 0;
+}
+/* line 51, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_explanation > div p,
+.legfile_list .inner #dashboard_explanation > div p {
+  text-align: justify;
+}
+/* line 59, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_legislation ul,
+.dashboard .inner .legfile_list_wrapper ul,
+.legfile_list .inner #dashboard_legislation ul,
+.legfile_list .inner .legfile_list_wrapper ul {
   list-style: none;
   margin: 0px;
   padding: 0px;
   text-align: left;
 }
-/* line 62, ../sass/partials/_dashboard.scss */
-.dashboard .inner #dashboard_legislation li {
+/* line 66, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_legislation li,
+.dashboard .inner .legfile_list_wrapper li,
+.legfile_list .inner #dashboard_legislation li,
+.legfile_list .inner .legfile_list_wrapper li {
   overflow: hidden;
   *zoom: 1;
   margin-top: 0.5em;
 }
-/* line 67, ../sass/partials/_dashboard.scss */
-.dashboard .inner #dashboard_legislation .legislation_bookmark {
+/* line 71, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_legislation .legislation_bookmark,
+.dashboard .inner .legfile_list_wrapper .legislation_bookmark,
+.legfile_list .inner #dashboard_legislation .legislation_bookmark,
+.legfile_list .inner .legfile_list_wrapper .legislation_bookmark {
   width: 4em;
 }
-/* line 71, ../sass/partials/_dashboard.scss */
-.dashboard .inner #dashboard_legislation .bookmark button {
+/* line 75, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_legislation .bookmark button,
+.dashboard .inner .legfile_list_wrapper .bookmark button,
+.legfile_list .inner #dashboard_legislation .bookmark button,
+.legfile_list .inner .legfile_list_wrapper .bookmark button {
   background: transparent;
   border: none;
   float: left;
@@ -1270,23 +1272,41 @@ body #site_header .search button {
   padding: 0px;
   width: 4em;
 }
-/* line 83, ../sass/partials/_dashboard.scss */
+/* line 87, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_id,
 .dashboard .inner #dashboard_legislation .legislation_status,
-.dashboard .inner #dashboard_legislation .legislation_title {
+.dashboard .inner #dashboard_legislation .legislation_title,
+.dashboard .inner .legfile_list_wrapper .legislation_id,
+.dashboard .inner .legfile_list_wrapper .legislation_status,
+.dashboard .inner .legfile_list_wrapper .legislation_title,
+.legfile_list .inner #dashboard_legislation .legislation_id,
+.legfile_list .inner #dashboard_legislation .legislation_status,
+.legfile_list .inner #dashboard_legislation .legislation_title,
+.legfile_list .inner .legfile_list_wrapper .legislation_id,
+.legfile_list .inner .legfile_list_wrapper .legislation_status,
+.legfile_list .inner .legfile_list_wrapper .legislation_title {
   display: block;
   margin-left: 4em;
 }
-/* line 88, ../sass/partials/_dashboard.scss */
-.dashboard .inner #dashboard_legislation .legislation_id {
+/* line 92, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_legislation .legislation_id,
+.dashboard .inner .legfile_list_wrapper .legislation_id,
+.legfile_list .inner #dashboard_legislation .legislation_id,
+.legfile_list .inner .legfile_list_wrapper .legislation_id {
   font-weight: bold;
 }
-/* line 92, ../sass/partials/_dashboard.scss */
-.dashboard .inner #dashboard_legislation .legislation_intro_date {
+/* line 96, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_legislation .legislation_intro_date,
+.dashboard .inner .legfile_list_wrapper .legislation_intro_date,
+.legfile_list .inner #dashboard_legislation .legislation_intro_date,
+.legfile_list .inner .legfile_list_wrapper .legislation_intro_date {
   float: left;
 }
-/* line 96, ../sass/partials/_dashboard.scss */
-.dashboard .inner #dashboard_legislation .legislation_status {
+/* line 100, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_legislation .legislation_status,
+.dashboard .inner .legfile_list_wrapper .legislation_status,
+.legfile_list .inner #dashboard_legislation .legislation_status,
+.legfile_list .inner .legfile_list_wrapper .legislation_status {
   text-align: right;
 }
 
@@ -1316,4 +1336,13 @@ body #site_header .search button {
 #block-signin ul li,
 #block-signup ul li {
   display: inline-block;
+}
+
+/* line 1, ../sass/partials/_subscription.scss */
+.subscription_form {
+  float: right;
+}
+/* line 4, ../sass/partials/_subscription.scss */
+.subscription_form p {
+  float: left;
 }
