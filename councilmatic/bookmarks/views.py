@@ -32,6 +32,11 @@ class BaseBookmarkMixin (object):
 
         return bookmark, contenttype, bookmark_form
 
+    def get_bookmarks_data(self, content_list):
+        data = [(content,) + self.get_bookmark_data(content)
+                for content in content_list]
+        return data
+
 
 class SingleBookmarkedObjectMixin (BaseBookmarkMixin):
     def get_context_data(self, **kwargs):
@@ -51,25 +56,11 @@ class MultipleBookmarkedObjectsMixin (BaseBookmarkMixin):
     def get_context_data(self, **kwargs):
         context = super(MultipleBookmarkedObjectsMixin, self).get_context_data(**kwargs)
 
-        user = self.request.user
-
-        is_bookmarked = []
-        bookmarks = []
-        ctypes = []
-        bookmark_forms = []
-
         # Use the object_list from the context; it's already paginated, so it's
         # potentially a small subset of what's available.  Getting bookmark
         # data is relatively expensive.
         object_list = context['object_list']
-        for content in object_list:
-            bookmark, contenttype, bookmark_form = self.get_bookmark_data(content)
-            bookmarks.append(bookmark)
-            is_bookmarked.append(bookmark is not None)
-            ctypes.append(contenttype)
-            bookmark_forms.append(bookmark_form)
-
-        context['bookmark_data'] = zip(object_list, is_bookmarked, bookmarks, ctypes, bookmark_forms)
+        context['bookmark_data'] = self.get_bookmarks_data(object_list)
 
         return context
 

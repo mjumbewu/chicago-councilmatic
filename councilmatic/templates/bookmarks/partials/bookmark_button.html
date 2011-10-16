@@ -9,7 +9,7 @@
 {% endcomment %}
 
 {% if user.is_authenticated %}
-    {% if is_bookmarked %}
+    {% if bookmark %}
         <div class="bookmark active">
             <form action="{% url unbookmark bookmark.pk %}" method="POST">{% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}">
