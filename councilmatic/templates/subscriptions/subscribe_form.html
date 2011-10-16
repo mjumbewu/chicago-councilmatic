@@ -1,7 +1,7 @@
 {% load uni_form_tags %}
 
   {% if is_subscribed %}
-    <form action="{% url unsubscribe subscription.pk %}" method="POST" class="uniForm">{% csrf_token %}
+    <form action="{% url unsubscribe subscription.pk %}" method="POST" class="uniForm subscription_form">{% csrf_token %}
       <input type="hidden" name="success" value="{{ request.get_full_path }}">
       <p>Welcome {{ user.username }}.  You are subscribed to this list.  To unsubscribe, click below.</p>
 
@@ -11,17 +11,16 @@
     </form>
   {% else %}
     {% if user.is_authenticated %}
-    <form action="{% url subscribe %}" method="POST" class="uniForm">{% csrf_token %}
+    <form action="{% url subscribe %}" method="POST" class="uniForm subscription_form">{% csrf_token %}
       {{ subscription_form }}
       <input type="hidden" name="success" value="{{ request.get_full_path }}">
     {% else %}
-    <form action="{% url registration_login %}" method="GET" class="uniForm">
+    <form action="{% url registration_login %}" method="GET" class="uniForm subscription_form">
       <input type="hidden" name="next" value="{{ request.get_full_path }}">
     {% endif %}
-      <p>To subscribe to new legislation in this list, click below.</p>
-
       <div class="buttonHolder">
-        <button type="submit" class="primaryAction">Subscribe</button>
+          <button type="submit" class="primaryAction">Subscribe</button>
+          <span>to new legislation in this list.</span>
       </div>
     </form>
   {% endif %}
