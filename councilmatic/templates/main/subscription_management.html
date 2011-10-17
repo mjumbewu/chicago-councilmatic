@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load model_blocks %}
+
+{% block load_early %}
+{% endblock %}
+
+{% block content %}
+<section id="main">
+<div class="block">
+<div class="content">
+<div class="inner">
+    <h2>Bookmarks</h2>
+    <ul>
+    {% for bookmark in bookmarks %}
+        <li>
+            {% include "main/partials/dashboard_legfile_teaser.html" %}
+        </li>
+    {% endfor %}
+    </ul>
+
+    <h2>Searches</h2>
+</div>
+</div>
+</div>
+</section>
+{% endblock %}
