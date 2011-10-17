@@ -1,5 +1,6 @@
 import logging as log
 from django.views import generic as views
+from haystack.query import SearchQuerySet
 
 from main import feeds
 from main import forms
@@ -51,7 +52,7 @@ class SearchView (SearchBarMixin,
     def dispatch(self, request, *args, **kwargs):
         # Construct and run a haystack SearchView so that we can use the
         # resulting values.
-        self.search_view = haystack.views.SearchView(form_class=forms.FullSearchForm)
+        self.search_view = haystack.views.SearchView(form_class=forms.FullSearchForm, searchqueryset=SearchQuerySet().order_by('-order_date'))
         self.search_view.request = request
 
         self.search_view.form = self.search_view.build_form()
