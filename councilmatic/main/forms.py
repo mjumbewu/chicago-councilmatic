@@ -15,7 +15,7 @@ def legfile_choices(field):
 
 def councilmember_choices():
     from phillyleg.models import CouncilMember
-    values = set((member.pk, member.name)
+    values = set((member.name, member.name)
               for member in CouncilMember.objects.all())
     return values
 
@@ -86,7 +86,7 @@ class FullSearchForm (haystack.forms.SearchForm):
         if self.is_valid():
             query = self.cleaned_data['q']
             statuses = self.cleaned_data['statuses']
-            sponsor_pks = self.cleaned_data['sponsors']
+            sponsor_names = self.cleaned_data['sponsors']
             file_types = self.cleaned_data['file_types']
             controlling_bodies = self.cleaned_data['controlling_bodies']
 
@@ -96,11 +96,11 @@ class FullSearchForm (haystack.forms.SearchForm):
             if statuses:
                 sqs = sqs.filter(status__in=statuses)
 
-            if sponsor_pks:
-                sqs = sqs.filter(sponsors__pk__in=sponsor_pks)
+            if sponsor_names:
+                sqs = sqs.filter(sponsors__in=sponsor_names)
 
             if file_types:
-                sqs = sqs.filter(type__in=file_types)
+                sqs = sqs.filter(file_type__in=file_types)
 
             if controlling_bodies:
                 sqs = sqs.filter(controlling_body__in=controlling_bodies)
