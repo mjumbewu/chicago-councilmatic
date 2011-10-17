@@ -12,6 +12,7 @@ from nose.tools import *
 
 from subscriptions.feeds import ContentFeed
 from subscriptions.feeds import ContentFeedLibrary
+from subscriptions.feeds import ContentFeedRecordCleaner
 from subscriptions.feeds import ContentFeedRecordUpdater
 from subscriptions.feeds import SubscriptionDispatcher
 from subscriptions.forms import SubscriptionForm
@@ -284,6 +285,36 @@ class Test_ContentFeedUpdater_updateAll (TestCase):
 
         self.feeds[0].get_last_updated.assert_called_with('hello')
         self.feeds[1].get_last_updated.assert_called_with('world')
+
+
+class Test_ContentFeedCleaner_clean (TestCase):
+
+    def setUp(self):
+        ContentFeedRecord.objects.all().delete()
+        Subscriber.objects.all().delete()
+
+        library = self.library = ContentFeedLibrary(shared=False)
+        library.register(ListItemFeed, 'list feed')
+
+        feeds = [ ListItemFeed("['hello']"),
+                  ListItemFeed("['world']") ]
+
+        feed_records = [library.get_record(feed) for feed in feeds]
+        subscriber = Subscriber.objects.create()
+        subscriber.subscribe(feeds[0], library)
+
+        self.keeper = feed_records[0]
+        self.tosser = feed_records[1]
+
+    @istest
+    def removes_unused_feed_records_and_leaves_used_ones(self):
+        cleaner = ContentFeedRecordCleaner()
+        cleaner.clean()
+
+        feed_records = ContentFeedRecord.objects.all()
+        assert_equal(len(feed_records), 1)
+        assert_in(self.keeper, feed_records)
+        assert_not_in(self.tosser, feed_records)
 
 
 #class Test_FeedCollector_collectNewContent (TestCase):

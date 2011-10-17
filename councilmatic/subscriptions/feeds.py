@@ -14,6 +14,7 @@ from django.utils.encoding import smart_str, smart_unicode
 
 from models import ContentFeedRecord
 from models import ContentFeedParameter
+from models import Subscription
 from models import SubscriptionDispatchRecord
 
 log = getLogger(__name__)
@@ -167,10 +168,13 @@ class ContentFeedRecordUpdater (object):
         feed = library.get_feed(record)
 
         all_content = feed.get_content()
+        latest = None
         if all_content:
             latest = max(feed.get_last_updated(item) for item in all_content)
-        else:
+
+        if latest is None:
             latest = datetime.min
+
         record.last_updated = latest
         record.save()
 
@@ -178,6 +182,19 @@ class ContentFeedRecordUpdater (object):
         """Updates all the feeds in a collection (yes, it's just a for loop)"""
         for record in records:
             self.update(record, library)
+
+
+class ContentFeedRecordCleaner (object):
+    """Responsible for identifying and removing all unused feeds"""
+
+    def clean(self, library=None):
+        """
+        Removes all content feeds that are not subscribed to by some
+        subscription.
+
+        """
+        used_record_ids = Subscription.objects.values('feed_record__id').distinct()
+        ContentFeedRecord.objects.exclude(id__in=used_record_ids).delete()
 
 
 class SubscriptionDispatcher (object):
@@ -223,7 +240,7 @@ class SubscriptionDispatcher (object):
                 new_contents = feed.get_updates_since(subscription.last_sent)
 
                 for item in new_contents:
-                    changes = feed.get_changes_to(item)
+                    changes = feed.get_changes_to(item, subscription.last_sent)
                     content_changes[item].update(changes)
 
         log.debug('What changed: %s' % (content_changes,))

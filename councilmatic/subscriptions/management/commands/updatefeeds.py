@@ -3,7 +3,6 @@ from django.core.management.base import BaseCommand, CommandError
 from subscriptions.feeds import import_all_feeds
 from subscriptions.feeds import ContentFeedRecordUpdater
 from subscriptions.models import ContentFeedRecord
-from subscriptions.models import Subscription
 
 
 class Command(BaseCommand):
@@ -14,11 +13,8 @@ class Command(BaseCommand):
         return records
 
     def handle(self, *args, **options):
+        # Make sure that the library knows about all the types of feeds.
         import_all_feeds()
-
-        # Get rid of unused records
-        used_record_ids = Subscription.objects.values('feed_record__id').distinct()
-        ContentFeedRecord.objects.exclude(id__in=used_record_ids).delete()
 
         records = self.get_records()
         updater = ContentFeedRecordUpdater()

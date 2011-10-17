@@ -118,6 +118,10 @@ class LegislationListView (SearchBarMixin,
     def get_content_feed(self):
         return feeds.NewLegislationFeed()
 
+    def get_queryset(self):
+        queryset = super(LegislationListView, self).get_queryset()
+        return queryset.order_by('-intro_date', '-key')
+
 
 class LegislationDetailView (SearchBarMixin,
                              subscriptions.views.SingleSubscriptionMixin,

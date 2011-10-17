@@ -20,6 +20,31 @@ class Test_NewLegislationFeed_getLastUpdated:
         assert_equal(last_updated, 5)
 
 
+class Test_NewLegislationFeed_getChangesTo:
+
+    @istest
+    def returns_the_title_if_introduced_since_given_time (self):
+        legislation = Mock()
+        legislation.intro_date = date.today()
+        legislation.title = 'Hello, world!'
+
+        feed_data = NewLegislationFeed()
+        changes = feed_data.get_changes_to(legislation, datetime.min)
+
+        assert_equal(changes, {'Title': 'Hello, world!'})
+
+    @istest
+    def returns_an_empty_dict_if_introduced_before_given_time (self):
+        legislation = Mock()
+        legislation.intro_date = date.min
+        legislation.title = 'Hello, world!'
+
+        feed_data = NewLegislationFeed()
+        changes = feed_data.get_changes_to(legislation, datetime.now())
+
+        assert_equal(changes, {})
+
+
 class Test_SearchResultsFeed_getLastUpdated:
 
     @istest
