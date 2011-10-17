@@ -548,18 +548,19 @@ body.two-col #content {
 /* line 7, ../sass/partials/_main_base.scss */
 body {
   background-attachment: fixed;
+  background-color: #4f2712;
   background-image: url("../images/wood.jpg");
 }
-/* line 14, ../sass/partials/_main_base.scss */
+/* line 15, ../sass/partials/_main_base.scss */
 body h1, body h2, body h3, body h4, body h5, body h6 {
   font-family: 'Quattrocento', 'Garamond', serif;
   font-weight: bold;
 }
-/* line 20, ../sass/partials/_main_base.scss */
+/* line 21, ../sass/partials/_main_base.scss */
 body a {
   text-decoration: none;
 }
-/* line 23, ../sass/partials/_main_base.scss */
+/* line 24, ../sass/partials/_main_base.scss */
 body > #wrapper {
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
@@ -571,11 +572,12 @@ body > #wrapper {
   -webkit-box-shadow: black 0px 0px 5px 0;
   -o-box-shadow: black 0px 0px 5px 0;
   box-shadow: black 0px 0px 5px 0;
+  background-color: #eeeceb;
   background-image: url("../images/exclusive_paper.png");
   border: 1px solid #B5B5B5;
   padding: 1em;
 }
-/* line 32, ../sass/partials/_main_base.scss */
+/* line 34, ../sass/partials/_main_base.scss */
 body .inner {
   width: 950px;
   margin: 0 auto;
@@ -600,7 +602,7 @@ body #site_header {
   -webkit-box-shadow: black 0px 2px 5px 0;
   -o-box-shadow: black 0px 2px 5px 0;
   box-shadow: black 0px 2px 5px 0;
-  background-color: white;
+  background-color: #eeeceb;
   background-image: url("../images/exclusive_paper.png");
   border-bottom: 1px solid #cccccc;
   margin-top: -6em;
@@ -620,100 +622,87 @@ body #site_header {
    * The persistent search form
    */
 }
-/* line 31, ../sass/partials/_site_header.scss */
-body #site_header .header {
-  display: inline;
-  float: left;
-  overflow: hidden;
-  width: 20.003%;
-  margin-right: 1.042%;
+/* line 28, ../sass/partials/_site_header.scss */
+body #site_header > * {
+  display: inline-block;
+  line-height: 3em;
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
 }
-/* line 34, ../sass/partials/_site_header.scss */
+/* line 39, ../sass/partials/_site_header.scss */
+body #site_header .header {
+  margin-right: 4em;
+}
+/* line 42, ../sass/partials/_site_header.scss */
 body #site_header .header h1, body #site_header .header h2, body #site_header .header h3, body #site_header .header h4, body #site_header .header h5, body #site_header .header h6 {
   line-height: 1em;
   margin: 0px;
   padding: 0px;
   vertical-align: middle;
 }
-/* line 44, ../sass/partials/_site_header.scss */
+/* line 52, ../sass/partials/_site_header.scss */
 body #site_header .header a:hover,
 body #site_header .header a:visited,
 body #site_header .header a:active,
 body #site_header .header a {
   color: inherit;
 }
-/* line 54, ../sass/partials/_site_header.scss */
+/* line 60, ../sass/partials/_site_header.scss */
 body #site_header .site_nav {
-  display: inline;
-  float: left;
-  overflow: hidden;
-  width: 24.212%;
-  margin-right: 1.042%;
   line-height: 3em;
+  margin-right: 4em;
   text-align: center;
 }
-/* line 60, ../sass/partials/_site_header.scss */
+/* line 65, ../sass/partials/_site_header.scss */
 body #site_header .site_nav ul {
   list-style: none;
   margin: 0px;
   padding: 0px;
 }
-/* line 66, ../sass/partials/_site_header.scss */
+/* line 71, ../sass/partials/_site_header.scss */
 body #site_header .site_nav li {
   display: inline-block;
   margin-right: 1em;
 }
-/* line 75, ../sass/partials/_site_header.scss */
+/* line 80, ../sass/partials/_site_header.scss */
 body #site_header .registration {
-  display: inline;
-  float: left;
-  overflow: hidden;
-  width: 15.794%;
-  margin-right: 1.042%;
   line-height: 3em;
   text-align: right;
 }
-/* line 81, ../sass/partials/_site_header.scss */
+/* line 84, ../sass/partials/_site_header.scss */
 body #site_header .registration p {
   font-family: 'Quattrocento', 'Garamond', serif;
   margin: 0px;
   padding: 0px;
 }
-/* line 88, ../sass/partials/_site_header.scss */
+/* line 91, ../sass/partials/_site_header.scss */
 body #site_header .registration > p, body #site_header .registration span, body #site_header .registration a {
   display: inline-block;
   margin-right: 1em;
 }
-/* line 97, ../sass/partials/_site_header.scss */
+/* line 100, ../sass/partials/_site_header.scss */
 body #site_header .search {
-  display: inline;
-  float: left;
-  overflow: hidden;
-  width: 32.63%;
-  margin-right: 0;
-  display: inline;
-  float: right;
-  margin-top: 0;
-  margin-left: 1.042%;
-  margin-right: 0%;
-  margin-bottom: 0;
   text-align: right;
+  float: right;
 }
 /* line 105, ../sass/partials/_site_header.scss */
 body #site_header .search .buttonHolder,
 body #site_header .search .ctrlHolder {
   display: inline;
+  margin: 0;
+  padding: 0;
 }
-/* line 109, ../sass/partials/_site_header.scss */
+/* line 111, ../sass/partials/_site_header.scss */
 body #site_header .search input, body #site_header .search button {
   font-family: 'Quattrocento', 'Garamond', serif;
   float: none;
 }
-/* line 115, ../sass/partials/_site_header.scss */
+/* line 117, ../sass/partials/_site_header.scss */
 body #site_header .search input[type="text"] {
   background: transparent;
 }
-/* line 119, ../sass/partials/_site_header.scss */
+/* line 121, ../sass/partials/_site_header.scss */
 body #site_header .search button {
   font-weight: bold;
 }

@@ -17,7 +17,7 @@ body {
         @include container;
         @include box-shadow($shadow-color, 0px, 2px, $shadow-spread);
 
-        background-color: white;
+        background-color: $paper-color;
         background-image: url('../images/exclusive_paper.png');
         border-bottom: $cm-border;
         margin-top: -6em;
@@ -25,11 +25,19 @@ body {
         position: fixed;
         z-index: 100;
 
+        > * {
+            display: inline-block;
+            line-height: 3em;
+            vertical-align: middle;
+            margin: 0;
+            padding: 0;
+        }
+
         /*
          * The site logo/header style
          */
         .header {
-            @include column(5);
+            margin-right: 4em;
 
             h1, h2, h3, h4, h5, h6 {
                 line-height: 1em;
@@ -42,8 +50,6 @@ body {
             a:visited,
             a:active,
             a {
-//                @include text-shadow($etched-color, 0px, 0px, 3px);
-//                color: $etched-color;
                 color: inherit;
             }
         }
@@ -52,9 +58,8 @@ body {
          * The navgation links
          */
         .site_nav {
-            @include column(6);
-
             line-height: 3em;
+            margin-right: 4em;
             text-align: center;
 
             ul {
@@ -73,8 +78,6 @@ body {
          * The registration links
          */
         .registration {
-            @include column(4);
-
             line-height: 3em;
             text-align: right;
 
@@ -95,15 +98,14 @@ body {
          * The persistent search form
          */
         .search {
-//            @include blueprint-form;
-            @include column(8, true);
-            @include push(0);
-
             text-align: right;
+            float: right;
 
             .buttonHolder,
             .ctrlHolder {
                 display: inline;
+                margin: 0;
+                padding: 0;
             }
 
             input, button {

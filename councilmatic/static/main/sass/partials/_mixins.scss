@@ -3,8 +3,10 @@ $border-color: #ccc;
 $border-size: 1px;
 $cm-border: $border-size solid $border-color;
 $etched-color: rgba(0,0,0,.9);
+$paper-color: #eeeceb;
 $shadow-color: rgba(black, 1);
 $shadow-spread: 5px;
+$wood-color: #4f2712;
 
 @mixin quattro {
     font-family: 'Quattrocento', 'Garamond', serif;
