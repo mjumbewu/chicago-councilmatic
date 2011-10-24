@@ -3,6 +3,7 @@
 {% load uni_form_tags %}
 {% load comments %}
 
+{% block title %}{{ object.title|truncatewords:14 }}{% endblock %}
 {% block load_early %}
 <!--  <link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">-->
 {% endblock %}
@@ -154,26 +155,28 @@
     </div>
     </div>
 
-    {% if user.is_authenticated %}
     <div id="sidebar">
         <div class="block" id="your_opinion">
           <h3>What's your opinion?</h3>
-          {% if is_opined %}
-          <form action="{% url revise_opinion opinion.pk %}" method="post" class="uniForm">{% csrf_token %}
-          {% else %}
-          <form action="{% url express_opinion %}" method="post" class="uniForm">{% csrf_token %}
-          {% endif %}
-            <fieldset class="inlineLabels">
-              <input type="hidden" name="next" value="{{ request.get_full_path }}">
-              {{ opinion_form|as_uni_form }}
-              <div class="buttonHolder">
-                <button type="submit" class="primaryAction">Post your statement</button>
-              </div>
-            </fieldset>
-          </form>
+            {% if user.is_authenticated %}
+              {% if is_opined %}
+              <form action="{% url revise_opinion opinion.pk %}" method="post" class="uniForm">{% csrf_token %}
+              {% else %}
+              <form action="{% url express_opinion %}" method="post" class="uniForm">{% csrf_token %}
+              {% endif %}
+                <fieldset class="inlineLabels">
+                  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                  {{ opinion_form|as_uni_form }}
+                  <div class="buttonHolder">
+                    <button type="submit" class="primaryAction">Post your statement</button>
+                  </div>
+                </fieldset>
+              </form>
+            {% else %}
+                <p><a href="{% url registration_login %}?next={{ request.get_full_path }}">Log in</a> to comment on the legislation.</p>
+            {% endif %}
         </div>
     </div>
-    {% endif %}
 
     <div class="block" id="opinions">
       <div class="content">
