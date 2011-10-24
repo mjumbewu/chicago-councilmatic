@@ -213,7 +213,9 @@ class PhillyLegistarSiteWrapper (object):
 
         pdf_key = pdf_data
         if pdf_key in self.__pdf_cache:
-            return self.__pdf_cache[pdf_key]
+            pdf_content = unicode(self.__pdf_cache[pdf_key])
+            if pdf_content not in [None, 'None']:
+                return pdf_content
 
         if pdf_key.startswith('file://'):
             path = pdf_key[7:]
