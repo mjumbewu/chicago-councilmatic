@@ -933,29 +933,20 @@ body #site_header .search button {
   padding-right: 8em;
   text-align: right;
 }
-/* line 195, ../sass/partials/_legfile_detail.scss */
-.legfile_detail .inner .block.mentions {
-  display: inline;
-  float: left;
-  margin-right: 10px;
-  width: 390px;
-  padding-right: 24px;
-  margin-right: 25px;
-  border-right: 1px solid #cccccc;
-}
-/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html .legfile_detail .inner .block.mentions {
-  overflow-x: hidden;
-}
-/* line 200, ../sass/partials/_legfile_detail.scss */
+/* line 196, ../sass/partials/_legfile_detail.scss */
+.legfile_detail .inner .block.mentions,
 .legfile_detail .inner .block.references {
   display: inline;
   float: left;
   margin-right: 10px;
-  width: 390px;
+  width: 870px;
+  border-top: 1px solid #cccccc;
+  margin-top: 1em;
+  padding-top: 1em;
 }
 /* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html .legfile_detail .inner .block.references {
+* html .legfile_detail .inner .block.mentions, * html
+.legfile_detail .inner .block.references {
   overflow-x: hidden;
 }
 

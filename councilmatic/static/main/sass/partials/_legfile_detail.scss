@@ -192,13 +192,13 @@
         text-align: right;
     }
 
-    .block.mentions {
-        @include column(10);
-        @include colborder($border-color, $border-size);
-    }
-
+    .block.mentions,
     .block.references {
-        @include column(10);
+        @include column(22);
+
+        border-top: $cm-border;
+        margin-top: 1em;
+        padding-top: 1em;
     }
 }
 

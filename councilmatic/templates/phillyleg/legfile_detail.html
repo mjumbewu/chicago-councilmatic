@@ -110,12 +110,12 @@
             {% endif %}
 
 
-            {% if object.metadata.mentioned_legfiles.all %}
+            {% if object.references_in_legislation.all %}
               <div class="block references">
                 <h3>Legislation that mentions this bill</h3>
                 <ul class="navigation">
-                  {% for referencing_legfile in object.metadata.references_in_legislation.all %}
-                    <li><a href="{{ referencing_legfile.get_absolute_url }}">{{ referencing_legfile }}</a></li>
+                  {% for referencing_legfile_metadata in object.references_in_legislation.all %}
+                    <li><a href="{{ referencing_legfile_metadata.legfile.get_absolute_url }}">{{ referencing_legfile_metadata.legfile }}</a></li>
                   {% endfor %}
                 </ul>
               </div>
