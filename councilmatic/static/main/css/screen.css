@@ -81,25 +81,25 @@ a img {
   border: none;
 }
 
-/* line 42, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_scaffolding.scss */
+/* line 41, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_scaffolding.scss */
 body .box {
   padding: 1.5em;
   margin-bottom: 1.5em;
   background: #e5ecf9;
 }
-/* line 45, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_scaffolding.scss */
+/* line 44, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_scaffolding.scss */
 body div.border {
   padding-right: 4px;
   margin-right: 5px;
   border-right: 1px solid #eeeeee;
 }
-/* line 48, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_scaffolding.scss */
+/* line 47, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_scaffolding.scss */
 body div.colborder {
   padding-right: 24px;
   margin-right: 25px;
   border-right: 1px solid #eeeeee;
 }
-/* line 50, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_scaffolding.scss */
+/* line 49, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_scaffolding.scss */
 body hr {
   background: #dddddd;
   color: #dddddd;
@@ -110,7 +110,7 @@ body hr {
   margin: 0 0 1.45em;
   border: none;
 }
-/* line 52, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_scaffolding.scss */
+/* line 51, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_scaffolding.scss */
 body hr.space {
   background: #dddddd;
   color: #dddddd;
@@ -124,7 +124,7 @@ body hr.space {
   color: white;
   visibility: hidden;
 }
-/* line 54, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_scaffolding.scss */
+/* line 53, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_scaffolding.scss */
 body form.inline {
   line-height: 3;
 }
@@ -140,68 +140,68 @@ body {
   color: #333333;
   font-size: 75%;
 }
-/* line 68, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 65, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body h1, body h2, body h3, body h4, body h5, body h6 {
   font-weight: normal;
   color: #222222;
 }
-/* line 69, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 66, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body h1 img, body h2 img, body h3 img, body h4 img, body h5 img, body h6 img {
   margin: 0;
 }
-/* line 70, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 67, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body h1 {
   font-size: 3em;
   line-height: 1;
   margin-bottom: 0.50em;
 }
-/* line 71, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 68, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body h2 {
   font-size: 2em;
   margin-bottom: 0.75em;
 }
-/* line 72, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 69, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body h3 {
   font-size: 1.5em;
   line-height: 1;
   margin-bottom: 1.00em;
 }
-/* line 73, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 70, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body h4 {
   font-size: 1.2em;
   line-height: 1.25;
   margin-bottom: 1.25em;
 }
-/* line 74, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 71, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body h5 {
   font-size: 1em;
   font-weight: bold;
   margin-bottom: 1.50em;
 }
-/* line 75, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 72, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body h6 {
   font-size: 1em;
   font-weight: bold;
 }
-/* line 76, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 73, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body p {
   margin: 0 0 1.5em;
 }
-/* line 77, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 74, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body p img.left {
   display: inline;
   float: left;
   margin: 1.5em 1.5em 1.5em 0;
   padding: 0;
 }
-/* line 78, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 75, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body p img.right {
   display: inline;
   float: right;
   margin: 1.5em 0 1.5em 1.5em;
   padding: 0;
 }
-/* line 80, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 77, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body a {
   text-decoration: underline;
   color: #0080c0;
@@ -210,127 +210,127 @@ body a {
 body a:visited {
   color: #004d8d;
 }
-/* line 22, ../../../../../../../../../../usr/share/compass/frameworks/compass/stylesheets/compass/utilities/links/_link-colors.scss */
+/* line 21, ../../../../../../../../../../usr/share/compass/frameworks/compass/stylesheets/compass/utilities/links/_link-colors.scss */
 body a:focus {
   color: #0080c0;
 }
-/* line 26, ../../../../../../../../../../usr/share/compass/frameworks/compass/stylesheets/compass/utilities/links/_link-colors.scss */
+/* line 24, ../../../../../../../../../../usr/share/compass/frameworks/compass/stylesheets/compass/utilities/links/_link-colors.scss */
 body a:hover {
   color: #0080c0;
 }
-/* line 30, ../../../../../../../../../../usr/share/compass/frameworks/compass/stylesheets/compass/utilities/links/_link-colors.scss */
+/* line 27, ../../../../../../../../../../usr/share/compass/frameworks/compass/stylesheets/compass/utilities/links/_link-colors.scss */
 body a:active {
   color: #cc80c0;
 }
-/* line 81, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 78, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body blockquote {
   margin: 1.5em;
   color: #666666;
   font-style: italic;
 }
-/* line 82, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 79, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body strong {
   font-weight: bold;
 }
-/* line 83, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 80, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body em {
   font-style: italic;
 }
-/* line 84, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 81, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body dfn {
   font-style: italic;
   font-weight: bold;
 }
-/* line 85, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 82, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body sup, body sub {
   line-height: 0;
 }
-/* line 86, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 83, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body abbr, body acronym {
   border-bottom: 1px dotted #666666;
 }
-/* line 87, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 84, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body address {
   margin: 0 0 1.5em;
   font-style: italic;
 }
-/* line 88, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 85, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body del {
   color: #666666;
 }
-/* line 89, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 86, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body pre {
   margin: 1.5em 0;
   white-space: pre;
 }
-/* line 90, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 87, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body pre, body code, body tt {
   font: 1em "andale mono", "lucida console", monospace;
   line-height: 1.5;
 }
-/* line 91, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 88, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body li ul, body li ol {
   margin: 0;
 }
-/* line 92, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 89, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body ul, body ol {
   margin: 0 1.5em 1.5em 0;
   padding-left: 3.333em;
 }
-/* line 93, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 90, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body ul {
   list-style-type: disc;
 }
-/* line 94, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 91, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body ol {
   list-style-type: decimal;
 }
-/* line 95, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 92, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body dl {
   margin: 0 0 1.5em 0;
 }
-/* line 96, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 93, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body dl dt {
   font-weight: bold;
 }
-/* line 97, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 94, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body dd {
   margin-left: 1.5em;
 }
-/* line 98, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 95, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body table {
   margin-bottom: 1.4em;
   width: 100%;
 }
-/* line 99, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 96, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body th {
   font-weight: bold;
 }
-/* line 100, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 97, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body thead th {
   background: #c3d9ff;
 }
-/* line 101, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 98, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body th, body td, body caption {
   padding: 4px 10px 4px 5px;
 }
-/* line 102, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 99, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body tr.even td {
   background: #e5ecf9;
 }
-/* line 103, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 100, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body tfoot {
   font-style: italic;
 }
-/* line 104, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 101, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body caption {
   background: #eeeeee;
 }
-/* line 105, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 102, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body .quiet {
   color: #666666;
 }
-/* line 106, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
+/* line 103, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body .loud {
   color: #111111;
 }
@@ -517,7 +517,7 @@ body.two-col #header, body.two-col #footer {
   margin-right: 10px;
   width: 950px;
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html body.two-col #header, * html body.two-col #footer {
   overflow-x: hidden;
 }
@@ -528,7 +528,7 @@ body.two-col #sidebar {
   margin-right: 10px;
   width: 310px;
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html body.two-col #sidebar {
   overflow-x: hidden;
 }
@@ -539,7 +539,7 @@ body.two-col #content {
   margin-right: 0;
   width: 630px;
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html body.two-col #content {
   overflow-x: hidden;
 }
@@ -724,7 +724,7 @@ body #site_header .search button {
   overflow: visible;
   position: relative;
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .legfile_detail .inner {
   overflow-x: hidden;
 }
@@ -839,7 +839,7 @@ body #site_header .search button {
   margin-right: 10px;
   width: 870px;
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .legfile_detail .inner .legfile_related_info {
   overflow-x: hidden;
 }
@@ -851,7 +851,7 @@ body #site_header .search button {
   width: 270px;
   background-image: url("../images/attachment.svg");
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .legfile_detail .inner .legfile_attachments {
   overflow-x: hidden;
 }
@@ -866,7 +866,7 @@ body #site_header .search button {
   border-right: 1px solid #cccccc;
   background-image: url("../images/timeline.svg");
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .legfile_detail .inner .legfile_timeline {
   overflow-x: hidden;
 }
@@ -943,7 +943,7 @@ body #site_header .search button {
   margin-right: 25px;
   border-right: 1px solid #cccccc;
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .legfile_detail .inner .block.mentions {
   overflow-x: hidden;
 }
@@ -954,7 +954,7 @@ body #site_header .search button {
   margin-right: 10px;
   width: 390px;
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .legfile_detail .inner .block.references {
   overflow-x: hidden;
 }
@@ -992,7 +992,7 @@ body #site_header .search button {
   margin-right: 10px;
   width: 950px;
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html #opinions {
   overflow-x: hidden;
 }
@@ -1004,7 +1004,7 @@ body #site_header .search button {
   margin-right: 10px;
   width: 230px;
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html #sidebar {
   overflow-x: hidden;
 }
@@ -1016,7 +1016,7 @@ body #site_header .search button {
   margin-right: 10px;
   width: 590px;
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html #timeline {
   overflow-x: hidden;
 }
@@ -1041,7 +1041,7 @@ body #site_header .search button {
   padding-top: 50px;
   margin-top: 2em;
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html #opinions .content .opinions {
   overflow-x: hidden;
 }
@@ -1146,50 +1146,58 @@ body #site_header .search button {
   margin-right: 10px;
   width: 430px;
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .dashboard .inner #dashboard_legislation {
   overflow-x: hidden;
 }
 
-/* line 10, ../sass/partials/_dashboard.scss */
+/* line 11, ../sass/partials/_dashboard.scss */
 .dashboard .inner,
-.legfile_list .inner {
+.legfile_list .inner,
+.legfile_search .inner {
   padding-top: 6em;
   text-align: center;
 }
-/* line 14, ../sass/partials/_dashboard.scss */
+/* line 15, ../sass/partials/_dashboard.scss */
 .dashboard .inner ul,
-.legfile_list .inner ul {
+.legfile_list .inner ul,
+.legfile_search .inner ul {
   text-align: left;
   list-style: none;
 }
-/* line 19, ../sass/partials/_dashboard.scss */
+/* line 20, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_search,
-.legfile_list .inner #dashboard_search {
+.legfile_list .inner #dashboard_search,
+.legfile_search .inner #dashboard_search {
   /*        @include blueprint-form;*/
   padding-bottom: 6em;
 }
-/* line 25, ../sass/partials/_dashboard.scss */
+/* line 26, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_search .ctrlHolder,
 .dashboard .inner #dashboard_search .buttonHolder,
 .legfile_list .inner #dashboard_search .ctrlHolder,
-.legfile_list .inner #dashboard_search .buttonHolder {
+.legfile_list .inner #dashboard_search .buttonHolder,
+.legfile_search .inner #dashboard_search .ctrlHolder,
+.legfile_search .inner #dashboard_search .buttonHolder {
   display: inline;
 }
-/* line 30, ../sass/partials/_dashboard.scss */
+/* line 31, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_search input,
 .dashboard .inner #dashboard_search button,
 .legfile_list .inner #dashboard_search input,
-.legfile_list .inner #dashboard_search button {
+.legfile_list .inner #dashboard_search button,
+.legfile_search .inner #dashboard_search input,
+.legfile_search .inner #dashboard_search button {
   font-family: 'Quattrocento', 'Garamond', serif;
   float: none;
   font-size: 1.5em;
   line-height: normal;
   vertical-align: middle;
 }
-/* line 40, ../sass/partials/_dashboard.scss */
+/* line 41, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_explanation,
-.legfile_list .inner #dashboard_explanation {
+.legfile_list .inner #dashboard_explanation,
+.legfile_search .inner #dashboard_explanation {
   display: inline;
   float: left;
   margin-right: 10px;
@@ -1198,14 +1206,16 @@ body #site_header .search button {
   margin-bottom: 3em;
   padding-bottom: 2em;
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .dashboard .inner #dashboard_explanation, * html
-.legfile_list .inner #dashboard_explanation {
+.legfile_list .inner #dashboard_explanation, * html
+.legfile_search .inner #dashboard_explanation {
   overflow-x: hidden;
 }
-/* line 47, ../sass/partials/_dashboard.scss */
+/* line 48, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_explanation > div,
-.legfile_list .inner #dashboard_explanation > div {
+.legfile_list .inner #dashboard_explanation > div,
+.legfile_search .inner #dashboard_explanation > div {
   display: inline;
   float: left;
   margin-right: 10px;
@@ -1213,52 +1223,63 @@ body #site_header .search button {
   padding-left: 40px;
   padding-right: 40px;
 }
-/* line 139, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+/* line 138, ../../../../../../../../../../usr/share/compass/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .dashboard .inner #dashboard_explanation > div, * html
-.legfile_list .inner #dashboard_explanation > div {
+.legfile_list .inner #dashboard_explanation > div, * html
+.legfile_search .inner #dashboard_explanation > div {
   overflow-x: hidden;
 }
-/* line 52, ../sass/partials/_dashboard.scss */
+/* line 53, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_explanation > div:last-child,
-.legfile_list .inner #dashboard_explanation > div:last-child {
+.legfile_list .inner #dashboard_explanation > div:last-child,
+.legfile_search .inner #dashboard_explanation > div:last-child {
   margin-right: 0;
 }
-/* line 56, ../sass/partials/_dashboard.scss */
+/* line 57, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_explanation > div p,
-.legfile_list .inner #dashboard_explanation > div p {
+.legfile_list .inner #dashboard_explanation > div p,
+.legfile_search .inner #dashboard_explanation > div p {
   text-align: justify;
 }
-/* line 64, ../sass/partials/_dashboard.scss */
+/* line 65, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation ul,
 .dashboard .inner .legfile_list_wrapper ul,
 .legfile_list .inner #dashboard_legislation ul,
-.legfile_list .inner .legfile_list_wrapper ul {
+.legfile_list .inner .legfile_list_wrapper ul,
+.legfile_search .inner #dashboard_legislation ul,
+.legfile_search .inner .legfile_list_wrapper ul {
   list-style: none;
   margin: 0px;
   padding: 0px;
   text-align: left;
 }
-/* line 71, ../sass/partials/_dashboard.scss */
+/* line 72, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation li,
 .dashboard .inner .legfile_list_wrapper li,
 .legfile_list .inner #dashboard_legislation li,
-.legfile_list .inner .legfile_list_wrapper li {
+.legfile_list .inner .legfile_list_wrapper li,
+.legfile_search .inner #dashboard_legislation li,
+.legfile_search .inner .legfile_list_wrapper li {
   overflow: hidden;
   *zoom: 1;
   margin-top: 0.5em;
 }
-/* line 76, ../sass/partials/_dashboard.scss */
+/* line 77, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_bookmark,
 .dashboard .inner .legfile_list_wrapper .legislation_bookmark,
 .legfile_list .inner #dashboard_legislation .legislation_bookmark,
-.legfile_list .inner .legfile_list_wrapper .legislation_bookmark {
+.legfile_list .inner .legfile_list_wrapper .legislation_bookmark,
+.legfile_search .inner #dashboard_legislation .legislation_bookmark,
+.legfile_search .inner .legfile_list_wrapper .legislation_bookmark {
   width: 4em;
 }
-/* line 80, ../sass/partials/_dashboard.scss */
+/* line 81, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .bookmark button,
 .dashboard .inner .legfile_list_wrapper .bookmark button,
 .legfile_list .inner #dashboard_legislation .bookmark button,
-.legfile_list .inner .legfile_list_wrapper .bookmark button {
+.legfile_list .inner .legfile_list_wrapper .bookmark button,
+.legfile_search .inner #dashboard_legislation .bookmark button,
+.legfile_search .inner .legfile_list_wrapper .bookmark button {
   background: transparent;
   border: none;
   float: left;
@@ -1267,7 +1288,7 @@ body #site_header .search button {
   padding: 0px;
   width: 4em;
 }
-/* line 92, ../sass/partials/_dashboard.scss */
+/* line 93, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_id,
 .dashboard .inner #dashboard_legislation .legislation_status,
 .dashboard .inner #dashboard_legislation .legislation_title,
@@ -1279,30 +1300,47 @@ body #site_header .search button {
 .legfile_list .inner #dashboard_legislation .legislation_title,
 .legfile_list .inner .legfile_list_wrapper .legislation_id,
 .legfile_list .inner .legfile_list_wrapper .legislation_status,
-.legfile_list .inner .legfile_list_wrapper .legislation_title {
+.legfile_list .inner .legfile_list_wrapper .legislation_title,
+.legfile_search .inner #dashboard_legislation .legislation_id,
+.legfile_search .inner #dashboard_legislation .legislation_status,
+.legfile_search .inner #dashboard_legislation .legislation_title,
+.legfile_search .inner .legfile_list_wrapper .legislation_id,
+.legfile_search .inner .legfile_list_wrapper .legislation_status,
+.legfile_search .inner .legfile_list_wrapper .legislation_title {
   display: block;
   margin-left: 4em;
 }
-/* line 97, ../sass/partials/_dashboard.scss */
+/* line 98, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_id,
 .dashboard .inner .legfile_list_wrapper .legislation_id,
 .legfile_list .inner #dashboard_legislation .legislation_id,
-.legfile_list .inner .legfile_list_wrapper .legislation_id {
+.legfile_list .inner .legfile_list_wrapper .legislation_id,
+.legfile_search .inner #dashboard_legislation .legislation_id,
+.legfile_search .inner .legfile_list_wrapper .legislation_id {
   font-weight: bold;
 }
-/* line 101, ../sass/partials/_dashboard.scss */
+/* line 102, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_intro_date,
 .dashboard .inner .legfile_list_wrapper .legislation_intro_date,
 .legfile_list .inner #dashboard_legislation .legislation_intro_date,
-.legfile_list .inner .legfile_list_wrapper .legislation_intro_date {
+.legfile_list .inner .legfile_list_wrapper .legislation_intro_date,
+.legfile_search .inner #dashboard_legislation .legislation_intro_date,
+.legfile_search .inner .legfile_list_wrapper .legislation_intro_date {
   float: left;
 }
-/* line 105, ../sass/partials/_dashboard.scss */
+/* line 106, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_status,
 .dashboard .inner .legfile_list_wrapper .legislation_status,
 .legfile_list .inner #dashboard_legislation .legislation_status,
-.legfile_list .inner .legfile_list_wrapper .legislation_status {
+.legfile_list .inner .legfile_list_wrapper .legislation_status,
+.legfile_search .inner #dashboard_legislation .legislation_status,
+.legfile_search .inner .legfile_list_wrapper .legislation_status {
   text-align: right;
+}
+
+/* line 115, ../sass/partials/_dashboard.scss */
+.legfile_search .inner {
+  text-align: left;
 }
 
 /* line 8, ../sass/partials/_registration.scss */

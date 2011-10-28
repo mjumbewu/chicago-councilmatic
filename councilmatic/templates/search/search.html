@@ -9,8 +9,12 @@
 {% endblock %}
 
 {% block content %}
-  <section id="main" class="browse dashboard_browse">
+  <section id="main" class="legfile_search">
     <div class="block">
+
+      <div class="block">
+        {% include 'subscriptions/subscribe_form.html' %}
+      </div>
 
       <div class="content">
         <div class="inner">
@@ -34,7 +38,17 @@
           {% if object_list %}
             {% with title='Results' %}
 
-              {% list_block object_list %}
+          <header>
+            <h2>Legislation Results</h2>
+          </header>
+
+            <ul id="dashboard_legislation">
+            {% with no_bookmark='True' %}
+            {% for file in object_list %}
+                <li>{% include "main/partials/dashboard_legfile_teaser.html" %}</li>
+            {% endfor %}
+            {% endwith %}
+            </ul>
 
             {% endwith %}
 
@@ -53,11 +67,6 @@
     </div>
   </section>
 
-  <section id="sidebar">
-    <div class="block">
-      {% include 'subscriptions/subscribe_form.html' %}
-    </div>
-  </section>
 {% endblock %}
 
 {% block load_late %}

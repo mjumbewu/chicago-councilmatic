@@ -7,7 +7,8 @@
 }
 
 .dashboard .inner,
-.legfile_list .inner {
+.legfile_list .inner,
+.legfile_search .inner {
     padding-top: 6em;
     text-align: center;
 
@@ -109,4 +110,8 @@
         .legislation_title {
         }
     }
+}
+
+.legfile_search .inner {
+    text-align: left;
 }
