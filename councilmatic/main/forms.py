@@ -40,6 +40,10 @@ class SimpleSearchForm (haystack.forms.SearchForm):
         helper.form_method = 'GET'
         return helper
 
+    def search(self):
+        from phillyleg.models import LegFile
+        sqs = super(SimpleSearchForm, self).search().models(LegFile)
+        return sqs
 
 class FullSearchForm (haystack.forms.SearchForm):
     statuses = django.forms.MultipleChoiceField(
@@ -81,7 +85,8 @@ class FullSearchForm (haystack.forms.SearchForm):
         return helper
 
     def search(self):
-        sqs = super(FullSearchForm, self).search()
+        from phillyleg.models import LegFile
+        sqs = super(FullSearchForm, self).search().models(LegFile)
 
         if self.is_valid():
             query = self.cleaned_data['q']
