@@ -50,6 +50,10 @@ urlpatterns = patterns('',
         main.views.LegislationDetailView.as_view(),
         name='legislation_detail'),
 
+    url(r'^legislation.rss$',
+        main.views.NewLegislationFeed(),
+        name='legislation_feed'),
+
     url(r'^minutes/$', ListView.as_view(
         model=phillyleg.models.LegMinutes,
         template_name='phillyleg/legminutes_list.html'),

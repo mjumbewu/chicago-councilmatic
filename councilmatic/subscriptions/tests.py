@@ -308,11 +308,18 @@ class Test_ContentFeedCleaner_clean (TestCase):
 
     @istest
     def removes_unused_feed_records_and_leaves_used_ones(self):
+        # NOTE: There's an additional feed created for the subscribers bookmarks
+        # by an event listener.  Assert that that one's there first.  We don't
+        # care about it (and would rather do without for this test), but we need
+        # to know that there are 3 now so that we know to check for 2 later.
+        feed_records = ContentFeedRecord.objects.all()
+        assert_equal(len(feed_records), 3)
+
         cleaner = ContentFeedRecordCleaner()
         cleaner.clean()
 
         feed_records = ContentFeedRecord.objects.all()
-        assert_equal(len(feed_records), 1)
+        assert_equal(len(feed_records), 2)
         assert_in(self.keeper, feed_records)
         assert_not_in(self.tosser, feed_records)
 

@@ -1,4 +1,6 @@
 import logging as log
+from django.contrib.syndication.views import Feed
+from django.shortcuts import get_object_or_404
 from django.views import generic as views
 from haystack.query import SearchQuerySet
 
@@ -12,6 +14,41 @@ import phillyleg.models
 import subscriptions.forms
 import subscriptions.models
 import subscriptions.views
+
+
+class NewLegislationFeed (Feed):
+    title = u'New Legislation'
+    link = 'http://localhost:8000'
+    description = u'Newly introduced legislation'
+    max_items = 100
+
+    def items(self):
+        return phillyleg.models.LegFile.objects.all()[:self.max_items]
+
+    def item_title(self, legfile):
+        return u'{0.type} {0.id}'.format(legfile)
+
+    def item_pubdate(self, legfile):
+        import datetime
+        d = legfile.intro_date
+        current = datetime.datetime(d.year, d.month, d.day)
+        return current
+
+
+class CustomContentFeedView (Feed):
+    def get_object(self, request, subscription_id):
+        return get_object_or_404(subscription.models.Subscription,
+                                 pk=subscription_id)
+
+    def title(self, sub):
+        return unicode(sub)
+
+    def link(self, sub):
+#        return sub.get_absolute_url()
+        return u'http://localhost:8000/'
+
+    def description(self, sub):
+        return unicode(sub)
 
 
 class SearchBarMixin (object):
