@@ -206,5 +206,61 @@
             "name": "Councilmember Kenny",
             "headshot": "phillyleg/JimKennySM.jpg"
         }
+    },
+    {
+        "pk": 29,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Oh",
+            "headshot": "phillyleg/Oh_smjpg.jpg"
+        }
+    },
+    {
+        "pk": 30,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Johnson",
+            "headshot": "phillyleg/kenyatta.jpg"
+        }
+    },
+    {
+        "pk": 31,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember O'Brien",
+            "headshot": "phillyleg/OBrien_sm.jpg"
+        }
+    },
+    {
+        "pk": 32,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Bass",
+            "headshot": "phillyleg/Cindy_sm.jpg"
+        }
+    },
+    {
+        "pk": 33,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Henon",
+            "headshot": "phillyleg/henon_sm.jpg"
+        }
+    },
+    {
+        "pk": 34,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Councilmember Squilla",
+            "headshot": "phillyleg/squilla_sm.jpg"
+        }
+    },
+    {
+        "pk": 35,
+        "model": "phillyleg.councilmember",
+        "fields": {
+            "name": "Council President Clarke",
+            "headshot": "phillyleg/ClarkeSM.jpg"
+        }
     }
 ]
