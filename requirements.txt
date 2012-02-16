@@ -4,6 +4,7 @@ django-haystack
 pep8
 django-social-auth
 django-uni-form
+djangorestframework
 django-model-blocks
 django-debug-toolbar
 

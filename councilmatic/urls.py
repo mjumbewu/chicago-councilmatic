@@ -6,6 +6,7 @@ admin.autodiscover()
 
 from django.views.generic import ListView, DetailView, TemplateView
 import phillyleg.models
+import phillyleg.resources
 
 import main.views
 import subscriptions.views
@@ -76,6 +77,14 @@ urlpatterns = patterns('',
 
     url(r'^(?P<user_pk>\d+)/subscriptions/$', TemplateView.as_view(template_name='base.html'), name='user_subscriptions'),
     url(r'^(?P<user_pk>\d+)/subscriptions/(?P<bookmark_pk>\d+)/$', TemplateView.as_view(template_name='base.html'), name='user_subscription'),
+
+    # API v1
+    url(r'^api/v1/councilmembers/$',
+        phillyleg.resources.CouncilMemberListView.as_view(),
+        name='api_councilmember_list'),
+    url(r'^api/v1/councilmembers/(?P<pk>.+)$',
+        phillyleg.resources.CouncilMemberInstanceView.as_view(),
+        name='api_concilmember_instance'),
 
     # Flat pages
     url(r'about/',
