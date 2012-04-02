@@ -5,6 +5,7 @@ from django.views import generic as views
 
 import bookmarks.forms as forms
 import bookmarks.models as models
+from utils.decorators import LoginRequired
 
 
 class BaseBookmarkMixin (object):
@@ -65,6 +66,7 @@ class MultipleBookmarkedObjectsMixin (BaseBookmarkMixin):
         return context
 
 
+@LoginRequired
 class CreateBookmarkView (views.CreateView):
     form_class = forms.BookmarkForm
     http_method_names = ['post']
