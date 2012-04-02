@@ -1,5 +1,8 @@
+import json
 import os
 import tempfile
+import requests
+import urllib
 
 # Adapted from Scraperwiki utils
 
@@ -29,7 +32,7 @@ def pdftotxt(pdfdata):
 
     txtin = tempfile.NamedTemporaryFile(mode='r', suffix='.txt')
     tmptxt = txtin.name # "temph.xml"
-    cmd = '/usr/bin/pdftotext -enc UTF-8 -layout "%s" "%s"' % (pdffout.name, os.path.splitext(tmptxt)[0])
+    cmd = '/usr/bin/pdftotext -enc UTF-8 -layout "%s" "%s"' % (pdffout.name, txtin.name)
     cmd = cmd + " >/dev/null 2>&1" # can't turn off output, so throw away even stderr yeuch
     os.system(cmd)
 
@@ -37,3 +40,18 @@ def pdftotxt(pdfdata):
     txtdata = txtin.read()
     txtin.close()
     return txtdata
+
+def geocode(address, retries=5):
+    """attempts to geocode an address"""
+    response = requests.get(
+        'http://maps.googleapis.com/maps/api/geocode/json',
+        params={'address': address, 'sensor': 'false'})
+
+    if response.status_code != 200 and retries > 0:
+        return geocode(address, retries-1)
+    if response.status_code != 200:
+        return None
+
+    response.encoding = 'UTF8'
+    result = json.loads(response.text)
+    return result

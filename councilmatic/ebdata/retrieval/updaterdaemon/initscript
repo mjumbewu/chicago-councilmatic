@@ -1,0 +1,75 @@
+#!/bin/bash
+# Start/stop the updaterdaemon. This is copied largely from the cron init script.
+#
+### BEGIN INIT INFO
+# Provides:          updaterdaemon
+# Required-Start:    $syslog $time
+# Required-Stop:     $syslog $time
+# Default-Start:     2 3 4 5
+# Default-Stop:      S 0 1 6
+# Short-Description: Regular background program processing daemon
+# Description:       updaterdaemon is a Python cron replacement.
+
+### END INIT INFO
+
+#LSBNAMES='-l'  # Uncomment for LSB name support in /etc/cron.d/
+
+### CONFIGURABLE STUFF
+# Set this to the user that your openblock deployment runs as.
+# TODO: The daemon itself could use setuid
+SU_USER="pw"
+
+# We assume that you symlink this script from the source checkout into
+# /etc/init.d.
+# Or you could just copy it and set HERE manually.
+HERE=`(cd $(dirname $(readlink -f "${0}")) 2>/dev/null; echo "$PWD"/)`
+# Find the config file. You could also set this by hand.
+CONFIG=$HERE/../../../../obdemo/obdemo/sample_scraper_config.py
+
+ERRLOGFILE=/tmp/updaterdaemon.err
+LOGFILE=/tmp/updaterdaemon.log
+
+###  END OF CONFIGURABLE STUFF  ########################################
+
+
+# This only works on linux, not other unixes.
+. /lib/lsb/init-functions
+
+
+# Find a local python if there is one (eg. in a virtualenv).
+PYTHON=`which python`
+cd $HERE
+while [ true ]; do
+    if [ $PWD == '/' ]; then
+	break
+    elif [ -x ./bin/python ]; then
+	PYTHON=$PWD/bin/python
+	break
+    elif [ -x python ]; then
+	PYTHON=$PWD/python
+	break
+    else
+	cd ..
+    fi
+done
+
+RUNNER="sudo -u $SU_USER $PYTHON $HERE/runner.py"
+
+case "$1" in
+start)	log_begin_msg "Starting updaterdaemon..."
+        $RUNNER --log-file=$LOGFILE --config=$CONFIG --error-log=$ERRLOGFILE start
+        log_end_msg $?
+	;;
+stop)	log_begin_msg "Stopping updaterdaemon..."
+        $RUNNER stop
+        log_end_msg $?
+        ;;
+restart) log_begin_msg "Restarting updaterdaemon..."
+        $RUNNER restart
+        log_end_msg $?
+        ;;
+*)	log_success_msg "Usage: /etc/init.d/updaterdaemon start|stop|restart"
+        exit 1 
+        ;;
+esac
+exit 0

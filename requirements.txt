@@ -8,19 +8,24 @@ djangorestframework
 django-model-blocks
 django-debug-toolbar
 
+psycopg2
+
+# Requests, for talking HTTP to things like Google's geocoder
+requests
+
 # Using whoosh as the haystack (search) backend for now, for simplicity (it's
 # pure Python).  May use pysolr later, but may not need to.
 whoosh
 
 # Registration!
--e hg+http://bitbucket.org/ubernostrum/django-registration/#egg=django-registration
--e git+git://github.com/mjumbewu/django-recaptcha.git#egg=django-recaptcha
+hg+http://bitbucket.org/ubernostrum/django-registration/#egg=django-registration
+git+git://github.com/mjumbewu/django-recaptcha.git#egg=django-recaptcha
 
 # Using a version of beautiful soup that I've patched with better string
 # representation for Tags.  I have submitted a merge proposal to the main
 # branch.
 #BeautifulSoup==3.2.0
--e bzr+http://bazaar.launchpad.net/~mjumbewu/beautifulsoup/text-white-space-fix/#egg=BeautifulSoup
+bzr+http://bazaar.launchpad.net/~mjumbewu/beautifulsoup/text-white-space-fix/#egg=BeautifulSoup
 
 # Testing tools
 django-nose

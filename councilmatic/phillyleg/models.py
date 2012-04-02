@@ -1,6 +1,10 @@
 import datetime
+import ebdata.nlp.addresses
 import re
-from django.db import models
+import utils
+from django.contrib.gis.db import models
+from django.contrib.gis import geos
+#from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
@@ -88,6 +92,12 @@ class LegFile(models.Model):
 
         return timeline
 
+    def all_text(self):
+        if not hasattr(self, '_all_text'):
+            att_text = [att.fulltext for att in self.attachments.all()]
+            self._all_text = ' '.join([self.title] + att_text)
+        return self._all_text
+
     def unique_words(self):
         """
         Gets all the white-space separated words in the file.  A word is
@@ -103,6 +113,9 @@ class LegFile(models.Model):
         unique_words = set(word.lower() for word in only_words.split())
         return unique_words
 
+    def addresses(self):
+        addresses = ebdata.nlp.addresses.parse_addresses(self.all_text())
+        return addresses
 
     def mentioned_legfiles(self):
         """
@@ -130,7 +143,7 @@ class LegFile(models.Model):
                 print 'LegFile %r, referenced from key %s, does not exist!!!' % (mentioned_legfile_id, self.pk)
 
 
-    def save(self, update_words=True, update_mentions=True, *args, **kwargs):
+    def save(self, update_words=True, update_mentions=True, update_locations=True, *args, **kwargs):
         """
         Calls the default ``Models.save()`` method, and creates or updates
         metadata for the legislative file as well.
@@ -147,6 +160,16 @@ class LegFile(models.Model):
             for word in unique_words:
                 md_word = MetaData_Word.objects.get_or_create(value=word)[0]
                 metadata.words.add(md_word)
+
+        if update_locations:
+            # Add the unique locations to the metadata
+            metadata.locations.clear()
+            locations = self.addresses()
+            for location in locations:
+                md_location = MetaData_Location.objects.get_or_create(
+                    address=location[0]
+                )[0]
+                metadata.locations.add(md_location)
 
         if update_mentions:
             # Add the mentioned files to the metadata
@@ -211,6 +234,10 @@ class LegMinutes(models.Model):
         unique_words = set(word.lower() for word in only_words.split())
         return unique_words
 
+    def addresses(self):
+        addresses = ebdata.nlp.addresses.parse_addresses(self.fulltext)
+        return addresses
+
     def save(self, update_words=True, *args, **kwargs):
         """
         Calls the default ``Models.save()`` method, and creates or updates
@@ -229,6 +256,16 @@ class LegMinutes(models.Model):
                 md_word = MetaData_Word.objects.get_or_create(value=word)[0]
                 metadata.words.add(md_word)
 
+        if update_locations:
+            # Add the unique locations to the metadata
+            metadata.locations.clear()
+            locations = self.addresses()
+            for location in locations:
+                md_location = MetaData_Location.objects.get_or_create(
+                    address=location['address']
+                )[0]
+                metadata.locations.add(md_location)
+
         metadata.save()
 
 
@@ -239,26 +276,51 @@ class LegMinutes(models.Model):
 class LegFileMetaData (models.Model):
     legfile = models.OneToOneField('LegFile', related_name='metadata')
     words = models.ManyToManyField('MetaData_Word', related_name='references_in_legislation')
+    locations = models.ManyToManyField('MetaData_Location', related_name='references_in_legislation')
     mentioned_legfiles = models.ManyToManyField('LegFile', related_name='references_in_legislation')
 
     def __unicode__(self):
         return (u'%s (mentions %s other files, mentioned by %s other files)' % \
-            (self.legfile.pk, len(self.mentioned_legfiles.all()), len(self.legfile.references.all())))
+            (self.legfile.pk, len(self.mentioned_legfiles.all()), len(self.legfile.references_in_legislation.all())))
 
 
 class LegMinutesMetaData (models.Model):
     legminutes = models.OneToOneField('LegMinutes', related_name='metadata')
     words = models.ManyToManyField('MetaData_Word', related_name='references_in_minutes')
+    locations = models.ManyToManyField('MetaData_Location', related_name='references_in_minutes')
 
     def __unicode__(self):
         return u'metadata for %s' % self.legminutes
 
 
 class MetaData_Word (models.Model):
-    value = models.CharField(max_length=64)
+    value = models.CharField(max_length=64, unique=True)
 
     def __unicode__(self):
         return '%r (used in %s files)' % (self.value, len(self.references.all()))
+
+
+class MetaData_Location (models.Model):
+    address = models.CharField(max_length=2048, unique=True)
+    geom = models.PointField(null=True)
+
+    objects = models.GeoManager()
+
+    def __unicode__(self):
+        return '%s, Philadelphia, PA' % (self.address)
+
+    def save(self, *args, **kwargs):
+        if not self.id and not self.geom:
+            self.geocode()
+
+        super(MetaData_Location, self).save(*args, **kwargs)
+
+    def geocode(self):
+        gc = utils.geocode(self.address + ', Philadelphia, PA')
+        if gc and gc['status'] == 'OK':
+            x = float(gc['results'][0]['geometry']['location']['lng'])
+            y = float(gc['results'][0]['geometry']['location']['lat'])
+            self.geom = geos.Point(x, y)
 
 
 #

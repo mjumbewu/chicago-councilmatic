@@ -15,13 +15,25 @@ def rel_path(*subs):
 
 # If the environment is DotCloud...
 if os.path.exists('/home/dotcloud/current'):
-    SQL3DB_PATH = '/home/dotcloud/philly_leg.sqlite3'
+    import json
+    env = json.load("/home/dotcloud/environment.json")
+    DB_ENGINE = 'postgis'
+    DB_NAME = 'councilmatic'
+    DB_HOST = env['DOTCLOUD_DB_SQL_HOST']
+    DB_USER = env['DOTCLOUD_DB_SQL_LOGIN']
+    DB_PASSWORD = env['DOTCLOUD_DB_SQL_PASSWORD']
+    DB_PORT = env['DOTCLOUD_DB_SQL_PORT']
     WHOOSH_PATH = '/home/dotcloud/whoosh_index'
     LOGFILE_PATH= '/home/dotcloud/logs/councilmatic.log'
 
 # Otherwise, if it's dev...
 else:
-    SQL3DB_PATH = rel_path('philly_leg.sqlite3')
+    DB_ENGINE = 'postgis'
+    DB_NAME = 'councilmatic'
+    DB_HOST = ''
+    DB_USER = 'mjumbewu'
+    DB_PASSWORD = ''
+    DB_PORT = ''
     WHOOSH_PATH = rel_path('whoosh_index')
     LOGFILE_PATH= rel_path('logs/councilmatic.log')
 
@@ -39,12 +51,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': SQL3DB_PATH,                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.contrib.gis.db.backends.' + DB_ENGINE, # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': DB_NAME,                      # Or path to database file if using sqlite3.
+        'USER': DB_USER,                      # Not used with sqlite3.
+        'PASSWORD': DB_PASSWORD,                  # Not used with sqlite3.
+        'HOST': DB_HOST,                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': DB_PORT,                      # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -213,6 +225,7 @@ COMMUNITY_APPS = (
     'django_nose',
     'debug_toolbar',
     'social_auth',
+    'ebdata', # From everyblock -- used here for parsing addresses and such
 )
 
 MY_REUSABLE_APPS = (
@@ -238,6 +251,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.comments',
+    'django.contrib.gis',
 ) + COMMUNITY_APPS + MY_REUSABLE_APPS + PROJECT_APPS
 
 ################################################################################

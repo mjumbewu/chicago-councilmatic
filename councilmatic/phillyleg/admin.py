@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib.gis import admin
 from phillyleg.models import Subscription
 from phillyleg.models import *
 
@@ -32,13 +32,21 @@ class LegFileInline (admin.TabularInline):
     fields = ['id', 'title']
     extra = 1
 
-class LegFileMetaDataInline(admin.TabularInline):
+class LegFileWordInline(admin.TabularInline):
     model = LegFileMetaData.words.through
     extra = 1
 
 class WordAdmin (admin.ModelAdmin):
     model = MetaData_Word
-    inlines = [LegFileMetaDataInline]
+    inlines = [LegFileWordInline]
+
+class LegFileLocationInline(admin.TabularInline):
+    model = LegFileMetaData.locations.through
+    extra = 1
+
+class LocationAdmin (admin.GeoModelAdmin):
+    model = MetaData_Location
+    inlines = [LegFileLocationInline]
 
 
 admin.site.register(Subscription, SubscriptionAdmin)
@@ -46,4 +54,5 @@ admin.site.register(LegFile, LegFileAdmin)
 admin.site.register(LegMinutes, LegMinutesAdmin)
 admin.site.register(CouncilMember)
 admin.site.register(MetaData_Word, WordAdmin)
+admin.site.register(MetaData_Location, LocationAdmin)
 admin.site.register(LegFileMetaData)
