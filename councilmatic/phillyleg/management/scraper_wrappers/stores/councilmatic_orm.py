@@ -131,23 +131,36 @@ class CouncilmaticDataStoreWrapper (object):
 
         return file_record
 
+    __legfile_cache = {}
     def __replace_key_with_legfile(self, record):
-        legfile = LegFile.objects.get(key=record['key'])
+        key = record['key']
+
+        if key not in self.__legfile_cache:
+            legfile = LegFile.objects.get(key=key)
+            self.__legfile_cache[key] = legfile
+        else:
+            legfile = self.__legfile_cache[key]
+
         del record['key']
-        record['file'] = legfile
+        record['file'] = self.__legfile_cache[key]
 
         return record
 
+    __legminutes_cache = {}
     def __replace_url_with_minutes(self, record):
         minutes_url = record['minutes_url']
 
-        if minutes_url == '':
-            minutes = None
-        else:
-            try:
-                minutes = LegMinutes.objects.get(url=record['minutes_url'])
-            except phillyleg.models.LegMinutes.DoesNotExist:
+        if minutes_url not in self.__legminutes_cache:
+            if minutes_url == '':
                 minutes = None
+            else:
+                try:
+                    minutes = LegMinutes.objects.get(url=record['minutes_url'])
+                except phillyleg.models.LegMinutes.DoesNotExist:
+                    minutes = None
+            self.__legminutes_cache[minutes_url] = minutes
+        else:
+            minutes = self.__legminutes_cache[minutes_url]
 
         del record['minutes_url']
         record['minutes'] = minutes
