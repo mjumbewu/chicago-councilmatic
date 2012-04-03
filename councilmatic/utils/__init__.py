@@ -41,11 +41,18 @@ def pdftotxt(pdfdata):
     txtin.close()
     return txtdata
 
+_geocode_count = 0
 def geocode(address, retries=5):
     """attempts to geocode an address"""
+    global _geocode_count
+    if _geocode_count > 1000:
+        raise Exception("You're up over 1000 geocoding requests.  You should consider slowing down, maybe?")
+
     response = requests.get(
         'http://maps.googleapis.com/maps/api/geocode/json',
         params={'address': address, 'sensor': 'false'})
+
+    _geocode_count += 1
 
     if response.status_code != 200 and retries > 0:
         return geocode(address, retries-1)
@@ -54,4 +61,5 @@ def geocode(address, retries=5):
 
     response.encoding = 'UTF8'
     result = json.loads(response.text)
+
     return result
