@@ -1,21 +1,21 @@
-Django
-South
-django-haystack
+Django==1.4
+South==0.7.4
+git+git://github.com/toastdriven/django-haystack.git#egg=django-haystack==2.0.0-beta
 pep8
-django-social-auth
+django-social-auth==0.6.7
 django-uni-form
-djangorestframework
+djangorestframework==0.3.3
 django-model-blocks
-django-debug-toolbar
+django-debug-toolbar==0.9.4
 
-psycopg2
+psycopg2==2.4.5
 
 # Requests, for talking HTTP to things like Google's geocoder
-requests
+requests==0.11.1
 
 # Using whoosh as the haystack (search) backend for now, for simplicity (it's
 # pure Python).  May use pysolr later, but may not need to.
-whoosh
+whoosh==2.3.2
 
 # Registration!
 hg+http://bitbucket.org/ubernostrum/django-registration/#egg=django-registration
@@ -28,9 +28,9 @@ git+git://github.com/mjumbewu/django-recaptcha.git#egg=django-recaptcha
 bzr+http://bazaar.launchpad.net/~mjumbewu/beautifulsoup/text-white-space-fix/#egg=BeautifulSoup
 
 # Testing tools
-django-nose
-coverage
-mock
+django-nose==1.0
+coverage==3.5.1
+mock==0.8.0
 
 # Mamangement and deployment
 fabric

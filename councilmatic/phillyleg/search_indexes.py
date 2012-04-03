@@ -1,10 +1,9 @@
 import datetime
 from haystack import indexes
-from haystack import site
 from phillyleg.models import LegFile, LegMinutes
 
 
-class LegislationIndex(indexes.SearchIndex):
+class LegislationIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
 
     file_id = indexes.CharField(model_attr='id')
@@ -16,16 +15,18 @@ class LegislationIndex(indexes.SearchIndex):
 
     order_date = indexes.DateField(model_attr='intro_date')
 
+    def get_model(self):
+        return LegFile
+
     def prepare_sponsors(self, leg):
         return [sponsor.name for sponsor in leg.sponsors.all()]
 
 
-class MinutesIndex(indexes.SearchIndex):
+class MinutesIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, model_attr='fulltext')
     date_taken = indexes.DateField(null=True)
 
     order_date = indexes.DateField(model_attr='date_taken')
 
-
-site.register(LegFile, LegislationIndex)
-site.register(LegMinutes, MinutesIndex)
+    def get_model(self):
+        return LegMinutes

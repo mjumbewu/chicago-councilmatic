@@ -200,9 +200,13 @@ GOOGLE_ANALYTICS_ACCOUNT = cmk.get('GOOGLE_ANALYTICS_ACCOUNT', '')
 # Site search configuration
 #
 
-HAYSTACK_SITECONF = 'search_sites'
-HAYSTACK_SEARCH_ENGINE = 'whoosh'
-HAYSTACK_WHOOSH_PATH = WHOOSH_PATH
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': WHOOSH_PATH,
+    }
+}
+
 # There were some queries that were taking waaaaaay too long (as in, timing
 # out in production) because there were too many results.  In short, to "fix",
 # I found this: https://github.com/toastdriven/django-haystack/issues/159
