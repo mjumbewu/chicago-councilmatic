@@ -11,9 +11,7 @@
   <div id="main">
     <div class="block">
       <div class="content">
-{#      {% with phillyleg_legminutes_detail_template="phillyleg/partials/legminutes_detail.html" %} #}
       {% with phillyleg_legminutes_exclude="id, fulltext" %}
-{#      {% with phillyleg_legminutes_fields="intro_date, final_date, controlling_body, sponsors, contact, title, url" %} #}
       {% with phillyleg_legaction_list_template="phillyleg/partials/legaction_list.html" %}
       {% with phillyleg_legaction_detail_template="phillyleg/partials/legminutes_legaction_detail.html" %}
       {% with phillyleg_legaction_fields="acting_body, description, file, motion, notes" %}
@@ -24,9 +22,7 @@
       {% endwith %}
       {% endwith %}
       {% endwith %}
-{#      {% endwith %} #}
       {% endwith %}
-{#      {% endwith %} #}
 
       {% comment %}
        <!--
