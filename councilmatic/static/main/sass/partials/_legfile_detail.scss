@@ -193,6 +193,7 @@
     }
 
     .block.mentions,
+    .block.locations,
     .block.references {
         @include column(22);
 

@@ -121,7 +121,20 @@
               </div>
             {% endif %}
 
+            {% if object.metadata.locations.all %}
+              <div class="block locations">
+                <h3>Locations mentioned in this bill</h3>
+                <ul class="navigation">
+                  {% for location in object.metadata.locations.all %}
+                    <li><a href="http://maps.google.com/maps?q={{ location.address|urlencode }},+Philadelphia,+PA">
+                      {{ location.address }}, Philadelphia, PA</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+
           </section>
+
 
           {% comment %}
            <!--
