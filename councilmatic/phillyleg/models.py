@@ -2,12 +2,15 @@ import datetime
 import ebdata.nlp.addresses
 import re
 import utils
+import logging
 from django.contrib.gis.db import models
 from django.contrib.gis import geos
 #from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from phillyleg.management.scraper_wrappers import PhillyLegistarSiteWrapper
+
+log = logging.getLogger(__name__)
 
 #
 # Metadata about the scraping process
@@ -201,9 +204,13 @@ class LegFile(models.Model):
             metadata.locations.clear()
             locations = self.addresses()
             for location in locations:
-                md_location = MetaData_Location.objects.get_or_create(
-                    address=location[0]
-                )[0]
+                try:
+                    md_location = MetaData_Location.objects.get_or_create(
+                        address=location[0]
+                    )[0]
+                except MetaData_Location.CouldNotBeGeocoded:
+                    continue
+
                 metadata.locations.add(md_location)
 
         if update_mentions:
@@ -362,12 +369,18 @@ class MetaData_Location (models.Model):
 
         super(MetaData_Location, self).save(*args, **kwargs)
 
+    class CouldNotBeGeocoded (Exception):
+        pass
+
     def geocode(self):
         gc = utils.geocode(self.address + ', Philadelphia, PA')
         if gc and gc['status'] == 'OK':
             x = float(gc['results'][0]['geometry']['location']['lng'])
             y = float(gc['results'][0]['geometry']['location']['lat'])
             self.geom = geos.Point(x, y)
+        else:
+            log.debug('Could not geocode the address "%s"' % self.address)
+            raise self.CouldNotBeGeocoded(self.address)
 
 
 #
