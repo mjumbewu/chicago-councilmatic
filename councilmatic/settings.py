@@ -16,15 +16,17 @@ def rel_path(*subs):
 # If the environment is DotCloud...
 if os.path.exists('/home/dotcloud/current'):
     import json
-    env = json.load("/home/dotcloud/environment.json")
-    DB_ENGINE = 'postgis'
-    DB_NAME = 'councilmatic'
-    DB_HOST = env['DOTCLOUD_DB_SQL_HOST']
-    DB_USER = env['DOTCLOUD_DB_SQL_LOGIN']
-    DB_PASSWORD = env['DOTCLOUD_DB_SQL_PASSWORD']
-    DB_PORT = env['DOTCLOUD_DB_SQL_PORT']
-    WHOOSH_PATH = '/home/dotcloud/whoosh_index'
-    LOGFILE_PATH= '/home/dotcloud/logs/councilmatic.log'
+    with open("/home/dotcloud/environment.json") as env_json:
+        env = json.load(env_json)
+
+        DB_ENGINE = 'postgis'
+        DB_NAME = 'councilmatic'
+        DB_HOST = env['DOTCLOUD_DB_SQL_HOST']
+        DB_USER = env['DOTCLOUD_DB_SQL_LOGIN']
+        DB_PASSWORD = env['DOTCLOUD_DB_SQL_PASSWORD']
+        DB_PORT = env['DOTCLOUD_DB_SQL_PORT']
+        WHOOSH_PATH = '/home/dotcloud/whoosh_index'
+        LOGFILE_PATH= '/home/dotcloud/logs/councilmatic.log'
 
 # Otherwise, if it's dev...
 else:
