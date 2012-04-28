@@ -48,11 +48,27 @@ class LocationAdmin (admin.GeoModelAdmin):
     model = MetaData_Location
     inlines = [LegFileLocationInline]
 
+class CouncilDistrictInline(admin.TabularInline):
+    model = CouncilDistrict
+    extra = 0
+
+class CouncilDistrictPlanAdmin (admin.GeoModelAdmin):
+    inlines = [CouncilDistrictInline]
+
+class CouncilMemberTenureInline (admin.TabularInline):
+    model = CouncilMemberTenure
+    extra = 1
+
+class CouncilMemberAdmin (admin.ModelAdmin):
+    inlines = [CouncilMemberTenureInline]
+
 
 admin.site.register(Subscription, SubscriptionAdmin)
 admin.site.register(LegFile, LegFileAdmin)
 admin.site.register(LegMinutes, LegMinutesAdmin)
-admin.site.register(CouncilMember)
+admin.site.register(CouncilMember, CouncilMemberAdmin)
 admin.site.register(MetaData_Word, WordAdmin)
 admin.site.register(MetaData_Location, LocationAdmin)
 admin.site.register(LegFileMetaData)
+admin.site.register(CouncilDistrict, admin.GeoModelAdmin)
+admin.site.register(CouncilDistrictPlan, CouncilDistrictPlanAdmin)

@@ -7,6 +7,7 @@ from django.contrib.gis import geos
 #from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from phillyleg.management.scraper_wrappers import PhillyLegistarSiteWrapper
 
 #
 # Metadata about the scraping process
@@ -25,9 +26,43 @@ class CouncilMember(models.Model):
     headshot = models.CharField(max_length=255,
         # Path to councilmember image, relative to static files dir
         default='phillyleg/noun_project_416.png')
+    districts = models.ManyToManyField('CouncilDistrict', through='CouncilMemberTenure', related_name='representatives')
+
+    @property
+    def district(self):
+        return self.tenures.order_by('-date')[0].district
 
     def __unicode__(self):
         return self.name.lstrip("Councilmember")
+
+
+class CouncilMemberTenure(models.Model):
+    councilmember = models.ForeignKey('CouncilMember', related_name='tenures')
+    district = models.ForeignKey('CouncilDistrict', related_name='tenures', null=True, blank=True)
+    at_large = models.BooleanField(default=False)
+    president = models.BooleanField(default=False)
+    begin = models.DateField(blank=True)
+    end = models.DateField(null=True, blank=True)
+
+
+class CouncilDistrictPlan(models.Model):
+    date = models.DateField()
+
+
+class CouncilDistrict(models.Model):
+    key = models.AutoField(primary_key=True)
+    id = models.IntegerField()
+    shape = models.PolygonField()
+    plan = models.ForeignKey('CouncilDistrictPlan')
+
+    objects = models.GeoManager()
+
+    @property
+    def representative(self):
+        return self.tenures.order_by('-date')[0].councilmember
+
+    def __unicode__(self):
+        return u'District {d}'.format(d=self.id)
 
 
 class LegFile(models.Model):
@@ -178,6 +213,18 @@ class LegFile(models.Model):
                 metadata.mentioned_legfiles.add(mentioned_legfile)
 
         metadata.save()
+
+    def get_data_source(self):
+        return PhillyLegistarSiteWrapper()
+
+    def refresh(self, stale_time=datetime.timedelta(days=1), force=False):
+        """
+        Update the file if it has not been updated in a while.  The "while" is
+        dictated the `stale_time` parameter, a `timedelta`.  If `force` is True,
+        then the refresh will happen immediately, regardless of the time it was
+        last updated.
+        """
+        pass
 
 
 class LegFileAttachment(models.Model):
