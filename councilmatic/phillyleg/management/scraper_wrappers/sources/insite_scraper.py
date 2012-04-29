@@ -4,7 +4,7 @@ import logging
 import re
 import urllib2
 import utils
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 log = logging.getLogger(__name__)
 
