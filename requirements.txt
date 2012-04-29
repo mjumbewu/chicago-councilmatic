@@ -22,7 +22,7 @@ hg+http://bitbucket.org/ubernostrum/django-registration/#egg=django-registration
 git+git://github.com/mjumbewu/django-recaptcha.git#egg=django-recaptcha
 
 # Scraping
-beautifulsoup4
+beautifulsoup4==4.0.5
 
 # Testing tools
 django-nose==1.0
