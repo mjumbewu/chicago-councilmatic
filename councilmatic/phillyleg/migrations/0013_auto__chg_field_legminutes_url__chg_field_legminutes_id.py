@@ -7,19 +7,24 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Changing field 'LegMinutes.url'
         db.alter_column('phillyleg_legminutes', 'url', self.gf('django.db.models.fields.CharField')(unique=True, max_length=2048))
 
         # Changing field 'LegMinutes.id'
-        db.alter_column('phillyleg_legminutes', 'id', self.gf('django.db.models.fields.AutoField')(primary_key=True))
+        db.execute("CREATE SEQUENCE phillyleg_legminutes_id_seq")
+        db.execute("SELECT setval('phillyleg_legminutes_id_seq', (SELECT MAX(id) FROM phillyleg_legminutes))")
+        db.execute("ALTER TABLE phillyleg_legminutes ALTER COLUMN id SET DEFAULT nextval('phillyleg_legminutes_id_seq'::regclass)")
+#        db.alter_column('phillyleg_legminutes', 'id', self.gf('django.db.models.fields.AutoField')(primary_key=True))
 
 
     def backwards(self, orm):
 
         # Changing field 'LegMinutes.id'
-        db.alter_column('phillyleg_legminutes', 'id', self.gf('django.db.models.fields.IntegerField')(unique=True))
-        
+        db.execute("ALTER TABLE phillyleg_legminutes ALTER COLUMN id DROP DEFAULT")
+        db.execute("DROP SEQUENCE phillyleg_legminutes_id_seq")
+#        db.alter_column('phillyleg_legminutes', 'id', self.gf('django.db.models.fields.IntegerField')(unique=True))
+
         # Changing field 'LegMinutes.url'
         db.alter_column('phillyleg_legminutes', 'url', self.gf('django.db.models.fields.CharField')(max_length=2048, primary_key=True))
 
