@@ -1,4 +1,6 @@
 www:
   type: python
+  systempackages:
+    - gdal-bin
 db:
   type: postgis

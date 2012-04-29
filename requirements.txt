@@ -8,6 +8,7 @@ djangorestframework==0.3.3
 django-model-blocks
 django-debug-toolbar==0.9.4
 
+GDAL
 psycopg2==2.4.5
 
 # Requests, for talking HTTP to things like Google's geocoder
