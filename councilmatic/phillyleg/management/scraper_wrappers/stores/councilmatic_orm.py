@@ -2,8 +2,7 @@ import datetime
 import phillyleg
 from django.db import transaction
 
-from phillyleg.models import \
-    LegFile, LegFileAttachment, LegAction, LegMinutes, CouncilMember, LegKeys
+from phillyleg.models import *
 
 class CouncilmaticDataStoreWrapper (object):
     """
