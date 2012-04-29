@@ -46,14 +46,20 @@ def pdftotxt(pdfdata):
 class TooManyGeocodeRequests (Exception):
     pass
 
-_geocode_count = {}
+_geocode_day = datetime.date.today()
+_geocode_count = 0
 def geocode(address, retries=5):
     """attempts to geocode an address"""
+    global _geocode_day
     global _geocode_count
 
-    count_today = _geocode_count.get(datetime.date.today(), 0)
-    if count_today > 2000:
-        raise TooManyGeocodeRequests("You're up over 1000 geocoding requests.  You should consider slowing down, maybe?")
+    today = datetime.date.today()
+    if _geocode_day != today:
+        _geocode_count = 0
+        _geocode_day = today
+
+    if _geocode_count > 2000:
+        raise TooManyGeocodeRequests("You're making a lot of geocoding requests.  You should consider slowing down, maybe?")
 
     # Here's the default geocode request. Uses a reasonable bounding box around
     # Philadelphia.
@@ -61,7 +67,7 @@ def geocode(address, retries=5):
         'http://maps.googleapis.com/maps/api/geocode/json',
         params={'address': address, 'sensor': 'false', 'bounds':'39.874439,-75.29892|40.141615,-74.940491'})
 
-    _geocode_count[datetime.date.today()] = count_today + 1
+    _geocode_count += 1
 
     if response.status_code != 200 and retries > 0:
         return geocode(address, retries-1)

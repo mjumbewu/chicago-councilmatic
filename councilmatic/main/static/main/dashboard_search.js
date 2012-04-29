@@ -7,7 +7,7 @@
         $field_label = $('#' + field_id + ' > label');
         $field_list = $('#' + field_id + ' ul');
 
-        $field_list.hide();
+//        $field_list.hide();
         $field_label.click(function() {
             $field_list.slideToggle();
         });

@@ -9,6 +9,16 @@
 {% endblock %}
 
 {% block content %}
+  <style>
+    #id_legislation_search_form {
+      float: right;
+      width: 300px;
+      padding-left: 20px;
+      margin-left: 20px;
+      border-left: 1px solid silver;
+    }
+  </style>
+
   <section id="main" class="legfile_search">
     <div class="block">
 
@@ -24,7 +34,7 @@
 
           {# It may either be called `search_form` or just `form` #}
 
-          <form action="{% url search %}" method="GET" class="uniForm">
+          <form action="{% url search %}" method="GET" class="uniForm" id="id_legislation_search_form">
             <fieldset class="inlineLabels">
               {% if search_form %}
                 {{ search_form|as_uni_form }}
