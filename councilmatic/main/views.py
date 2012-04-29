@@ -119,7 +119,7 @@ class SearchView (SearchBarMixin,
                 return (result.object for result in self.sqs)
             def __getitem__(self, key):
                 if isinstance(key, slice):
-                    return [result.object for result in self.sqs[key]]
+                    return [result.object for result in self.sqs[key] if result is not None]
                 else:
                     return self.sqs[key].object
 
