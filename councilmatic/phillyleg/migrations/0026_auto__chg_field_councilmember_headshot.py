@@ -7,19 +7,13 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
-        # Fill in any NULL fields
-        for councilmember in orm.CouncilMember.objects.all():
-            if not councilmember.headshot:
-                councilmember.headshot = 'phillyleg/noun_project_416.png'
-                councilmember.save()
-        
+
         # Changing field 'CouncilMember.headshot'
-        db.alter_column('phillyleg_councilmember', 'headshot', self.gf('django.db.models.fields.CharField')(max_length=255))
+        db.alter_column('phillyleg_councilmember', 'headshot', self.gf('django.db.models.fields.CharField')(max_length=255, default='phillyleg/noun_project_416.png'))
 
 
     def backwards(self, orm):
-        
+
         # Changing field 'CouncilMember.headshot'
         db.alter_column('phillyleg_councilmember', 'headshot', self.gf('django.db.models.fields.CharField')(max_length=255, null=True))
 
