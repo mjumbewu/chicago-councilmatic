@@ -7,15 +7,17 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Changing field 'LegAction.date_taken'
-        db.alter_column('phillyleg_legaction', 'date_taken', self.gf('django.db.models.fields.DateTimeField')())
+        db.delete_column('phillyleg_legaction', 'date_taken')
+        db.add_column('phillyleg_legaction', 'date_taken', self.gf('django.db.models.fields.DateTimeField')())
 
 
     def backwards(self, orm):
-        
+
         # Changing field 'LegAction.date_taken'
-        db.alter_column('phillyleg_legaction', 'date_taken', self.gf('django.db.models.fields.CharField')(max_length=1000))
+        db.delete_column('phillyleg_legaction', 'date_taken')
+        db.add_column('phillyleg_legaction', 'date_taken', self.gf('django.db.models.fields.CharField')(max_length=1000))
 
 
     models = {
