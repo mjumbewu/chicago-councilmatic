@@ -7,16 +7,16 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
+
         # Adding field 'Opinion.target_type'
-        db.add_column('opinions_opinion', 'target_type', self.gf('django.db.models.fields.related.ForeignKey')(default='phillyleg.legfile', to=orm['contenttypes.ContentType']), keep_default=False)
+        db.add_column('opinions_opinion', 'target_type', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['contenttypes.ContentType']), keep_default=False)
 
         # Adding field 'Opinion.target_id'
         db.add_column('opinions_opinion', 'target_id', self.gf('django.db.models.fields.PositiveIntegerField')(default=0), keep_default=False)
 
 
     def backwards(self, orm):
-        
+
         # Deleting field 'Opinion.target_type'
         db.delete_column('opinions_opinion', 'target_type_id')
 
