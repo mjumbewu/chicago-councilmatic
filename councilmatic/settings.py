@@ -1,5 +1,9 @@
 import os
-from application_keys import councilmatic_keys
+try:
+    from application_keys import councilmatic_keys
+except ImportError:
+    from os import environ as councilmatic_keys
+
 
 # Make filepaths relative to settings.
 def rel_path(*subs):
