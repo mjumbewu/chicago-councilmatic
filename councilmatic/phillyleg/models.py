@@ -373,7 +373,7 @@ class MetaData_Location (models.Model):
         pass
 
     def geocode(self):
-        gc = utils.geocode(self.address + ', Philadelphia, PA')
+        gc = utils.geocode(self.address)
         if gc and gc['status'] == 'OK':
             x = float(gc['results'][0]['geometry']['location']['lng'])
             y = float(gc['results'][0]['geometry']['location']['lat'])
