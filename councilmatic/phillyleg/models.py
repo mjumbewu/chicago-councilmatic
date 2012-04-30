@@ -9,6 +9,7 @@ from django.contrib.gis import geos
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from phillyleg.management.scraper_wrappers import PhillyLegistarSiteWrapper
+from utils.models import TimestampedModelMixin
 
 log = logging.getLogger(__name__)
 
@@ -24,7 +25,7 @@ class LegKeys(models.Model):
 # Legislative File models
 #
 
-class CouncilMember(models.Model):
+class CouncilMember(TimestampedModelMixin, models.Model):
     name = models.CharField(max_length=100)
     headshot = models.CharField(max_length=255,
         # Path to councilmember image, relative to static files dir
@@ -39,7 +40,7 @@ class CouncilMember(models.Model):
         return self.name.lstrip("Councilmember")
 
 
-class CouncilMemberTenure(models.Model):
+class CouncilMemberTenure(TimestampedModelMixin, models.Model):
     councilmember = models.ForeignKey('CouncilMember', related_name='tenures')
     district = models.ForeignKey('CouncilDistrict', related_name='tenures', null=True, blank=True)
     at_large = models.BooleanField(default=False)
@@ -48,11 +49,11 @@ class CouncilMemberTenure(models.Model):
     end = models.DateField(null=True, blank=True)
 
 
-class CouncilDistrictPlan(models.Model):
+class CouncilDistrictPlan(TimestampedModelMixin, models.Model):
     date = models.DateField()
 
 
-class CouncilDistrict(models.Model):
+class CouncilDistrict(TimestampedModelMixin, models.Model):
     key = models.AutoField(primary_key=True)
     id = models.IntegerField()
     shape = models.PolygonField()
@@ -68,7 +69,7 @@ class CouncilDistrict(models.Model):
         return u'District {d}'.format(d=self.id)
 
 
-class LegFile(models.Model):
+class LegFile(TimestampedModelMixin, models.Model):
     key = models.IntegerField(primary_key=True)
     id = models.CharField(max_length=100, null=True)
     contact = models.CharField(max_length=1000)
@@ -234,7 +235,7 @@ class LegFile(models.Model):
         pass
 
 
-class LegFileAttachment(models.Model):
+class LegFileAttachment(TimestampedModelMixin, models.Model):
     file = models.ForeignKey(LegFile, related_name='attachments')
     description = models.CharField(max_length=1000)
     url = models.URLField()
@@ -244,7 +245,7 @@ class LegFileAttachment(models.Model):
         unique_together = (('file','url'),)
 
 
-class LegAction(models.Model):
+class LegAction(TimestampedModelMixin, models.Model):
     file = models.ForeignKey(LegFile, related_name='actions')
     date_taken = models.DateField()
     description = models.CharField(max_length=1000)
@@ -260,7 +261,7 @@ class LegAction(models.Model):
         unique_together = (('file','date_taken','description','notes'),)
 
 
-class LegMinutes(models.Model):
+class LegMinutes(TimestampedModelMixin, models.Model):
     url = models.URLField(unique=True)
     fulltext = models.TextField()
     date_taken = models.DateField(null=True)
@@ -327,7 +328,7 @@ class LegMinutes(models.Model):
 # Meta-data
 #
 
-class LegFileMetaData (models.Model):
+class LegFileMetaData (TimestampedModelMixin, models.Model):
     legfile = models.OneToOneField('LegFile', related_name='metadata')
     words = models.ManyToManyField('MetaData_Word', related_name='references_in_legislation')
     locations = models.ManyToManyField('MetaData_Location', related_name='references_in_legislation')
@@ -338,7 +339,7 @@ class LegFileMetaData (models.Model):
             (self.legfile.pk, len(self.mentioned_legfiles.all()), len(self.legfile.references_in_legislation.all())))
 
 
-class LegMinutesMetaData (models.Model):
+class LegMinutesMetaData (TimestampedModelMixin, models.Model):
     legminutes = models.OneToOneField('LegMinutes', related_name='metadata')
     words = models.ManyToManyField('MetaData_Word', related_name='references_in_minutes')
     locations = models.ManyToManyField('MetaData_Location', related_name='references_in_minutes')
@@ -354,7 +355,7 @@ class MetaData_Word (models.Model):
         return '%r (used in %s files)' % (self.value, len(self.references.all()))
 
 
-class MetaData_Location (models.Model):
+class MetaData_Location (TimestampedModelMixin, models.Model):
     address = models.CharField(max_length=2048, unique=True)
     geom = models.PointField(null=True)
 
