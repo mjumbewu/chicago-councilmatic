@@ -71,10 +71,16 @@ class AppDashboardView (SearchBarMixin,
 
         legfiles = phillyleg.models.LegFile.objects.all().order_by('-key')[:3]
         bookmark_data = self.get_bookmarks_data(legfiles)
+        locations = phillyleg.models.MetaData_Location.objects.all().order_by('-pk')[:10]
 
         context_data = super(AppDashboardView, self).get_context_data(
             **kwargs)
-        context_data.update({'legfiles': legfiles, 'bookmark_data': bookmark_data, 'search_form': search_form})
+        context_data.update({
+            'legfiles': legfiles,
+            'bookmark_data': bookmark_data,
+            'search_form': search_form,
+            'locations': locations
+        })
 
         return context_data
 
