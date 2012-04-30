@@ -6,7 +6,7 @@ django-social-auth==0.6.7
 django-uni-form
 djangorestframework==0.3.3
 django-model-blocks
-#django-debug-toolbar==0.9.4
+django-debug-toolbar==0.9.4
 
 psycopg2==2.4.5
 
