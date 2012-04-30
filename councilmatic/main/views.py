@@ -69,7 +69,7 @@ class AppDashboardView (SearchBarMixin,
     def get_context_data(self, **kwargs):
         search_form = forms.FullSearchForm()
 
-        legfiles = phillyleg.models.LegFile.objects.all().order_by('-key')[:8]
+        legfiles = phillyleg.models.LegFile.objects.all().order_by('-key')[:3]
         bookmark_data = self.get_bookmarks_data(legfiles)
 
         context_data = super(AppDashboardView, self).get_context_data(
@@ -105,7 +105,7 @@ class SearchView (SearchBarMixin,
 
     def get_queryset(self):
         if len(self.request.GET) == 0 or ('page' in self.request.GET and len(self.request.GET) == 1):
-            search_queryset = phillyleg.models.LegFile.objects.all()
+            search_queryset = phillyleg.models.LegFile.objects.all().order_by('-key')
 
         else:
             class SQSProxy (object):
