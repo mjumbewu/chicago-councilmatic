@@ -104,26 +104,30 @@ class SearchView (SearchBarMixin,
         return feeds.SearchResultsFeed(queryset.query.query_filter)
 
     def get_queryset(self):
-        search_queryset = self.search_view.results
+        if len(self.request.GET) == 0 or ('page' in self.request.GET and len(self.request.GET) == 1):
+            search_queryset = phillyleg.models.LegFile.objects.all()
 
-        class SQSProxy (object):
-            """
-            Make a SearchQuerySet look enough like a QuerySet for a ListView
-            not to notice the difference.
-            """
-            def __init__(self, sqs):
-                self.sqs = sqs
-            def __len__(self):
-                return len(self.sqs)
-            def __iter__(self):
-                return (result.object for result in self.sqs)
-            def __getitem__(self, key):
-                if isinstance(key, slice):
-                    return [result.object for result in self.sqs[key] if result is not None]
-                else:
-                    return self.sqs[key].object
+        else:
+            class SQSProxy (object):
+                """
+                Make a SearchQuerySet look enough like a QuerySet for a ListView
+                not to notice the difference.
+                """
+                def __init__(self, sqs):
+                    self.sqs = sqs
+                def __len__(self):
+                    return len(self.sqs)
+                def __iter__(self):
+                    return (result.object for result in self.sqs)
+                def __getitem__(self, key):
+                    if isinstance(key, slice):
+                        return [result.object for result in self.sqs[key] if result is not None]
+                    else:
+                        return self.sqs[key].object
 
-        return SQSProxy(search_queryset)
+            search_queryset = SQSProxy(self.search_view.results)
+
+        return search_queryset
 
     def get_context_data(self, **kwargs):
         """
@@ -131,6 +135,28 @@ class SearchView (SearchBarMixin,
         """
         context = super(SearchView, self).get_context_data(**kwargs)
         context['form'] = self.search_view.form
+
+        page_obj = context.get('page_obj', None)
+        query_params = self.request.GET.copy()
+        if 'page' in query_params:
+            del query_params['page']
+
+        if page_obj and page_obj.has_next():
+            context['next_url'] = (
+                self.request.path + '?' +
+                'page={0}'.format(page_obj.next_page_number())
+            )
+            if query_params:
+                context['next_url'] += '&' + query_params.urlencode()
+
+        if page_obj and page_obj.has_previous():
+            context['previous_url'] = (
+                self.request.path + '?' +
+                'page={0}'.format(page_obj.previous_page_number())
+            )
+            if query_params:
+                context['previous_url'] += '&' + query_params.urlencode()
+
         log.debug(context)
         return context
 
