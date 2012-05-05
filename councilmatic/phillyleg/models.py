@@ -258,6 +258,8 @@ class LegAction(TimestampedModelMixin, models.Model):
         return "%s - %s" % (self.date_taken, self.description)
 
     class Meta:
+        # TODO: Fix this; there's not actually uniqueness here.  See
+        #       http://legislation.phila.gov/detailreport/?key=2915
         unique_together = (('file','date_taken','description','notes'),)
 
 
@@ -293,7 +295,7 @@ class LegMinutes(TimestampedModelMixin, models.Model):
         addresses = ebdata.nlp.addresses.parse_addresses(self.fulltext)
         return addresses
 
-    def save(self, update_words=True, *args, **kwargs):
+    def save(self, update_words=True, update_locations=True, *args, **kwargs):
         """
         Calls the default ``Models.save()`` method, and creates or updates
         metadata for the minutes as well.
