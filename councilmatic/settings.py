@@ -227,7 +227,7 @@ COMMUNITY_APPS = (
     'south',
     'haystack',
     'uni_form',
-#    'django_nose',
+    'django_nose',
     'debug_toolbar',
     'social_auth',
     'ebdata', # From everyblock -- used here for parsing addresses and such
@@ -265,7 +265,7 @@ INSTALLED_APPS = (
 #
 
 # Tests (nose)
-#TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 SOUTH_TESTS_MIGRATE = False
 
 # Debug toolbar

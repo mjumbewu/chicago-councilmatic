@@ -1,12 +1,13 @@
 from unittest import TestCase
 import os
-import BeautifulSoup as bs
+import bs4 as bs
 import datetime as dt
 import mock
 from StringIO import StringIO
 
 from phillyleg.management.scraper_wrappers import PhillyLegistarSiteWrapper
 from phillyleg.management.scraper_wrappers import LegistarApiWrapper
+from phillyleg.management.scraper_wrappers import CouncilmaticDataStoreWrapper
 
 class LegistarTests (TestCase):
 
@@ -39,7 +40,7 @@ class LegistarTests (TestCase):
 
     def test_ResolutionPdfParsesCorrectly(self):
         wrapper = PhillyLegistarSiteWrapper()
-        expected_text = """ City of Philadelphia City of Philadelphia - 1 - City Council Chief Clerk's Office 402 City Hall Philadelphia, PA 19107 RESOLUTION NO. 110406 Introduced May 12, 2011 Councilmember DiCicco Referred to the Committee of the Whole RESOLUTION Appointing David Campoli to the Board of Directors of the Center City District. RESOLVED, BY THE COUNCIL OF THE CITY OF PHILADELPHIA, THAT David Campoli is hereby appointed as a member of the Board of Directors of the Center City District, to serve in a term ending December 31, 2012. City of Philadelphia RESOLUTION NO. 110406 continued City of Philadelphia - 2 - """
+        expected_text = """\n\n\n\n\n\n\n\n\nCity of Philadelphia \n \n \n \n \nCity of Philadelphia \n- 1 - \n \n \n \nCity Council \nChief Clerk's Office \n402 City Hall \nPhiladelphia, PA 19107 \nRESOLUTION NO. 110406 \n \n \nIntroduced May 12, 2011 \n \n \nCouncilmember DiCicco \n \n \nReferred to the \nCommittee of the Whole   \n \n \nRESOLUTION \n \nAppointing David Campoli to the Board of Directors of the Center City District. \n \n \n \nRESOLVED, BY THE COUNCIL OF THE CITY OF PHILADELPHIA, \nTHAT David Campoli is hereby appointed as a member of the Board of Directors of the \nCenter City District, to serve in a term ending December 31, 2012. \n \n \n\n\n\nCity of Philadelphia \n \nRESOLUTION NO. 110406 continued \n \n \n \n \n \nCity of Philadelphia \n- 2 - \n \n \n \n \n\n"""
 
         # Raw stream
         resolution_pdf = open(os.path.join(self.pdfs_dir, '11530.pdf')).read()
@@ -129,3 +130,21 @@ class LegistarTests (TestCase):
 
         self.assertRaises(BadStatusLine, wrapper.check_for_new_content, 73)
         self.assertEqual(wrapper.urlopen.call_count, 10)
+
+
+class OrmStoreTests (TestCase):
+    def test_RecoversGracefullyAfterIntegrityError (self):
+        from phillyleg.models import LegFile
+        from django.db.utils import DatabaseError
+
+        LegFile.objects.all().delete()
+        LegFile.objects.create(title='testing', key=123)
+
+        ds = CouncilmaticDataStoreWrapper()
+        try:
+            ds._save_or_ignore(LegFile, {'title':'testing', 'key':123})
+            ds._save_or_ignore(LegFile, {'title':'testing', 'key':123})
+        except DatabaseError:
+            self.fail('Shouldn\'t have raised a DatabaseError')
+        else:
+            pass

@@ -93,17 +93,17 @@ class CouncilmaticDataStoreWrapper (object):
         # Create notes attached to the record
         for attachment_record in attachment_records:
             attachment_record = self.__replace_key_with_legfile(attachment_record)
-            self.__save_or_ignore(LegFileAttachment, attachment_record)
+            self._save_or_ignore(LegFileAttachment, attachment_record)
 
         # Create minutes
         for minutes_record in minutes_records:
-            self.__save_or_ignore(LegMinutes, minutes_record)
+            self._save_or_ignore(LegMinutes, minutes_record)
 
         # Create actions attached to the record
         for action_record in action_records:
             action_record = self.__replace_key_with_legfile(action_record)
             action_record = self.__replace_url_with_minutes(action_record)
-            self.__save_or_ignore(LegAction, action_record)
+            self._save_or_ignore(LegAction, action_record)
 
     @property
     def pdf_mapping(self):
@@ -167,7 +167,7 @@ class CouncilmaticDataStoreWrapper (object):
 
         return record
 
-    def __save_or_ignore(self, ModelClass, record):
+    def _save_or_ignore(self, ModelClass, record):
         model_instance = ModelClass(**record)
         try:
             # Wrap the save in a transaction savepoint, so that if we want to
