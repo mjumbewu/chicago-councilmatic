@@ -73,24 +73,40 @@
               var map;
               var initialize = function() {
                 var myOptions = {
-                  zoom: 10,
-                  center: new google.maps.LatLng(40.006054, -75.147858),
-                  mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
+                      zoom: 10,
+                      center: new google.maps.LatLng(40.006054, -75.147858),
+                      mapTypeId: google.maps.MapTypeId.ROADMAP
+                    },
+                    latlngs = [];
+
                 map = new google.maps.Map(document.getElementById('dashboard_locations_map_cavas'),
                     myOptions);
 
                 {% for location in locations %}
-
                 var markerOptions = {
                   map: map,
                   title: "{{ location.address }}",
                   position: new google.maps.LatLng({{ location.geom.y }}, {{ location.geom.x }})
                 };
                 var marker = new google.maps.Marker(markerOptions);
+                latlngs.push(markerOptions.position);
 
 //                google.maps.event.addDomListener(marker, 'click', searchAround({{ location.y }}, {{ location.x }}));
                 {% endfor %}
+
+                zoomToFitMarkers(map, latlngs)
+              };
+
+              var zoomToFitMarkers = function(map, latlngs) {
+                //  Create a new viewpoint bound
+                var bounds = new google.maps.LatLngBounds ();
+                //  Go through each...
+                for (var i = 0, numlatlngs = latlngs.length; i < numlatlngs; i++) {
+                  //  And increase the bounds to take this point
+                  bounds.extend (latlngs[i]);
+                }
+                //  Fit these bounds to the map
+                map.fitBounds (bounds);
               };
 
               google.maps.event.addDomListener(window, 'load', initialize);
