@@ -1,6 +1,7 @@
 import datetime
 import phillyleg
 from django.db import transaction
+from django.db.utils import IntegrityError
 
 from phillyleg.models import *
 
@@ -169,8 +170,14 @@ class CouncilmaticDataStoreWrapper (object):
     def __save_or_ignore(self, ModelClass, record):
         model_instance = ModelClass(**record)
         try:
+            # Wrap the save in a transaction savepoint, so that if we want to
+            # roll back to this point we can.  We will want to roll back if
+            # there is an integrity error, as specified below.
+            sid = transaction.savepoint()
             model_instance.save()
+            transaction.savepoint_commit(sid)
             return True
-        except:
+        except IntegrityError:
             # If it's a duplicate, don't worry about it.  Just move on.
+            transaction.savepoint_rollback(sid)
             return False
