@@ -78,6 +78,10 @@ urlpatterns = patterns('',
     url(r'^(?P<user_pk>\d+)/subscriptions/$', TemplateView.as_view(template_name='base.html'), name='user_subscriptions'),
     url(r'^(?P<user_pk>\d+)/subscriptions/(?P<bookmark_pk>\d+)/$', TemplateView.as_view(template_name='base.html'), name='user_subscription'),
 
+    # RSS
+    url(r'^rss/$', main.views.LegFileListFeedView(),
+        name='rss_feed'),
+
     # API v1
     url(r'^api/v1/councilmembers/$',
         phillyleg.resources.CouncilMemberListView.as_view(),

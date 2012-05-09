@@ -1,7 +1,7 @@
 {% load uni_form_tags %}
 
   <div class="subscription_section">
-    <a href=""><img src="{{ STATIC_URL }}subscription-rss.svg" style="float:right; margin-top: 10px;" width="40"></a>
+    <a href="{% url rss_feed %}?{{ request.GET.urlencode|safe }}"><img src="{{ STATIC_URL }}subscription-rss.svg" style="float:right; margin-top: 10px;" width="40"></a>
 
     {% if is_subscribed %}
       <form action="{% url unsubscribe subscription.pk %}" method="POST" class="uniForm subscription_form">{% csrf_token %}

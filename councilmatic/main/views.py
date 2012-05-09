@@ -1,5 +1,5 @@
 import logging as log
-from django.contrib.syndication.views import Feed
+from django.contrib.syndication.views import Feed as DjangoFeed
 from django.shortcuts import get_object_or_404
 from django.views import generic as views
 from haystack.query import SearchQuerySet
@@ -16,7 +16,7 @@ import subscriptions.models
 import subscriptions.views
 
 
-class NewLegislationFeed (Feed):
+class NewLegislationFeed (DjangoFeed):
     title = u'New Legislation'
     link = 'http://localhost:8000'
     description = u'Newly introduced legislation'
@@ -35,7 +35,7 @@ class NewLegislationFeed (Feed):
         return current
 
 
-class CustomContentFeedView (Feed):
+class CustomContentFeedView (DjangoFeed):
     def get_object(self, request, subscription_id):
         return get_object_or_404(subscription.models.Subscription,
                                  pk=subscription_id)
@@ -85,14 +85,8 @@ class AppDashboardView (SearchBarMixin,
         return context_data
 
 
-class SearchView (SearchBarMixin,
-                  subscriptions.views.SingleSubscriptionMixin,
-                  views.ListView):
-    template_name = 'search/search.html'
-    paginate_by = 20
-    feed_data = None
-
-    def dispatch(self, request, *args, **kwargs):
+class SearcherMixin (object):
+    def _init_haystack_searchview(self, request):
         # Construct and run a haystack SearchView so that we can use the
         # resulting values.
         self.search_view = haystack.views.SearchView(form_class=forms.FullSearchForm, searchqueryset=SearchQuerySet().order_by('-order_date'))
@@ -102,15 +96,8 @@ class SearchView (SearchBarMixin,
         self.search_view.query = self.search_view.get_query()
         self.search_view.results = self.search_view.get_results()
 
-        # The, continue with the dispatch
-        return super(SearchView, self).dispatch(request, *args, **kwargs)
-
-    def get_content_feed(self):
-        queryset = self.search_view.results
-        return feeds.SearchResultsFeed(queryset.query.query_filter)
-
-    def get_queryset(self):
-        if len(self.request.GET) == 0 or ('page' in self.request.GET and len(self.request.GET) == 1):
+    def _get_search_results(self, query_params):
+        if len(query_params) == 0:
             search_queryset = phillyleg.models.LegFile.objects.all().order_by('-key')
 
         else:
@@ -132,7 +119,47 @@ class SearchView (SearchBarMixin,
                         return self.sqs[key].object
 
             search_queryset = SQSProxy(self.search_view.results)
+        return search_queryset
 
+
+class LegFileListFeedView (SearcherMixin, DjangoFeed):
+    def get_object(self, request, *args, **kwargs):
+        self._init_haystack_searchview(request)
+        query_params = request.GET.copy()
+        search_queryset = self._get_search_results(query_params)
+        return search_queryset
+
+    def items(self, obj):
+        return obj[:100]
+
+    def title(self, obj):
+        'testing'
+
+    def link(self):
+        return 'http://www.google.com/'
+
+
+class SearchView (SearcherMixin,
+                  SearchBarMixin,
+                  subscriptions.views.SingleSubscriptionMixin,
+                  views.ListView):
+    template_name = 'search/search.html'
+    paginate_by = 20
+    feed_data = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self._init_haystack_searchview(request)
+        return super(SearchView, self).dispatch(request, *args, **kwargs)
+
+    def get_content_feed(self):
+        queryset = self.search_view.results
+        return feeds.SearchResultsFeed(queryset.query.query_filter)
+
+    def get_queryset(self):
+        query_params = self.request.GET.copy()
+        if 'page' in query_params:
+            del query_params['page']
+        search_queryset = self._get_search_results(query_params)
         return search_queryset
 
     def get_context_data(self, **kwargs):
