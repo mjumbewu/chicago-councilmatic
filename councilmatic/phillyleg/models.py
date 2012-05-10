@@ -248,7 +248,7 @@ class LegFileAttachment(TimestampedModelMixin, models.Model):
 class LegAction(TimestampedModelMixin, models.Model):
     file = models.ForeignKey(LegFile, related_name='actions')
     date_taken = models.DateField()
-    description = models.CharField(max_length=1000)
+    description = models.TextField()
     minutes = models.ForeignKey('LegMinutes', related_name='actions', null=True)
     motion = models.CharField(max_length=1000)
     acting_body = models.CharField(max_length=1000)
