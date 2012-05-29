@@ -74,7 +74,7 @@ class LegFile(TimestampedModelMixin, models.Model):
     id = models.CharField(max_length=100, null=True)
     contact = models.CharField(max_length=1000)
     controlling_body = models.CharField(max_length=1000)
-    date_scraped = models.DateTimeField(auto_now_add=True)
+    date_scraped = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     last_scraped = models.DateTimeField(auto_now=True)
     final_date = models.DateField(null=True)
     intro_date = models.DateField(null=True)
