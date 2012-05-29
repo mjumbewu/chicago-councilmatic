@@ -84,7 +84,7 @@ class CouncilmaticDataStoreWrapper (object):
         # do we save the file, but also a record for each unique word in the
         # file.  So, if we can avoid updating that metadata we should.
         changed = self.has_text_changed(legfile.key, legfile)
-        legfile.save(update_words=changed, update_mentions=changed)
+        legfile.save(update_words=changed, update_mentions=changed, update_locations=changed)
 
         for sponsor_name in sponsor_names.split(','):
             sponsor_name = sponsor_name.strip()
