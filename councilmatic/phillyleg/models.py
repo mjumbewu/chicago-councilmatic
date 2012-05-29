@@ -182,6 +182,13 @@ class LegFile(TimestampedModelMixin, models.Model):
                 print 'LegFile %r, referenced from key %s, does not exist!!!' % (mentioned_legfile_id, self.pk)
 
 
+    def update(self, attribs, commit=True, **save_kwargs):
+        for attr, val in attribs.items():
+            setattr(self, attr, val)
+
+        if commit:
+            return self.save(**save_kwargs)
+
     def save(self, update_words=True, update_mentions=True, update_locations=True, *args, **kwargs):
         """
         Calls the default ``Models.save()`` method, and creates or updates

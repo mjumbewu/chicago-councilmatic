@@ -73,7 +73,12 @@ class CouncilmaticDataStoreWrapper (object):
         del file_record['sponsors']
 
         # Create the record
-        legfile = LegFile(**file_record)
+        try:
+            legfile = LegFile.objects.get(key=file_record['key'])
+        except LegFile.DoesNotExist:
+            legfile = LegFile(key=file_record['key'])
+
+        legfile.update(file_record, commit=False)
 
         # Changing the text in a legfile is an expensive operation.  Not only
         # do we save the file, but also a record for each unique word in the
