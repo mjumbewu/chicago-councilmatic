@@ -8,6 +8,7 @@ from django.views.generic import ListView, DetailView, TemplateView
 import phillyleg.models
 import phillyleg.resources
 
+import cm_api.views
 import main.views
 import subscriptions.views
 import bookmarks.views
@@ -89,6 +90,44 @@ urlpatterns = patterns('',
     url(r'^api/v1/councilmembers/(?P<pk>.+)$',
         phillyleg.resources.CouncilMemberInstanceView.as_view(),
         name='api_concilmember_instance'),
+
+    # API v2
+    #
+    # Several of the listing endpoints allow filtering by primary key.  An
+    # optional comma-separated list of integers -- ((?:\d+,)+\d+)? -- will be
+    # treated as a list of primary keys.
+    #
+    url(r'^api/v2/subscribers/(?P<pk>\d+)$',
+        cm_api.views.SubscriberView.as_view(),
+        name='api_subscriber'),
+
+    url(r'^api/v2/councilmembers/(?P<pk_list>(?:\d+,)+\d+)?$',
+        cm_api.views.CouncilMemberListView.as_view(),
+        name='api_councilmember_list'),
+    url(r'^api/v2/councilmembers/(?P<pk>\d+)$',
+        cm_api.views.CouncilMemberInstanceView.as_view(),
+        name='api_councilmember_instance'),
+
+    url(r'^api/v2/districts/(?P<pk_list>(?:\d+,)+\d+)?$',
+        cm_api.views.CouncilDistrictListView.as_view(),
+        name='api_district_list'),
+    url(r'^api/v2/districts/(?P<pk>\d+)$',
+        cm_api.views.CouncilDistrictInstanceView.as_view(),
+        name='api_district_instance'),
+
+    url(r'^api/v2/district_plans/(?P<pk_list>(?:\d+,)+\d+)?$',
+        cm_api.views.CouncilDistrictPlanListView.as_view(),
+        name='api_district_plan_list'),
+    url(r'^api/v2/district_plans/(?P<pk>\d+)$',
+        cm_api.views.CouncilDistrictPlanInstanceView.as_view(),
+        name='api_district_plan_instance'),
+
+    url(r'^api/v2/files/(?P<pk_list>(?:\d+,)+\d+)?$',
+        cm_api.views.LegFileListView.as_view(),
+        name='api_district_plan_list'),
+    url(r'^api/v2/files/(?P<pk>\d+)$',
+        cm_api.views.LegFileInstanceView.as_view(),
+        name='api_district_plan_instance'),
 
     # Flat pages
     url(r'about/',

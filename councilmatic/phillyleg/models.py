@@ -32,9 +32,38 @@ class CouncilMember(TimestampedModelMixin, models.Model):
         default='phillyleg/noun_project_416.png')
     districts = models.ManyToManyField('CouncilDistrict', through='CouncilMemberTenure', related_name='representatives')
 
+    NOT_YET_SET = object()
+    __tenure = NOT_YET_SET
+    @property
+    def tenure(self):
+        # Sort the tenures here instead of in a query, as there shouldn't be
+        # very many, and this allows us to use prefetched tenures, if they
+        # exist.
+        if self.__tenure is self.NOT_YET_SET:
+            tenures = sorted(self.tenures.all(), key=lambda t: t.begin)
+            if tenures:
+                self.__tenure = tenures[-1]
+        return self.__tenure
+
     @property
     def district(self):
-        return self.tenures.order_by('-date')[0].district
+        tenure = self.tenure
+        return (tenure and tenure.district)
+
+    @property
+    def is_active(self):
+        tenure = self.tenure
+        return (tenure is not None and tenure.end is None)
+
+    @property
+    def is_president(self):
+        tenure = self.tenure
+        return (tenure is not None and tenure.president)
+
+    @property
+    def is_at_large(self):
+        tenure = self.tenure
+        return (tenure is not None and tenure.at_large)
 
     def __unicode__(self):
         return self.name.lstrip("Councilmember")
@@ -57,13 +86,18 @@ class CouncilDistrict(TimestampedModelMixin, models.Model):
     key = models.AutoField(primary_key=True)
     id = models.IntegerField()
     shape = models.PolygonField()
-    plan = models.ForeignKey('CouncilDistrictPlan')
+    plan = models.ForeignKey('CouncilDistrictPlan', related_name='districts')
 
     objects = models.GeoManager()
 
     @property
     def representative(self):
-        return self.tenures.order_by('-date')[0].councilmember
+        # Sort the tenures here instead of in a query, as there shouldn't be
+        # very many, and this allows us to use prefetched tenures, if they
+        # exist.
+        tenures = sorted(self.tenures.all(), key=lambda t: t.begin)
+        if tenures:
+            return tenures[-1].councilmember
 
     def __unicode__(self):
         return u'District {d}'.format(d=self.id)
