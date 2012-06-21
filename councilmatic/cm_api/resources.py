@@ -12,57 +12,76 @@ from phillyleg.models import (CouncilDistrict, CouncilDistrictPlan,
 import logging
 log = logging.getLogger(__name__)
 
+class SubscriptionResource (resources.ModelResource):
+    model = Subscription
+    fields = ['id', 'name', 'last_updated', 'last_sent']
+
+    def feed_params(self, obj):
+        if not hasattr(self, '_feed_params'):
+            self._feed_params = {}
+
+        if obj not in self._feed_params:
+            if obj.feed_record.feed_name == 'results of a search query':
+                self._feed_params = dict([(param.name, param.value) for param in
+                                          obj.feed_record.feed_params.all()])
+                log.debug(feed_params)
+            else:
+                self._feed_params = {}
+
+        return self._feed_params[obj]
+
+    def keywords(self, obj):
+        fp = self.feed_params
+        return '"' + '", "'.join(eval(fp['q'])) + '"'
+
+    def controlling_bodies(self, obj):
+        fp = self.feed_params
+        return '"' + '", "'.join(eval(fp['controlling_bodies'])) + '"'
+
+    def file_types(self, obj):
+        fp = self.feed_params
+        return '"' + '", "'.join(eval(fp['file_types'])) + '"'
+
+    def serialize_one(self, obj):
+        additional = {}
+        self.fields = self.fields[:]
+        if obj.feed_record.feed_name == 'results of a search query':
+            fp = self.feed_params = dict([(param.name, param.value) for param in
+                                          obj.feed_record.feed_params.all()])
+
+            if 'q' in fp:
+                self.fields.append('keywords')
+            if 'controlling_bodies' in fp:
+                self.fields.append('controlling_bodies')
+            if 'file_types' in fp:
+                self.fields.append('file_types')
+            log.debug(self.feed_params)
+        
+        else:
+            for feed_record_param in obj.feed_record.feed_params.all():
+                additional[feed_record_param.name] = feed_record_param.value
+
+        obj_dict = super(SubscriptionResource, self).serialize(obj)
+        obj_dict.update(additional)
+        return obj_dict
+
+    def serialize(self, queryset):
+        return [self.serialize_one(obj) for obj in queryset.all()]
+        
+
+class BookmarkResource (resources.ModelResource):
+    model = Bookmark
+
+    def serialize(self, queryset):
+        return [obj.pk for obj in queryset.all()]
+
+
 class SubscriberResource (resources.ModelResource):
     model = Subscriber
     form = SubscriberForm
-    exclude = ['user_ptr', 'password']
-    include = ['url', 'subscriptions', 'bookmarks']
-
-    def serialize(self, obj):
-        if isinstance(obj, Subscriber):
-            return {
-                'username': obj.username,
-                'email': obj.email,
-                'subscriptions': [self.serialize(subscription) for
-                                  subscription in obj.subscriptions.all()],
-                'bookmarks': [self.serialize(bookmark) for
-                              bookmark in obj.bookmarks.all()],
-                'id': obj.id,
-                'url': self.url(obj),
-            }
-
-        elif isinstance(obj, Subscription):
-            obj_dict = {
-                'id': obj.id,
-                'name': obj.feed_record.feed_name,
-                'last_updated': obj.feed_record.last_updated.isoformat(),
-                'last_sent': obj.last_sent.isoformat(),
-            }
-
-            if obj.feed_record.feed_name == 'results of a search query':
-                feed_params = dict([(param.name, param.value) for param in
-                                     obj.feed_record.feed_params.all()])
-
-                log.debug(feed_params)
-
-                if 'q' in feed_params:
-                    obj_dict['keywords'] = '"' + '", "'.join(eval(feed_params['q'])) + '"'
-                if 'controlling_bodies' in feed_params:
-                    obj_dict['controlling_bodies'] = '"' + '", "'.join(eval(feed_params['controlling_bodies'])) + '"'
-                if 'file_types' in feed_params:
-                    obj_dict['file_types'] = '"' + '", "'.join(eval(feed_params['file_types'])) + '"'
-
-            else:
-                for feed_record_param in obj.feed_record.feed_params.all():
-                    obj_dict[feed_record_param.name] = feed_record_param.value
-
-            return obj_dict
-
-        elif isinstance(obj, Bookmark):
-            return obj.pk
-
-        else:
-            return super(SubscriberResource, self).serialize(obj)
+    fields = ['username', 'email', 'id', 'url', 
+              ('bookmarks', BookmarkResource),
+              ('subscriptions', SubscriptionResource)]
 
 
 class SimpleRefSerializer (resources.Resource):

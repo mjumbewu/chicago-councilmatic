@@ -15,7 +15,9 @@ import bookmarks.views
 import haystack.views
 import opinions.views
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
+
     # Example:
     #(r'^philly_legislative/', include('philly_legislative.foo.urls')),
 
@@ -97,6 +99,12 @@ urlpatterns = patterns('',
     # optional comma-separated list of integers -- ((?:\d+,)+\d+)? -- will be
     # treated as a list of primary keys.
     #
+    url(r'^api/', 
+        include('djangorestframework.urls', namespace='djangorestframework')),
+    
+    url(r'^api/v2/subscribers/(?P<pk>\d+)$',
+        cm_api.views.SubscriberView.as_view(),
+        name='api_subscriber'),
     url(r'^api/v2/subscribers/(?P<pk>\d+)$',
         cm_api.views.SubscriberView.as_view(),
         name='api_subscriber'),

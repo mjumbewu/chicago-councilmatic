@@ -66,6 +66,9 @@ class ContentFeedParameter (models.Model):
 
 class Subscriber (auth.User):
 
+#    user = models.OneToOneField('auth.User', parent_link=True)
+    """The auth.User object that this object extends"""
+
     # subscriptions (backref)
     """The set of subscriptions for this user"""
 

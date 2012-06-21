@@ -8,6 +8,8 @@ class SubscriberView (views.InstanceModelView):
     resource = resources.SubscriberResource
     permissions = [permissions.IsRequestingOwnInfoOrReadOnly]
 
+class SubscriberListView (views.ListOrCreateModelView):
+    resource = resources.SubscriberResource
 
 class ROListModelView (views.ListModelView):
     allowed_methods = ['GET']
