@@ -7,9 +7,16 @@ from . import permissions
 class SubscriberView (views.InstanceModelView):
     resource = resources.SubscriberResource
     permissions = [permissions.IsRequestingOwnInfoOrReadOnly]
+    allowed_methods = ['GET']
 
 class SubscriberListView (views.ListOrCreateModelView):
     resource = resources.SubscriberResource
+
+class SubscriptionView (views.InstanceModelView):
+    resource = resources.SubscriptionResource
+
+class SubscriptionListView (views.ListOrCreateModelView):
+    resource = resources.SubscriptionResource
 
 class ROListModelView (views.ListModelView):
     allowed_methods = ['GET']
@@ -22,8 +29,6 @@ class ROListModelView (views.ListModelView):
             pk_list = pk_list.split(',')
             qargs['pk__in'] = pk_list
 
-        import logging
-        logging.debug(qargs)
         return qargs
 
 class ROInstanceModelView (views.InstanceModelView):

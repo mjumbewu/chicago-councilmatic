@@ -1,0 +1,40 @@
+body {
+    backround: none;
+    background-image: url('../main/images/wood.jpg');
+}
+
+.navbar-inner {
+    background: none;
+    background-color: #b21839;  // header_red
+    color: white;
+}
+
+.navbar .brand {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 20px 20px 10px 20px;
+}
+
+.navbar .nav {
+    float: right;
+    margin-top: 28px;
+}
+
+.navbar .nav li a {
+    color: white;
+    text-transform: lowercase;
+    line-height: 12px;
+    padding: 0px 10px 3px;
+}
+
+.navbar .nav li + li {
+    border-left: 1px solid #c95c73;  // pale_red
+}
+
+@media only screen and (min-width: 480px) {
+    .navbar .container {
+	padding-top: 30px;
+	padding-bottom: 10px;
+    }
+}

@@ -1,0 +1,27 @@
+<section class="profile-admin">
+
+  <header class="profile-header">
+    {{ user.email }}
+  </header>
+
+  <hr>
+
+  <div class="profile-subscriptions">
+    <header>
+      Email Subscriptions
+    </header>
+
+    <ul>
+      {{# subscriptions }}
+        {{> profile-subscription }}
+      {{/ subscriptions }}
+
+      {{^ subscriptions }}
+        <li class="empty-subscription-item">
+          You are not subscribed to any legislation.
+        </li>
+      {{/ subscriptions }}
+    </ul>
+  </div>
+
+</section>

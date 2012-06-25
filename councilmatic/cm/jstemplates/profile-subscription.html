@@ -1,0 +1,10 @@
+<article class="profile-subscription">
+  <p>Subscription to new
+    {{# statuses }}{{ statuses }}{{/ statuses }}
+    {{# file_types }}{{ file_types }}{{/ file_types }} {{^ file_types }}legislation{{/ file_types }}
+    {{# keywords }} with keyword(s) "{{ keywords }}"{{/ keywords }}
+    {{# sponsors }}, sponsored by {{ sponsors }}{{/ sponsors }}
+    {{# controlling_bodies }}, controlled by {{ controlling_bodies }}{{/ controlling_bodies }}
+  .</p>
+
+</article>

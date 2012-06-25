@@ -111,7 +111,14 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'compressor.finders.CompressorFinder',
+)
+
+COMPRESS_PRECOMPILERS = (
+    ('text/coffeescript', 'coffee --compile --stdio'),
+    ('text/less', 'lessc {infile} {outfile}'),
+    ('text/x-sass', 'sass {infile} {outfile}'),
+    ('text/x-scss', 'sass --scss {infile} {outfile}'),
 )
 
 # Make this unique, and don't share it with anybody.
@@ -231,13 +238,18 @@ COMMUNITY_APPS = (
     'debug_toolbar',
     'social_auth',
     'ebdata', # From everyblock -- used here for parsing addresses and such
+    'compressor',
+    'djangorestframework',
 )
 
 MY_REUSABLE_APPS = (
    'model_blocks',
+   'mustachejs',
 )
 
 PROJECT_APPS = (
+    'cm',
+    'cm_api',
     'phillyleg',
     'subscriptions',
     'bookmarks',

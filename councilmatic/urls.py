@@ -81,6 +81,8 @@ urlpatterns = patterns(
     url(r'^(?P<user_pk>\d+)/subscriptions/$', TemplateView.as_view(template_name='base.html'), name='user_subscriptions'),
     url(r'^(?P<user_pk>\d+)/subscriptions/(?P<bookmark_pk>\d+)/$', TemplateView.as_view(template_name='base.html'), name='user_subscription'),
 
+    url(r'^', include('cm.urls')),
+
     # RSS
     url(r'^rss/$', main.views.LegFileListFeedView(),
         name='rss_feed'),
@@ -104,10 +106,14 @@ urlpatterns = patterns(
     
     url(r'^api/v2/subscribers/(?P<pk>\d+)$',
         cm_api.views.SubscriberView.as_view(),
-        name='api_subscriber'),
-    url(r'^api/v2/subscribers/(?P<pk>\d+)$',
-        cm_api.views.SubscriberView.as_view(),
-        name='api_subscriber'),
+        name='api_subscriber_instance'),
+
+    url(r'^api/v2/subscribers/(?P<subscriber>\d+)/subscriptions$',
+        cm_api.views.SubscriptionListView.as_view(),
+        name='api_subscription_list'),
+    url(r'^api/v2/subscribers/(?P<subscriber>\d+)/subscriptions/(?P<pk>\d+)$',
+        cm_api.views.SubscriptionView.as_view(),
+        name='api_subscription_instance'),
 
     url(r'^api/v2/councilmembers/(?P<pk_list>(?:\d+,)+\d+)?$',
         cm_api.views.CouncilMemberListView.as_view(),

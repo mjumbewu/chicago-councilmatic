@@ -1,6 +1,6 @@
 import json
 
-from django.core.urlresolvers import reverse
+from djangorestframework.reverse import reverse
 from djangorestframework import resources
 from .forms import SubscriberForm
 
@@ -14,21 +14,7 @@ log = logging.getLogger(__name__)
 
 class SubscriptionResource (resources.ModelResource):
     model = Subscription
-    fields = ['id', 'name', 'last_updated', 'last_sent']
-
-    def feed_params(self, obj):
-        if not hasattr(self, '_feed_params'):
-            self._feed_params = {}
-
-        if obj not in self._feed_params:
-            if obj.feed_record.feed_name == 'results of a search query':
-                self._feed_params = dict([(param.name, param.value) for param in
-                                          obj.feed_record.feed_params.all()])
-                log.debug(feed_params)
-            else:
-                self._feed_params = {}
-
-        return self._feed_params[obj]
+    fields = ['id', 'name', 'last_updated', 'last_sent', 'url']
 
     def keywords(self, obj):
         fp = self.feed_params
@@ -42,9 +28,23 @@ class SubscriptionResource (resources.ModelResource):
         fp = self.feed_params
         return '"' + '", "'.join(eval(fp['file_types'])) + '"'
 
-    def serialize_one(self, obj):
+    def url(self, obj):
+        return reverse('api_subscription_instance', 
+                       args=[obj.subscriber.pk, obj.pk],
+                       request=self.request)
+
+    def serialize(self, obj):
+
+        # If it looks like a QuerySet or a RelatedManager, then treat it
+        # like one.
+        if hasattr(obj, 'all'):
+            return [self.serialize(item) for item in obj.all()]
+
+        # Reset the fields, in case this serializer is used on multiple 
+        # subscriptions.
+        self.fields = self.__class__.fields[:]
+
         additional = {}
-        self.fields = self.fields[:]
         if obj.feed_record.feed_name == 'results of a search query':
             fp = self.feed_params = dict([(param.name, param.value) for param in
                                           obj.feed_record.feed_params.all()])
@@ -64,9 +64,6 @@ class SubscriptionResource (resources.ModelResource):
         obj_dict = super(SubscriptionResource, self).serialize(obj)
         obj_dict.update(additional)
         return obj_dict
-
-    def serialize(self, queryset):
-        return [self.serialize_one(obj) for obj in queryset.all()]
         
 
 class BookmarkResource (resources.ModelResource):
