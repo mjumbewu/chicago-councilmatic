@@ -152,8 +152,8 @@ class SearchView (SearcherMixin,
         return super(SearchView, self).dispatch(request, *args, **kwargs)
 
     def get_content_feed(self):
-        queryset = self.search_view.results
-        return feeds.SearchResultsFeed(queryset.query.query_filter)
+        search_params = self.request.GET
+        return feeds.SearchResultsFeed(**search_params)
 
     def get_queryset(self):
         query_params = self.request.GET.copy()
