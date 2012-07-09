@@ -1,0 +1,7 @@
+#!/bin/sh
+
+WD=`dirname $0`
+STATIC=$WD/../councilmatic/cm/static
+
+lessc -I$STATIC/libs/bootstrap/less $STATIC/cm/less/cm-style.less $STATIC/cm/css/cm-style.css
+echo 'Did it.'
