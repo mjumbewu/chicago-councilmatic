@@ -1,9 +1,11 @@
+import json
 import logging as log
 from django.contrib.syndication.views import Feed as DjangoFeed
 from django.shortcuts import get_object_or_404
 from django.views import generic as views
 from haystack.query import SearchQuerySet
 
+from cm_api.resources import SubscriberResource
 from main import feeds
 from main import forms
 
@@ -152,8 +154,8 @@ class SearchView (SearcherMixin,
         return super(SearchView, self).dispatch(request, *args, **kwargs)
 
     def get_content_feed(self):
-        queryset = self.search_view.results
-        return feeds.SearchResultsFeed(queryset.query.query_filter)
+        search_params = self.request.GET
+        return feeds.SearchResultsFeed(**search_params)
 
     def get_queryset(self):
         query_params = self.request.GET.copy()
@@ -260,4 +262,14 @@ class BookmarkListView (SearchBarMixin,
 
 class SubscriptionManagementView (SearchBarMixin,
                                   views.TemplateView):
-    template_name = 'main/subscription_management.html'
+    template_name = 'cm/profile_admin.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SubscriptionManagementView, self).get_context_data(**kwargs)
+
+        if self.request.user.is_authenticated() and self.request.user.subscriber:
+            subscriber_data = SubscriberResource().serialize(self.request.user.subscriber)
+            subscriber_data['logged_in'] = True
+            context['subscriber_data'] = json.dumps(subscriber_data)
+
+        return context

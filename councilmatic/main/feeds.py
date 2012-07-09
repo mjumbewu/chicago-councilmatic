@@ -112,7 +112,7 @@ class BookmarkedContentFeed (LegislationUpdatesFeed):
 
 
 class SearchResultsFeed (ContentFeed):
-    def __init__(self, search_filter):
+    def __init__(self, **search_filter):
         """
         As you'll see in main.SearchView.get_content_feed, we use the value of
         search_view.results.queryset.query.query_filter to store the search.
@@ -138,7 +138,7 @@ class SearchResultsFeed (ContentFeed):
             return item.date_taken
 
     def get_params(self):
-        return {'search_filter': self.filter}
+        return self.filter
 
 
 library.register(NewLegislationFeed, 'newly introduced legislation')
