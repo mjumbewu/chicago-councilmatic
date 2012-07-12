@@ -294,10 +294,12 @@ class SubscriptionDispatcher (object):
         subscriptions = subscriber.subscriptions.all()
 
         content_updates = self.get_content_updates_for(subscriptions, library)
-        delivery = self.render(subscriber, subscriptions, content_updates)
-        self.deliver_to(subscriber, delivery)
-        self.record_delivery(subscriber, subscriptions, content_updates, delivery)
-        self.update_subscriptions(subscriptions)
+        if content_updates:
+            delivery = self.render(subscriber, subscriptions, content_updates)
+            self.deliver_to(subscriber, delivery)
+            self.record_delivery(subscriber, subscriptions, 
+                                 content_updates, delivery)
+            self.update_subscriptions(subscriptions)
 
     def record_delivery(self, subscriber, subscriptions, content_updates, delivery):
         """

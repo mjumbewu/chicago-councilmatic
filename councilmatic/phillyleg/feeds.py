@@ -1,7 +1,7 @@
 from django.contrib.sites.models import Site
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
-#from django_cal.views import Events
+from django_cal.views import Events
 #from taggit.models import Tag
 
 from . import models
@@ -56,11 +56,11 @@ class LegFileListFeedMixin (object):
         return [tag.name for tag in item.tags.all()]
 
 
-class MeetingListRss (MeetingListFeedMixin, Feed):
+class MeetingListRss (LegFileListFeedMixin, Feed):
     pass
 
 
-class MeetingListICal (MeetingListFeedMixin, Events):
+class MeetingListICal (LegFileListFeedMixin, Events):
     def item_start(self, item):
         return item.begin_time
 
