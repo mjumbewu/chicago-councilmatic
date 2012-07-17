@@ -32,6 +32,10 @@ if os.path.exists('/home/dotcloud/current'):
         WHOOSH_PATH = '/home/dotcloud/whoosh_index'
         LOGFILE_PATH= '/home/dotcloud/logs/councilmatic.log'
         DEFAULT_FROM_EMAIL = env.get('DEFAULT_FROM_EMAIL')
+        EMAIL_HOST = env.get('EMAIL_HOST')
+        EMAIL_PORT = env.get('EMAIL_PORT')
+        EMAIL_HOST_USER = env.get('EMAIL_HOST_USER')
+        EMAIL_HOST_PASSWORD = env.get('EMAIL_HOST_PASSWORD')
 
 # Otherwise, if it's dev...
 else:
