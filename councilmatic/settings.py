@@ -33,8 +33,14 @@ if os.path.exists('/home/dotcloud/current'):
         LOGFILE_PATH= '/home/dotcloud/logs/councilmatic.log'
         DEFAULT_FROM_EMAIL = env.get('DEFAULT_FROM_EMAIL')
         EMAIL_HOST = env.get('EMAIL_HOST')
+        EMAIL_PORT = env.get('EMAIL_PORT')
         EMAIL_HOST_USER = env.get('EMAIL_HOST_USER')
         EMAIL_HOST_PASSWORD = env.get('EMAIL_HOST_PASSWORD')
+
+        if isinstance(EMAIL_PORT, basestring):
+            EMAIL_PORT = int(EMAIL_PORT)
+        if isinstance(EMAIL_HOST_PASSWORD, unicode):
+            EMAIL_HOST_PASSWORD = str(EMAIL_HOST_PASSWORD)
 
 # Otherwise, if it's dev...
 else:
