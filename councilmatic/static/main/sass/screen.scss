@@ -17,7 +17,7 @@
 // But Compass recommends that you scope your blueprint styles
 // So that you can better control what pages use blueprint
 // when stylesheets are concatenated together.
-@include blueprint-scaffolding("body.bp");
+@include blueprint-scaffolding;
 
 body.bp {
   @include blueprint-typography(true);
