@@ -15,7 +15,7 @@ body {
 
         // Make the header a grid container
         @include container;
-        @include box-shadow($shadow-color, 0px, 2px, $shadow-spread);
+        box-shadow: 0 2px $shadow-spread 0 $shadow-color;
 
         background-color: $paper-color;
         background-image: url('../images/exclusive_paper.png');

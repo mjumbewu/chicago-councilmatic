@@ -115,3 +115,14 @@
 .legfile_search .inner {
     text-align: left;
 }
+
+
+/* 
+ * Bug with display of holder in Firefox.
+ * See https://github.com/codeforamerica/councilmatic/issues/17
+ */
+.dashboard {
+    .uniForm:after, .uniForm .buttonHolder:after, .uniForm .ctrlHolder:after, .uniForm .ctrlHolder .multiField:after, .uniForm .inlineLabel:after {
+        content: none;
+    }
+}
