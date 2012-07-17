@@ -31,6 +31,7 @@ if os.path.exists('/home/dotcloud/current'):
         DB_PORT = env['DOTCLOUD_DB_SQL_PORT']
         WHOOSH_PATH = '/home/dotcloud/whoosh_index'
         LOGFILE_PATH= '/home/dotcloud/logs/councilmatic.log'
+        DEFAULT_FROM_EMAIL = env.get('DEFAULT_FROM_EMAIL')
 
 # Otherwise, if it's dev...
 else:
