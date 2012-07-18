@@ -47,8 +47,8 @@ else:
     DB_ENGINE = 'postgis'
     DB_NAME = 'councilmatic'
     DB_HOST = ''
-    DB_USER = 'mjumbewu'
-    DB_PASSWORD = ''
+    DB_USER = 'councilmatic'
+    DB_PASSWORD = 'councilmatic'
     DB_PORT = ''
     WHOOSH_PATH = rel_path('whoosh_index')
     LOGFILE_PATH= rel_path('logs/councilmatic.log')
