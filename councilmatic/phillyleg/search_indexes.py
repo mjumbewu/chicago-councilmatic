@@ -21,6 +21,9 @@ class LegislationIndex(indexes.SearchIndex, indexes.Indexable):
     def prepare_sponsors(self, leg):
         return [sponsor.name for sponsor in leg.sponsors.all()]
 
+    def get_updated_field(self):
+        return 'updated_datetime'
+
 
 class MinutesIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, model_attr='fulltext')
@@ -30,3 +33,6 @@ class MinutesIndex(indexes.SearchIndex, indexes.Indexable):
 
     def get_model(self):
         return LegMinutes
+
+    def get_updated_field(self):
+        return 'updated_datetime'
