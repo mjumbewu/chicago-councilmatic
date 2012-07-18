@@ -45,7 +45,7 @@ django_compressor==1.1.2
 # ====================
 # Registration!
 # ====================
-hg+http://bitbucket.org/ubernostrum/django-registration/#egg=django-registration
+django-registration==0.8
 git+git://github.com/mjumbewu/django-recaptcha.git#egg=django-recaptcha
 
 
