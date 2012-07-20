@@ -68,12 +68,20 @@ class AppDashboardView (SearchBarMixin,
                         views.TemplateView):
     template_name = 'main/app_dashboard.html'
 
+    def get_recent_locations(self):
+        return list(phillyleg.models.MetaData_Location.objects.\
+                       all().order_by('-pk')[:10])
+
+    def get_recent_legislation(self):
+        return list(phillyleg.models.LegFile.objects.\
+                        all().order_by('-key')[:3])
+
     def get_context_data(self, **kwargs):
         search_form = forms.FullSearchForm()
 
-        legfiles = phillyleg.models.LegFile.objects.all().order_by('-key')[:3]
+        legfiles = self.get_recent_legislation()
         bookmark_data = self.get_bookmarks_data(legfiles)
-        locations = phillyleg.models.MetaData_Location.objects.all().order_by('-pk')[:10]
+        locations = self.get_recent_locations()
 
         context_data = super(AppDashboardView, self).get_context_data(
             **kwargs)
