@@ -238,6 +238,15 @@ class LegislationDetailView (SearchBarMixin,
     model = phillyleg.models.LegFile
     template_name = 'phillyleg/legfile_detail.html'
 
+    def get_queryset(self):
+        """Select all the data relevant to the legislation."""
+        return self.model.objects\
+                   .all().select_related('metadata')\
+                   .prefetch_related('actions', 'attachments', 'sponsors',
+                                     'references_in_legislation',
+                                     'metadata__locations',
+                                     'metadata__mentioned_legfiles')
+
     def get_content_feed(self):
         legfile = self.object
         return feeds.LegislationUpdatesFeed(pk=legfile.pk)
