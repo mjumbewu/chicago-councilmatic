@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -103,9 +104,9 @@ urlpatterns = patterns(
     # optional comma-separated list of integers -- ((?:\d+,)+\d+)? -- will be
     # treated as a list of primary keys.
     #
-    url(r'^api/', 
+    url(r'^api/',
         include('djangorestframework.urls', namespace='djangorestframework')),
-    
+
     url(r'^api/v2/subscribers/(?P<pk>\d+)$',
         cm_api.views.SubscriberView.as_view(),
         name='api_subscriber_instance'),
@@ -151,3 +152,5 @@ urlpatterns = patterns(
         name='about')
 
 )
+
+urlpatterns += staticfiles_urlpatterns()
