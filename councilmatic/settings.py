@@ -41,6 +41,8 @@ if os.path.exists('/home/dotcloud/current'):
             EMAIL_PORT = int(EMAIL_PORT)
         if isinstance(EMAIL_HOST_PASSWORD, unicode):
             EMAIL_HOST_PASSWORD = str(EMAIL_HOST_PASSWORD)
+        
+        DO_DEBUG_TOOLBAR = env.get('DO_DEBUG_TOOLBAR', False)
 
 # Otherwise, if it's dev...
 else:
@@ -52,11 +54,12 @@ else:
     DB_PORT = ''
     WHOOSH_PATH = rel_path('whoosh_index')
     LOGFILE_PATH= rel_path('logs/councilmatic.log')
-
+    DO_DEBUG_TOOLBAR = True
 
 # Django settings for councilmatic project.
 
 DEBUG = True
+COMPRESS_ENABLED = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -165,7 +168,6 @@ TEMPLATE_DIRS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -245,7 +247,6 @@ COMMUNITY_APPS = (
     'haystack',
     'uni_form',
     'django_nose',
-    'debug_toolbar',
     'social_auth',
     'ebdata', # From everyblock -- used here for parsing addresses and such
     'compressor',
@@ -291,10 +292,14 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 SOUTH_TESTS_MIGRATE = False
 
 # Debug toolbar
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': False
-}
-INTERNAL_IPS = ('127.0.0.1',)
+if DO_DEBUG_TOOLBAR:
+    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+    INSTALLED_APPS += ('debug_toolbar',)
+
+    DEBUG_TOOLBAR_CONFIG = {
+        'INTERCEPT_REDIRECTS': False
+    }
+    INTERNAL_IPS = ('127.0.0.1',)
 
 # Logging
 LOGGING = {
