@@ -68,12 +68,20 @@ class AppDashboardView (SearchBarMixin,
                         views.TemplateView):
     template_name = 'main/app_dashboard.html'
 
+    def get_recent_locations(self):
+        return list(phillyleg.models.MetaData_Location.objects.\
+                       all().order_by('-pk')[:10])
+
+    def get_recent_legislation(self):
+        return list(phillyleg.models.LegFile.objects.\
+                        all().order_by('-key')[:3])
+
     def get_context_data(self, **kwargs):
         search_form = forms.FullSearchForm()
 
-        legfiles = phillyleg.models.LegFile.objects.all().order_by('-key')[:3]
+        legfiles = self.get_recent_legislation()
         bookmark_data = self.get_bookmarks_data(legfiles)
-        locations = phillyleg.models.MetaData_Location.objects.all().order_by('-pk')[:10]
+        locations = self.get_recent_locations()
 
         context_data = super(AppDashboardView, self).get_context_data(
             **kwargs)
@@ -229,6 +237,15 @@ class LegislationDetailView (SearchBarMixin,
                              views.DetailView):
     model = phillyleg.models.LegFile
     template_name = 'phillyleg/legfile_detail.html'
+
+    def get_queryset(self):
+        """Select all the data relevant to the legislation."""
+        return self.model.objects\
+                   .all().select_related('metadata')\
+                   .prefetch_related('actions', 'attachments', 'sponsors',
+                                     'references_in_legislation',
+                                     'metadata__locations',
+                                     'metadata__mentioned_legfiles')
 
     def get_content_feed(self):
         legfile = self.object

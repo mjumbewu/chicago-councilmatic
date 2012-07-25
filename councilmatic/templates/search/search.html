@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% load model_blocks %}
 {% load uni_form_tags %}
+{% load compress %}
 
 {% block load_early %}
+  {% compress css %}
 	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/minutes.css">
 	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">
   <link rel="stylesheet" href="{{ STATIC_URL }}main/app_dashboard.css">
+  {% endcompress %}
 {% endblock %}
 
 {% block content %}
@@ -80,5 +83,7 @@
 {% endblock %}
 
 {% block load_late %}
+  {% compress js %}
   <script src="{{ STATIC_URL }}main/dashboard_search.js"></script>
+  {% endcompress %}
 {% endblock %}

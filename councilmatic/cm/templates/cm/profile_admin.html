@@ -76,28 +76,32 @@
 	<li>
 	  <article class="profile-subscription">
 	    <div class="description">
-	      <a href="listing_url">Subscription to new
-		{% if subscription.statuses %}
-		{{ subscription.statuses }}
+	      <a href="url listing_url">Subscription to new
+		{% with subscription.feed_record as f %}
+
+		{% if f.statuses %}
+		{{ f.statuses }}
 		{% endif %}
 
-		{% if subscription.file_types %}
-		{{ subscription.file_types }}
+		{% if f.file_types %}
+		{{ f.file_types }}
 		{% else %}
 		legislation
 		{% endif %}
 
-		{% if subscription.keywords %}
-		with keyword(s) "{{ subscription.keywords }}"
+		{% if f.keywords %}
+		with keyword(s) "{{ f.keywords }}"
 		{% endif %}
 
-		{% if subscription.sponsors %}
-		, sponsored by {{ subscription.sponsors }}
+		{% if f.sponsors %}
+		, sponsored by {{ f.sponsors }}
 		{% endif %}
 
-		{% if subscription.controlling_bodies %}
-		, controlled by {{ subscription.controlling_bodies }}
+		{% if f.controlling_bodies %}
+		, controlled by {{ f.controlling_bodies }}
 		{% endif %}
+
+		{% endwith %}
 		.</a>
 	    </div>
 	    
