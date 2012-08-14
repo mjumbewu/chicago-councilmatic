@@ -2,23 +2,32 @@
   <h1><a href="/">Councilmatic</a></h1>
 </header>
 
-{% include 'main/partials/dashboard_menu.html' %}
-
-<div class="registration">
-{% if user.is_authenticated %}
-    <p>{{ user.email }}</p>
-    <a href="{% url registration_logout %}?next={{ request.get_full_path }}" class="primaryAction">Log Out</a>
-{% else %}
-    <a href="{% url registration_login %}?next={{ request.get_full_path }}" type="submit" class="secondaryAction">Log In</button>
-    <a href="{% url registration_register %}?next={{ request.get_full_path }}" class="primaryAction">Sign Up</a>
-{% endif %}
-</div>
-
 <form id="header_bar_search" class="search uniForm" action="{% url search %}" method="GET">
     <div class="ctrlHolder">
-        <input name="q" type="text" class="textinput textInput">
-    </div>
-    <div class="buttonHolder">
-        <button type="submit" class="primaryAction">Search</button>
+        <input name="q" type="text" class="textinput textInput" placeholder="search">
     </div>
 </form>
+
+<p class="username">
+  {% if user.is_authenticated %}
+  <span>{{ user.email }}</span>
+  {% endif %}
+</p>
+
+<nav class="site_nav">
+  <ul>
+<!--    <li class="{% if active == 'legislation' %} active{% endif %}"><a href="/legislation">Browse</a></li>-->
+    <li class="{% if active == 'search' %} active{% endif %}"><a href="/search">Browse</a></li>
+<!--    <li class="{% if active == 'minutes' %} active{% endif %}"><a href="/minutes">Minutes</a></li>-->
+<!--    <li class="{% if active == 'agendas' %} active{% endif %}"><a href="#">Agendas</a></li>-->
+<!--    <li class="{% if active == 'subscriptions' %} active{% endif %}"><a href="/subscriptions">Subscriptions</a></li>-->
+    <li class="first{% if active == 'about' %} active{% endif %}"><a href="/about">About</a></li>
+
+    {% if user.is_authenticated %}
+    <li><a href="{% url registration_logout %}?next={{ request.get_full_path }}" class="primaryAction">Log Out</a></li>
+    {% else %}
+    <li><a href="{% url registration_login %}?next={{ request.get_full_path }}" type="submit" class="secondaryAction">Log In</a></li>
+    <li><a href="{% url registration_register %}?next={{ request.get_full_path }}" class="primaryAction">Sign Up</a></li>
+    {% endif %}
+  </ul>
+</nav>
