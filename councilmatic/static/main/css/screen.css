@@ -550,12 +550,13 @@ body {
 body h1, body h2, body h3, body h4, body h5, body h6 {
   font-family: 'Quattrocento', 'Garamond', serif;
   font-weight: bold;
+  color: #1168a3;
 }
-/* line 21, ../sass/partials/_main_base.scss */
+/* line 22, ../sass/partials/_main_base.scss */
 body a {
   text-decoration: none;
 }
-/* line 24, ../sass/partials/_main_base.scss */
+/* line 25, ../sass/partials/_main_base.scss */
 body > #wrapper {
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -570,7 +571,7 @@ body > #wrapper {
   border: 1px solid #B5B5B5;
   padding: 1em;
 }
-/* line 34, ../sass/partials/_main_base.scss */
+/* line 35, ../sass/partials/_main_base.scss */
 body .inner {
   width: 950px;
   margin: 0 auto;
@@ -640,6 +641,7 @@ body #site_header .header_wrapper .header h1, body #site_header .header_wrapper 
 }
 /* line 58, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper .username {
+  color: #d3394c;
   padding-left: 0px;
   padding-right: 0px;
   padding-top: 0.5em;
@@ -647,60 +649,60 @@ body #site_header .header_wrapper .username {
   width: 100%;
   height: 1.5em;
 }
-/* line 70, ../sass/partials/_site_header.scss */
+/* line 71, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper .site_nav {
   margin-right: 4em;
   text-align: right;
 }
-/* line 74, ../sass/partials/_site_header.scss */
+/* line 75, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper .site_nav ul {
   list-style: none;
   margin: 0px;
   padding: 0px;
 }
-/* line 80, ../sass/partials/_site_header.scss */
+/* line 81, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper .site_nav li {
   display: inline-block;
   padding-left: 1em;
   padding-right: 1em;
-  border-right: 1px solid white;
+  border-right: 1px solid #d3394c;
   text-transform: lowercase;
 }
-/* line 88, ../sass/partials/_site_header.scss */
+/* line 89, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper .site_nav li:last-child {
   border-right: none;
   margin-right: 0px;
   padding-right: 0px;
 }
-/* line 98, ../sass/partials/_site_header.scss */
+/* line 99, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper a:hover,
 body #site_header .header_wrapper a:visited,
 body #site_header .header_wrapper a:active,
 body #site_header .header_wrapper a {
   color: inherit;
 }
-/* line 105, ../sass/partials/_site_header.scss */
+/* line 106, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper .registration {
   line-height: 3em;
   text-align: right;
 }
-/* line 109, ../sass/partials/_site_header.scss */
+/* line 110, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper .registration p {
   font-family: 'Quattrocento', 'Garamond', serif;
   margin: 0px;
   padding: 0px;
 }
-/* line 116, ../sass/partials/_site_header.scss */
+/* line 117, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper .registration > p, body #site_header .header_wrapper .registration span, body #site_header .header_wrapper .registration a {
   display: inline-block;
   margin-right: 1em;
 }
-/* line 125, ../sass/partials/_site_header.scss */
+/* line 126, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper .search {
   text-align: right;
   float: right;
 }
-/* line 130, ../sass/partials/_site_header.scss */
+/* line 131, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper .search .buttonHolder,
 body #site_header .header_wrapper .search .ctrlHolder {
   border: none;
@@ -708,11 +710,11 @@ body #site_header .header_wrapper .search .ctrlHolder {
   margin: 0;
   padding: 0;
 }
-/* line 137, ../sass/partials/_site_header.scss */
+/* line 138, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper .search input, body #site_header .header_wrapper .search button {
   float: none;
 }
-/* line 141, ../sass/partials/_site_header.scss */
+/* line 142, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper .search input[type="text"] {
   background: white;
   background-image: url("../images/magnify.png");
@@ -724,7 +726,7 @@ body #site_header .header_wrapper .search input[type="text"] {
   padding-left: 3em;
   width: 10em;
 }
-/* line 153, ../sass/partials/_site_header.scss */
+/* line 154, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper .search button {
   font-weight: bold;
 }
@@ -1157,7 +1159,7 @@ body #site_header .header_wrapper .search button {
   display: inline;
   float: left;
   margin-right: 10px;
-  width: 430px;
+  width: 390px;
 }
 /* line 147, ../../../../../../../../.rvm/gems/ruby-1.9.3-p125/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .dashboard .inner #dashboard_legislation {
@@ -1168,33 +1170,63 @@ body #site_header .header_wrapper .search button {
 .dashboard .inner,
 .legfile_list .inner,
 .legfile_search .inner {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 870px;
+  display: inline;
+  float: left;
+  position: relative;
+  margin: 0 -40px 1.5em 40px;
   padding-top: 6em;
-  text-align: center;
 }
-/* line 15, ../sass/partials/_dashboard.scss */
+/* line 147, ../../../../../../../../.rvm/gems/ruby-1.9.3-p125/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html .dashboard .inner, * html
+.legfile_list .inner, * html
+.legfile_search .inner {
+  overflow-x: hidden;
+}
+/* line 17, ../sass/partials/_dashboard.scss */
+.dashboard .inner > header h2,
+.legfile_list .inner > header h2,
+.legfile_search .inner > header h2 {
+  margin-bottom: 0px;
+}
+/* line 21, ../sass/partials/_dashboard.scss */
 .dashboard .inner ul,
 .legfile_list .inner ul,
 .legfile_search .inner ul {
   text-align: left;
   list-style: none;
 }
-/* line 20, ../sass/partials/_dashboard.scss */
+/* line 26, ../sass/partials/_dashboard.scss */
+.dashboard .inner h2,
+.legfile_list .inner h2,
+.legfile_search .inner h2 {
+  color: #1168a3;
+}
+/* line 30, ../sass/partials/_dashboard.scss */
+.dashboard .inner h3,
+.legfile_list .inner h3,
+.legfile_search .inner h3 {
+  color: #b21839;
+}
+/* line 34, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_search,
 .legfile_list .inner #dashboard_search,
 .legfile_search .inner #dashboard_search {
-  /*        @include blueprint-form;*/
-  padding-bottom: 6em;
+  padding-bottom: 4em;
 }
-/* line 26, ../sass/partials/_dashboard.scss */
+/* line 38, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_search .ctrlHolder,
 .dashboard .inner #dashboard_search .buttonHolder,
 .legfile_list .inner #dashboard_search .ctrlHolder,
 .legfile_list .inner #dashboard_search .buttonHolder,
 .legfile_search .inner #dashboard_search .ctrlHolder,
 .legfile_search .inner #dashboard_search .buttonHolder {
-  display: inline;
+  padding: 0px;
 }
-/* line 31, ../sass/partials/_dashboard.scss */
+/* line 43, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_search input,
 .dashboard .inner #dashboard_search button,
 .legfile_list .inner #dashboard_search input,
@@ -1202,19 +1234,26 @@ body #site_header .header_wrapper .search button {
 .legfile_search .inner #dashboard_search input,
 .legfile_search .inner #dashboard_search button {
   font-family: 'Quattrocento', 'Garamond', serif;
+  background-image: url("../images/magnify.png");
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+  border-radius: 5px;
   float: none;
   font-size: 1.5em;
+  height: 3em;
   line-height: normal;
+  padding-left: 5%;
   vertical-align: middle;
+  width: 94%;
 }
-/* line 41, ../sass/partials/_dashboard.scss */
+/* line 60, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_explanation,
 .legfile_list .inner #dashboard_explanation,
 .legfile_search .inner #dashboard_explanation {
   display: inline;
   float: left;
   margin-right: 10px;
-  width: 950px;
+  width: 870px;
   border-bottom: 1px solid #cccccc;
   margin-bottom: 3em;
   padding-bottom: 2em;
@@ -1225,7 +1264,7 @@ body #site_header .header_wrapper .search button {
 .legfile_search .inner #dashboard_explanation {
   overflow-x: hidden;
 }
-/* line 48, ../sass/partials/_dashboard.scss */
+/* line 67, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_explanation > div,
 .legfile_list .inner #dashboard_explanation > div,
 .legfile_search .inner #dashboard_explanation > div {
@@ -1233,8 +1272,6 @@ body #site_header .header_wrapper .search button {
   float: left;
   margin-right: 10px;
   width: 230px;
-  padding-left: 40px;
-  padding-right: 40px;
 }
 /* line 147, ../../../../../../../../.rvm/gems/ruby-1.9.3-p125/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .dashboard .inner #dashboard_explanation > div, * html
@@ -1242,19 +1279,26 @@ body #site_header .header_wrapper .search button {
 .legfile_search .inner #dashboard_explanation > div {
   overflow-x: hidden;
 }
-/* line 53, ../sass/partials/_dashboard.scss */
+/* line 70, ../sass/partials/_dashboard.scss */
+.dashboard .inner #dashboard_explanation > div:first-child,
+.legfile_list .inner #dashboard_explanation > div:first-child,
+.legfile_search .inner #dashboard_explanation > div:first-child {
+  padding-right: 80px;
+}
+/* line 74, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_explanation > div:last-child,
 .legfile_list .inner #dashboard_explanation > div:last-child,
 .legfile_search .inner #dashboard_explanation > div:last-child {
   margin-right: 0;
+  padding-left: 80px;
 }
-/* line 57, ../sass/partials/_dashboard.scss */
+/* line 79, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_explanation > div p,
 .legfile_list .inner #dashboard_explanation > div p,
 .legfile_search .inner #dashboard_explanation > div p {
   text-align: justify;
 }
-/* line 65, ../sass/partials/_dashboard.scss */
+/* line 87, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation ul,
 .dashboard .inner .legfile_list_wrapper ul,
 .legfile_list .inner #dashboard_legislation ul,
@@ -1266,7 +1310,7 @@ body #site_header .header_wrapper .search button {
   padding: 0px;
   text-align: left;
 }
-/* line 72, ../sass/partials/_dashboard.scss */
+/* line 94, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation li,
 .dashboard .inner .legfile_list_wrapper li,
 .legfile_list .inner #dashboard_legislation li,
@@ -1277,7 +1321,7 @@ body #site_header .header_wrapper .search button {
   *zoom: 1;
   margin-top: 0.5em;
 }
-/* line 77, ../sass/partials/_dashboard.scss */
+/* line 99, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_bookmark,
 .dashboard .inner .legfile_list_wrapper .legislation_bookmark,
 .legfile_list .inner #dashboard_legislation .legislation_bookmark,
@@ -1286,7 +1330,7 @@ body #site_header .header_wrapper .search button {
 .legfile_search .inner .legfile_list_wrapper .legislation_bookmark {
   width: 4em;
 }
-/* line 81, ../sass/partials/_dashboard.scss */
+/* line 103, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .bookmark button,
 .dashboard .inner .legfile_list_wrapper .bookmark button,
 .legfile_list .inner #dashboard_legislation .bookmark button,
@@ -1301,7 +1345,7 @@ body #site_header .header_wrapper .search button {
   padding: 0px;
   width: 4em;
 }
-/* line 93, ../sass/partials/_dashboard.scss */
+/* line 115, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_id,
 .dashboard .inner #dashboard_legislation .legislation_status,
 .dashboard .inner #dashboard_legislation .legislation_title,
@@ -1323,7 +1367,7 @@ body #site_header .header_wrapper .search button {
   display: block;
   margin-left: 4em;
 }
-/* line 98, ../sass/partials/_dashboard.scss */
+/* line 120, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_id,
 .dashboard .inner .legfile_list_wrapper .legislation_id,
 .legfile_list .inner #dashboard_legislation .legislation_id,
@@ -1332,7 +1376,7 @@ body #site_header .header_wrapper .search button {
 .legfile_search .inner .legfile_list_wrapper .legislation_id {
   font-weight: bold;
 }
-/* line 102, ../sass/partials/_dashboard.scss */
+/* line 124, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_intro_date,
 .dashboard .inner .legfile_list_wrapper .legislation_intro_date,
 .legfile_list .inner #dashboard_legislation .legislation_intro_date,
@@ -1341,7 +1385,7 @@ body #site_header .header_wrapper .search button {
 .legfile_search .inner .legfile_list_wrapper .legislation_intro_date {
   float: left;
 }
-/* line 106, ../sass/partials/_dashboard.scss */
+/* line 128, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_legislation .legislation_status,
 .dashboard .inner .legfile_list_wrapper .legislation_status,
 .legfile_list .inner #dashboard_legislation .legislation_status,
@@ -1349,18 +1393,19 @@ body #site_header .header_wrapper .search button {
 .legfile_search .inner #dashboard_legislation .legislation_status,
 .legfile_search .inner .legfile_list_wrapper .legislation_status {
   text-align: right;
+  margin-bottom: 1em;
 }
 
-/* line 115, ../sass/partials/_dashboard.scss */
+/* line 138, ../sass/partials/_dashboard.scss */
 .legfile_search .inner {
   text-align: left;
 }
 
-/* 
+/*
  * Bug with display of holder in Firefox.
  * See https://github.com/codeforamerica/councilmatic/issues/17
  */
-/* line 125, ../sass/partials/_dashboard.scss */
+/* line 148, ../sass/partials/_dashboard.scss */
 .dashboard .uniForm:after, .dashboard .uniForm .buttonHolder:after, .dashboard .uniForm .ctrlHolder:after, .dashboard .uniForm .ctrlHolder .multiField:after, .dashboard .uniForm .inlineLabel:after {
   content: none;
 }

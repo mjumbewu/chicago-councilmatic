@@ -3,43 +3,62 @@
 @import "mixins";
 
 .dashboard .inner #dashboard_legislation {
-    @include column(11);
+    @include column(10);
 }
 
 .dashboard .inner,
 .legfile_list .inner,
 .legfile_search .inner {
+    @include column(22);
+    @include push(1);
+
     padding-top: 6em;
-    text-align: center;
+
+    > header h2 {
+        margin-bottom: 0px;
+    }
 
     ul {
         text-align: left;
         list-style: none;
     }
 
-    #dashboard_search {
-/*        @include blueprint-form;*/
+    h2 {
+        color: $site-blue;
+    }
 
-        padding-bottom: 6em;
+    h3 {
+        color: $site-red;
+    }
+
+    #dashboard_search {
+        padding-bottom: 4em;
 
         .ctrlHolder,
         .buttonHolder {
-            display: inline;
+            padding: 0px;
         }
 
         input,
         button {
             @include quattro;
 
+            background-image: url("../images/magnify.png");
+            background-position: 0% 50%;
+            background-repeat: no-repeat;
+            border-radius: 5px;
             float: none;
             font-size: 1.5em;
+            height: 3em;
             line-height: normal;
+            padding-left: 5%;
             vertical-align: middle;
+            width: 94%;
         }
     }
 
     #dashboard_explanation {
-        @include column(24);
+        @include column(22);
 
         border-bottom: $cm-border;
         margin-bottom: 3em;
@@ -47,11 +66,14 @@
 
         > div {
             @include column(6);
-            @include prepend(1);
-            @include append(1);
+
+            &:first-child {
+                @include append(2);
+            }
 
             &:last-child {
                 @include last;
+                @include prepend(2);
             }
 
             p {
@@ -105,6 +127,7 @@
 
         .legislation_status {
             text-align: right;
+            margin-bottom: 1em;
         }
 
         .legislation_title {
@@ -117,7 +140,7 @@
 }
 
 
-/* 
+/*
  * Bug with display of holder in Firefox.
  * See https://github.com/codeforamerica/councilmatic/issues/17
  */

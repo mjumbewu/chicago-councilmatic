@@ -14,15 +14,12 @@
     <div class="content">
     <div class="inner">
         <header>
-            <h1>Find and Subscribe to Legislation</h1>
+            <h2>Find and Subscribe to Legislation</h2>
         </header>
 
         <form id="dashboard_search" class="search uniForm" action="{% url search %}" method="GET">
             <div class="ctrlHolder">
-                <input name="q" type="text" class="textInput">
-            </div>
-            <div class="buttonHolder">
-                <button type="submit" class="primaryAction">Search</button>
+                <input name="q" type="text" class="textInput" placeholder="What interests you?">
             </div>
         </form>
 
@@ -63,7 +60,7 @@
             <div style="border:1px solid grey">
             <div id="dashboard_locations_map_cavas"
                  style="
-                    width:480px;
+                    width:420px;
                     height:300px;">
             </div>
             </div>

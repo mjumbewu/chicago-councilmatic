@@ -56,6 +56,7 @@ body {
          * The user name, which shows up above the header navigation
          */
         .username {
+            color: $site-red-lighter;
             padding-left: 0px;
             padding-right: 0px;
             padding-top: 0.5em;
@@ -81,7 +82,7 @@ body {
                 display: inline-block;
                 padding-left: 1em;
                 padding-right: 1em;
-                border-right: 1px solid white;
+                border-right: 1px solid $site-red-lighter;
                 text-transform: lowercase;
             }
 
