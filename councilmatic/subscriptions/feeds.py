@@ -52,13 +52,13 @@ class ContentFeed (object):
         """
         raise NotImplementedError()
 
-    def get_updated_since(self, previous):
+    def get_updates_since(self, previous):
         """
         Return the content items that have been updated since the given time.
         """
         raise NotImplementedError()
 
-    def get_changes_to(self, item):
+    def get_changes_to(self, item, since):
         """
         Returns a dictionary representing the changes to the item.  The nature
         of this dictionary may vary depending on the item type.
@@ -170,7 +170,7 @@ class ContentFeedRecordUpdater (object):
         all_content = feed.get_content()
         latest = None
         if all_content:
-            latest = max(feed.get_last_updated(item) for item in all_content)
+            latest = feed.get_last_updated_time()
 
         if latest is None:
             latest = datetime.min
@@ -297,7 +297,7 @@ class SubscriptionDispatcher (object):
         if content_updates:
             delivery = self.render(subscriber, subscriptions, content_updates)
             self.deliver_to(subscriber, delivery)
-            self.record_delivery(subscriber, subscriptions, 
+            self.record_delivery(subscriber, subscriptions,
                                  content_updates, delivery)
             self.update_subscriptions(subscriptions)
 
@@ -322,33 +322,14 @@ class SubscriptionEmailer (SubscriptionDispatcher):
     EMAIL_TITLE = "Philly Councilmatic %(date)s"
 
     def send_email(self, you, emailbody, emailsubject=None):
-#        from django.core.mail import send_mail
+        from django.core.mail import send_mail
 
-#        subject = emailsubject or self.EMAIL_TITLE % {'date': date.today()}
-#        message = emailbody
-#        from_email = 'philly.legislative.list@gmail.com'
-#        recipient_list = [you]
+        subject = emailsubject or self.EMAIL_TITLE % {'date': date.today()}
+        message = emailbody
+        from_email = 'admin@councilmatic.org'
+        recipient_list = [you]
 
-#        import settings
-#        settings.EMAIL_HOST = 'smtp.gmail.com'
-#        settings.EMAIL_PORT = '465'
-#        settings.EMAIL_HOST_USER = 'philly.legislative.list'
-#        settings.EMAIL_HOST_PASSWORD = 'phillydatacamp'
-#        settings.EMAIL_USE_TSL = True
-
-#        send_mail(subject, message, from_email, recipient_list)
-
-        smtphost = "smtp.gmail.com"
-        smtpport = '465'
-        me =  'philly.legislative.list'
-        msg = MIMEText(smart_str(emailbody))
-        msg['Subject'] = emailsubject or self.EMAIL_TITLE % {'date': date.today()}
-        msg['From'] = me
-        msg['To'] = you
-        s = smtplib.SMTP_SSL(smtphost, smtpport)
-        s.login(me, 'phillydatacamp')
-        s.sendmail(me, [you], msg.as_string())
-        s.quit()
+        send_mail(subject, message, from_email, recipient_list)
 
     def deliver_to(self, subscriber, delivery_text):
         """
