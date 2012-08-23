@@ -107,6 +107,10 @@ urlpatterns = patterns(
     url(r'^api/',
         include('djangorestframework.urls', namespace='djangorestframework')),
 
+    url(r'^api/$',
+        cm_api.views.ApiIndexView.as_view(),
+        name='api_index'),
+
     url(r'^api/v2/subscribers/(?P<pk>\d+)$',
         cm_api.views.SubscriberView.as_view(),
         name='api_subscriber_instance'),
@@ -141,10 +145,10 @@ urlpatterns = patterns(
 
     url(r'^api/v2/files/(?P<pk_list>(?:\d+,)+\d+)?$',
         cm_api.views.LegFileListView.as_view(),
-        name='api_district_plan_list'),
+        name='api_legfile_list'),
     url(r'^api/v2/files/(?P<pk>\d+)$',
         cm_api.views.LegFileInstanceView.as_view(),
-        name='api_district_plan_instance'),
+        name='api_legfile_instance'),
 
     # Flat pages
     url(r'about/',

@@ -93,7 +93,14 @@ class CouncilMemberResource (resources.ModelResource):
     queryset = model.objects.all().select_related('tenures').prefetch_related('tenures__district')
     exclude = ['districts']
     include = ['district', 'url', 'is_active', 'is_president', 'is_at_large']
-    related_serializer = SimpleRefSerializer
+
+    def district(self, member):
+        district = member.district
+        if district:
+            return reverse('api_district_instance',
+                           args=[district.pk], request=self.request)
+        else:
+            return ''
 
 #    def at_large(self, cm):
 #        return cm.tenure
@@ -116,17 +123,23 @@ class CouncilDistrictResource (resources.ModelResource):
     related_serializer = SimpleRefSerializer
 
     def shape(self, d):
-        return d.shape.json
+        return json.loads(d.shape.json)
 
 
 class CouncilDistrictPlanResource (resources.ModelResource):
     model = CouncilDistrictPlan
     queryset = model.objects.all().prefetch_related('districts')
     include = ['districts', 'url']
-    related_serializer = SimpleRefSerializer
 
     def shape(self, d):
         return json.loads(d.shape.json)
+
+    def districts(self, d):
+        return [
+            reverse('api_district_instance', args=[district.pk],
+                    request=self.request)
+            for district in d.districts.all()
+        ]
 
 
 class LegFileResource (resources.ModelResource):
@@ -135,8 +148,15 @@ class LegFileResource (resources.ModelResource):
     include = ['url', 'locations']
     related_serializer = SimpleRefSerializer
 
+    def sponsors(self, f):
+        return [
+            reverse('api_councilmember_instance', args=[sponsor.pk],
+                    request=self.request)
+            for sponsor in f.sponsors.all()
+        ]
+
     def locations(self, f):
         return [{
-            'geo': location.geom.json,
+            'geo': json.loads(location.geom.json),
             'address': location.address
         } for location in f.metadata.locations.all()]
