@@ -29,18 +29,18 @@ class SubscriptionResource (resources.ModelResource):
         return '"' + '", "'.join(eval(fp['file_types'])) + '"'
 
     def url(self, obj):
-        return reverse('api_subscription_instance', 
+        return reverse('api_subscription_instance',
                        args=[obj.subscriber.pk, obj.pk],
                        request=self.request)
 
-    def serialize(self, obj):
+    def serialize(self, obj, request=None):
 
         # If it looks like a QuerySet or a RelatedManager, then treat it
         # like one.
         if hasattr(obj, 'all'):
-            return [self.serialize(item) for item in obj.all()]
+            return [self.serialize(item, request) for item in obj.all()]
 
-        # Reset the fields, in case this serializer is used on multiple 
+        # Reset the fields, in case this serializer is used on multiple
         # subscriptions.
         self.fields = self.__class__.fields[:]
 
@@ -56,37 +56,37 @@ class SubscriptionResource (resources.ModelResource):
             if 'file_types' in fp:
                 self.fields.append('file_types')
             log.debug(self.feed_params)
-        
+
         else:
             for feed_record_param in obj.feed_record.feed_params.all():
                 additional[feed_record_param.name] = feed_record_param.value
 
-        obj_dict = super(SubscriptionResource, self).serialize(obj)
+        obj_dict = super(SubscriptionResource, self).serialize(obj, request)
         obj_dict.update(additional)
         return obj_dict
-        
+
 
 class BookmarkResource (resources.ModelResource):
     model = Bookmark
 
-    def serialize(self, queryset):
+    def serialize(self, queryset, request=None):
         return [obj.pk for obj in queryset.all()]
 
 
 class SubscriberResource (resources.ModelResource):
     model = Subscriber
     form = SubscriberForm
-    fields = ['username', 'email', 'id', 'url', 
+    fields = ['username', 'email', 'id', 'url',
               ('bookmarks', BookmarkResource),
               ('subscriptions', SubscriptionResource)]
 
 
 class SimpleRefSerializer (resources.Resource):
-    def serialize(self, obj):
+    def serialize(self, obj, request=None):
         if hasattr(obj, 'id'):
             return obj.id
 
-        return super(SimpleRefSerializer, self).serialize(obj)
+        return super(SimpleRefSerializer, self).serialize(obj, request)
 
 class CouncilMemberResource (resources.ModelResource):
     model = CouncilMember
@@ -104,9 +104,9 @@ class CouncilMemberResource (resources.ModelResource):
 #    def serialize(self, obj):
 #        self.related_serializer = CouncilMemberResource
 #        if isinstance(obj, CouncilDistrict):
-#            return NestedCouncilDistrictResource().serialize(obj)
+#            return NestedCouncilDistrictResource().serialize(obj, request)
 
-#        return super(CouncilMemberResource, self).serialize(obj)
+#        return super(CouncilMemberResource, self).serialize(obj, request)
 
 
 class CouncilDistrictResource (resources.ModelResource):
