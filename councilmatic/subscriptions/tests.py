@@ -482,7 +482,11 @@ class Test_SubscriptionDispatcher_dispatch:
 
     def setup(self):
         library = self.library = ContentFeedLibrary()
+
+        # Create a subscriber
         subscriber = self.subscriber = Mock()
+
+        # Create a subscription
         subscription = self.subscription = Mock()
         subscription.last_sent = datetime.datetime(2011,1,1,0,0)
         subscription.feed_record.last_updated = datetime.datetime(2011,8,4,6,50)
@@ -490,13 +494,16 @@ class Test_SubscriptionDispatcher_dispatch:
         param1 = Mock(); param1.name = 'p1'; param1.value = '1'
         param2 = Mock(); param2.name = 'p2'; param2.value = '2'
         subscription.feed.feed_params.all = lambda: [param1, param2]
+
+        # The subscriber is subscribed to the subscription we created
         subscriber.subscriptions.all = lambda: [subscription]
 
     @istest
     def updates_the_lastSent_time_of_the_subscription_to_the_feeds_lastUpdated_time (self):
         mock_feed = Mock()
         self.library.get_feed = lambda *a, **k: mock_feed
-        mock_feed.get_updates_since = lambda *a, **k: []
+        mock_feed.get_updates_since = lambda *a, **k: [1, 2, 3]
+        mock_feed.get_changes_to = lambda *a, **k: {}
 
         dispatcher = SubscriptionDispatcher()
         dispatcher.template_name = 'subscriptions/subscription_email.txt'
