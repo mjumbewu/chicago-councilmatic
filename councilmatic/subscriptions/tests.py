@@ -101,7 +101,7 @@ class Test_Subscriber_subscribe (TestCase):
 
         self.assertIsNone(subscription.pk)
 
-    def test_raises_NotFound_when_feed_is_not_registered (self):
+    def test_raises_NotFound_when_feed_is_not_registered(self):
         class BogusFeed(ContentFeed):
             pass
 
@@ -163,7 +163,7 @@ class Test_Subscriber_isSubscribed (TestCase):
 class Test_ContentFeedLibrary_caching:
 
     @istest
-    def causes_the_same_content_feed_to_be_returned_on_different_calls_to_getFeed (self):
+    def causes_the_same_content_feed_to_be_returned_on_different_calls_to_getFeed(self):
         library = ContentFeedLibrary(shared=False)
         library.register(ListItemFeed, 'li')
 
@@ -173,7 +173,7 @@ class Test_ContentFeedLibrary_caching:
         assert_is(feed, library.get_feed(record))
 
     @istest
-    def causes_the_same_feed_record_to_be_returned_on_different_calls_to_getRecord (self):
+    def causes_the_same_feed_record_to_be_returned_on_different_calls_to_getRecord(self):
         library = ContentFeedLibrary(shared=False)
         library.register(ListItemFeed, 'li')
 
@@ -183,7 +183,7 @@ class Test_ContentFeedLibrary_caching:
         assert_is(record, library.get_record(feed))
 
     @istest
-    def doesnt_return_the_same_record_from_different_libraries (self):
+    def doesnt_return_the_same_record_from_different_libraries(self):
         library1 = ContentFeedLibrary(shared=False)
         library1.register(ListItemFeed, 'li')
 
@@ -196,7 +196,7 @@ class Test_ContentFeedLibrary_caching:
         assert_is_not(record, library2.get_record(feed))
 
     @istest
-    def doesnt_return_the_same_feed_from_different_libraries (self):
+    def doesnt_return_the_same_feed_from_different_libraries(self):
         library1 = ContentFeedLibrary(shared=False)
         library1.register(ListItemFeed, 'li')
 
@@ -398,7 +398,7 @@ class Test_SingleSubscriptionMixin_getContextData:
         self.view.feed_data = ContentFeed
 
     @istest
-    def has_isSubscribed_set_to_False_when_unauthenticated (self):
+    def has_isSubscribed_set_to_False_when_unauthenticated(self):
         class AnonymousUser (Mock):
             def is_authenticated(self):
                 return False
@@ -411,7 +411,7 @@ class Test_SingleSubscriptionMixin_getContextData:
         assert_is_none(data['subscription_form'])
 
     @istest
-    def has_isSubscribed_set_to_True_when_subscribed (self):
+    def has_isSubscribed_set_to_True_when_subscribed(self):
         class MyUser (Mock):
             def is_authenticated(self):
                 return True
@@ -426,7 +426,7 @@ class Test_SingleSubscriptionMixin_getContextData:
         assert_is_none(data['subscription_form'])
 
     @istest
-    def has_isSubscribed_set_to_False_when_not_subscribed (self):
+    def has_isSubscribed_set_to_False_when_not_subscribed(self):
         class Subscriber (Mock):
             def subscription(self, feed, library):
                 return None
@@ -446,7 +446,7 @@ class Test_SingleSubscriptionMixin_getContextData:
         assert_is_not_none(data['subscription_form'])
 
     @istest
-    def configures_the_form_correctly_when_not_subscribed (self):
+    def configures_the_form_correctly_when_not_subscribed(self):
         # i.e.:
         #  * the form subscriber and feed_record are set to primary keys
         #    instead of objects of types Subscriber and ContentFeedRecord
@@ -484,8 +484,8 @@ class Test_SubscriptionDispatcher_dispatch:
 
         # Create a subscription
         subscription = self.subscription = Mock()
-        subscription.last_sent = datetime.datetime(2011,1,1,0,0)
-        subscription.feed_record.last_updated = datetime.datetime(2011,8,4,6,50)
+        subscription.last_sent = datetime.datetime(2011, 1, 1, 0, 0)
+        subscription.feed_record.last_updated = datetime.datetime(2011, 8, 4, 6, 50)
         subscription.feed_record.feed_name = 'MockFeed'
         param1 = Mock(); param1.name = 'p1'; param1.value = '1'
         param2 = Mock(); param2.name = 'p2'; param2.value = '2'
@@ -495,7 +495,7 @@ class Test_SubscriptionDispatcher_dispatch:
         subscriber.subscriptions.all = lambda: [subscription]
 
     @istest
-    def updates_the_lastSent_time_of_the_subscription_to_the_feeds_lastUpdated_time (self):
+    def updates_the_lastSent_time_of_the_subscription_to_the_feeds_lastUpdated_time(self):
         mock_feed = Mock()
         self.library.get_feed = lambda *a, **k: mock_feed
         mock_feed.get_updates_since = lambda *a, **k: [1, 2, 3]
@@ -508,7 +508,8 @@ class Test_SubscriptionDispatcher_dispatch:
 
         dispatcher.dispatch_subscriptions_for(self.subscriber, self.library)
 
-        assert_equal(self.subscription.last_sent, datetime.datetime(2011,8,4,6,50))
+        assert_equal(self.subscription.last_sent,
+                     datetime.datetime(2011, 8, 4, 6, 50))
 
 
 class Test_SubscriptionForm_save:
@@ -526,9 +527,9 @@ class Test_SubscriptionForm_save:
         self.feed_record = self.library.get_record(self.feed)
 
     @istest
-    def creates_a_subscription_for_the_subscriber_to_the_feed (self):
-        form = SubscriptionForm({'subscriber':self.subscriber.pk,
-                                 'feed_record':self.feed_record.pk})
+    def creates_a_subscription_for_the_subscriber_to_the_feed(self):
+        form = SubscriptionForm({'subscriber': self.subscriber.pk,
+                                 'feed_record': self.feed_record.pk})
 
         assert form.is_valid(), 'The form had errors: %r' % (form.errors,)
         form.save()
