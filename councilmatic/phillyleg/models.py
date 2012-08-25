@@ -43,6 +43,8 @@ class CouncilMember(TimestampedModelMixin, models.Model):
             tenures = sorted(self.tenures.all(), key=lambda t: t.begin)
             if tenures:
                 self.__tenure = tenures[-1]
+            else:
+                return None
         return self.__tenure
 
     @property
