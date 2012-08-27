@@ -142,7 +142,10 @@ class SearchResultsFeed (ContentFeed):
         return self.filter
 
 
-library.register(NewLegislationFeed, 'newly introduced legislation')
-library.register(LegislationUpdatesFeed, 'updates to a piece of legislation')
-library.register(SearchResultsFeed, 'results of a search query')
-library.register(BookmarkedContentFeed, 'bookmarked content')
+def register_feeds():
+    library.register(NewLegislationFeed, 'newly introduced legislation')
+    library.register(LegislationUpdatesFeed, 'updates to a piece of legislation')
+    library.register(SearchResultsFeed, 'results of a search query')
+    library.register(BookmarkedContentFeed, 'bookmarked content')
+
+register_feeds()
