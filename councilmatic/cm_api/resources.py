@@ -8,6 +8,7 @@ from subscriptions.models import (Subscriber, Subscription)
 from bookmarks.models import Bookmark
 from phillyleg.models import (CouncilDistrict, CouncilDistrictPlan,
                               CouncilMember, LegFile)
+from utils.resources import GeoModelMixin
 
 import logging
 log = logging.getLogger(__name__)
@@ -92,15 +93,26 @@ class CouncilMemberResource (resources.ModelResource):
     model = CouncilMember
     queryset = model.objects.all().select_related('tenures').prefetch_related('tenures__district')
     exclude = ['districts']
-    include = ['district', 'url', 'is_active', 'is_president', 'is_at_large']
+    include = ['url', 'is_active', 'is_president', 'is_at_large']
+
+    def get_fields(self, member):
+        fields = super(CouncilMemberResource, self).get_fields(member)
+
+        # Only add 'district' into the fields set if it is defined on the
+        # council member.
+        if member.district:
+            fields = set(fields)
+            fields.add('district')
+
+        return fields
+
+    def url(self, member):
+        return reverse('api_councilmember_instance', args=[member.pk],
+                       request=self.request)
 
     def district(self, member):
-        district = member.district
-        if district:
-            return reverse('api_district_instance',
-                           args=[district.pk], request=self.request)
-        else:
-            return ''
+        return reverse('api_district_instance',
+                       args=[member.district.pk], request=self.request)
 
 #    def at_large(self, cm):
 #        return cm.tenure
@@ -116,11 +128,16 @@ class CouncilMemberResource (resources.ModelResource):
 #        return super(CouncilMemberResource, self).serialize(obj, request)
 
 
-class CouncilDistrictResource (resources.ModelResource):
+class CouncilDistrictResource (GeoModelMixin, resources.ModelResource):
     model = CouncilDistrict
     queryset = model.objects.all().select_related('plan', 'tenures').prefetch_related('tenures__councilmember')
     include = ['representative', 'url']
+    geometry_field = 'shape'
     related_serializer = SimpleRefSerializer
+
+    def url(self, d):
+        return reverse('api_district_instance', args=[d.pk],
+                       request=self.request)
 
     def shape(self, d):
         return json.loads(d.shape.json)
@@ -131,22 +148,32 @@ class CouncilDistrictPlanResource (resources.ModelResource):
     queryset = model.objects.all().prefetch_related('districts')
     include = ['districts', 'url']
 
+    def url(self, d):
+        return reverse('api_district_plan_instance', args=[d.pk],
+                       request=self.request)
     def shape(self, d):
         return json.loads(d.shape.json)
 
     def districts(self, d):
-        return [
-            reverse('api_district_instance', args=[district.pk],
-                    request=self.request)
-            for district in d.districts.all()
-        ]
+        return [{
+            'url': reverse('api_district_instance', args=[district.pk],
+                           request=self.request)
+            } for district in d.districts.all()]
 
 
 class LegFileResource (resources.ModelResource):
     model = LegFile
     queryset = model.objects.all().select_related('metadata').prefetch_related('sponsors', 'metadata__locations')
-    include = ['url', 'locations']
+    exclude = ['url']
+    include = ['source_url', 'locations']
     related_serializer = SimpleRefSerializer
+
+    def source_url(self, f):
+        return f.url
+
+    def url(self, f):
+        return reverse('api_legfile_instance', args=[f.pk],
+                       request=self.request)
 
     def sponsors(self, f):
         return [
