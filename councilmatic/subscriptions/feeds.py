@@ -98,6 +98,13 @@ class ContentFeedLibrary (object):
         self.feeds[name] = ContentFeedClass
         self._reverse[ContentFeedClass] = name
 
+    def clear(self):
+        """Remove all feeds and records from the Library"""
+        self.feeds.clear()
+        self._reverse.clear()
+        self._feed_cache.clear()
+        self._record_cache.clear()
+
     def _cache(self, feed, record):
         self._feed_cache[record] = feed
         self._record_cache[feed] = record

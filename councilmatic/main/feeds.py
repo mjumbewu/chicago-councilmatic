@@ -15,19 +15,20 @@ library = ContentFeedLibrary()
 
 class NewLegislationFeed (ContentFeed):
     def get_content(self):
-        return LegFile.objects.all()
+        return LegFile.objects.all().order_by('-intro_date')
 
     def get_updates_since(self, datetime):
         return self.get_content().filter(intro_date__gt=datetime)
 
     def get_changes_to(self, legfile, since_datetime):
-        if since_datetime.date() <= self.get_last_updated(legfile):
+        if since_datetime.date() <= legfile.intro_date:
             return {'Title': legfile.title}
         else:
             return {}
 
-    def get_last_updated(self, legfile):
-        return legfile.intro_date
+    def get_last_updated_time(self):
+        legfiles = self.get_content()
+        return legfiles[0].intro_date
 
     def get_params(self):
         return {}

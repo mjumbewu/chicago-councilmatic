@@ -32,6 +32,9 @@ class ContentFeedRecord (models.Model):
     feed_name = models.CharField(max_length=256)
     """The identifier for the content feed type registered with the library"""
 
+#    feed_url = models.URLField(null=True)
+#    """The URL of the feed content (obsoletes feed_params)"""
+
     # feed_params (backref)
     """The set of parameters used to retrieve the content feed from the
        library"""
