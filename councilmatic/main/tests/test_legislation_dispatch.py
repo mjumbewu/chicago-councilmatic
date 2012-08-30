@@ -8,9 +8,9 @@ from main import feeds
 
 from subscriptions.management.commands import sendfeedupdates
 from subscriptions.management.commands import updatefeeds
-from subscriptions.models import Subscriber
+from subscriptions.models import Subscriber, ContentFeedRecord
 
-from phillyleg.models import LegFile
+from phillyleg.models import LegFile, LegAction
 
 
 class SubscriptionFlowTesterMixin (object):
@@ -31,17 +31,19 @@ class SubscriptionFlowTesterMixin (object):
     def test_subscription_flow(self):
         LegFile.objects.all().delete()
         Subscriber.objects.all().delete()
+        ContentFeedRecord.objects.all().delete()
+        del mail.outbox[:]
 
-        # First, let's make some content
-        self.subscriber = subscriber = Subscriber.objects.create()
-        self.create_initial_content()
-
-        # Then, let's get the ContentFeed objects for this package.  One of them
+        # First, let's get the ContentFeed objects for this package.  One of them
         # should watch this content.
         feeds.library.clear()
         feeds.register_feeds()
 
         feed = self.get_feed()
+
+        # Then, let's make some content
+        self.subscriber = subscriber = Subscriber.objects.create()
+        self.create_initial_content()
 
         # Now we want a subscriber to subscribe to the feed.
         subscription = subscriber.subscribe(feed, library=feeds.library)
@@ -117,27 +119,21 @@ class TestNewLegislationFeedDispatching(SubscriptionFlowTesterMixin):
                 '\nMore at http://example.com/legislation/3\n\n')
 
 
-class TestNewLegislationFeedDispatching(SubscriptionFlowTesterMixin):
+class TestLegislationUpdatesFeedDispatching(SubscriptionFlowTesterMixin):
     def create_initial_content(self):
         LegFile.objects.create(key=1, id='a', title="first", intro_date=date(2011, 12, 13), type="Bill")
-        LegFile.objects.create(key=2, id='b', title="second", intro_date=date(2011, 12, 13), type="Bill")
-        LegFile.objects.create(key=3, id='c', title="third", intro_date=date(2011, 12, 13), type="Bill")
 
     def create_updated_content(self):
-        LegFile.objects.create(key=4, id='d', title="fourth", intro_date=date(2012, 2, 4), type="Bill")
+        legfile = LegFile.objects.get(key=1)
+        LegAction.objects.create(file=legfile, date_taken=date(2012, 2, 4), description="An Action!")
 
     def get_feed(self):
-        return feeds.NewLegislationFeed()
+        return feeds.LegislationUpdatesFeed(key=1)
 
     def get_initial_dispatch_message(self):
-        return ('Philadelphia Councilmatic!\n==========================\n\nY'
-                'ou are subscribed to the following feeds:\n\n\n* bookmarked'
-                ' content\n\n* newly introduced legislation\n\n\n\n---------'
-                '-----------------------------------------------------------'
-                '------------\n\nBILL a\n\nTitle: first\n\nMore at http://ex'
-                'ample.com/legislation/1\n\n\n------------------------------'
-                '--------------------------------------------------\n\nBILL '
-                'b\n\nTitle: second\n\nMore at http://example.com/legislatio'
-                'n/2\n\n\n--------------------------------------------------'
-                '------------------------------\n\nBILL c\n\nTitle: third\n'
-                '\nMore at http://example.com/legislation/3\n\n')
+        return ('Philadelphia Councilmatic!\n==========================\n\nYou '
+                'are subscribed to the following feeds:\n\n\n* bookmarked conte'
+                'nt\n\n* updates to a piece of legislation\n\n\n\n-------------'
+                '--------------------------------------------------------------'
+                '-----\n\nBILL a\n\nMore at http://example.com/legislation/1\n'
+                '\n')

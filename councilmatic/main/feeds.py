@@ -48,7 +48,7 @@ class LegislationUpdatesFeed (ContentFeed):
 
     def get_updates_since(self, datetime):
         return [content_item for content_item in self.get_content()
-                if self.get_last_updated(content_item) > datetime.date()]
+                if self.get_last_updated_time_for_file(content_item) > datetime.date()]
 
     def get_changes_to(self, legfile, since_datetime):
         changes = defaultdict(unicode)
@@ -60,7 +60,14 @@ class LegislationUpdatesFeed (ContentFeed):
 
         return changes
 
-    def get_last_updated(self, legfile):
+    def get_last_updated_time(self):
+        dates = set()
+        for legfile in self.get_content():
+            dates.add(self.get_last_updated_time_for_file(legfile))
+
+        return max(dates)
+
+    def get_last_updated_time_for_file(self, legfile):
         legfile_date = max(legfile.intro_date,
                            legfile.final_date or datetime.date(1970, 1, 1))
         action_dates = [action.date_taken
@@ -99,7 +106,10 @@ def create_bookmarks_subscription_for_subscriber(sender, **kwargs):
 class BookmarkedContentFeed (LegislationUpdatesFeed):
     def __init__(self, user):
         if isinstance(user, (int, basestring)):
-            self.user = Subscriber.objects.get(pk=user)
+            try:
+                self.user = Subscriber.objects.get(pk=user)
+            except Subscriber.DoesNotExist, e:
+                raise self.IsObsolete(e)
         else:
             self.user = user
 

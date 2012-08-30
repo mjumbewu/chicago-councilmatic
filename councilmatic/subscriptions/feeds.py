@@ -35,6 +35,12 @@ def import_all_feeds():
 
 
 class ContentFeed (object):
+    class IsObsolete (Exception):
+        """
+        Denote that a feed is obsolete and its record should be deleted.
+        """
+        pass
+
     def get_content(self):
         """
         Returns the content items that appear in this feed.
@@ -118,7 +124,13 @@ class ContentFeedLibrary (object):
         ContentFeedClass = self.feeds[record.feed_name]
         kwargs = dict([(param.name, param.value)
                        for param in record.feed_params.all()])
-        feed = ContentFeedClass(**kwargs)
+
+        try:
+            feed = ContentFeedClass(**kwargs)
+        except ContentFeedClass.IsObsolete:
+            record.delete()
+            log.debug('The record %r is obsolete and has been deleted' % (record))
+            return
 
         self._cache(feed, record)
 
@@ -173,6 +185,8 @@ class ContentFeedRecordUpdater (object):
             library = ContentFeedLibrary()
 
         feed = library.get_feed(record)
+        if feed is None:
+            return
 
         all_content = feed.get_content()
         latest = None
