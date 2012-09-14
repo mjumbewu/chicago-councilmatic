@@ -2,6 +2,7 @@ import datetime
 import logging
 from collections import defaultdict
 from itertools import chain
+from itertools import product
 
 from subscriptions.feeds import ContentFeed
 from subscriptions.feeds import ContentFeedLibrary
@@ -133,20 +134,51 @@ class SearchResultsFeed (ContentFeed):
         """
         self.filter = search_filter
 
+    @property
+    def _exploded_filter(self):
+        """
+        Take the filter as provided and explode it into a number of filters fit
+        for disjoining.  For example:
+
+          filter = {content: 'street', type: ['Bill', 'Resolution']}
+
+        becomes:
+
+          exploded_filter = [{content: 'street', type: 'Bill'},  # or
+                             {content: 'street', type: 'Resolution'}]
+        """
+        keys = self.filter.keys()
+        values = self.filter.values()
+
+        # Make everything a list
+        value_lists = [value if isinstance(value, list) else [value]
+                       for value in values]
+
+        # Take the cartesian product and use each resulting tuple as a
+        # disjointed set of values
+        return [dict(zip(keys, values)) for values in product(*value_lists)]
+
     def get_content(self):
-        return SearchQuerySet().raw_search(self.filter)
+        filters = self._exploded_filter
+
+        qs = SearchQuerySet()
+        for _filter in filters:
+            qs = qs.filter_or(**_filter)
+
+        return qs
 
     def get_changes_to(self, item, datetime):
-        if isinstance(item, LegFile):
-            return {'Title': item.title}
-        elif isinstance(item, LegMinutes):
-            return {'Minutes': str(item)}
+        if item.model_name == 'legfile':
+            return {'Title': item.object.title}
+        elif item.model_name == 'legminutes':
+            return {'Minutes': str(item.object)}
 
-    def get_last_updated(self, item):
-        if isinstance(item, LegFile):
-            return item.intro_date
-        elif isinstance(item, LegMinutes):
-            return item.date_taken
+    def get_last_updated_time(self):
+        content = self.get_content()
+        return content[0].order_date
+
+    def get_updates_since(self, datetime):
+        return self.get_content().filter(order_date__gt=datetime)
 
     def get_params(self):
         return self.filter

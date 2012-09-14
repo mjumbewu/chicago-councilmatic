@@ -309,13 +309,13 @@ class Test_ContentFeedCleaner_clean (TestCase):
     @istest
     def removes_unused_feed_records_and_leaves_used_ones(self):
         feed_records = ContentFeedRecord.objects.all()
-        assert_equal(len(feed_records), 2)
+        num_records = len(feed_records)
 
         cleaner = ContentFeedRecordCleaner()
         cleaner.clean()
 
         feed_records = ContentFeedRecord.objects.all()
-        assert_equal(len(feed_records), 1)
+        assert_equal(len(feed_records), num_feeds - 1)
         assert_in(self.keeper, feed_records)
         assert_not_in(self.tosser, feed_records)
 

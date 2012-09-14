@@ -14,6 +14,9 @@ from phillyleg.models import LegFile, LegAction
 
 
 class SubscriptionFlowTesterMixin (object):
+    """
+    Integration test base class for specific types of subscription feeds
+    """
 
     def create_initial_content(self):
         raise NotImplementedError()
@@ -136,4 +139,40 @@ class TestLegislationUpdatesFeedDispatching(SubscriptionFlowTesterMixin):
                 'nt\n\n* updates to a piece of legislation\n\n\n\n-------------'
                 '--------------------------------------------------------------'
                 '-----\n\nBILL a\n\nMore at http://example.com/legislation/1\n'
+                '\n')
+
+
+class TestSearchResultsFeedDispatching(SubscriptionFlowTesterMixin):
+    def create_initial_content(self):
+        LegFile.objects.create(key=1, id='a', title="first streets", intro_date=date(2011, 12, 11), type="Bill")
+        LegFile.objects.create(key=2, id='b', title="second trees", intro_date=date(2011, 12, 12), type="Bill")
+        LegFile.objects.create(key=3, id='c', title="third streets", intro_date=date(2011, 12, 13), type="Bill")
+        LegFile.objects.create(key=4, id='d', title="fourth streets", intro_date=date(2011, 12, 14), type="Bill")
+
+        from django.core.management import call_command
+        call_command('rebuild_index', interactive=False)
+
+    def create_updated_content(self):
+        LegFile.objects.create(key=5, id='e', title="streets fifth", intro_date=date(2012, 2, 4), type="Resolution")
+        LegFile.objects.create(key=6, id='f', title="streets sixth", intro_date=date(2012, 2, 4), type="Communication")
+        LegFile.objects.create(key=7, id='g', title="streets seventh", intro_date=date(2011, 12, 13), type="Bill")
+
+        from django.core.management import call_command
+        call_command('rebuild_index', interactive=False)
+
+    def get_feed(self):
+        return feeds.SearchResultsFeed(content='streets', file_type=['Bill', 'Resolution'])
+
+    def get_initial_dispatch_message(self):
+        return ('Philadelphia Councilmatic!\n==========================\n\nYou '
+                'are subscribed to the following feeds:\n\n\n* bookmarked conte'
+                'nt\n\n* results of a search query\n\n\n\n---------------------'
+                '-----------------------------------------------------------\n'
+                '\nNONE phillyleg.legfile.1\n\nTitle: first streets\n\nMore at '
+                'http://example.comNone\n\n\n----------------------------------'
+                '----------------------------------------------\n\nNONE phillyl'
+                'eg.legfile.3\n\nTitle: third streets\n\nMore at http://exampl'
+                'e.comNone\n\n\n-----------------------------------------------'
+                '---------------------------------\n\nNONE phillyleg.legfile.4'
+                '\n\nTitle: fourth streets\n\nMore at http://example.comNone\n'
                 '\n')
