@@ -31,7 +31,7 @@ class Test_NewLegislationFeed_getChangesTo:
         feed_data = NewLegislationFeed()
         changes = feed_data.get_changes_to(legislation, datetime.min)
 
-        assert_equal(changes, {'Title': 'Hello, world!'})
+        assert_equal(changes, ({'Title': 'Hello, world!'}, datetime.datetime(2012, 9, 20, 0, 0)))
 
     @istest
     def returns_an_empty_dict_if_introduced_before_given_time (self):
@@ -42,7 +42,7 @@ class Test_NewLegislationFeed_getChangesTo:
         feed_data = NewLegislationFeed()
         changes = feed_data.get_changes_to(legislation, datetime.now())
 
-        assert_equal(changes, {})
+        assert_equal(changes, ({}, datetime.datetime(1, 1, 1, 0, 0)))
 
 
 class Test_SearchResultsFeed_getLastUpdated:

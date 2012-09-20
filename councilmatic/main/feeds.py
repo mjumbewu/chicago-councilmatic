@@ -166,7 +166,7 @@ class SearchResultsFeed (ContentFeed):
         return new_content
 
     def get_params(self):
-        return self.filter
+        return {'search_filter': json.dumps(self.filter)}
 
 
 def register_feeds():
