@@ -1,5 +1,5 @@
-import datetime
 import logging
+from datetime import date, time, datetime
 from collections import defaultdict
 from itertools import chain
 from itertools import product
@@ -23,9 +23,9 @@ class NewLegislationFeed (ContentFeed):
 
     def get_changes_to(self, legfile, since_datetime):
         if since_datetime.date() <= legfile.intro_date:
-            return {'Title': legfile.title}
+            return {'Title': legfile.title}, datetime.combine(legfile.intro_date, time())
         else:
-            return {}
+            return {}, datetime.min
 
     def get_last_updated_time(self):
         legfiles = self.get_content()
@@ -53,13 +53,18 @@ class LegislationUpdatesFeed (ContentFeed):
 
     def get_changes_to(self, legfile, since_datetime):
         changes = defaultdict(unicode)
+        dates = set()
         for action in legfile.actions.all():
             if action.date_taken > since_datetime.date():
                 if 'Actions' in changes:
                     changes['Actions'] += u'\n'
                 changes['Actions'] += unicode(action)
+                dates.add(action.date_taken)
 
-        return changes
+        if changes:
+            return changes, datetime.combine(max(dates), time())
+        else:
+            return {}, datetime.min
 
     def get_last_updated_time(self):
         dates = set()
@@ -70,7 +75,7 @@ class LegislationUpdatesFeed (ContentFeed):
 
     def get_last_updated_time_for_file(self, legfile):
         legfile_date = max(legfile.intro_date,
-                           legfile.final_date or datetime.date(1970, 1, 1))
+                           legfile.final_date or date(1970, 1, 1))
         action_dates = [action.date_taken
                         for action in legfile.actions.all()]
 
@@ -124,7 +129,7 @@ class BookmarkedContentFeed (LegislationUpdatesFeed):
 
 
 class SearchResultsFeed (ContentFeed):
-    def __init__(self, **search_filter):
+    def __init__(self, search_filter):
         """
         As you'll see in main.SearchView.get_content_feed, we use the value of
         search_view.results.queryset.query.query_filter to store the search.
@@ -132,53 +137,33 @@ class SearchResultsFeed (ContentFeed):
         specific.  Just keep that in mind.
 
         """
-        self.filter = search_filter
-
-    @property
-    def _exploded_filter(self):
-        """
-        Take the filter as provided and explode it into a number of filters fit
-        for disjoining.  For example:
-
-          filter = {content: 'street', type: ['Bill', 'Resolution']}
-
-        becomes:
-
-          exploded_filter = [{content: 'street', type: 'Bill'},  # or
-                             {content: 'street', type: 'Resolution'}]
-        """
-        keys = self.filter.keys()
-        values = self.filter.values()
-
-        # Make everything a list
-        value_lists = [value if isinstance(value, list) else [value]
-                       for value in values]
-
-        # Take the cartesian product and use each resulting tuple as a
-        # disjointed set of values
-        return [dict(zip(keys, values)) for values in product(*value_lists)]
+        import json
+        self.filter = json.loads(search_filter)
 
     def get_content(self):
-        filters = self._exploded_filter
-
         qs = SearchQuerySet()
-        for _filter in filters:
-            qs = qs.filter_or(**_filter)
+        for key, val in self.filter.iteritems():
+            if isinstance(val, list):
+                for item in val:
+                    qs = qs.filter(**{key: item})
+            else:
+                qs = qs.filter(**{key: val})
 
-        return qs
+        return qs.order_by('order_date')
 
     def get_changes_to(self, item, datetime):
         if item.model_name == 'legfile':
-            return {'Title': item.object.title}
+            return {'Title': item.object.title}, item.order_date
         elif item.model_name == 'legminutes':
-            return {'Minutes': str(item.object)}
+            return {'Minutes': str(item.object)}, item.order_date
 
     def get_last_updated_time(self):
         content = self.get_content()
-        return content[0].order_date
+        return (list(content))[-1].order_date
 
     def get_updates_since(self, datetime):
-        return self.get_content().filter(order_date__gt=datetime)
+        new_content = self.get_content().filter(order_date__gt=datetime).order_by('order_date')
+        return new_content
 
     def get_params(self):
         return self.filter

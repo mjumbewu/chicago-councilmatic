@@ -6,6 +6,7 @@ from mock import *
 
 from main import feeds
 
+from bookmarks.models import Bookmark
 from subscriptions.management.commands import sendfeedupdates
 from subscriptions.management.commands import updatefeeds
 from subscriptions.models import Subscriber, ContentFeedRecord
@@ -32,6 +33,7 @@ class SubscriptionFlowTesterMixin (object):
 
     @istest
     def test_subscription_flow(self):
+        Bookmark.objects.all().delete()
         LegFile.objects.all().delete()
         Subscriber.objects.all().delete()
         ContentFeedRecord.objects.all().delete()
@@ -42,10 +44,11 @@ class SubscriptionFlowTesterMixin (object):
         feeds.library.clear()
         feeds.register_feeds()
 
-        feed = self.get_feed()
-
         # Then, let's make some content
         self.subscriber = subscriber = Subscriber.objects.create()
+
+        feed = self.get_feed()
+
         self.create_initial_content()
 
         # Now we want a subscriber to subscribe to the feed.
@@ -153,7 +156,7 @@ class TestSearchResultsFeedDispatching(SubscriptionFlowTesterMixin):
         call_command('rebuild_index', interactive=False)
 
     def create_updated_content(self):
-        LegFile.objects.create(key=5, id='e', title="streets fifth", intro_date=date(2012, 2, 4), type="Resolution")
+        LegFile.objects.create(key=5, id='e', title="streets fifth", intro_date=date(2012, 2, 4), type="Bill")
         LegFile.objects.create(key=6, id='f', title="streets sixth", intro_date=date(2012, 2, 4), type="Communication")
         LegFile.objects.create(key=7, id='g', title="streets seventh", intro_date=date(2011, 12, 13), type="Bill")
 
@@ -161,7 +164,7 @@ class TestSearchResultsFeedDispatching(SubscriptionFlowTesterMixin):
         call_command('rebuild_index', interactive=False)
 
     def get_feed(self):
-        return feeds.SearchResultsFeed(content='streets', file_type=['Bill', 'Resolution'])
+        return feeds.SearchResultsFeed(search_filter='{"content":"streets", "file_type":["Bill"]}')
 
     def get_initial_dispatch_message(self):
         return ('Philadelphia Councilmatic!\n==========================\n\nYou '
@@ -176,3 +179,26 @@ class TestSearchResultsFeedDispatching(SubscriptionFlowTesterMixin):
                 '---------------------------------\n\nNONE phillyleg.legfile.4'
                 '\n\nTitle: fourth streets\n\nMore at http://example.comNone\n'
                 '\n')
+
+class TestBookmarkFeedDispatching(SubscriptionFlowTesterMixin):
+    def create_initial_content(self):
+        LegFile.objects.create(key=1, id='a', title="first", intro_date=date(2011, 12, 13), type="Bill")
+        LegFile.objects.create(key=2, id='b', title="second", intro_date=date(2011, 12, 13), type="Bill")
+        LegFile.objects.create(key=3, id='c', title="third", intro_date=date(2011, 12, 13), type="Bill")
+
+        legfile = LegFile.objects.get(key=1)
+        self.subscriber.bookmarks.add(Bookmark(content=legfile))
+
+    def create_updated_content(self):
+        legfile = LegFile.objects.get(key=1)
+        LegAction.objects.create(file=legfile, date_taken=date(2012, 2, 4), description="An Action!")
+
+    def get_feed(self):
+        return feeds.BookmarkedContentFeed(self.subscriber)
+
+    def get_initial_dispatch_message(self):
+        return ('Philadelphia Councilmatic!\n==========================\n\nYou '
+                'are subscribed to the following feeds:\n\n\n* bookmarked conte'
+                'nt\n\n* bookmarked content\n\n\n\n----------------------------'
+                '----------------------------------------------------\n\nBILL a'
+                '\n\nMore at http://example.com/legislation/1\n\n')

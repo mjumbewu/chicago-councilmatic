@@ -7,6 +7,7 @@ from email.mime.text import MIMEText
 from logging import getLogger
 
 from django.contrib.sites.models import Site
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models.manager import Manager
 from django.template import Context
 from django.template.loader import get_template
@@ -249,7 +250,7 @@ class SubscriptionDispatcher (object):
         """
         log.debug('Checking for updates to %s in %s' % (subscriptions, library))
 
-        content_changes = defaultdict(dict)
+        content_changes = defaultdict(lambda: [dict(), datetime.min])
 
         for subscription in subscriptions:
             feed = library.get_feed(subscription.feed_record)
@@ -261,8 +262,9 @@ class SubscriptionDispatcher (object):
                 new_contents = feed.get_updates_since(subscription.last_sent)
 
                 for item in new_contents:
-                    changes = feed.get_changes_to(item, subscription.last_sent)
-                    content_changes[item].update(changes)
+                    changes, change_time = feed.get_changes_to(item, subscription.last_sent)
+                    content_changes[item][0].update(changes)
+                    content_changes[item][1] = max(content_changes[item][1], change_time)
 
         log.debug('What changed: %s' % (content_changes,))
 
@@ -277,8 +279,8 @@ class SubscriptionDispatcher (object):
         # I was having some trouble iterating over content_items as a dict
         # in the templates, so I'll just convert content updates to lists of
         # tuples.
-        content_updates = content_updates.items()
-        content_updates = [(k, v.items()) for (k, v) in content_updates]
+        content_updates = sorted(content_updates.items(), key=lambda (i, (c, d)): d)
+        content_updates = [(k, v.items()) for (k, (v, d)) in content_updates]
 
         context = Context({'subscriber':subscriber,
                            'subscriptions': subscriptions,
@@ -328,7 +330,7 @@ class SubscriptionDispatcher (object):
         as having been sent.
         """
         content_updates = dict([(unicode(key), value) for key, value in content_updates.items()])
-        content = 'Content updates:\n%s\nMessage:\n%s' % (json.dumps(content_updates, indent=2), delivery)
+        content = 'Content updates:\n%s\nMessage:\n%s' % (json.dumps(content_updates, indent=2, cls=DjangoJSONEncoder), delivery)
         for subscription in subscriptions:
             SubscriptionDispatchRecord.objects.create(
                 when=datetime.now(),
