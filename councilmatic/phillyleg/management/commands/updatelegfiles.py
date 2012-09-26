@@ -86,7 +86,8 @@ class Command(BaseCommand):
         # If we've made it here, then we have all the latest filings, and we have gone
         # through and updated the entire datastore.  Now, reset the continuation key to
         # get ready for the next go-around.
-        ds.save_continuation_key(72)
+#        ds.save_continuation_key(72)
+        ds.save_continuation_key(cont_key - 1000) # This should be a configurable value
 
     def _get_new_files(self):
         ds = self.ds
