@@ -24,15 +24,8 @@ mkdir ~/whoosh_index
 # Get ready for logs
 mkdir ~/logs
 
-# These are submodules of the project, but dotcloud doesn't handle submodules,
-# so just clone the projects in their appropriate place.
-cd static
-git clone https://github.com/pilu/web-app-theme.git
-git clone https://github.com/MBO/attrtastic.git
-git clone https://github.com/justinfrench/formtastic.git
-
 # Schedule the cron jobs
-cd ../../
+cd ../
 crontab - <<EOF
 MAILTO=""
 0 5 * * * "/home/dotcloud/current/crons/daily_jobs"
