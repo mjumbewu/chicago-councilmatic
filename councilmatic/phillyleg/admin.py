@@ -47,6 +47,7 @@ class LegFileLocationInline(admin.TabularInline):
 class LocationAdmin (admin.GeoModelAdmin):
     model = MetaData_Location
     inlines = [LegFileLocationInline]
+    search_fields = ['address']
 
 class CouncilDistrictInline(admin.TabularInline):
     model = CouncilDistrict
