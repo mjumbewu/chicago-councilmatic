@@ -74,7 +74,7 @@ class AppDashboardView (SearchBarMixin,
 
     def get_recent_legislation(self):
         return list(phillyleg.models.LegFile.objects.\
-                        all().order_by('-key')[:3])
+                        all().exclude(title='').order_by('-key')[:3])
 
     def get_context_data(self, **kwargs):
         search_form = forms.FullSearchForm()
