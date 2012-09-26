@@ -113,7 +113,7 @@ class LegFile(TimestampedModelMixin, models.Model):
     date_scraped = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     last_scraped = models.DateTimeField(auto_now=True)
     final_date = models.DateField(null=True)
-    intro_date = models.DateField(null=True)
+    intro_date = models.DateField(default=datetime.datetime.now)
     sponsors = models.ManyToManyField(CouncilMember, related_name='legislation')
     status = models.CharField(max_length=1000)
     title = models.TextField()
