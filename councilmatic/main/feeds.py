@@ -1,3 +1,4 @@
+import json
 import logging
 from datetime import date, time, datetime
 from collections import defaultdict
@@ -137,7 +138,6 @@ class SearchResultsFeed (ContentFeed):
         specific.  Just keep that in mind.
 
         """
-        import json
         self.filter = json.loads(search_filter)
 
     def get_content(self):
