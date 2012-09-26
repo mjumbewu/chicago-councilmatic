@@ -272,11 +272,12 @@ class PhillyLegistarSiteWrapper (object):
         else: return True
 
     def check_for_new_content(self, last_key):
-        '''Look through the next 10 keys to see if there are any more files.
-           10 is arbitrary, but I feel like it's large enough to be safe.'''
+        '''Look through the next 100 keys to see if there are any more files.
+           100 is arbitrary, but I feel like it's large enough to be safe.  I
+           tried 10, but 12544 through 12568 are missing for Philly :('''
 
         curr_key = last_key
-        for _ in xrange(10):
+        for _ in xrange(100):
             curr_key = curr_key + 1
 
             url = self.STARTING_URL + str(curr_key)
