@@ -138,7 +138,10 @@ class SearchResultsFeed (ContentFeed):
         specific.  Just keep that in mind.
 
         """
-        self.filter = json.loads(search_filter)
+        if isinstance(search_filter, dict):
+            self.filter = search_filter
+        else:
+            self.filter = json.loads(search_filter)
 
     def get_content(self):
         qs = SearchQuerySet()

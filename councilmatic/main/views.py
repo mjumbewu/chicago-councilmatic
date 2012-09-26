@@ -163,7 +163,7 @@ class SearchView (SearcherMixin,
 
     def get_content_feed(self):
         search_params = self.request.GET
-        return feeds.SearchResultsFeed(**search_params)
+        return feeds.SearchResultsFeed(search_filter=search_params)
 
     def get_queryset(self):
         query_params = self.request.GET.copy()
