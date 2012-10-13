@@ -6,6 +6,7 @@
 #will send out daily email for users - first will read all keywords
 #create text files, then email text files to all each user subscribed.
 
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 import django
 import logging
@@ -53,7 +54,7 @@ class Command(BaseCommand):
 
         # Create a datastore wrapper object
         ds = self.ds = CouncilmaticDataStoreWrapper()
-        source = self.source = PhillyLegistarSiteWrapper()
+        source = self.source = PhillyLegistarSiteWrapper(settings.LEGISLATION['ROOT'])
 
         # Seed the PDF cache with already-downloaded content.
         #

@@ -8,6 +8,118 @@
 #   * Build the search indexes
 #   * Set up daily cron jobs
 
+# Inject the appropriate settings into local_settings.py
+cat >> councilmatic/local_settings.py <<EOF
+
+import json
+with open("/home/dotcloud/environment.json") as env_json:
+    env = json.load(env_json)
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'councilmatic',
+        'USER': env['DOTCLOUD_DB_SQL_LOGIN'],
+        'PASSWORD': env['DOTCLOUD_DB_SQL_PASSWORD'],
+        'HOST': env['DOTCLOUD_DB_SQL_HOST'],
+        'PORT': env['DOTCLOUD_DB_SQL_PORT'],
+    }
+}
+
+DEBUG = (env.get('DEBUG', 'False') in ('True', 'true'))
+COMPRESS_ENABLED = True
+TEMPLATE_DEBUG = DEBUG
+
+###############################################################################
+#
+# Site search configuration
+#
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': '/home/dotcloud/whoosh_index',
+    }
+}
+
+################################################################################
+#
+# Testing and administration
+#
+
+DEFAULT_FROM_EMAIL = env.get('DEFAULT_FROM_EMAIL')
+EMAIL_HOST = env.get('EMAIL_HOST')
+EMAIL_PORT = env.get('EMAIL_PORT')
+EMAIL_HOST_USER = env.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env.get('EMAIL_HOST_PASSWORD')
+
+if isinstance(EMAIL_PORT, basestring):
+    EMAIL_PORT = int(EMAIL_PORT)
+if isinstance(EMAIL_HOST_PASSWORD, unicode):
+    EMAIL_HOST_PASSWORD = str(EMAIL_HOST_PASSWORD)
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'null': {
+            'level':'DEBUG',
+            'class':'django.utils.log.NullHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+        'log_file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'formatter': 'verbose',
+            'filename': '/var/log/supervisor/helloapp.log',
+            'maxBytes': 1024*1024*25, # 25 MB
+            'backupCount': 5,
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'log_file', 'mail_admins'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['console', 'log_file', 'mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'django.db.backends': {
+            'handlers': ['console', 'log_file', 'mail_admins'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        # Catch All Logger -- Captures any other logging
+        '': {
+            'handlers': ['console', 'log_file', 'mail_admins'],
+            'level': 'INFO',
+            'propagate': True,
+        }
+    }
+}
+
+EOF
+
 # Link to the static files folder.
 ln -s councilmatic/static/
 

@@ -25,3 +25,6 @@ logs/
 
 # Application keys
 councilmatic/application_keys.py
+
+# Local settings
+councilmatic/local_settings.py

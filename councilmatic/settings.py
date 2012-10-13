@@ -12,50 +12,6 @@ def rel_path(*subs):
     return os.path.join(root_path, *subs)
 
 
-###############################################################################
-#
-# Platform-specific values
-#
-
-# If the environment is DotCloud...
-if os.path.exists('/home/dotcloud/current'):
-    import json
-    with open("/home/dotcloud/environment.json") as env_json:
-        env = json.load(env_json)
-
-        DB_ENGINE = 'postgis'
-        DB_NAME = 'councilmatic'
-        DB_HOST = env['DOTCLOUD_DB_SQL_HOST']
-        DB_USER = env['DOTCLOUD_DB_SQL_LOGIN']
-        DB_PASSWORD = env['DOTCLOUD_DB_SQL_PASSWORD']
-        DB_PORT = env['DOTCLOUD_DB_SQL_PORT']
-        WHOOSH_PATH = '/home/dotcloud/whoosh_index'
-        LOGFILE_PATH= '/home/dotcloud/logs/councilmatic.log'
-        DEFAULT_FROM_EMAIL = env.get('DEFAULT_FROM_EMAIL')
-        EMAIL_HOST = env.get('EMAIL_HOST')
-        EMAIL_PORT = env.get('EMAIL_PORT')
-        EMAIL_HOST_USER = env.get('EMAIL_HOST_USER')
-        EMAIL_HOST_PASSWORD = env.get('EMAIL_HOST_PASSWORD')
-
-        if isinstance(EMAIL_PORT, basestring):
-            EMAIL_PORT = int(EMAIL_PORT)
-        if isinstance(EMAIL_HOST_PASSWORD, unicode):
-            EMAIL_HOST_PASSWORD = str(EMAIL_HOST_PASSWORD)
-        
-        DO_DEBUG_TOOLBAR = env.get('DO_DEBUG_TOOLBAR', False)
-
-# Otherwise, if it's dev...
-else:
-    DB_ENGINE = 'postgis'
-    DB_NAME = 'councilmatic'
-    DB_HOST = ''
-    DB_USER = 'councilmatic'
-    DB_PASSWORD = 'councilmatic'
-    DB_PORT = ''
-    WHOOSH_PATH = rel_path('whoosh_index')
-    LOGFILE_PATH= rel_path('logs/councilmatic.log')
-    DO_DEBUG_TOOLBAR = True
-
 # Django settings for councilmatic project.
 
 DEBUG = True
@@ -70,12 +26,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.' + DB_ENGINE, # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': DB_NAME,                      # Or path to database file if using sqlite3.
-        'USER': DB_USER,                      # Not used with sqlite3.
-        'PASSWORD': DB_PASSWORD,                  # Not used with sqlite3.
-        'HOST': DB_HOST,                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': DB_PORT,                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.contrib.gis.db.backends.postgis', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': '',                      # Or path to database file if using sqlite3.
+        'USER': '',                      # Not used with sqlite3.
+        'PASSWORD': '',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -172,6 +128,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ###############################################################################
@@ -223,7 +180,7 @@ GOOGLE_ANALYTICS_ACCOUNT = cmk.get('GOOGLE_ANALYTICS_ACCOUNT', '')
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-        'PATH': WHOOSH_PATH,
+        'PATH': 'nopath',  # OVERRIDE THIS VALUE!
     }
 }
 
@@ -251,6 +208,7 @@ COMMUNITY_APPS = (
     'ebdata', # From everyblock -- used here for parsing addresses and such
     'compressor',
     'djangorestframework',
+    'debug_toolbar',
 )
 
 MY_REUSABLE_APPS = (
@@ -291,15 +249,12 @@ INSTALLED_APPS = (
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 SOUTH_TESTS_MIGRATE = False
 
-# Debug toolbar
-if DO_DEBUG_TOOLBAR:
-    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
-    INSTALLED_APPS += ('debug_toolbar',)
-
-    DEBUG_TOOLBAR_CONFIG = {
-        'INTERCEPT_REDIRECTS': False
-    }
-    INTERNAL_IPS = ('127.0.0.1',)
+# Debugging
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': True,
+    'SHOW_TOOLBAR_CONFIG': (lambda: DEBUG)
+}
+INTERNAL_IPS = ('127.0.0.1',)
 
 # Logging
 LOGGING = {
@@ -330,7 +285,7 @@ LOGGING = {
         'logfile':{
             'level':'DEBUG',
             'class':'logging.handlers.RotatingFileHandler',
-            'filename':LOGFILE_PATH,
+            'filename':'',  # OVERRIDE THIS VALUE!
             'formatter':'verbose',
         },
         'mail_admins': {
@@ -361,3 +316,10 @@ LOGGING = {
         },
     }
 }
+
+###############################################################################
+# Local settings overrides
+try:
+    from local_settings import *
+except ImportError:
+    pass

@@ -1,0 +1,117 @@
+import os
+
+# Make filepaths relative to settings.
+def rel_path(*subs):
+    """Make filepaths relative to this settings file"""
+    root_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(root_path, *subs)
+
+DEBUG = True
+COMPRESS_ENABLED = True
+TEMPLATE_DEBUG = DEBUG
+DO_DEBUG_TOOLBAR = True
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'councilmatic',                      # Or path to database file if using sqlite3.
+        'USER': 'councilmatic',                      # Not used with sqlite3.
+        'PASSWORD': 'councilmatic',                  # Not used with sqlite3.
+        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
+    }
+}
+
+###############################################################################
+#
+# Source Data
+#
+
+LEGISLATION = {
+    'SYSTEM': 'Daystar Insite',
+    'ROOT': 'http://legislation.phila.gov/',
+    'STARTING_KEY': 72
+}
+
+
+###############################################################################
+#
+# Site search configuration
+#
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': rel_path('whoosh_index'),
+    }
+}
+
+################################################################################
+#
+# Testing and administration
+#
+
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+
+    'filters': {
+    },
+
+    'handlers': {
+        'null': {
+            'level':'DEBUG',
+            'class':'django.utils.log.NullHandler',
+        },
+        'console':{
+            'level':'INFO',
+            'class':'logging.StreamHandler',
+            'formatter':'verbose',
+        },
+        'logfile':{
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename':rel_path('logs/councilmatic.log'),
+            'formatter':'verbose',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        }
+    },
+
+    'loggers': {
+        'django': {
+            'handlers':['null'],
+            'propagate': True,
+            'level':'INFO',
+        },
+        'django.request': {
+            'handlers': ['logfile', 'mail_admins'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+        'councilmatic': {
+            'handlers': ['console', 'logfile', 'mail_admins'],
+            'level': 'DEBUG',
+        },
+        'phillyleg.management': {
+            'handlers': ['console', 'logfile', 'mail_admins'],
+            'level': 'DEBUG',
+        },
+    }
+}
+

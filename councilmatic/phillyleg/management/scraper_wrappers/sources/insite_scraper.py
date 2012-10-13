@@ -17,7 +17,11 @@ class PhillyLegistarSiteWrapper (object):
     of interaction is scrape_legis_file.
     """
 
-    STARTING_URL = 'http://legislation.phila.gov/detailreport/?key='
+    def __init__(self, root_url):
+        self.root_url = root_url
+    
+    def get_legfile_url(self, key):
+        return self.root_url + 'detailreport/?key=' + str(key)
 
     def urlopen(self, *args, **kwargs):
         return urllib2.urlopen(*args, **kwargs)
@@ -59,7 +63,7 @@ class PhillyLegistarSiteWrapper (object):
         record = {
             'key' : key,
             'id' : lid,
-            'url' : self.STARTING_URL + str(key),
+            'url' : self.get_legfile_url(key),
             'type' : ltype.strip(),
             'status' : lstatus.strip(),
             'title' : ltitle.strip(),
@@ -280,7 +284,7 @@ class PhillyLegistarSiteWrapper (object):
         for _ in xrange(100):
             curr_key = curr_key + 1
 
-            url = self.STARTING_URL + str(curr_key)
+            url = self.get_legfile_url(curr_key)
             more_tries = 10
             while True:
                 try:
