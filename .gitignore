@@ -19,6 +19,7 @@ logs/
 
 # The virtual environment
 .env/
+env/
 
 # Code coverage data
 .coverage
