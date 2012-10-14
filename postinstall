@@ -29,6 +29,7 @@ DATABASES = {
 DEBUG = (env.get('DEBUG', 'False') in ('True', 'true'))
 COMPRESS_ENABLED = True
 TEMPLATE_DEBUG = DEBUG
+STATIC_ROOT = '/home/dotcloud/static/'
 
 ###############################################################################
 #
@@ -133,8 +134,10 @@ LOGGING = {
 
 EOF
 
-echo 'Linking to the static files folder'
-ln -s councilmatic/static/
+echo 'Setting up nginx to serve static files'
+cat >> nginx.conf <<EOF
+location /static/ { root /home/dotcloud ; }
+EOF
 
 echo 'Doing the management commands'
 cd councilmatic
