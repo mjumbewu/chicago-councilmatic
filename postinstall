@@ -8,7 +8,7 @@
 #   * Build the search indexes
 #   * Set up daily cron jobs
 
-# Inject the appropriate settings into local_settings.py
+echo 'Injecting the appropriate settings into local_settings.py'
 cat >> councilmatic/local_settings.py <<EOF
 
 import json
@@ -29,6 +29,19 @@ DATABASES = {
 DEBUG = (env.get('DEBUG', 'False') in ('True', 'true'))
 COMPRESS_ENABLED = True
 TEMPLATE_DEBUG = DEBUG
+
+###############################################################################
+#
+# Source Data
+#
+
+LEGISLATION = {
+    'SYSTEM': 'Daystar Insite',
+    'ROOT': env['COUNCILMATIC_SOURCE_ROOT'],
+    'STARTING_KEY': 0,
+    'ADDRESS_BOUNDS': [float(c) for c in env['COUNCILMATIC_SOURCE_BOUNDS'].split(','))
+}
+
 
 ###############################################################################
 #
@@ -84,7 +97,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
             'formatter': 'verbose',
-            'filename': '/var/log/supervisor/helloapp.log',
+            'filename': '/var/log/supervisor/councilmatic.log',
             'maxBytes': 1024*1024*25, # 25 MB
             'backupCount': 5,
         },
@@ -120,23 +133,23 @@ LOGGING = {
 
 EOF
 
-# Link to the static files folder.
+echo 'Linking to the static files folder'
 ln -s councilmatic/static/
 
-# Do the management commands.
+echo 'Doing the management commands'
 cd councilmatic
 python manage.py syncdb --noinput
 python manage.py migrate --noinput
 python manage.py collectstatic --noinput
 
-# Get ready for the search index.
+echo 'Getting ready for the search index'
 mkdir ~/whoosh_index
 #python manage.py rebuild_index --noinput
 
-# Get ready for logs
+echo 'Getting ready for logs'
 mkdir ~/logs
 
-# Schedule the cron jobs
+echo 'Scheduling the cron jobs'
 cd ../
 crontab - <<EOF
 MAILTO=""
