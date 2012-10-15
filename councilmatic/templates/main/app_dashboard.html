@@ -89,7 +89,9 @@
                 var marker = new google.maps.Marker(markerOptions);
                 latlngs.push(markerOptions.position);
 
-//                google.maps.event.addDomListener(marker, 'click', searchAround({{ location.y }}, {{ location.x }}));
+                google.maps.event.addListener(marker, 'click', function() {
+                    window.location = '{% url legislation_detail location.references_in_legislation.all.0.legfile_id %}';
+                  });
                 {% endfor %}
 
                 zoomToFitMarkers(map, latlngs)

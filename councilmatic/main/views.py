@@ -70,7 +70,7 @@ class AppDashboardView (SearchBarMixin,
 
     def get_recent_locations(self):
         return list(phillyleg.models.MetaData_Location.objects.\
-                       all().order_by('-pk')[:10])
+                       all().order_by('-pk')[:10].prefetch_related('references_in_legislation'))
 
     def get_recent_legislation(self):
         return list(phillyleg.models.LegFile.objects.\
