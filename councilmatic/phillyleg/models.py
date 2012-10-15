@@ -404,6 +404,7 @@ class MetaData_Word (models.Model):
 class MetaData_Location (TimestampedModelMixin, models.Model):
     address = models.CharField(max_length=2048, unique=True)
     geom = models.PointField(null=True)
+    valid = models.BooleanField(default=True, blank=True)
 
     objects = models.GeoManager()
 
