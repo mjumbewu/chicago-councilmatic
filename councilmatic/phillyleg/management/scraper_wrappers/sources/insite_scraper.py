@@ -183,8 +183,9 @@ class PhillyLegistarSiteWrapper (object):
                 # Sometimes, there are notes interspersed in the history table.
                 # Luckily (?) their rows have only two cells instead of four, so
                 # we can easily tell that they're there.
-                action = actions[-1]
-                action['notes'] = cells[1].text.strip()
+                if actions:
+                    action = actions[-1]
+                    action['notes'] = cells[1].text.strip()
                 continue
 
             action = {
