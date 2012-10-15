@@ -40,7 +40,8 @@ LEGISLATION = {
     'SYSTEM': 'Daystar Insite',
     'ROOT': env['COUNCILMATIC_SOURCE_ROOT'],
     'STARTING_KEY': 0,
-    'ADDRESS_BOUNDS': [float(c) for c in env['COUNCILMATIC_ADDRESS_BOUNDS'].split(',')]
+    'ADDRESS_BOUNDS': [float(c) for c in env['COUNCILMATIC_ADDRESS_BOUNDS'].split(',')],
+    'ADDRESS_SUFFIX': env['COUNCILMATIC_ADDRESS_SUFFIX']
 }
 
 

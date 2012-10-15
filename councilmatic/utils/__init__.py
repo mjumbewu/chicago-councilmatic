@@ -61,8 +61,7 @@ def geocode(address, bounds, retries=5):
     if _geocode_count > 2000:
         raise TooManyGeocodeRequests("You're making a lot of geocoding requests.  You should consider slowing down, maybe?")
 
-    # Here's the default geocode request. Uses a reasonable bounding box around
-    # Philadelphia.
+    # Here's the default geocode request. Uses a reasonable bounding box.
     response = requests.get(
         'http://maps.googleapis.com/maps/api/geocode/json',
         params={'address': address, 'sensor': 'false', 'bounds':'{0},{1}|{2},{3}'.format(*bounds)})

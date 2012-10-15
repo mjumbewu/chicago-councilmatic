@@ -408,7 +408,7 @@ class MetaData_Location (TimestampedModelMixin, models.Model):
     objects = models.GeoManager()
 
     def __unicode__(self):
-        return '%s, Philadelphia, PA' % (self.address)
+        return '{0}{1}'.format(self.address, settings.LEGISLATION['ADDRESS_SUFFIX'])
 
     def save(self, *args, **kwargs):
         if not self.id and not self.geom:
@@ -420,7 +420,7 @@ class MetaData_Location (TimestampedModelMixin, models.Model):
         pass
 
     def geocode(self):
-        gc = utils.geocode(self.address, setings.LEGISLATION['ADDRESS_BOUNDS'])
+        gc = utils.geocode(self.address, settings.LEGISLATION['ADDRESS_BOUNDS'])
         if gc and gc['status'] == 'OK':
             x = float(gc['results'][0]['geometry']['location']['lng'])
             y = float(gc['results'][0]['geometry']['location']['lat'])
