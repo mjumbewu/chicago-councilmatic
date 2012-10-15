@@ -3,6 +3,7 @@ import ebdata.nlp.addresses
 import re
 import utils
 import logging
+from django.conf import settings
 from django.contrib.gis.db import models
 from django.contrib.gis import geos
 #from django.db import models
@@ -419,7 +420,7 @@ class MetaData_Location (TimestampedModelMixin, models.Model):
         pass
 
     def geocode(self):
-        gc = utils.geocode(self.address)
+        gc = utils.geocode(self.address, setings.LEGISLATION['ADDRESS_BOUNDS'])
         if gc and gc['status'] == 'OK':
             x = float(gc['results'][0]['geometry']['location']['lng'])
             y = float(gc['results'][0]['geometry']['location']['lat'])

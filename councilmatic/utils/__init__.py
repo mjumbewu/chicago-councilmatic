@@ -48,7 +48,7 @@ class TooManyGeocodeRequests (Exception):
 
 _geocode_day = datetime.date.today()
 _geocode_count = 0
-def geocode(address, retries=5):
+def geocode(address, bounds, retries=5):
     """attempts to geocode an address"""
     global _geocode_day
     global _geocode_count
@@ -65,12 +65,12 @@ def geocode(address, retries=5):
     # Philadelphia.
     response = requests.get(
         'http://maps.googleapis.com/maps/api/geocode/json',
-        params={'address': address, 'sensor': 'false', 'bounds':'39.874439,-75.29892|40.141615,-74.940491'})
+        params={'address': address, 'sensor': 'false', 'bounds':'{0},{1}|{2},{3}'.format(*bounds)})
 
     _geocode_count += 1
 
     if response.status_code != 200 and retries > 0:
-        return geocode(address, retries-1)
+        return geocode(address, bounds, retries-1)
     if response.status_code != 200:
         return None
 
