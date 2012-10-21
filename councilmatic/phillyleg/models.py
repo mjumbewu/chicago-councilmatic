@@ -162,7 +162,7 @@ class LegFile(TimestampedModelMixin, models.Model):
                 return iter(sorted(self.keys()))
 
         timeline = LegActionTimeline()
-        for action in self.actions.all():
+        for action in self.actions.all().order_by('date_taken'):
             print action.date_taken
             timeline[action.date_taken].append(action)
 
@@ -305,6 +305,7 @@ class LegAction(TimestampedModelMixin, models.Model):
         # TODO: Fix this; there's not actually uniqueness here.  See
         #       http://legislation.phila.gov/detailreport/?key=2915
         unique_together = (('file','date_taken','description','notes'),)
+        ordering = ['date_taken']
 
 
 class LegMinutes(TimestampedModelMixin, models.Model):
