@@ -108,8 +108,25 @@ class CouncilmaticDataStoreWrapper (object):
         for action_record in action_records:
             action_record = self.__replace_key_with_legfile(action_record)
             action_record = self.__replace_url_with_minutes(action_record)
-            self._save_or_ignore(LegAction, action_record)
+            if not self.is_duplicate_action(action_record):
+                self._save_or_ignore(LegAction, action_record)
 
+    def is_duplicate_action(self, action_record):
+        """
+        Check whether the given action_record data already exists in the
+        database.
+        """
+        date_taken = action_record.get('date_taken')
+        legfile = action_record.get('file')
+        actions = LegAction.objects.filter(date_taken=date_taken, file=legfile)
+        
+        for action in actions:
+            if action.description == action_record.get('description') and \
+               action.notes == action_record.get('notes'):
+                return True
+        
+        return False
+        
     @property
     def pdf_mapping(self):
         """
