@@ -27,5 +27,5 @@ case of DotCloud, the configuration files necessary are included in the project.
    list of four floating point numbers representing the top-left lat,lng, and
    the bottom-right lat,lng.
    
-    dorcloud var set councilmatic COUNCILMATIC_ADDRESS_BOUNDS=39.222146926442235,-76.81571960449219,39.386059865628575-76.46690368652344
+    dotcloud var set councilmatic COUNCILMATIC_ADDRESS_BOUNDS=39.222146926442235,-76.81571960449219,39.386059865628575-76.46690368652344
 

@@ -37,8 +37,10 @@ urlpatterns = patterns(
     url(r'^social/', include('social_auth.urls')),
     url(r'', include('captcha.backends.default.urls')),
 
+    url(r'^subscriptions/$', subscriptions.views.SubscriptionListView.as_view(), name='subscription_list'),
     url(r'^subscribe/$', subscriptions.views.CreateSubscriptionView.as_view(), name='subscribe'),
     url(r'^unsubscribe/(?P<pk>\d+)/$', subscriptions.views.DeleteSubscriptionView.as_view(), name='unsubscribe'),
+    url(r'^unsubscribe/(?P<pk>\d+)/confirm$', subscriptions.views.DeleteSubscriptionConfirmationView.as_view(), name='unsubscribe_confirmation'),
 
     url(r'^bookmark/$', bookmarks.views.CreateBookmarkView.as_view(), name='bookmark'),
     url(r'^unbookmark/(?P<pk>\d+)/$', bookmarks.views.DeleteBookmarkView.as_view(), name='unbookmark'),

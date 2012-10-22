@@ -170,6 +170,20 @@ class SearchResultsFeed (ContentFeed):
 
     def get_params(self):
         return {'search_filter': json.dumps(self.filter)}
+    
+    def get_label(self):
+        label = 'New '
+
+        if 'statuses' in self.filter:
+            label += self.filter['statuses'] + ' '
+
+        label += 'legislation'
+
+        if 'q' in self.filter:
+            is_plural = (' ' in self.filter['q'])
+            label += ' containing the keyword' + ('s' if is_plural else '') + ' "' + self.filter['q'] + '"'
+
+        return label
 
 
 def register_feeds():

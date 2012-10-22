@@ -9,6 +9,8 @@ import subscriptions.feeds as feeds
 import subscriptions.forms as forms
 import subscriptions.models as models
 
+from utils.decorators import LoginRequired
+
 class SingleSubscriptionMixin (object):
     def get_content_feed_library(self):
         """Return a ContentFeedLibrary to be used for the subscriptions"""
@@ -79,6 +81,21 @@ class DeleteSubscriptionView (views.DeleteView):
 
     def get_success_url(self):
         return self.request.REQUEST['success']
+
+
+class DeleteSubscriptionConfirmationView (views.DetailView):
+    model = models.Subscription
+    template_name = 'subscriptions/confirm_delete.html'
+
+
+@LoginRequired
+class SubscriptionListView (views.ListView):
+    model = models.Subscription
+    template_name = 'subscriptions/subscription_list.html'
+    
+    def get_queryset(self):
+        user = self.request.user
+        return user.subscriber.subscriptions.all()
 
 
 def subscribe(request):
