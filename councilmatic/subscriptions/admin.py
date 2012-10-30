@@ -22,6 +22,9 @@ class ContentFeedParameterInline(admin.StackedInline):
 
 class ContentFeedRecordAdmin(admin.ModelAdmin):
     inlines = [ContentFeedParameterInline]
+    
+    def queryset(self, request):
+        return models.ContentFeedRecord.objects.prefetch_related('feed_params')
 
 class SubscriptionDispatchRecordInline(admin.TabularInline):
     model = models.SubscriptionDispatchRecord
@@ -29,6 +32,9 @@ class SubscriptionDispatchRecordInline(admin.TabularInline):
 
 class SubscriptionAdmin(admin.ModelAdmin):
     inlines = [SubscriptionDispatchRecordInline]
+    
+    def queryset(self, request):
+        return models.Subscription.objects.select_related('feed_record').prefetch_related('feed_record__feed_params')
 
 
 admin.site.register(models.Subscription, SubscriptionAdmin)

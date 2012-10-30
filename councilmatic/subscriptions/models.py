@@ -43,7 +43,10 @@ class ContentFeedRecord (models.Model):
     """The stored value of the last time content in the feed was updated."""
 
     def __unicode__(self):
-        return u'a %s feed' % (self.feed_name,)
+        string = u'a %s feed: ' % (self.feed_name,)
+        params = ['%s = %s' % (p.name, p.value) for p in self.feed_params.all()]
+        string += ('[' + ', '.join(params) + ']')
+        return string
 
     def is_equivalent_to(self, other):
         if self.feed_name != other.feed_name:
