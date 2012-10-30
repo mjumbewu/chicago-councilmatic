@@ -112,17 +112,7 @@ class TestNewLegislationFeedDispatching(SubscriptionFlowTesterMixin):
         return feeds.NewLegislationFeed()
 
     def get_initial_dispatch_message(self):
-        return ('Philadelphia Councilmatic!\n==========================\n\nY'
-                'ou are subscribed to the following feeds:\n\n\n* bookmarked'
-                ' content\n\n* newly introduced legislation\n\n\n\n---------'
-                '-----------------------------------------------------------'
-                '------------\n\nBILL a\n\nTitle: first\n\nMore at http://ex'
-                'ample.com/legislation/1\n\n\n------------------------------'
-                '--------------------------------------------------\n\nBILL '
-                'b\n\nTitle: second\n\nMore at http://example.com/legislatio'
-                'n/2\n\n\n--------------------------------------------------'
-                '------------------------------\n\nBILL c\n\nTitle: third\n'
-                '\nMore at http://example.com/legislation/3\n\n')
+        return ('\n\nPhiladelphia Councilmatic!\n==========================\n\nYou are subscribed to the following feeds:\n\n\n* Content that you have bookmarked (0 items)\n\n* Newly introduced legislation\n\n\n--------------------------------------------------------------------------------\n\nBILL a\n\nTitle: first\n\nMore at http://example.com/legislation/1\n\n\n--------------------------------------------------------------------------------\n\nBILL b\n\nTitle: second\n\nMore at http://example.com/legislation/2\n\n\n--------------------------------------------------------------------------------\n\nBILL c\n\nTitle: third\n\nMore at http://example.com/legislation/3\n\n\n\nTo manage your subscriptions, visit http://example.com/subscriptions/\n')
 
 
 class TestLegislationUpdatesFeedDispatching(SubscriptionFlowTesterMixin):
@@ -137,12 +127,7 @@ class TestLegislationUpdatesFeedDispatching(SubscriptionFlowTesterMixin):
         return feeds.LegislationUpdatesFeed(key=1)
 
     def get_initial_dispatch_message(self):
-        return ('Philadelphia Councilmatic!\n==========================\n\nYou '
-                'are subscribed to the following feeds:\n\n\n* bookmarked conte'
-                'nt\n\n* updates to a piece of legislation\n\n\n\n-------------'
-                '--------------------------------------------------------------'
-                '-----\n\nBILL a\n\nMore at http://example.com/legislation/1\n'
-                '\n')
+        return ('\n\nPhiladelphia Councilmatic!\n==========================\n\nYou are subscribed to the following feeds:\n\n\n* Content that you have bookmarked (0 items)\n\n* Updates to legislation\n\n\n--------------------------------------------------------------------------------\n\nBILL a\n\nMore at http://example.com/legislation/1\n\n\n\nTo manage your subscriptions, visit http://example.com/subscriptions/\n')
 
 
 class TestSearchResultsFeedDispatching(SubscriptionFlowTesterMixin):
@@ -167,18 +152,7 @@ class TestSearchResultsFeedDispatching(SubscriptionFlowTesterMixin):
         return feeds.SearchResultsFeed(search_filter='{"content":"streets", "file_type":["Bill"]}')
 
     def get_initial_dispatch_message(self):
-        return ('Philadelphia Councilmatic!\n==========================\n\nYou '
-                'are subscribed to the following feeds:\n\n\n* bookmarked conte'
-                'nt\n\n* results of a search query\n\n\n\n---------------------'
-                '-----------------------------------------------------------\n'
-                '\nNONE phillyleg.legfile.1\n\nTitle: first streets\n\nMore at '
-                'http://example.comNone\n\n\n----------------------------------'
-                '----------------------------------------------\n\nNONE phillyl'
-                'eg.legfile.3\n\nTitle: third streets\n\nMore at http://exampl'
-                'e.comNone\n\n\n-----------------------------------------------'
-                '---------------------------------\n\nNONE phillyleg.legfile.4'
-                '\n\nTitle: fourth streets\n\nMore at http://example.comNone\n'
-                '\n')
+        return ('\n\nPhiladelphia Councilmatic!\n==========================\n\nYou are subscribed to the following feeds:\n\n\n* Content that you have bookmarked (0 items)\n\n* New legislation\n\n\n--------------------------------------------------------------------------------\n\nBILL a\n\nTitle: first streets\n\nMore at http://example.com/legislation/1\n\n\n--------------------------------------------------------------------------------\n\nBILL c\n\nTitle: third streets\n\nMore at http://example.com/legislation/3\n\n\n--------------------------------------------------------------------------------\n\nBILL d\n\nTitle: fourth streets\n\nMore at http://example.com/legislation/4\n\n\n\nTo manage your subscriptions, visit http://example.com/subscriptions/\n')
 
 class TestBookmarkFeedDispatching(SubscriptionFlowTesterMixin):
     def create_initial_content(self):
@@ -197,8 +171,4 @@ class TestBookmarkFeedDispatching(SubscriptionFlowTesterMixin):
         return feeds.BookmarkedContentFeed(self.subscriber)
 
     def get_initial_dispatch_message(self):
-        return ('Philadelphia Councilmatic!\n==========================\n\nYou '
-                'are subscribed to the following feeds:\n\n\n* bookmarked conte'
-                'nt\n\n* bookmarked content\n\n\n\n----------------------------'
-                '----------------------------------------------------\n\nBILL a'
-                '\n\nMore at http://example.com/legislation/1\n\n')
+        return ('\n\nPhiladelphia Councilmatic!\n==========================\n\nYou are subscribed to the following feeds:\n\n\n* Content that you have bookmarked (1 items)\n\n* Content that you have bookmarked (1 items)\n\n\n--------------------------------------------------------------------------------\n\nBILL a\n\nMore at http://example.com/legislation/1\n\n\n\nTo manage your subscriptions, visit http://example.com/subscriptions/\n')

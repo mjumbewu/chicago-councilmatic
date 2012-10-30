@@ -4,8 +4,9 @@ from subscriptions.feeds import ContentFeedLibrary
 register = template.Library()
 
 @register.filter
-def subscription_title(subscription):
-    library = ContentFeedLibrary()
+def subscription_title(subscription, library=None):
+    if library is None:
+        library = ContentFeedLibrary()
     
     feed = library.get_feed(subscription.feed_record)
     return feed.get_label()

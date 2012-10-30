@@ -42,6 +42,9 @@ def test_subscription_flow():
         def get_changes_to(self, item, since):
             if since.date() < item[0]:
                 return {'value': item[1]}, datetime.datetime(2011, 12, 13, 14, 15)
+        
+        def get_label(self):
+            return 'Easy...'
 
     library.register(EasyContentFeed, 'easy')
     feed = EasyContentFeed()
@@ -65,20 +68,7 @@ def test_subscription_flow():
     assert_equal(len(mail.outbox), 1)
     assert_equal(mail.outbox[0].subject[:19], 'Philly Councilmatic')
     assert_equal(mail.outbox[0].body,
-                 ('Philadelphia Councilmatic!\n==========================\n\nYo'
-                  'u are subscribed to the following feeds:\n\n\n* easy\n\n\n\n'
-                  '------------------------------------------------------------'
-                  '--------------------\n\n \n\nvalue: 5\n\nMore at http://exam'
-                  'ple.com\n\n\n-----------------------------------------------'
-                  '---------------------------------\n\n \n\nvalue: 2\n\nMore a'
-                  't http://example.com\n\n\n----------------------------------'
-                  '----------------------------------------------\n\n \n\nvalue'
-                  ': 4\n\nMore at http://example.com\n\n\n---------------------'
-                  '-----------------------------------------------------------'
-                  '\n\n \n\nvalue: 1\n\nMore at http://example.com\n\n\n-------'
-                  '------------------------------------------------------------'
-                  '-------------\n\n \n\nvalue: 3\n\nMore at http://example.com'
-                  '\n\n'))
+                 ('\n\nPhiladelphia Councilmatic!\n==========================\n\nYou are subscribed to the following feeds:\n\n\n* Easy...\n\n\n--------------------------------------------------------------------------------\n\n \n\nvalue: 5\n\nMore at http://example.com\n\n\n--------------------------------------------------------------------------------\n\n \n\nvalue: 2\n\nMore at http://example.com\n\n\n--------------------------------------------------------------------------------\n\n \n\nvalue: 4\n\nMore at http://example.com\n\n\n--------------------------------------------------------------------------------\n\n \n\nvalue: 1\n\nMore at http://example.com\n\n\n--------------------------------------------------------------------------------\n\n \n\nvalue: 3\n\nMore at http://example.com\n\n\n\nTo manage your subscriptions, visit http://example.com/subscriptions/\n'))
 
     # Cool.  Clear the mailbox.
     del mail.outbox[:]

@@ -34,6 +34,9 @@ class NewLegislationFeed (ContentFeed):
 
     def get_params(self):
         return {}
+    
+    def get_label(self):
+        return 'Newly introduced legislation'
 
 
 class LegislationUpdatesFeed (ContentFeed):
@@ -84,6 +87,9 @@ class LegislationUpdatesFeed (ContentFeed):
 
     def get_params(self):
         return self.selectors
+    
+    def get_label(self):
+        return 'Updates to legislation'
 
 
 from django.dispatch import receiver

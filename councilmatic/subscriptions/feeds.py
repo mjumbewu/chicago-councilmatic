@@ -270,7 +270,7 @@ class SubscriptionDispatcher (object):
 
         return content_changes
 
-    def render(self, subscriber, subscriptions, content_updates):
+    def render(self, subscriber, subscriptions, content_updates, library=None):
         """
         Render the given content updates to a template for the subscriber.
         """
@@ -282,7 +282,8 @@ class SubscriptionDispatcher (object):
         content_updates = sorted(content_updates.items(), key=lambda (i, (c, d)): d)
         content_updates = [(k, v.items()) for (k, (v, d)) in content_updates]
 
-        context = Context({'subscriber':subscriber,
+        context = Context({'library': library,
+                           'subscriber':subscriber,
                            'subscriptions': subscriptions,
                            'content_updates':content_updates,
                            'SITE': Site.objects.get_current()})
@@ -318,7 +319,7 @@ class SubscriptionDispatcher (object):
 
         content_updates = self.get_content_updates_for(subscriptions, library)
         if content_updates:
-            delivery = self.render(subscriber, subscriptions, content_updates)
+            delivery = self.render(subscriber, subscriptions, content_updates, library)
             self.deliver_to(subscriber, delivery)
             self.record_delivery(subscriber, subscriptions,
                                  content_updates, delivery)

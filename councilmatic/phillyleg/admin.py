@@ -1,17 +1,5 @@
 from django.contrib.gis import admin
-from phillyleg.models import Subscription
 from phillyleg.models import *
-
-class KeywordInline(admin.StackedInline):
-    model = KeywordSubscription
-    extra = 3
-
-class CouncilmemberInline(admin.StackedInline):
-    model = CouncilMemberSubscription
-    extra = 3
-
-class SubscriptionAdmin(admin.ModelAdmin):
-    inlines = [KeywordInline, CouncilmemberInline]
 
 class LegActionInline(admin.StackedInline):
     model = LegAction
@@ -64,7 +52,6 @@ class CouncilMemberAdmin (admin.ModelAdmin):
     inlines = [CouncilMemberTenureInline]
 
 
-admin.site.register(Subscription, SubscriptionAdmin)
 admin.site.register(LegFile, LegFileAdmin)
 admin.site.register(LegMinutes, LegMinutesAdmin)
 admin.site.register(CouncilMember, CouncilMemberAdmin)

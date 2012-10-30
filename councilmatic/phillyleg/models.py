@@ -431,34 +431,3 @@ class MetaData_Location (TimestampedModelMixin, models.Model):
             log.debug('Could not geocode the address "%s"' % self.address)
             raise self.CouldNotBeGeocoded(self.address)
 
-
-#
-# Subscription models
-#
-
-class Subscription(models.Model):
-    email  = models.CharField(max_length=100)
-    last_sent = models.DateTimeField()
-
-    def save(self, *args, **kwargs):
-        """On save, update timestamps"""
-        if not self.id:
-            self.last_sent = datetime.datetime.now()
-        super(Subscription, self).save(*args, **kwargs)
-
-    def __unicode__(self):
-        return self.email
-
-class KeywordSubscription(models.Model):
-    subscription = models.ForeignKey(Subscription, related_name='keywords')
-    keyword = models.CharField(max_length=50)
-
-    def __unicode__(self):
-        return self.keyword
-
-class CouncilMemberSubscription(models.Model):
-    subscription = models.ForeignKey(Subscription, related_name='councilmembers')
-    councilmember = models.ForeignKey(CouncilMember)
-
-    def __unicode__(self):
-        return unicode(self.councilmember)
