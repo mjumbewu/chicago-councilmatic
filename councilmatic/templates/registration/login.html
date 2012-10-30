@@ -17,7 +17,7 @@
         <div class="buttonHolder">
           <button type="submit" class="primaryAction">Done</button>
           {% if request.GET.next %}
-            <input type="hidden" value="{{ request.GET.next }}">
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
             <a href="{{ request.GET.next }}" class="secondaryAction">Cancel</a>
           {% endif %}
         </div>
