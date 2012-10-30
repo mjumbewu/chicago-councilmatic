@@ -1,18 +1,17 @@
+{% load subscription_labels %}
+{% load url from future %}
 Philadelphia Councilmatic!
 ==========================
 
 You are subscribed to the following feeds:
 
 {% for subscription in subscriptions %}
-* {{ subscription.feed_record.feed_name }}
+* {{ subscription|subscription_title }}
 {% endfor %}
 {% for item, item_updates in content_updates %}
-
 --------------------------------------------------------------------------------
 
-{{ item.type|upper }} {{ item.id }}
-{% for label, value in item_updates %}
-{{ label }}: {{ value }}
+{% if item.object %}{% include 'subscriptions/item.txt' with item=item.object %}{% else %}{% include 'subscriptions/item.txt' %}{% endif %}
 {% endfor %}
-More at http://{{ SITE.domain }}{{ item.get_absolute_url }}
-{% endfor %}
+
+To manage your subscriptions, visit http://{{ SITE.domain }}{% url 'subscription_list' %}

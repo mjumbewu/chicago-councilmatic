@@ -131,6 +131,9 @@ class BookmarkedContentFeed (LegislationUpdatesFeed):
     def get_params(self):
         return {'user': self.user.pk}
 
+    def get_label(self):
+        return 'Content that you have bookmarked ({0} items)'.format(self.user.bookmarks.count())
+
 
 class SearchResultsFeed (ContentFeed):
     def __init__(self, search_filter):
