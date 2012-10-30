@@ -3,6 +3,10 @@ from nose.tools import *
 from mock import *
 
 class Tests_legislation_index_GET:
+    
+    def setUp(self):
+        from phillyleg.models import LegFile
+        LegFile.objects.all().delete()
 
     @istest
     def has_new_legislation_list_feed_in_context(self):
@@ -21,10 +25,10 @@ class Tests_legislation_index_GET:
         from phillyleg.models import LegFile
         from datetime import date
 
-        LegFile(key=1, intro_date=date(2011,8,23)).save()
-        LegFile(key=2, intro_date=date(2011,8,21)).save()
-        LegFile(key=3, intro_date=date(2011,8,24)).save()
-        LegFile(key=4, intro_date=date(2011,8,21)).save()
+        LegFile.objects.create(key=1, intro_date=date(2011,8,23))
+        LegFile.objects.create(key=2, intro_date=date(2011,8,21))
+        LegFile.objects.create(key=3, intro_date=date(2011,8,24))
+        LegFile.objects.create(key=4, intro_date=date(2011,8,21))
 
         # Make the request.
         client = Client()

@@ -43,28 +43,31 @@ class SubscriptionResource (resources.ModelResource):
 
         # Reset the fields, in case this serializer is used on multiple
         # subscriptions.
-        self.fields = self.__class__.fields[:]
+        if isinstance(obj, Subscription):
+            self.fields = self.__class__.fields[:]
 
-        additional = {}
-        if obj.feed_record.feed_name == 'results of a search query':
-            fp = self.feed_params = dict([(param.name, param.value) for param in
-                                          obj.feed_record.feed_params.all()])
+            additional = {}
+            if obj.feed_record.feed_name == 'results of a search query':
+                fp = self.feed_params = dict([(param.name, param.value) for param in
+                                              obj.feed_record.feed_params.all()])
 
-            if 'q' in fp:
-                self.fields.append('keywords')
-            if 'controlling_bodies' in fp:
-                self.fields.append('controlling_bodies')
-            if 'file_types' in fp:
-                self.fields.append('file_types')
-            log.debug(self.feed_params)
+                if 'q' in fp:
+                    self.fields.append('keywords')
+                if 'controlling_bodies' in fp:
+                    self.fields.append('controlling_bodies')
+                if 'file_types' in fp:
+                    self.fields.append('file_types')
+                log.debug(self.feed_params)
 
-        else:
-            for feed_record_param in obj.feed_record.feed_params.all():
-                additional[feed_record_param.name] = feed_record_param.value
+            else:
+                for feed_record_param in obj.feed_record.feed_params.all():
+                    additional[feed_record_param.name] = feed_record_param.value
 
-        obj_dict = super(SubscriptionResource, self).serialize(obj, request)
-        obj_dict.update(additional)
-        return obj_dict
+            obj_dict = super(SubscriptionResource, self).serialize(obj, request)
+            obj_dict.update(additional)
+            return obj_dict
+        
+        return super(SubscriptionResource, self).serialize(obj, request)
 
 
 class BookmarkResource (resources.ModelResource):

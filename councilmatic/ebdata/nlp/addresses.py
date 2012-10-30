@@ -104,7 +104,7 @@ STREET_NAME = r"""
                 |
                 [A-Z][a-z][A-Za-z]*  # One initial-capped word
                 |
-                [A-Z]\b              # Single-letter street name (e.g., K St. in DC)
+                [A-Z]+\b              # Single-letter street name (e.g., K St. in DC)
                 (?!\.\w)             # Avoid '20 U.S.A.'
             )
         )
@@ -185,6 +185,9 @@ ADDRESSES_RE = r"""(?x)
     # "University of Texas at Austin". This is a common false positive.
     (?<!
         [Uu][Nn][Ii][Vv][Ee][Rr][Ss][Ii][Tt][Yy]\s[Oo][Ff]\s
+    )
+    (?<!
+        [Uu][Nn][Ii][Vv][Ee][Rr][Ss][Ii][Tt][Yy]\s
     )
 
     (?:

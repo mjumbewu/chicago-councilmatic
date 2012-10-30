@@ -11,11 +11,12 @@ class Test_NewLegislationFeed_getLastUpdated:
 
     @istest
     def returns_the_intro_date_of_a_piece_of_legislation (self):
-        legislation = Mock()
-        legislation.intro_date = 5
+        content = [Mock(), Mock(), Mock()]
+        content[0].intro_date = 5
 
         feed_data = NewLegislationFeed()
-        last_updated = feed_data.get_last_updated(legislation)
+        feed_data.get_content = Mock(return_value=content)
+        last_updated = feed_data.get_last_updated_time()
 
         assert_equal(last_updated, 5)
 
@@ -25,13 +26,13 @@ class Test_NewLegislationFeed_getChangesTo:
     @istest
     def returns_the_title_if_introduced_since_given_time (self):
         legislation = Mock()
-        legislation.intro_date = date.today()
+        legislation.intro_date = date(2012, 9, 20)
         legislation.title = 'Hello, world!'
 
         feed_data = NewLegislationFeed()
         changes = feed_data.get_changes_to(legislation, datetime.min)
 
-        assert_equal(changes, ({'Title': 'Hello, world!'}, datetime.datetime(2012, 9, 20, 0, 0)))
+        assert_equal(changes, ({'Title': 'Hello, world!'}, datetime(2012, 9, 20, 0, 0)))
 
     @istest
     def returns_an_empty_dict_if_introduced_before_given_time (self):
@@ -42,32 +43,21 @@ class Test_NewLegislationFeed_getChangesTo:
         feed_data = NewLegislationFeed()
         changes = feed_data.get_changes_to(legislation, datetime.now())
 
-        assert_equal(changes, ({}, datetime.datetime(1, 1, 1, 0, 0)))
+        assert_equal(changes, ({}, datetime(1, 1, 1, 0, 0)))
 
 
 class Test_SearchResultsFeed_getLastUpdated:
 
     @istest
-    def returns_the_intro_date_of_a_piece_of_legislation (self):
-        from phillyleg.models import LegFile
-        legislation = LegFile()
-        legislation.intro_date = date(2011,8,22)
+    def returns_the_order_date_of_a_piece_of_legislation_or_minutes (self):
+        content = [Mock(), Mock(), Mock()]
+        content[-1].order_date = 5
 
         feed_data = SearchResultsFeed(None)
-        last_updated = feed_data.get_last_updated(legislation)
+        feed_data.get_content = Mock(return_value=content)
+        last_updated = feed_data.get_last_updated_time()
 
-        assert_equal(last_updated, date(2011,8,22))
-
-    @istest
-    def returns_the_date_taken_of_a_minutes_document (self):
-        from phillyleg.models import LegMinutes
-        minutes = LegMinutes()
-        minutes.date_taken = date(2011,8,23)
-
-        feed_data = SearchResultsFeed(None)
-        last_updated = feed_data.get_last_updated(minutes)
-
-        assert_equal(last_updated, date(2011,8,23))
+        assert_equal(last_updated, 5)
 
 
 class Test_LegislationUpdatesFeed_getContent:
@@ -105,7 +95,7 @@ class Test_LegislationUpdatesFeed_getLastUpdated:
         legislation.actions.all = Mock(return_value=[])
         feed_data = LegislationUpdatesFeed()
 
-        last_updated = feed_data.get_last_updated(legislation)
+        last_updated = feed_data.get_last_updated_time_for_file(legislation)
 
         assert_equal(last_updated, date(2011, 8, 5))
 
@@ -117,7 +107,7 @@ class Test_LegislationUpdatesFeed_getLastUpdated:
         legislation.actions.all = Mock(return_value=[])
         feed_data = LegislationUpdatesFeed()
 
-        last_updated = feed_data.get_last_updated(legislation)
+        last_updated = feed_data.get_last_updated_time_for_file(legislation)
 
         assert_equal(last_updated, date(2011, 8, 10))
 
@@ -132,7 +122,7 @@ class Test_LegislationUpdatesFeed_getLastUpdated:
         legislation.actions.all = Mock(return_value=[action1, action2, action3])
         feed_data = LegislationUpdatesFeed()
 
-        last_updated = feed_data.get_last_updated(legislation)
+        last_updated = feed_data.get_last_updated_time_for_file(legislation)
 
         assert_equal(last_updated, date(2011, 8, 8))
 
@@ -147,7 +137,7 @@ class Test_LegislationUpdatesFeed_getLastUpdated:
         legislation.actions.all = Mock(return_value=[action1, action2, action3])
         feed_data = LegislationUpdatesFeed()
 
-        last_updated = feed_data.get_last_updated(legislation)
+        last_updated = feed_data.get_last_updated_time_for_file(legislation)
 
         assert_equal(last_updated, date(2011, 8, 11))
 
@@ -184,7 +174,7 @@ class Test_Dispatching_feed_subscriptions:
 
     @istest
     def works_for_SearchResultsFeed (self):
-        feed = SearchResultsFeed("(AND: ('content', u'smoking'), ('type__in', [u'Bill']))")
+        feed = SearchResultsFeed('{"q": "smoking", "type": ["Bill"]}')
         self._dispatch_for_feed(feed)
 
     @istest

@@ -105,9 +105,12 @@ def create_bookmarks_subscription_for_subscriber(sender, **kwargs):
 
     if created and not raw:
         feed = BookmarkedContentFeed(subscriber)
-        if subscriber.subscription(feed) is None:
-            subscriber.subscribe(feed)
-            logging.info('created bookmarks subscription')
+        try:
+            if subscriber.subscription(feed) is None:
+                subscriber.subscribe(feed)
+                logging.info('created bookmarks subscription')
+        except BookmarkedContentFeed.NotFound, e:
+            logging.warning(e)
 
 
 class BookmarkedContentFeed (LegislationUpdatesFeed):
@@ -140,8 +143,10 @@ class SearchResultsFeed (ContentFeed):
         """
         if isinstance(search_filter, dict):
             self.filter = search_filter
-        else:
+        elif search_filter is not None:
             self.filter = json.loads(search_filter)
+        else:
+            self.filter = {}
 
     def get_content(self):
         qs = SearchQuerySet()

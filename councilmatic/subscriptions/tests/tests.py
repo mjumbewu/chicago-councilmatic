@@ -31,6 +31,9 @@ class DummyFeed (ContentFeed):
 
     def calc_last_updated(self, item):
         return 2
+    
+    def get_last_updated_time(self):
+        return 3
 
 
 class Test_Subscription_save (TestCase):
@@ -123,7 +126,7 @@ class ListItemFeed (ContentFeed):
     def get_params(self):
         return {'items': str(self.items)}
 
-    def get_last_updated(self, item):
+    def get_last_updated_time(self):
         return datetime.date.today()
 
 
@@ -215,8 +218,8 @@ class NewLegFilesFeed (ContentFeed):
     def get_content(self):
         return LegFile.objects.all()
 
-    def get_last_updated(self, legfile):
-        return legfile.intro_date
+    def get_last_updated_time(self):
+        return datetime.datetime.combine(max([legfile.intro_date for legfile in self.get_content()]), datetime.time())
 
     def get_params(self):
         return {}
@@ -224,6 +227,7 @@ class NewLegFilesFeed (ContentFeed):
 class Test_ContentFeedUpdater_update (TestCase):
 
     def setUp(self):
+        LegFile.objects.all().delete()
 
         key = 0
         for intro, final in [ (datetime.date(2011, 1, 28),
@@ -236,7 +240,7 @@ class Test_ContentFeedUpdater_update (TestCase):
                                datetime.date(2006, 12, 12)),
                               (datetime.date(2006, 12, 12),
                                datetime.date(2006, 12, 13)) ]:
-            LegFile(intro_date=intro, final_date=final, key=key, date_scraped=datetime.date.today()).save()
+            LegFile.objects.create(intro_date=intro, final_date=final, key=key, date_scraped=datetime.date.today())
             key += 1
 
         self.library = ContentFeedLibrary(shared=False)
@@ -249,7 +253,7 @@ class Test_ContentFeedUpdater_update (TestCase):
 
         updater.update(self.record, self.library)
 
-        assert_equal(self.record.last_updated, datetime.date(2011, 8, 17))
+        assert_equal(self.record.last_updated, datetime.datetime(2011, 8, 17, 0, 0))
 
     @istest
     def returns_date_min_when_no_content_is_available(self):
@@ -272,19 +276,18 @@ class Test_ContentFeedUpdater_updateAll (TestCase):
                        ListItemFeed("['world']") ]
 
         for feed in self.feeds:
-            feed.get_last_updated = Mock(return_value=datetime.date.today())
+            feed.get_last_updated_time = Mock(return_value=datetime.date.today())
 
         self.feed_records = [library.get_record(feed) for feed in self.feeds]
 
     @istest
-    def calls_get_last_updated_on_all_feed_objects(self):
+    def calls_get_last_updated_time_once(self):
 
         updater = ContentFeedRecordUpdater()
 
         updater.update_all(self.feed_records, self.library)
 
-        self.feeds[0].get_last_updated.assert_called_with('hello')
-        self.feeds[1].get_last_updated.assert_called_with('world')
+        assert_equal(self.feeds[0].get_last_updated_time.call_count, 1)
 
 
 class Test_ContentFeedCleaner_clean (TestCase):
@@ -315,7 +318,7 @@ class Test_ContentFeedCleaner_clean (TestCase):
         cleaner.clean()
 
         feed_records = ContentFeedRecord.objects.all()
-        assert_equal(len(feed_records), num_feeds - 1)
+        assert_equal(len(feed_records), num_records - 1)
         assert_in(self.keeper, feed_records)
         assert_not_in(self.tosser, feed_records)
 
@@ -456,7 +459,7 @@ class Test_SubscriptionDispatcher_dispatch:
         mock_feed = Mock()
         self.library.get_feed = lambda *a, **k: mock_feed
         mock_feed.get_updates_since = lambda *a, **k: [1, 2, 3]
-        mock_feed.get_changes_to = lambda *a, **k: {}
+        mock_feed.get_changes_to = lambda *a, **k: ({}, datetime.datetime.now())
 
         dispatcher = SubscriptionDispatcher()
         dispatcher.template_name = 'subscriptions/subscription_email.txt'

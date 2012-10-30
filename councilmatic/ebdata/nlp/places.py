@@ -17,8 +17,6 @@
 #
 
 import re
-from ebpub.db.models import Location, LocationSynonym
-from ebpub.streets.models import Place, PlaceSynonym
 
 """
 Factories that return 'grabber' and 'tagger' functions, for finding
@@ -123,41 +121,3 @@ def phrase_tagger(phrases, pre='<span>', post='</span>', paranoid=True):
 
     return tag_phrases
 
-def place_tagger(pre='<addr>', post='</addr>', paranoid=True):
-    """
-    Returns a phrase tagger function where the phrases are the names of all
-    Places and PlaceSynonyms in the database.
-    """
-    phrases = [p['pretty_name'] for p in Place.objects.filter(place_type__is_geocodable=True).values('pretty_name').order_by('-pretty_name')]
-    synonyms = [m['pretty_name'] for m in PlaceSynonym.objects.values('pretty_name').order_by('-pretty_name')]
-    return phrase_tagger(phrases + synonyms, pre, post, paranoid)
-
-def location_tagger(pre='<addr>', post='</addr>', paranoid=True,
-                    ignore_location_types=('boroughs', 'cities')):
-    """
-    Returns a phrase tagger function where the phrases are the names of all
-    Locations and LocationSynonyms in the database.
-    """
-    location_qs = Location.objects.values('name').order_by('-name').exclude(location_type__slug__in=ignore_location_types)
-    locations = [p['name'] for p in location_qs]
-    synonyms = [m['pretty_name'] for m in LocationSynonym.objects.values('pretty_name').order_by('-pretty_name')]
-    return phrase_tagger(locations + synonyms, pre, post, paranoid)
-
-def place_grabber():
-    """
-    Returns a phrase grabber function where the phrases are the names of all
-    Places and PlaceSynonyms in the database.
-    """
-    phrases = [p['pretty_name'] for p in Place.objects.filter(place_type__is_geocodable=True).values('pretty_name').order_by('-pretty_name')]
-    synonyms = [m['pretty_name'] for m in PlaceSynonym.objects.values('pretty_name').order_by('-pretty_name')]
-    return loose_phrase_grabber(phrases + synonyms)
-
-def location_grabber(ignore_location_types=('boroughs', 'cities')):
-    """
-    Returns a phrase grabber function where the phrases are the names of all
-    Locations and LocationSynonyms in the database.
-    """
-    location_qs = Location.objects.values('name').order_by('-name').exclude(location_type__slug__in=ignore_location_types)
-    locations = [p['name'] for p in location_qs]
-    synonyms = [m['pretty_name'] for m in LocationSynonym.objects.values('pretty_name').order_by('-pretty_name')]
-    return loose_phrase_grabber(locations + synonyms)

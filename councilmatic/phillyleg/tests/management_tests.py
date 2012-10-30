@@ -30,7 +30,7 @@ class LegistarTests (TestCase):
         html = self.open_legfile('73').read()
         soup = bs.BeautifulSoup(html)
 
-        wrapper = PhillyLegistarSiteWrapper()
+        wrapper = PhillyLegistarSiteWrapper(root_url='')
         file_record, attachment_records, action_records, minutes_records = \
             wrapper.scrape_legis_file(73, soup)
 
@@ -39,7 +39,7 @@ class LegistarTests (TestCase):
                  if act_rec['notes']]), 2)
 
     def test_ResolutionPdfParsesCorrectly(self):
-        wrapper = PhillyLegistarSiteWrapper()
+        wrapper = PhillyLegistarSiteWrapper(root_url='')
         expected_text = """\n\n\n\n\n\n\n\n\nCity of Philadelphia \n \n \n \n \nCity of Philadelphia \n- 1 - \n \n \n \nCity Council \nChief Clerk's Office \n402 City Hall \nPhiladelphia, PA 19107 \nRESOLUTION NO. 110406 \n \n \nIntroduced May 12, 2011 \n \n \nCouncilmember DiCicco \n \n \nReferred to the \nCommittee of the Whole   \n \n \nRESOLUTION \n \nAppointing David Campoli to the Board of Directors of the Center City District. \n \n \n \nRESOLVED, BY THE COUNCIL OF THE CITY OF PHILADELPHIA, \nTHAT David Campoli is hereby appointed as a member of the Board of Directors of the \nCenter City District, to serve in a term ending December 31, 2012. \n \n \n\n\n\nCity of Philadelphia \n \nRESOLUTION NO. 110406 continued \n \n \n \n \n \nCity of Philadelphia \n- 2 - \n \n \n \n \n\n"""
 
         # Raw stream
@@ -60,7 +60,7 @@ class LegistarTests (TestCase):
     def test_DealsWith404PdfAddressesCorrectly(self):
         # I don't know why they'd be deleting these files, but when they do (and
         # they do) we have to handle it.
-        wrapper = PhillyLegistarSiteWrapper()
+        wrapper = PhillyLegistarSiteWrapper(root_url='')
         expected_text = ''
 
         attachment_pdf = 'http://legislation.phila.gov/attachments/115954.pdf'
@@ -68,7 +68,7 @@ class LegistarTests (TestCase):
         self.assertEqual(attachment_text, expected_text)
 
     def test_MinutesDateParsedCorrectly(self):
-        wrapper = PhillyLegistarSiteWrapper()
+        wrapper = PhillyLegistarSiteWrapper(root_url='')
 
         expected_date = dt.date(2083, 12, 6) # They learned nothing from Y2K
         taken_date = wrapper.get_minutes_date('http://www.bogus.com/path/mydoc_83-12-06_bill.pdf')
@@ -76,7 +76,7 @@ class LegistarTests (TestCase):
         self.assertEqual(taken_date, expected_date)
 
     def test_MinutesDocumentConstructedCorrectly(self):
-        wrapper = PhillyLegistarSiteWrapper()
+        wrapper = PhillyLegistarSiteWrapper(root_url='')
         wrapper.get_minutes_date = mock.Mock(return_value=dt.date(2083, 12, 6))
         wrapper.extract_pdf_text = mock.Mock(return_value='This is the text')
 
@@ -88,7 +88,7 @@ class LegistarTests (TestCase):
         self.assertEqual(minutes_doc, expected_doc)
 
     def test_PdfDataIsCached(self):
-        wrapper = PhillyLegistarSiteWrapper()
+        wrapper = PhillyLegistarSiteWrapper(root_url='')
         wrapper.urlopen = mock.Mock(return_value=StringIO('<doc><pdf2xml></pdf2xml></doc>'))
         wrapper.extract_xml_text = mock.Mock()
 
@@ -100,12 +100,12 @@ class LegistarTests (TestCase):
         self.assertEqual(wrapper.urlopen.call_count, 2)
 
     def test_ConvertDateIsEmptyWhenNoDateGiven(self):
-        wrapper = PhillyLegistarSiteWrapper()
+        wrapper = PhillyLegistarSiteWrapper(root_url='')
 
         self.assertEqual(wrapper.convert_date(None), '')
 
     def test_detectsErrorsCorrectly(self):
-        wrapper = PhillyLegistarSiteWrapper()
+        wrapper = PhillyLegistarSiteWrapper(root_url='')
 
         soup = bs.BeautifulSoup(self.open_legfile('12000').read())
         self.assertTrue(wrapper.is_error_page(soup))
@@ -114,21 +114,23 @@ class LegistarTests (TestCase):
         self.assertTrue(not wrapper.is_error_page(soup))
 
     def test_ExitsSilentlyOnNoNewContent(self):
-        wrapper = PhillyLegistarSiteWrapper()
+        wrapper = PhillyLegistarSiteWrapper(root_url='')
         error_page = self.open_legfile('12000').read()
         wrapper.urlopen = mock.Mock(
             side_effect=lambda *a, **k: StringIO(error_page))
 
         wrapper.check_for_new_content(73)
-        self.assertEqual(wrapper.urlopen.call_count, 10)
+        # Check that we've tried 100 additional items
+        self.assertEqual(wrapper.urlopen.call_count, 100)
 
     def test_RaisesErrorOnTooMany404(self):
         from httplib import BadStatusLine
-        wrapper = PhillyLegistarSiteWrapper()
+        wrapper = PhillyLegistarSiteWrapper(root_url='')
         wrapper.urlopen = mock.Mock(
             side_effect=BadStatusLine(500))
 
         self.assertRaises(BadStatusLine, wrapper.check_for_new_content, 73)
+        # Check that we've retried the URL 10 items
         self.assertEqual(wrapper.urlopen.call_count, 10)
 
 

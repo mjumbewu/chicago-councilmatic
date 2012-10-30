@@ -5,11 +5,15 @@ from subscriptions.feeds import ContentFeed
 from subscriptions.feeds import ContentFeedLibrary
 from subscriptions.management.commands import sendfeedupdates
 from subscriptions.management.commands import updatefeeds
-from subscriptions.models import Subscriber
+from subscriptions.models import Subscriber, ContentFeedRecord
 
 
 @istest
 def test_subscription_flow():
+    Subscriber.objects.all().delete()
+    ContentFeedRecord.objects.all().delete()
+    del mail.outbox[:]
+    
     library = ContentFeedLibrary(shared=True)
 
     # First, let's make some content
@@ -37,7 +41,7 @@ def test_subscription_flow():
 
         def get_changes_to(self, item, since):
             if since.date() < item[0]:
-                return {'value': item[1]}
+                return {'value': item[1]}, datetime.datetime(2011, 12, 13, 14, 15)
 
     library.register(EasyContentFeed, 'easy')
     feed = EasyContentFeed()
