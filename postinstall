@@ -52,8 +52,8 @@ LEGISLATION = {
 
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-        'PATH': '/home/dotcloud/whoosh_index',
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'PATH': env['DOTCLOUD_SEARCH_HTTP_URL'],
     }
 }
 

@@ -3,5 +3,12 @@ www:
   systempackages:
     - gdal-bin
     - libgdal1-dev
+
 db:
   type: postgis
+
+search:
+  type: solr
+  approot: solr
+  config:
+    solr_authentication: false
