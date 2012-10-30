@@ -67,9 +67,16 @@
 
             {% if page_obj.has_previous or page_obj.has_next %}
               <div>
-                {% if page_obj.has_previous %}<a href="{{ previous_url }}">{% endif %}&laquo; Previous{% if page_obj.has_previous %}</a>{% endif %}
-                |
-                {% if page_obj.has_next %}<a href="{{ next_url }}">{% endif %}Next &raquo;{% if page_obj.has_next %}</a>{% endif %}
+                <a href="{{ first_url }}">&laquo;</a> |
+                {% if page_obj.has_previous %}<a href="{{ previous_url }}">{% endif %}&lt;{% if page_obj.has_previous %}</a>{% endif %}
+                | Page ... |
+                {% for page_num, page_url in page_urls %}
+                  {% if page_url %}<a href="{{ page_url }}">{% endif %}{{ page_num }}{% if page_url %}</a>{% endif %}
+                  |
+                {% endfor %}
+                ... of {{ page_obj.paginator.num_pages }} |
+                {% if page_obj.has_next %}<a href="{{ next_url }}">{% endif %}&gt;{% if page_obj.has_next %}</a>{% endif %}
+                | <a href="{{ last_url }}">&raquo;</a>
               </div>
             {% endif %}
           {% else %}

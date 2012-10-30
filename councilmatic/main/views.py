@@ -185,24 +185,42 @@ class SearchView (SearcherMixin,
         if 'page' in query_params:
             del query_params['page']
 
-        if page_obj and page_obj.has_next():
-            context['next_url'] = (
-                self.request.path + '?' +
-                'page={0}'.format(page_obj.next_page_number())
-            )
-            if query_params:
-                context['next_url'] += '&' + query_params.urlencode()
+        if page_obj:
+            context['first_url'] = self.paginated_url(
+                1, query_params)
 
-        if page_obj and page_obj.has_previous():
-            context['previous_url'] = (
-                self.request.path + '?' +
-                'page={0}'.format(page_obj.previous_page_number())
-            )
-            if query_params:
-                context['previous_url'] += '&' + query_params.urlencode()
+            context['last_url'] = self.paginated_url(
+                page_obj.paginator.num_pages, query_params)
 
+            if page_obj.has_next():
+                context['next_url'] = self.paginated_url(
+                    page_obj.next_page_number(), query_params)
+
+            if page_obj.has_previous():
+                context['previous_url'] = self.paginated_url(
+                    page_obj.previous_page_number(), query_params)
+        
+            page_urls = []
+            start_num = min(
+                max(1, page_obj.number - 5), page_obj.paginator.num_pages - 9)
+            end_num = min(start_num + 10, page_obj.paginator.num_pages + 1)
+
+            for page_num in range(start_num, end_num):
+                if page_num != page_obj.number:
+                    url = self.paginated_url(page_num, query_params)
+                else:
+                    url = None
+                page_urls.append((page_num, url))
+            context['page_urls'] = page_urls
+        
         log.debug(context)
         return context
+    
+    def paginated_url(self, page_num, query_params):
+        url = '{0}?page={1}'.format(self.request.path, page_num)
+        if query_params:
+            url += '&' + query_params.urlencode()
+        return url
 
 
 class LegislationStatsMixin (object):
