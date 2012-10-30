@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load subscription_labels %}
+
+{% block load_early %}
+<!--	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">-->
+<!--    <link rel="stylesheet" href="{{ STATIC_URL }}main/app_dashboard.css">-->
+{% endblock %}
+
+{% block content %}
+  <section id="main" class="subscription_list_section">
+    <div class="block">
+
+      <div class="content">
+        <div class="inner">
+          <header>
+            <h2>Subscriptions for {{ user.email }}</h2>
+          </header>
+
+            <ul id="subscription_list">
+            {% for subscription in object_list %}
+              <li>
+                <h3>{{subscription|subscription_title}}</h3>
+                {% if subscription|has_been_sent %}
+                <p>Last sent on {{ subscription.last_sent|date }}</p>
+                {% endif %}
+                
+                <div>
+                  <a href="{% url "unsubscribe_confirmation" subscription.pk %}" id="unsubscribe_{{subscription.id}}_btn">Unsubscribe</a>
+                </div>
+              </li>
+            {% endfor %}
+            </ul>
+
+          <div class="pagination">
+            <span class="step-links">
+              {% if page_obj.has_previous %}
+                <a class="prev_page" href="?page={{ page_obj.previous_page_number }}">previous</a>
+              {% endif %}
+
+              <span class="current">
+                Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+              </span>
+
+              {% if page_obj.has_next %}
+                <a class="next_page" href="?page={{ page_obj.next_page_number }}">next</a>
+              {% endif %}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
