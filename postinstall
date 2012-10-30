@@ -53,7 +53,7 @@ LEGISLATION = {
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'PATH': env['DOTCLOUD_SEARCH_HTTP_URL'],
+        'URL': env['DOTCLOUD_SEARCH_HTTP_URL'],
     }
 }
 
