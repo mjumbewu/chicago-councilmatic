@@ -11,6 +11,9 @@ sudo apt-get install binutils gdal-bin libproj-dev postgresql-9.1-postgis \
 echo "Install the python requirements"
 sudo pip install -r requirements.txt
 
+echo "Install the non-python requirements"
+sudo apt-get install poppler-utils
+
 echo "... and this, optional testing stuff"
 sudo pip install coverage
 
