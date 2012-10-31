@@ -37,30 +37,22 @@ Copy the file *councilmatic/local_settings.py.template* to
 file.  By default, it is set up to scrape from Philadelphia's legislation
 system.
 
-Councilmatic uses GeoDjango.  To install GeoDjango on your platform, see 
-https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#platform-specific-instructions.
-*NOTE that PostGIS 2.0 is not compatible with Django 1.4.  As Councilmatic is
-currently not set up to run on Django 1.5, you should install PostGIS 1.5*
-
 Create a database for Councilmatic. Typically this is done like:
 
     createdb -T template_postgis councilmatic
 
 where `template_postgis` is the name of your PostGIS database template. If you
-do not yet have one, you can create it with the following script (with some
-potential modifications for your system):
+do not yet have one, you can find instructions for getting your system ready for
+Django and PostGIS online.  For example, here are instructions for 
+[Mac](https://gist.github.com/3188632), and
+[Ubuntu](http://brandonkonkle.com/blog/2010/jul/19/setting-template_postgis-lucid/).
+For other platforms, and for further instructions, the 
+[GeoDjango docs](https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#platform-specific-instructions) 
+are a good place to look.
 
-    # Create a PostGIS template database
-    psql -c "CREATE DATABASE template_postgis;" -U postgres
-    psql -c "UPDATE pg_database SET datistemplate='true' WHERE datname='template_postgis';" -U postgres
-    createlang plpgsql template_postgis -U postgres
-    # Loading the PostGIS SQL routines
-    psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql -q
-    psql -d template_postgis -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql -q
-    # Enabling users to alter spatial tables.
-    psql -d template_postgis -c "GRANT ALL ON geometry_columns TO PUBLIC;"
-    psql -d template_postgis -c "GRANT ALL ON geography_columns TO PUBLIC;"
-    psql -d template_postgis -c "GRANT ALL ON spatial_ref_sys TO PUBLIC;"
+**NOTE that PostGIS 2.0 is not compatible with Django 1.4.  As Councilmatic is
+currently not set up to run on Django 1.5, you should install PostGIS 1.5**
+
 
 Set up the project database and populate it with city council data (when the
 syncdb command prompts you to create an administrative user, go ahead and do
