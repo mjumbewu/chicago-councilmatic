@@ -32,10 +32,16 @@ Non-Python requirements include:
 
 * pdftotext and pdftohtml (use ``apt-get install poppler-utils`` on Ubuntu)
 
+
+### Legislation source
+
 Copy the file *councilmatic/local_settings.py.template* to 
 *councilmatic/local_settings.py*.  Fill in the `LEGISLATION` setting in this
 file.  By default, it is set up to scrape from Philadelphia's legislation
 system.
+
+
+### Database
 
 Create a database for Councilmatic. Typically this is done like:
 
@@ -64,6 +70,9 @@ while.
     $ python manage.py migrate
     $ python manage.py loadlegfiles
     $ python manage.py rebuild_index # For searches. Say yes when prompted.
+
+
+### Development server
 
 Finally, to run the server:
 
