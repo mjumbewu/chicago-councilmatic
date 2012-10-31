@@ -1,4 +1,4 @@
-Councilmatic!
+Councilmatic! [![Build Status](https://travis-ci.org/codeforamerica/councilmatic.png)](http://travis-ci.org/codeforamerica/councilmatic)
 =============
 Philly City Council Legislative Subscription Service.
 
