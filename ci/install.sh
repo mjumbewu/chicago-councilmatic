@@ -8,10 +8,10 @@ sudo apt-get install libevent-dev
 sudo apt-get install binutils gdal-bin libproj-dev postgresql-9.1-postgis \
      postgresql-server-dev-9.1 python-psycopg2
 
-# Install the python requirements
+echo "Install the python requirements"
 sudo pip install -r requirements.txt
 
-# ... and this, optional testing stuff
+echo "... and this, optional testing stuff"
 sudo pip install coverage
 
 # Create a PostGIS template database
@@ -26,7 +26,7 @@ psql -d template_postgis -c "GRANT ALL ON geometry_columns TO PUBLIC;"
 psql -d template_postgis -c "GRANT ALL ON geography_columns TO PUBLIC;"
 psql -d template_postgis -c "GRANT ALL ON spatial_ref_sys TO PUBLIC;"
 
-# Initialize the database
+echo "Create the database"
 psql -U postgres <<EOF
     CREATE USER councilmatic WITH PASSWORD 'councilmatic';
     CREATE DATABASE councilmatic WITH TEMPLATE = template_postgis;
@@ -35,5 +35,8 @@ psql -U postgres <<EOF
     ALTER USER councilmatic WITH CREATEDB;
 EOF
 
-# Initialize the project settings
+echo "Initialize the project settings"
 cp councilmatic/local_settings.py.template councilmatic/local_settings.py
+
+echo "Set up logging"
+mkdir councilmatic/logs
