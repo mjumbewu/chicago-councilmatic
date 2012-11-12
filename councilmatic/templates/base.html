@@ -4,8 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}Councilmatic Chicago{% endblock %}</title>
+  <title>{% block title %}Chicago Councilmatic{% endblock %}</title>
   <meta charset="utf-8">
+
   <style>
   </style>
 
@@ -37,17 +38,10 @@
         {% endblock %}
     </div>
 
-<<<<<<< HEAD
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-  {% compress js %}
-  {% endcompress %}
-=======
   {# {% compress js %} #}
   <script src="{{ STATIC_URL }}jquery/js/jquery-1.6.4.min.js"></script>
   <script src="{{ STATIC_URL }}jqueryui/js/jquery-ui-1.8.16.custom.min.js"></script>
   {# {% endcompress %} #}
->>>>>>> master
 
   {% block load_late %}
     {# Here go things that would be in at the end of the body, like large    #}
