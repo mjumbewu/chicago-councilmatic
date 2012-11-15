@@ -146,29 +146,23 @@
     <dynamicField name="*_coordinate"  type="tdouble" indexed="true"  stored="false"/>
 
 
-<!--    <field name="" type="" indexed="True" stored="True" multiValued="" />-->
+    <field name="status" type="text_en" indexed="true" stored="true" multiValued="false" />
 
-<!--    <field name="" type="" indexed="True" stored="True" multiValued="" />-->
+    <field name="file_type" type="text_en" indexed="true" stored="true" multiValued="false" />
 
-<!--    <field name="" type="0" indexed="True" stored="True" multiValued="" />-->
+    <field name="text" type="text_en" indexed="true" stored="true" multiValued="false" />
 
-<!--    <field name="" type="" indexed="True" stored="True" multiValued="" />-->
+    <field name="sponsors" type="text_en" indexed="true" stored="true" multiValued="true" />
 
-<!--    <field name="" type="" indexed="True" stored="True" multiValued="" />-->
+    <field name="controlling_body" type="text_en" indexed="true" stored="true" multiValued="false" />
 
-<!--    <field name="" type="" indexed="True" stored="True" multiValued="" />-->
+    <field name="file_id" type="text_en" indexed="true" stored="true" multiValued="false" />
 
-<!--    <field name="" type="" indexed="True" stored="True" multiValued="" />-->
+    <field name="key" type="long" indexed="true" stored="true" multiValued="false" />
 
-<!--    <field name="" type="" indexed="True" stored="True" multiValued="" />-->
+    <field name="order_date" type="date" indexed="true" stored="true" multiValued="false" />
 
-<!--    <field name="" type="" indexed="True" stored="True" multiValued="" />-->
-
-<!--    <field name="" type="0" indexed="True" stored="True" multiValued="" />-->
-
-<!--    <field name="" type="0" indexed="True" stored="True" multiValued="" />-->
-
-<!--    <field name="" type="" indexed="True" stored="True" multiValued="" />-->
+    <field name="date_taken" type="date" indexed="true" stored="true" multiValued="false" />
 
   </fields>
 
