@@ -28,13 +28,8 @@ class WordAdmin (admin.ModelAdmin):
     model = MetaData_Word
     inlines = [LegFileWordInline]
 
-class LegFileLocationInline(admin.TabularInline):
-    model = LegFileMetaData.locations.through
-    extra = 1
-
 class LocationAdmin (admin.GeoModelAdmin):
     model = MetaData_Location
-    inlines = [LegFileLocationInline]
     search_fields = ['address']
 
 class CouncilDistrictInline(admin.TabularInline):
