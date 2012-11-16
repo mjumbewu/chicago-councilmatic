@@ -2,6 +2,7 @@
 {% load model_blocks %}
 {% load uni_form_tags %}
 {% load comments %}
+{% load compress %}
 
 {% block title %}{{ object.title|truncatewords:14 }}{% endblock %}
 {% block load_early %}
@@ -267,4 +268,11 @@
 
   </section>
 
+{% endblock %}
+
+{% block load_late %}
+  <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+  {% compress js %}
+  <script src="{{ STATIC_URL }}main/legfile_detail.js"></script>
+  {% endcompress %}
 {% endblock %}
