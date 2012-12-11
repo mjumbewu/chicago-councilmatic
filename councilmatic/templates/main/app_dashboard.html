@@ -89,9 +89,14 @@
                 var marker = new google.maps.Marker(markerOptions);
                 latlngs.push(markerOptions.position);
 
+                {# It's possible to have a location with no references. In  #}
+                {# This case, we don't want the url call to break.          #}
+                {% if location.references_in_legislation.all.0.legfile_id %}
                 google.maps.event.addListener(marker, 'click', function() {
                     window.location = '{% url legislation_detail location.references_in_legislation.all.0.legfile_id %}';
                   });
+                {% endif %}
+
                 {% endfor %}
 
                 zoomToFitMarkers(map, latlngs)
