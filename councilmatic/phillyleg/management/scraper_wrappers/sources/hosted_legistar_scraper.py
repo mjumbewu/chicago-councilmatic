@@ -6,11 +6,13 @@ import urllib2
 import utils
 from bs4 import BeautifulSoup
 
+from legistar.scraper import LegistarScraper
+from legistar.config import Config, DEFAULT_CONFIG
+
 log = logging.getLogger(__name__)
 
-STARTING_KEY = 72 # The highest key was 11001 as of 5 Apr 2011
 
-class PhillyLegistarSiteWrapper (object):
+class HostedLegistarSiteWrapper (object):
     """
     A facade over the Philadelphia city council legistar site data.  It is
     responsible for scraping data out of the site.  The main external point
@@ -18,7 +20,7 @@ class PhillyLegistarSiteWrapper (object):
     """
 
     def __init__(self, options):
-        self.root_url = options['root']
+        self.scraper = LegistarScraper(options)
 
     def get_legfile_url(self, key):
         return self.root_url + 'detailreport/?key=' + str(key)
@@ -269,51 +271,17 @@ class PhillyLegistarSiteWrapper (object):
             return ''
 
 
-    def is_error_page(self, soup):
-        '''Check the given soup to see if it represents an error page.'''
-        error_p = soup.find('p', 'errorText')
-
-        if error_p is None: return False
-        else: return True
-
     def check_for_new_content(self, last_key):
-        '''Look through the next 100 keys to see if there are any more files.
-           100 is arbitrary, but I feel like it's large enough to be safe.  I
-           tried 10, but 12544 through 12568 are missing for Philly :('''
+        '''Grab the next legislation summary row. Doesn't use the last_key
+           paramter; just starts at the beginning for each instance of the
+           scraper.
+        '''
 
-        curr_key = last_key
-        for _ in xrange(100):
-            curr_key = curr_key + 1
+        if self.legislation_summaries is None:
+            self.legislation_summaries =  self.scraper.searchLegislation('')
 
-            url = self.get_legfile_url(curr_key)
-            more_tries = 10
-            while True:
-                try:
-                    html = self.urlopen(url)
-                    break
-
-                # Sometimes the server will respond with a status line that httplib
-                # does not understand (an empty status line, in particular).  When
-                # this happens, keep trying to access the page.  Give up after 10
-                # tries.
-                except httplib.BadStatusLine, ex:
-                    more_tries -= 1;
-                    log.warning('Received BadStatusLine exception %r for url %r' % (ex, url))
-                    if not more_tries:
-                        log.error('Ran out of tries for new content')
-                        raise
-
-                # Sometimes the server will do things like just take too long to
-                # respond.  When it does, try again 10 times.
-                except urllib2.URLError, ex:
-                    more_tries -= 1;
-                    log.warning('Received URLError exception %r for url %r' % (ex, url))
-                    if not more_tries:
-                        log.error('Ran out of tries for new content')
-                        raise
-            soup = BeautifulSoup(html)
-
-            if not self.is_error_page(soup):
-                return curr_key, soup
-
-        return curr_key, None
+        try:
+            next_summary = self.legislation_summaries.next()
+            return 0, next_summary
+        except StopIteration:
+            return None, None
