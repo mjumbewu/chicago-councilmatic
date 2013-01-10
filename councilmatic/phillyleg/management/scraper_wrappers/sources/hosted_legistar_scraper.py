@@ -4,7 +4,6 @@ import logging
 import re
 import urllib2
 import utils
-from bs4 import BeautifulSoup
 from collections import defaultdict
 
 from legistar.scraper import LegistarScraper
@@ -18,9 +17,11 @@ class HostedLegistarSiteWrapper (object):
     A facade over the Philadelphia city council legistar site data.  It is
     responsible for scraping data out of the site.  The main external point
     of interaction is scrape_legis_file.
+
+    requires: BeautifulSoup, mechanize
     """
 
-    def __init__(self, options):
+    def __init__(self, **options):
         self.scraper = LegistarScraper(options)
 
     def scrape_legis_file(self, key, summary):
@@ -30,7 +31,7 @@ class HostedLegistarSiteWrapper (object):
         legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
 
         history_detail, votes = scraper.expandHistorySummary(history_summary)
-    
+
         record = {
             'key' : key,
             'id' : summary['Record #'],
@@ -56,10 +57,10 @@ class HostedLegistarSiteWrapper (object):
                 'date_taken' : act['Date'],
                 'acting_body' : act['Action By']['label'],
                 'motion' : act['Result'],
-                'status' : act['Status']                                 
-            }                                     
+                'status' : act['Status']
+            }
             actions.append(action)
-        
+
 
         minutes = None
 

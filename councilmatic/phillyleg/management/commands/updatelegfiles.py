@@ -54,7 +54,7 @@ class Command(BaseCommand):
 
         # Create a datastore wrapper object
         ds = self.ds = CouncilmaticDataStoreWrapper()
-        source = self.source = PhillyLegistarSiteWrapper(settings.LEGISLATION['SCRAPER_OPTIONS'])
+        source = self.source = PhillyLegistarSiteWrapper(**settings.LEGISLATION['SCRAPER_OPTIONS'])
 
         # Seed the PDF cache with already-downloaded content.
         #

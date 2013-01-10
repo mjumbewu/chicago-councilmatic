@@ -17,8 +17,8 @@ class PhillyLegistarSiteWrapper (object):
     of interaction is scrape_legis_file.
     """
 
-    def __init__(self, options):
-        self.root_url = options['root']
+    def __init__(self, root_url):
+        self.root_url = root_url
 
     def get_legfile_url(self, key):
         return self.root_url + 'detailreport/?key=' + str(key)
