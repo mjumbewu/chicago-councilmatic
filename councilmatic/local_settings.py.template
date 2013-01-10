@@ -33,8 +33,10 @@ LEGISLATION = {
     'STARTING_KEY': 72,
     'ADDRESS_BOUNDS': [39.874439,-75.29892, 40.141615,-74.940491], # lat, lng, lat, lng
     'ADDRESS_SUFFIX': ', Philadelphia, PA',
+
+    'SCRAPER': 'phillyleg.management.scraper_wrappers.sources.insite_scraper.PhillyLegistarSiteWrapper',
     'SCRAPER_OPTIONS': {
-        'root': 'http://legislation.phila.gov/',
+        'root_url': 'http://legislation.phila.gov/',
     },
 }
 
