@@ -10,11 +10,11 @@
 
   <link href='http://fonts.googleapis.com/css?family=Quattrocento' rel='stylesheet' type='text/css'>
 
-  {% compress css %}
+  {# {% compress css %} #}
   <link rel="stylesheet" href="{{ STATIC_URL }}main/css/screen.css">
   <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form.css">
   <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/default.uni-form.css">
-  {% endcompress %}
+  {# {% endcompress % } #}
 
   {% block load_early %}
     {# Here go things that would be in the head, like extra css imports.     #}
@@ -35,10 +35,10 @@
         {% endblock %}
     </div>
 
-  {% compress js %}
+  {# {% compress js %} #}
   <script src="{{ STATIC_URL }}jquery/js/jquery-1.6.4.min.js"></script>
   <script src="{{ STATIC_URL }}jqueryui/js/jquery-ui-1.8.16.custom.min.js"></script>
-  {% endcompress %}
+  {# {% endcompress %} #}
 
   {% block load_late %}
     {# Here go things that would be in at the end of the body, like large    #}
