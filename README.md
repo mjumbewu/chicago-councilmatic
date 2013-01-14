@@ -70,6 +70,7 @@ while.
     $ python manage.py migrate
     $ python manage.py loadlegfiles
     $ python manage.py rebuild_index # For searches. Say yes when prompted.
+    $ python manage.py collectstatic # For jss and css. Say yes when prompted.
 
 
 ### Development server
