@@ -5,7 +5,7 @@ ROOT = os.path.abspath(os.path.dirname(__file__))
 CM = os.path.join(ROOT, 'councilmatic')
 
 sys.path.insert(0, CM)
-os.environ['DJANGO_SETTINGS_MODULE'] = 'councilmatic.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
 import django.core.handlers.wsgi
 application = django.core.handlers.wsgi.WSGIHandler()

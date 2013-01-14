@@ -125,7 +125,7 @@
 {% endblock %}
 
 {% block load_late %}
-  {% compress js %}
+  {# {% compress js %} #}
   <script src="{{ STATIC_URL }}main/dashboard_search.js"></script>
-  {% endcompress %}
+  {# {% endcompress %} #}
 {% endblock %}
