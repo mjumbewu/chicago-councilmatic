@@ -40,8 +40,8 @@ class HostedLegistarSiteWrapper (object):
             'status' : summary['Status'],
             'title' : summary['Title'],
             'controlling_body' : legislation_attrs['Current Controlling Legislative Body'],
-            'intro_date' : self.convert_date(summary['Intro Date'],
-            'final_date' : self.convert_date(summary['Final Date'],
+            'intro_date' : self.convert_date(summary['Intro Date']),
+            'final_date' : self.convert_date(summary['Final Date']),
             'version' : summary['Version'],
             'contact' : None,
             'sponsors' : legislation_attrs['Sponsors']
