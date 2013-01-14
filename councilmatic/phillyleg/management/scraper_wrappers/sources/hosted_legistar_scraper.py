@@ -35,7 +35,7 @@ class HostedLegistarSiteWrapper (object):
         record = {
             'key' : key,
             'id' : summary['Record #'],
-            'url' : summary['URL']
+            'url' : summary['URL'],
             'type' : summary['Type'],
             'status' : summary['Status'],
             'title' : summary['Title'],
