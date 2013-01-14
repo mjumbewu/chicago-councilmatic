@@ -71,6 +71,7 @@ git+git://github.com/fgregg/legistar-scrape#egg=legistar-scrape
 BeautifulSoup
 pdfminer
 slate
+mechanize
 
 
 
