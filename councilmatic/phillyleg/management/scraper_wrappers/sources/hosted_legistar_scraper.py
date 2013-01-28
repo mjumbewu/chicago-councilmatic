@@ -49,7 +49,7 @@ class HostedLegistarSiteWrapper (object):
         try:
             attachments = legislation_attrs['Attachments']
         except KeyError:
-            attachments = None
+            attachments = []
 
         actions = []
         for act in legislation_history :
