@@ -42,7 +42,7 @@ class HostedLegistarSiteWrapper (object):
             'intro_date' : self.convert_date(summary['Intro Date']),
             'final_date' : self.convert_date(summary['Final Date']),
             'version' : summary['Version'],
-            'contact' : None,
+            #'contact' : None,
             'sponsors' : legislation_attrs['Sponsors']
         }
 

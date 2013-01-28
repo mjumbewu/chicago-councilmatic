@@ -109,7 +109,7 @@ class CouncilDistrict(TimestampedModelMixin, models.Model):
 class LegFile(TimestampedModelMixin, models.Model):
     key = models.IntegerField(primary_key=True)
     id = models.CharField(max_length=100, null=True)
-    contact = models.CharField(max_length=1000)
+    #contact = models.CharField(max_length=1000)
     controlling_body = models.CharField(max_length=1000)
     date_scraped = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     last_scraped = models.DateTimeField(auto_now=True)
