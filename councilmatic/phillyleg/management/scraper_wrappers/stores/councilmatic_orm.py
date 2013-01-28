@@ -170,7 +170,7 @@ class CouncilmaticDataStoreWrapper (object):
 
     __legminutes_cache = {}
     def __replace_url_with_minutes(self, record):
-        minutes_url = record['minutes_url']
+        minutes_url = ''
 
         if minutes_url not in self.__legminutes_cache:
             if minutes_url == '':
