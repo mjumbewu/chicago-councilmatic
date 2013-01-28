@@ -77,13 +77,12 @@ class HostedLegistarSiteWrapper (object):
 
     def check_for_new_content(self, last_key):
         '''Grab the next legislation summary row. Doesn't use the last_key
-           paramter; just starts at the beginning for each instance of the
+           parameter; just starts at the beginning for each instance of the
            scraper.
         '''
         next_summary = defaultdict(str)
 
-        if self.legislation_summaries is None:
-            self.legislation_summaries =  self.scraper.searchLegislation('')
+        self.legislation_summaries =  self.scraper.searchLegislation('')
 
         try:
             next_summary.update(self.legislation_summaries.next())
