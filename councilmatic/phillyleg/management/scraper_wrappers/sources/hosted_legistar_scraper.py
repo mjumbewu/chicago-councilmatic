@@ -31,7 +31,7 @@ class HostedLegistarSiteWrapper (object):
 
         legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
 
-        history_detail, votes = scraper.expandHistorySummary(history_summary)
+        history_detail, votes = self.scraper.expandHistorySummary(history_summary)
 
         record = {
             'key' : key,
@@ -52,7 +52,7 @@ class HostedLegistarSiteWrapper (object):
 
         actions = []
         for act in legislation_history :
-            act_details, act_votes = scraper.expandHistorySummary(act)
+            act_details, act_votes = self.scraper.expandHistorySummary(act)
             action = {
                 'key' : key,
                 'date_taken' : act['Date'],
