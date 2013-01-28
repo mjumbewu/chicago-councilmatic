@@ -43,7 +43,9 @@ class HostedLegistarSiteWrapper (object):
             'final_date' : self.convert_date(summary['Final Date']),
             'version' : summary['Version'],
             #'contact' : None,
-            'sponsors' : legislation_attrs['Sponsors']
+            'sponsors' : legislation_attrs['Sponsors'],
+            # probably remove this from the model as well
+            'minutes_url'  : None
         }
 
         try:
