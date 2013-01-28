@@ -170,22 +170,26 @@ class CouncilmaticDataStoreWrapper (object):
 
     __legminutes_cache = {}
     def __replace_url_with_minutes(self, record):
-        minutes_url = ''
+        # minutes is empty for hosted legistar
 
-        if minutes_url not in self.__legminutes_cache:
-            if minutes_url == '':
-                minutes = None
-            else:
-                try:
-                    minutes = LegMinutes.objects.get(url=record['minutes_url'])
-                except phillyleg.models.LegMinutes.DoesNotExist:
-                    minutes = None
-            self.__legminutes_cache[minutes_url] = minutes
-        else:
-            minutes = self.__legminutes_cache[minutes_url]
+        record['minutes'] = None
 
-        del record['minutes_url']
-        record['minutes'] = minutes
+        # minutes_url = ''
+
+        # if minutes_url not in self.__legminutes_cache:
+        #     if minutes_url == '':
+        #         minutes = None
+        #     else:
+        #         try:
+        #             minutes = LegMinutes.objects.get(url=record['minutes_url'])
+        #         except phillyleg.models.LegMinutes.DoesNotExist:
+        #             minutes = None
+        #     self.__legminutes_cache[minutes_url] = minutes
+        # else:
+        #     minutes = self.__legminutes_cache[minutes_url]
+
+        # del record['minutes_url']
+        # record['minutes'] = minutes
 
         return record
 
