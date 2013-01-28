@@ -63,8 +63,9 @@ class HostedLegistarSiteWrapper (object):
             }
             actions.append(action)
 
-
-        minutes = None
+        # we should probably remove this from the model since the hosted
+        # legistar does not have minutes
+        minutes = []
 
         log.info('Scraped legfile with key %r' % (key,))
         log.debug("%r %r %r %r" % (record, attachments, actions, minutes))
