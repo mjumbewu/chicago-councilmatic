@@ -48,7 +48,7 @@ class HostedLegistarSiteWrapper (object):
 
         try:
             attachments = legislation_attrs['Attachments']
-        except KeyEror:
+        except KeyError:
             attachments = None
 
         actions = []
