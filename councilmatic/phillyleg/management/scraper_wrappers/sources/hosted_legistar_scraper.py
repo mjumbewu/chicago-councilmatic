@@ -46,7 +46,10 @@ class HostedLegistarSiteWrapper (object):
             'sponsors' : legislation_attrs['Sponsors']
         }
 
-        attachments = legislation_attrs['Attachments']
+        try:
+            attachments = legislation_attrs['Attachments']
+        except KeyEror:
+            attachments = None
 
         actions = []
         for act in legislation_history :
