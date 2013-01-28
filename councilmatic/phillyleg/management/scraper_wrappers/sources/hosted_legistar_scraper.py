@@ -84,7 +84,6 @@ class HostedLegistarSiteWrapper (object):
         next_summary = defaultdict(str)
 
         self.legislation_summaries =  self.scraper.searchLegislation('')
-        pdb.set_trace()
 
         try:
             next_summary.update(self.legislation_summaries.next())
