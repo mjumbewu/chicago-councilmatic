@@ -90,3 +90,8 @@ class HostedLegistarSiteWrapper (object):
             return 0, next_summary
         except StopIteration:
             return None, None
+
+    def init_pdf_cache(ds.pdf_mapping) :
+        pass
+        
+    
