@@ -36,7 +36,7 @@ LEGISLATION = {
 
     'SCRAPER': 'phillyleg.management.scraper_wrappers.sources.insite_scraper.PhillyLegistarSiteWrapper',
     'SCRAPER_OPTIONS': {
-        'root_url': 'http://legislation.phila.gov/',
+        'hostname': 'http://legislation.phila.gov/',
     },
 }
 
