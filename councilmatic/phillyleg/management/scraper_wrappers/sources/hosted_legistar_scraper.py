@@ -5,6 +5,7 @@ import re
 import urllib2
 import utils
 from collections import defaultdict
+import pdb
 
 from legistar.scraper import LegistarScraper
 from legistar.config import Config, DEFAULT_CONFIG
@@ -83,6 +84,7 @@ class HostedLegistarSiteWrapper (object):
         next_summary = defaultdict(str)
 
         self.legislation_summaries =  self.scraper.searchLegislation('')
+        pdb.set_trace()
 
         try:
             next_summary.update(self.legislation_summaries.next())
