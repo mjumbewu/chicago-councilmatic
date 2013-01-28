@@ -58,7 +58,7 @@ class HostedLegistarSiteWrapper (object):
             act_details, act_votes = self.scraper.expandHistorySummary(act)
             action = {
                 'key' : key,
-                'date_taken' : act['Date'],
+                'date_taken' : self.convert_date(act['Date']),
                 'acting_body' : act['Action By']['label'],
                 'motion' : act['Result'],
                 'status' : act['Status']
