@@ -31,8 +31,6 @@ class HostedLegistarSiteWrapper (object):
 
         legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
 
-        history_detail, votes = self.scraper.expandHistorySummary(history_summary)
-
         record = {
             'key' : key,
             'id' : summary['Record #'],
