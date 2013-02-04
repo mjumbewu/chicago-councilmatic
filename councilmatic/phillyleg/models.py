@@ -423,12 +423,8 @@ class MetaData_Location (TimestampedModelMixin, models.Model):
 
     def geocode(self):
         gc = utils.geocode(self.address, settings.LEGISLATION['ADDRESS_BOUNDS'])
-        try :
-            print 'geocoded address:', gc['formatted_address']
-        except: 
-            pass
 
-        if gc and gc['status'] == 'OK' and 'Chicago, IL' in gc['formatted_address']:
+        if gc and gc['status'] == 'OK' and 'Chicago, IL' in gc['results'][0]['formatted_address']:
             x = float(gc['results'][0]['geometry']['location']['lng'])
             y = float(gc['results'][0]['geometry']['location']['lat'])
             self.geom = geos.Point(x, y)
