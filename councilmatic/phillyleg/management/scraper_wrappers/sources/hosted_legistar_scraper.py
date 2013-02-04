@@ -25,7 +25,7 @@ class HostedLegistarSiteWrapper (object):
 
     def __init__(self, **options):
         self.scraper = LegistarScraper(options)
-	self.legislation_summaries =  self.scraper.searchLegislation('')
+        self.legislation_summaries =  self.scraper.searchLegislation('')
 
     def scrape_legis_file(self, key, summary):
         '''Extract a record from the given document (soup). The key is for the
@@ -33,8 +33,8 @@ class HostedLegistarSiteWrapper (object):
 
         legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
 
-	parsed_url = urlparse.urlparse(summary['URL'])
-	key = urlparse.parse_qs(parsed_url.query)['ID'][0]
+        parsed_url = urlparse.urlparse(summary['URL'])
+	    key = urlparse.parse_qs(parsed_url.query)['ID'][0]
 
         record = {
             'key' : key,
@@ -56,10 +56,10 @@ class HostedLegistarSiteWrapper (object):
         try:
             attachments = legislation_attrs['Attachments']
             for attachment in attachments:
-	    	attachment['key'] = key
-		attachment['file'] = attachment['label']
-		del attachment['label']
-	except KeyError:
+	    	  attachment['key'] = key
+		      attachment['file'] = attachment['label']
+		      del attachment['label']
+        except KeyError:
             attachments = []
 
         actions = []
@@ -96,7 +96,7 @@ class HostedLegistarSiteWrapper (object):
         '''
         try:
             print 'next leg record'
-	    next_summary = self.legislation_summaries.next()
+            next_summary = self.legislation_summaries.next()
             return 0, next_summary
         except StopIteration:
             return None, None
