@@ -34,7 +34,7 @@ class HostedLegistarSiteWrapper (object):
         legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
 
         parsed_url = urlparse.urlparse(summary['URL'])
-	    key = urlparse.parse_qs(parsed_url.query)['ID'][0]
+	key = urlparse.parse_qs(parsed_url.query)['ID'][0]
 
         record = {
             'key' : key,
@@ -57,8 +57,8 @@ class HostedLegistarSiteWrapper (object):
             attachments = legislation_attrs['Attachments']
             for attachment in attachments:
 	    	  attachment['key'] = key
-		      attachment['file'] = attachment['label']
-		      del attachment['label']
+		  attachment['file'] = attachment['label']
+		  del attachment['label']
         except KeyError:
             attachments = []
 
