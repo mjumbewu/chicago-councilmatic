@@ -4,6 +4,7 @@ import logging
 import re
 import urllib2
 import utils
+import urlparse
 from collections import defaultdict
 import pdb
 
@@ -24,12 +25,16 @@ class HostedLegistarSiteWrapper (object):
 
     def __init__(self, **options):
         self.scraper = LegistarScraper(options)
+	self.legislation_summaries =  self.scraper.searchLegislation('')
 
     def scrape_legis_file(self, key, summary):
         '''Extract a record from the given document (soup). The key is for the
            sake of record-keeping.  It is the key passed to the site URL.'''
 
         legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
+
+	parsed_url = urlparse.urlparse(summary['URL'])
+	key = urlparse.parse_qs(parsed_url.query)['ID'][0]
 
         record = {
             'key' : key,
@@ -40,8 +45,8 @@ class HostedLegistarSiteWrapper (object):
             'title' : summary['Title'],
             'controlling_body' : legislation_attrs['Current Controlling Legislative Body'],
             'intro_date' : self.convert_date(summary['Intro Date']),
-            'final_date' : self.convert_date(summary['Final Date']),
-            'version' : summary['Version'],
+            'final_date' : self.convert_date(summary.setdefault('Final Date', '')),
+            'version' : summary.setdefault('Version', ''),
             #'contact' : None,
             'sponsors' : legislation_attrs['Sponsors'],
             # probably remove this from the model as well
@@ -50,7 +55,11 @@ class HostedLegistarSiteWrapper (object):
 
         try:
             attachments = legislation_attrs['Attachments']
-        except KeyError:
+            for attachment in attachments:
+	    	attachment['key'] = key
+		attachment['file'] = attachment['label']
+		del attachment['label']
+	except KeyError:
             attachments = []
 
         actions = []
@@ -85,12 +94,9 @@ class HostedLegistarSiteWrapper (object):
            parameter; just starts at the beginning for each instance of the
            scraper.
         '''
-        next_summary = defaultdict(str)
-
-        self.legislation_summaries =  self.scraper.searchLegislation('')
-
         try:
-            next_summary.update(self.legislation_summaries.next())
+            print 'next leg record'
+	    next_summary = self.legislation_summaries.next()
             return 0, next_summary
         except StopIteration:
             return None, None
