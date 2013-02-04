@@ -61,7 +61,7 @@ class HostedLegistarSiteWrapper (object):
                 'date_taken' : self.convert_date(act['Date']),
                 'acting_body' : act['Action By']['label'],
                 'motion' : act['Result'],
-                'status' : act['Status']
+                'description' : act['Status']
             }
             actions.append(action)
 
