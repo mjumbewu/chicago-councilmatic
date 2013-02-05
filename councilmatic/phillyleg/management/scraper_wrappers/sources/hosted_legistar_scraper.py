@@ -31,10 +31,16 @@ class HostedLegistarSiteWrapper (object):
         '''Extract a record from the given document (soup). The key is for the
            sake of record-keeping.  It is the key passed to the site URL.'''
 
-        legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
+        try:
+            legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
+        except urllib2.URLError:
+            print 'skipping to next leg record'
+            summary = self.legislation_summaries.next()
+            legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
+
 
         parsed_url = urlparse.urlparse(summary['URL'])
-	key = urlparse.parse_qs(parsed_url.query)['ID'][0]
+        key = urlparse.parse_qs(parsed_url.query)['ID'][0]
 
         record = {
             'key' : key,
@@ -57,8 +63,8 @@ class HostedLegistarSiteWrapper (object):
             attachments = legislation_attrs['Attachments']
             for attachment in attachments:
 	    	  attachment['key'] = key
-		  attachment['file'] = attachment['label']
-		  del attachment['label']
+              attachment['file'] = attachment['label']
+              del attachment['label']
         except KeyError:
             attachments = []
 
@@ -80,6 +86,7 @@ class HostedLegistarSiteWrapper (object):
 
         log.info('Scraped legfile with key %r' % (key,))
         log.debug("%r %r %r %r" % (record, attachments, actions, minutes))
+
         return record, attachments, actions, minutes
 
     def convert_date(self, orig_date):
