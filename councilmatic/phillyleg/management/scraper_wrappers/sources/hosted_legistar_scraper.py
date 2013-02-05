@@ -62,9 +62,9 @@ class HostedLegistarSiteWrapper (object):
         try:
             attachments = legislation_attrs['Attachments']
             for attachment in attachments:
-	    	  attachment['key'] = key
-              attachment['file'] = attachment['label']
-              del attachment['label']
+                attachment['key'] = key
+                attachment['file'] = attachment['label']
+                del attachment['label']
         except KeyError:
             attachments = []
 
