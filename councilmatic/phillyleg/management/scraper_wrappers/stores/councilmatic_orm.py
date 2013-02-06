@@ -86,14 +86,18 @@ class CouncilmaticDataStoreWrapper (object):
         changed = self.has_text_changed(legfile.key, legfile)
         legfile.save(update_words=changed, update_mentions=changed, update_locations=changed)
 
+	existing_sponsors = legfile.sponsors.all()
+
         for sponsor_name in sponsor_names:
             sponsor_name = sponsor_name.strip()
-            sponsor = CouncilMember.objects.get_or_create(name=sponsor_name)[0]
+            sponsor, created = CouncilMember.objects.get_or_create(name=sponsor_name)
 
             # Add the legislation to the sponsor and save, instead of the other
             # way around, because saving legislation can be expensive.
-            sponsor.legislation.add(legfile)
-            sponsor.save()
+            if sponsor not in existing_sponsors :
+                sponsor.legislation.add(legfile)
+                sponsor.save()
+
 
         # Create notes attached to the record
         for attachment_record in attachment_records:
