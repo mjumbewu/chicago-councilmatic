@@ -38,13 +38,25 @@
         </div>
 
         <!-------------------------------------------------------
-          -- The council member's district geography
+          -- The council member's district geograph(y/ies)
           -->
-        <div style="float: right;">
-            <h2>District Geography</h2>
+        {% for tenure in councilmember.tenures.all %}
+        <div class="councilmember-districts" style="float: right; width: 420px">
+          {% if tenure.at_large %}
+            <h2>At Large</h2>
+          {% else %}
+            <h2>Representing District {{ tenure.district.id }}</h2>
+          {% endif %}
 
+          {% if tenure.end %}
+            <h3>From {{ tenure.begin }} until {{ tenure.end }}</h3>
+          {% else %}
+            <h3>Since {{ tenure.begin }}</h3>
+          {% endif %}
+
+          {% if not tenure.at_large %}
             <div style="border:1px solid grey">
-            <div id="councilmember_district_map_cavas"
+            <div id="councilmember_district_{{ tenure.district.pk }}_map_cavas"
                  style="
                     width:420px;
                     height:300px;">
@@ -64,25 +76,25 @@
                     },
                     latlngs = [];
 
-                map = new google.maps.Map(document.getElementById('councilmember_district_map_cavas'),
+                map = new google.maps.Map(document.getElementById('councilmember_district_{{ tenure.district.pk }}_map_cavas'),
                     myOptions);
 
                 var districtOptions = {
                     map: map,
-                    title: "District {{ district.id }}"
+                    title: "District {{ tenure.district.id }}"
                 }
-                var districtVector = new GeoJSON('{"feature": {"attributes": {}, "geometry": {{ district.shape.geojson|default:"{}"|safe }} } }', districtOptions);
+                var districtVector = new GeoJSON({{ tenure.district.shape.json|default:'{ "type": "Polygon", "coordinates": [] }'|safe }}, districtOptions);
                 debugger;
-                zoomToFitVector(map, districtVector)
+                zoomToFitVector(map, districtVector.getPath())
               };
 
-              var zoomToFitVector = function(map, vector) {
+              var zoomToFitVector = function(map, path) {
                 //  Create a new viewpoint bound
                 var bounds = new google.maps.LatLngBounds ();
                 //  Go through each...
-                for (var i = 0, numlatlngs = latlngs.length; i < numlatlngs; i++) {
+                for (var i = 0, numlatlngs = path.b.length; i < numlatlngs; i++) {
                   //  And increase the bounds to take this point
-                  bounds.extend (latlngs[i]);
+                  bounds.extend (path.b[i]);
                 }
                 //  Fit these bounds to the map
                 map.fitBounds (bounds);
@@ -90,8 +102,12 @@
 
               google.maps.event.addDomListener(window, 'load', initialize);
             </script>
+          {% endif %}
 
-        </div>
+          <hr>
+
+        </div> <!-- .councilmember-districts -->
+        {% endfor %}
 
     </div>
     </div>

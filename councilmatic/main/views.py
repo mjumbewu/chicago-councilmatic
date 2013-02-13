@@ -108,7 +108,7 @@ class AppDashboardView (BaseDashboardMixin,
 
 class CouncilMemberDetailView (BaseDashboardMixin,
                                views.DetailView):
-    model = phillyleg.models.CouncilMember
+    queryset = phillyleg.models.CouncilMember.objects.prefetch_related('tenures', 'tenures__district')
 
     def get_filtered_legfiles(self):
         return self.object.legislation
