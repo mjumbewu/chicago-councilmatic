@@ -84,7 +84,6 @@
                     title: "District {{ tenure.district.id }}"
                 }
                 var districtVector = new GeoJSON({{ tenure.district.shape.json|default:'{ "type": "Polygon", "coordinates": [] }'|safe }}, districtOptions);
-                debugger;
                 zoomToFitVector(map, districtVector.getPath())
               };
 
