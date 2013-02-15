@@ -107,8 +107,12 @@ class AppDashboardView (BaseDashboardMixin,
 
 
 class CouncilMemberDetailView (BaseDashboardMixin,
+                               subscriptions.views.SingleSubscriptionMixin,
                                views.DetailView):
     queryset = phillyleg.models.CouncilMember.objects.prefetch_related('tenures', 'tenures__district')
+
+    def get_content_feed(self):
+        return feeds.SearchResultsFeed(search_filter={'sponsors': [self.object.name]})
 
     def get_filtered_legfiles(self):
         return self.object.legislation

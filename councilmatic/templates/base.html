@@ -47,6 +47,14 @@
     {# javascript files.                                                     #}
   {% endblock %}
 
+  <script>
+    $(function() {
+      // I think the Bootstrap tooltip should be working, but I'm not having
+      // luck with it. So, kick it off here.
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+
   <script type="text/javascript">
 
     var _gaq = _gaq || [];

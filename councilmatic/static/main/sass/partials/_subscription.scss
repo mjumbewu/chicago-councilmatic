@@ -1,7 +1,38 @@
 .subscription_form {
     float: right;
+}
 
-    p {
-        float: left;
-    }
+.subscription_rss_link,
+.subscribe-btn button,
+.unsubscribe-btn button {
+    border: none;
+    background: none;
+
+    display: block;
+    float: right;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    width: 50px;
+    height: 50px;
+
+    overflow: hidden;
+    text-indent: -9999px;
+}
+
+.subscription_rss_link {
+    background-image: url('../images/rss-gray-half.png');
+    &:hover { background-image: url('../images/rss-red-empty-half.png'); }
+    &:active { background-image: url('../images/rss-red-full-half.png'); }
+}
+
+.subscribe-btn button {
+    background-image: url('../images/email-gray-half.png');
+    &:hover { background-image: url('../images/email-red-empty-half.png'); }
+    &:active { background-image: url('../images/email-red-full-half.png'); }
+}
+
+.unsubscribe-btn button {
+    background-image: url('../images/email-red-full-half.png');
+    &:hover { background-image: url('../images/email-red-empty-half.png'); }
+    &:active { background-image: url('../images/email-gray-half.png'); }
 }

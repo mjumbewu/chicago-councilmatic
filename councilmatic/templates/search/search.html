@@ -2,6 +2,7 @@
 {% load model_blocks %}
 {% load uni_form_tags %}
 {% load compress %}
+{% load i18n %}
 
 {% block load_early %}
   {% compress css %}
@@ -20,11 +21,11 @@
       margin-left: 20px;
       border-left: 1px solid silver;
     }
-    
+
     #dashboard_legislation {
       width: 510px;
     }
-    
+
     .field_selection {
       text-align: right;
       position: absolute;

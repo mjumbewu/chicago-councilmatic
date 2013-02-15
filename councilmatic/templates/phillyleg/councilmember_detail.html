@@ -13,6 +13,10 @@
 {% block content %}
 <div class="councilmember-detail dashboard">
 <div class="block">
+    <div class="block">
+      {% include 'subscriptions/subscribe_form.html' with subscribe_text=_('Follow this council member') unsubscribe_text=_('Stop following this council member') %}
+    </div>
+
     <div class="content">
     <div class="inner">
         <header>
@@ -35,11 +39,16 @@
                 </li>
             {% endfor %}
             </ul>
+
+            <a href="{% url 'search' %}?sponsors={{ councilmember.name }}">More...</a>
         </div>
 
         <!-------------------------------------------------------
           -- The council member's district geograph(y/ies)
           -->
+        <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+        <script src="{{ STATIC_URL}}libs/GeoJSON.js"></script>
         {% for tenure in councilmember.tenures.all %}
         <div class="councilmember-districts" style="float: right; width: 420px">
           {% if tenure.at_large %}
@@ -63,9 +72,6 @@
             </div>
             </div>
 
-            <script type="text/javascript"
-                src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-            <script src="{{ STATIC_URL}}libs/GeoJSON.js"></script>
             <script type="text/javascript">
               var map;
               var initialize = function() {
@@ -112,4 +118,8 @@
     </div>
 </div>
 </div>
+{% endblock %}
+
+{% block load_late %}
+  <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
 {% endblock %}
