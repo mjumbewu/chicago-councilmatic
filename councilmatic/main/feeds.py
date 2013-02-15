@@ -34,7 +34,7 @@ class NewLegislationFeed (ContentFeed):
 
     def get_params(self):
         return {}
-    
+
     def get_label(self):
         return 'Newly introduced legislation'
 
@@ -87,7 +87,7 @@ class LegislationUpdatesFeed (ContentFeed):
 
     def get_params(self):
         return self.selectors
-    
+
     def get_label(self):
         return 'Updates to legislation'
 
@@ -184,7 +184,7 @@ class SearchResultsFeed (ContentFeed):
 
     def get_params(self):
         return {'search_filter': json.dumps(self.filter)}
-    
+
     def get_label(self):
         label = 'New '
 
@@ -196,6 +196,9 @@ class SearchResultsFeed (ContentFeed):
         if 'q' in self.filter:
             is_plural = (' ' in self.filter['q'])
             label += ' containing the keyword' + ('s' if is_plural else '') + ' "' + self.filter['q'] + '"'
+
+        if 'sponsors' in self.filter:
+            label += ' sponsored by ' + ' or '.join(self.filter['sponsors'])
 
         return label
 
