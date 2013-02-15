@@ -51,11 +51,17 @@
         <script src="{{ STATIC_URL}}libs/GeoJSON.js"></script>
         {% for tenure in councilmember.tenures.all %}
         <div class="councilmember-districts" style="float: right; width: 420px">
+          <h2>
           {% if tenure.at_large %}
-            <h2>At Large</h2>
+            At Large
           {% else %}
-            <h2>Representing District {{ tenure.district.id }}</h2>
+            Representing District {{ tenure.district.id }}
           {% endif %}
+
+          {% if tenure.president %}
+            <br>Serving as Council President
+          {% endif %}
+          </h2>
 
           {% if tenure.end %}
             <h3>From {{ tenure.begin }} until {{ tenure.end }}</h3>
