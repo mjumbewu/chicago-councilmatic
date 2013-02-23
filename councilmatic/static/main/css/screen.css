@@ -745,7 +745,7 @@ body #site_footer {
   background-position: 50%;
   background-repeat: repeat-y;
   margin-top: -10px;
-  padding-top: 3em;
+  padding-top: 0;
   padding-bottom: 3em;
   z-index: 100;
   width: 100%;
@@ -756,7 +756,7 @@ body #site_footer .footer_flourish {
   background-position: 50%;
   background-repeat: no-repeat;
   height: 47px;
-  margin-top: -3em;
+  margin-top: 0;
 }
 /* line 43, ../sass/partials/_site_footer.scss */
 body #site_footer .footer_wrapper {
@@ -765,26 +765,27 @@ body #site_footer .footer_wrapper {
   overflow: hidden;
   *zoom: 1;
   font-family: "Courier New", sans-serif;
+  margin-top: -2em;
   /*
    * The navgation links
    */
 }
-/* line 50, ../sass/partials/_site_footer.scss */
+/* line 51, ../sass/partials/_site_footer.scss */
 body #site_footer .footer_wrapper > * {
   margin: 0;
   padding: 0;
 }
-/* line 55, ../sass/partials/_site_footer.scss */
+/* line 56, ../sass/partials/_site_footer.scss */
 body #site_footer .footer_wrapper header {
   font-weight: bold;
 }
-/* line 63, ../sass/partials/_site_footer.scss */
+/* line 64, ../sass/partials/_site_footer.scss */
 body #site_footer .footer_wrapper .site_nav ul {
   list-style: none;
   margin: 0px;
   padding: 0px;
 }
-/* line 79, ../sass/partials/_site_footer.scss */
+/* line 80, ../sass/partials/_site_footer.scss */
 body #site_footer .footer_wrapper a:hover,
 body #site_footer .footer_wrapper a:visited,
 body #site_footer .footer_wrapper a:active,
