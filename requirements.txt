@@ -32,8 +32,8 @@ whoosh==2.3.2
 
 # Using my version of pysolr until issue # is pulled, as DOTCLOUD's trailing
 # slash on SOLR url breaks pysolr.
-#pysolr
-git+git://github.com/mjumbewu/pysolr.git#egg=pysolr
+#pysolr==3.0.4
+git+git://github.com/mjumbewu/pysolr.git#egg=pysolr==3.0.5
 
 
 
