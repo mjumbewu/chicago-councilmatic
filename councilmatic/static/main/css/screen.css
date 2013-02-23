@@ -732,6 +732,66 @@ body #site_header .header_wrapper .search button {
   font-weight: bold;
 }
 
+/*@import "blueprint/buttons";*/
+/*@import "blueprint/form";*/
+/* line 18, ../sass/partials/_site_footer.scss */
+body #site_footer {
+  box-shadow: 0 0px 5px 0 black;
+  background-image: url("/static/main/images/manilla_frontcontinue.png"), -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, #e4b65e), color-stop(49%, #e4b65e), color-stop(51%, #e8b960), color-stop(100%, #e8b960));
+  background-image: url("/static/main/images/manilla_frontcontinue.png"), -webkit-linear-gradient(left, #e4b65e, #e4b65e 49%, #e8b960 51%, #e8b960);
+  background-image: url("/static/main/images/manilla_frontcontinue.png"), -moz-linear-gradient(left, #e4b65e, #e4b65e 49%, #e8b960 51%, #e8b960);
+  background-image: url("/static/main/images/manilla_frontcontinue.png"), -o-linear-gradient(left, #e4b65e, #e4b65e 49%, #e8b960 51%, #e8b960);
+  background-image: url("/static/main/images/manilla_frontcontinue.png"), linear-gradient(left, #e4b65e, #e4b65e 49%, #e8b960 51%, #e8b960);
+  background-position: 50%;
+  background-repeat: repeat-y;
+  margin-top: -10px;
+  padding-top: 3em;
+  padding-bottom: 3em;
+  z-index: 100;
+  width: 100%;
+}
+/* line 35, ../sass/partials/_site_footer.scss */
+body #site_footer .footer_flourish {
+  background-image: url("/static/main/images/manilla_fronttop.png");
+  background-position: 50%;
+  background-repeat: no-repeat;
+  height: 47px;
+  margin-top: -3em;
+}
+/* line 43, ../sass/partials/_site_footer.scss */
+body #site_footer .footer_wrapper {
+  width: 950px;
+  margin: 0 auto;
+  overflow: hidden;
+  *zoom: 1;
+  font-family: "Courier New", sans-serif;
+  /*
+   * The navgation links
+   */
+}
+/* line 50, ../sass/partials/_site_footer.scss */
+body #site_footer .footer_wrapper > * {
+  margin: 0;
+  padding: 0;
+}
+/* line 55, ../sass/partials/_site_footer.scss */
+body #site_footer .footer_wrapper header {
+  font-weight: bold;
+}
+/* line 63, ../sass/partials/_site_footer.scss */
+body #site_footer .footer_wrapper .site_nav ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+/* line 79, ../sass/partials/_site_footer.scss */
+body #site_footer .footer_wrapper a:hover,
+body #site_footer .footer_wrapper a:visited,
+body #site_footer .footer_wrapper a:active,
+body #site_footer .footer_wrapper a {
+  color: inherit;
+}
+
 /* line 3, ../sass/partials/_legfile_detail.scss */
 #wrapper {
   width: 950px;

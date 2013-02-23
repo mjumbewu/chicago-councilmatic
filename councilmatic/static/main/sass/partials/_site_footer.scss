@@ -1,0 +1,83 @@
+/*@import "blueprint/buttons";*/
+/*@import "blueprint/form";*/
+@import "blueprint/grid";
+@import "blueprint/colors";
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+@import "compass/css3/text-shadow";
+@import "compass/css3/images";
+@import "mixins";
+
+$manilla-top-color: #e7b96a;
+$manilla-left-color: #e4b65e;
+$manilla-right-color: #e8b960;
+
+body {
+
+    // The top-level footer
+    #site_footer {
+
+        box-shadow: 0 0px $shadow-spread 0 $shadow-color;
+
+        @include background-image(url('/static/main/images/manilla_frontcontinue.png'),
+                                  linear-gradient(left, $manilla-left-color, $manilla-left-color 49%, $manilla-right-color 51%, $manilla-right-color));
+        background-position: 50%;
+        background-repeat: repeat-y;
+
+        margin-top: -10px;
+        padding-top: 3em;
+        padding-bottom: 3em;
+        z-index: 100;
+
+        width: 100%;
+    }
+
+    #site_footer .footer_flourish {
+        background-image: url('/static/main/images/manilla_fronttop.png');
+        background-position: 50%;
+        background-repeat: no-repeat;
+        height: 47px;
+        margin-top: -3em;
+    }
+
+    #site_footer .footer_wrapper {
+        // Make the footer a grid container
+        @include container;
+//        @include quattro;
+
+        font-family: 'Courier New', sans-serif;
+
+        > * {
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            font-weight: bold;
+        }
+
+        /*
+         * The navgation links
+         */
+        .site_nav {
+            ul {
+                list-style: none;
+                margin: 0px;
+                padding: 0px;
+            }
+
+            li {
+            }
+
+            li:last-child {
+            }
+        }
+
+        a:hover,
+        a:visited,
+        a:active,
+        a {
+            color: inherit;
+        }
+    }
+}
