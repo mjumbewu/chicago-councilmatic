@@ -6,7 +6,7 @@ Philadelphia Councilmatic!
 You are subscribed to the following feeds:
 
 {% for subscription in subscriptions %}
-* {{ subscription|subscription_title:library }}
+* {{ subscription|subscription_title:library|safe }}
 {% endfor %}
 {% for item, item_updates in content_updates %}
 --------------------------------------------------------------------------------
