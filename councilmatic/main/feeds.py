@@ -159,12 +159,27 @@ class SearchResultsFeed (ContentFeed):
 
     def get_content(self):
         qs = SearchQuerySet()
+        search_fields = {
+            'q': 'text',
+            'controlling_bodies': 'controlling_body',
+            'statuses': 'status',
+            'file_types': 'file_type',
+        }
+
         for key, val in self.filter.iteritems():
+            if key in search_fields:
+                field = search_fields[key]
+            else:
+                field = key
+
+            if val in ([], {}, '', (), None):
+                continue
+
             if isinstance(val, list):
                 for item in val:
-                    qs = qs.filter(**{key: item})
+                    qs = qs.filter(**{field: item})
             else:
-                qs = qs.filter(**{key: val})
+                qs = qs.filter(**{field: val})
 
         return qs.order_by('order_date')
 
