@@ -734,7 +734,20 @@ body #site_header .header_wrapper .search button {
 
 /*@import "blueprint/buttons";*/
 /*@import "blueprint/form";*/
-/* line 18, ../sass/partials/_site_footer.scss */
+/* line 15, ../sass/partials/_site_footer.scss */
+html, body {
+  height: 100%;
+  position: relative;
+}
+
+/* line 20, ../sass/partials/_site_footer.scss */
+#wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+}
+
+/* line 28, ../sass/partials/_site_footer.scss */
 body #site_footer {
   box-shadow: 0 0px 5px 0 black;
   background-image: url("/static/main/images/manilla_frontcontinue.png"), -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, #e4b65e), color-stop(49%, #e4b65e), color-stop(51%, #e8b960), color-stop(100%, #e8b960));
@@ -750,7 +763,7 @@ body #site_footer {
   z-index: 100;
   width: 100%;
 }
-/* line 35, ../sass/partials/_site_footer.scss */
+/* line 45, ../sass/partials/_site_footer.scss */
 body #site_footer .footer_flourish {
   background-image: url("/static/main/images/manilla_fronttop.png");
   background-position: 50%;
@@ -758,7 +771,7 @@ body #site_footer .footer_flourish {
   height: 47px;
   margin-top: 0;
 }
-/* line 43, ../sass/partials/_site_footer.scss */
+/* line 53, ../sass/partials/_site_footer.scss */
 body #site_footer .footer_wrapper {
   width: 950px;
   margin: 0 auto;
@@ -770,22 +783,22 @@ body #site_footer .footer_wrapper {
    * The navgation links
    */
 }
-/* line 51, ../sass/partials/_site_footer.scss */
+/* line 61, ../sass/partials/_site_footer.scss */
 body #site_footer .footer_wrapper > * {
   margin: 0;
   padding: 0;
 }
-/* line 56, ../sass/partials/_site_footer.scss */
+/* line 66, ../sass/partials/_site_footer.scss */
 body #site_footer .footer_wrapper header {
   font-weight: bold;
 }
-/* line 64, ../sass/partials/_site_footer.scss */
+/* line 74, ../sass/partials/_site_footer.scss */
 body #site_footer .footer_wrapper .site_nav ul {
   list-style: none;
   margin: 0px;
   padding: 0px;
 }
-/* line 80, ../sass/partials/_site_footer.scss */
+/* line 90, ../sass/partials/_site_footer.scss */
 body #site_footer .footer_wrapper a:hover,
 body #site_footer .footer_wrapper a:visited,
 body #site_footer .footer_wrapper a:active,

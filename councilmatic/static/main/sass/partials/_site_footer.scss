@@ -12,8 +12,18 @@ $manilla-top-color: #e7b96a;
 $manilla-left-color: #e4b65e;
 $manilla-right-color: #e8b960;
 
-body {
+html, body {
+    height: 100%;
+    position: relative;
+}
 
+#wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+}
+
+body {
     // The top-level footer
     #site_footer {
 
