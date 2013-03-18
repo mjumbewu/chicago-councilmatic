@@ -45,8 +45,9 @@ class HostedLegistarSiteWrapper (object):
         # re-order the sponsor name by '[First] [Last]' instead of '[Last], [First]'
         sponsors = legislation_attrs['Sponsors']
         if ',' in sponsors :
-            sponsors_list = sponsors.split(',').reverse()
-            sponsors = ' '.join.sponsors_list
+            sponsors_list = sponsors.split(',')
+            sponsors_list.reverse()
+            sponsors = ' '.join(sponsors_list)
 
         record = {
             'key' : key,
