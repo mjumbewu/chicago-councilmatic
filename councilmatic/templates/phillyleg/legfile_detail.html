@@ -193,43 +193,6 @@
         </div>
     </div>
 
-    <div class="block" id="opinions">
-      <div class="content">
-        <div class="support opinions">
-          {% for opinion in support_opinions %}
-            {% if forloop.first %}<ul>{% endif %}
-              <li>
-                <blockquote class="statement">{{ opinion.latest.statement }}</blockquote>
-                <span class="opiner">{{ opinion.opiner.username }}</span>
-              </li>
-            {% if forloop.last %}</ul>{% endif %}
-          {% endfor %}
-        </div>
-
-        <div class="abstain opinions">
-          {% for opinion in abstain_opinions %}
-            {% if forloop.first %}<ul>{% endif %}
-              <li>
-                <blockquote class="statement">{{ opinion.latest.statement }}</blockquote>
-                <span class="opiner">{{ opinion.opiner.username }}</span>
-              </li>
-            {% if forloop.last %}</ul>{% endif %}
-          {% endfor %}
-        </div>
-
-        <div class="oppose opinions">
-          {% for opinion in oppose_opinions %}
-            {% if forloop.first %}<ul>{% endif %}
-              <li>
-                <blockquote class="statement">{{ opinion.latest.statement }}</blockquote>
-                <span class="opiner">{{ opinion.opiner.username }}</span>
-              </li>
-            {% if forloop.last %}</ul>{% endif %}
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-
     {% comment %}
     <div class="block">
       <div class="content">
