@@ -41,6 +41,12 @@ class HostedLegistarSiteWrapper (object):
 
         parsed_url = urlparse.urlparse(summary['URL'])
         key = urlparse.parse_qs(parsed_url.query)['ID'][0]
+        
+        # re-order the sponsor name by '[First] [Last]' instead of '[Last], [First]'
+        sponsors = legislation_attrs['Sponsors']
+        if ',' in sponsors :
+            sponsors_list = sponsors.split(',').reverse()
+            sponsors = ' '.join.sponsors_list
 
         record = {
             'key' : key,
@@ -54,7 +60,7 @@ class HostedLegistarSiteWrapper (object):
             'final_date' : self.convert_date(summary.setdefault('Final Date', '')),
             'version' : summary.setdefault('Version', ''),
             #'contact' : None,
-            'sponsors' : legislation_attrs['Sponsors'],
+            'sponsors' : sponsors,
             # probably remove this from the model as well
             'minutes_url'  : None
         }
