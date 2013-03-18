@@ -36,11 +36,13 @@
             </header>
 
             <div class="overview_bar legfile_overview_bar">
-              <span>Introduced on {{ object.intro_date }}</span>
-
-              <span>{% if object.last_action_date %}Last action on {{ object.last_action_date }}{% endif %}</span>
-
-              <span>Status: {{ object.status }}</span>
+              <span>
+                Introduced on {{ object.intro_date }}
+                <br />
+                {% if object.last_action_date %}Last action on {{ object.last_action_date }}{% endif %}
+                <br />
+                Status: {{ object.status }}
+              </span>
             </div>
 
             <div class="legfile_text">
