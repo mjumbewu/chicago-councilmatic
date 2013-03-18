@@ -29,7 +29,9 @@
                     {% endfor %}
                   </ul>
                 </div>
-                <div>Controlled by <span class="legfile_controlling_body">{{ object.controlling_body }}</span></div>
+                {% if object.controlling_body %}
+                  <div>Controlled by <span class="legfile_controlling_body">{{ object.controlling_body }}</span></div>
+                {% endif %}
               </h2>
             </header>
 
