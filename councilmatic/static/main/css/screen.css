@@ -542,9 +542,8 @@ body.two-col #content {
 /*@import "blueprint/buttons";*/
 /* line 7, ../sass/partials/_main_base.scss */
 body {
-  background-attachment: fixed;
-  background-color: #4f2712;
-  background-image: url("../images/wood.jpg");
+  font-size: 15px;
+  background-color: #ffffff;
 }
 /* line 15, ../sass/partials/_main_base.scss */
 body h1, body h2, body h3, body h4, body h5, body h6 {
