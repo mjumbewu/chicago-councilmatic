@@ -74,6 +74,7 @@ class HostedLegistarSiteWrapper (object):
             for attachment in attachments:
                 attachment['key'] = key
                 attachment['file'] = attachment['label']
+                attachment['description'] = attachment['label']
                 del attachment['label']
         except KeyError:
             attachments = []
