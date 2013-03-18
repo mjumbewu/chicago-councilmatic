@@ -44,10 +44,13 @@ class HostedLegistarSiteWrapper (object):
         
         # re-order the sponsor name by '[First] [Last]' instead of '[Last], [First]'
         sponsors = legislation_attrs['Sponsors']
-        if ',' in sponsors :
-            sponsors_list = sponsors.split(',')
-            sponsors_list.reverse()
-            sponsors = ' '.join(sponsors_list)
+        first_name_first_sponsors = []
+        for sponsor in sponsors :
+            if ',' in sponsor :
+                name_list = sponsor.split(',')
+                name_list.reverse()
+                sponsor = ' '.join(name_list)
+            first_name_first_sponsors.append(sponsor)
 
         record = {
             'key' : key,
@@ -61,7 +64,7 @@ class HostedLegistarSiteWrapper (object):
             'final_date' : self.convert_date(summary.setdefault('Final Date', '')),
             'version' : summary.setdefault('Version', ''),
             #'contact' : None,
-            'sponsors' : sponsors,
+            'sponsors' : first_name_first_sponsors,
             # probably remove this from the model as well
             'minutes_url'  : None
         }
