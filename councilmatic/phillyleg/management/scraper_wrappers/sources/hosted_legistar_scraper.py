@@ -49,7 +49,7 @@ class HostedLegistarSiteWrapper (object):
             if ',' in sponsor :
                 name_list = sponsor.split(',')
                 name_list.reverse()
-                sponsor = ' '.join(name_list)
+                sponsor = ' '.join(name_list).strip()
             first_name_first_sponsors.append(sponsor)
 
         record = {
