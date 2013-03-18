@@ -543,7 +543,7 @@ body.two-col #content {
 /* line 7, ../sass/partials/_main_base.scss */
 body {
   font-size: 15px;
-  background-color: #e4f3fa;
+  background-color: #ffffff;
 }
 /* line 15, ../sass/partials/_main_base.scss */
 body h1, body h2, body h3, body h4, body h5, body h6 {
@@ -640,7 +640,7 @@ body #site_header .header_wrapper .header h1, body #site_header .header_wrapper 
 }
 /* line 58, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper .username {
-  color: #d3394c;
+  color: #c00000;
   padding-left: 0px;
   padding-right: 0px;
   padding-top: 0.5em;
