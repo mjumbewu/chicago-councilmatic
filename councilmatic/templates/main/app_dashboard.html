@@ -14,17 +14,17 @@
     <div class="content">
     <div class="inner">
         <header>
-            <h2>Find and subscribe to legislation</h2>
+            <h2>Find Chicago legislation</h2>
         </header>
 
         <form id="dashboard_search" class="search uniForm" action="{% url search %}" method="GET">
             <div class="ctrlHolder">
-                <input name="q" type="text" class="textInput" placeholder="What interests you?">
+                <input name="q" type="text" class="textInput" placeholder="Rahm Emanuel, zoning, resolution #R2013-1, etc.">
             </div>
         </form>
 
         <div id="dashboard_legislation">
-            <h2>Recent Legislation</h2>
+            <h2>Recent legislation</h2>
 
             <ul>
             {% for file, bookmark, contenttype, bookmark_form in bookmark_data %}
@@ -38,7 +38,7 @@
         </div>
 
         <div id="dashboard_locations" style="float: right;">
-            <h2>Recent Locations Mentioned</h2>
+            <h2>Recent locations mentioned</h2>
 
             <div style="border:1px solid grey">
             <div id="dashboard_locations_map_cavas"
