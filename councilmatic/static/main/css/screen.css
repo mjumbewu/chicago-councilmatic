@@ -132,7 +132,7 @@ body h1 img, body h2 img, body h3 img, body h4 img, body h5 img, body h6 img {
 }
 /* line 53, ../../../../../../../../.rvm/gems/ruby-1.9.3-p125/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body h1 {
-  font-size: 3em;
+  font-size: 2em;
   line-height: 1;
   margin-bottom: 0.50em;
 }
@@ -543,7 +543,7 @@ body.two-col #content {
 /* line 7, ../sass/partials/_main_base.scss */
 body {
   font-size: 15px;
-  background-color: #ffffff;
+  background-color: #e4f3fa;
 }
 /* line 15, ../sass/partials/_main_base.scss */
 body h1, body h2, body h3, body h4, body h5, body h6 {
@@ -589,7 +589,7 @@ body #site_header {
   box-shadow: 0 2px 5px 0 black;
   background-color: #b21839;
   margin-top: -10em;
-  padding-top: 3em;
+  padding-top: 2em;
   padding-bottom: 1em;
   position: fixed;
   z-index: 100;
@@ -836,16 +836,12 @@ body #site_header .header_wrapper .search button {
 .legfile_detail .inner .overview_bar span:first-child {
   text-align: left;
 }
-/* line 97, ../sass/partials/_legfile_detail.scss */
-.legfile_detail .inner .overview_bar span:last-child {
-  text-align: right;
-}
 /* line 103, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_text {
   display: inline;
   float: left;
   position: relative;
-  margin: 0 -200px 1.5em 200px;
+  margin-top: 1.5em;
   float: left;
   margin-top: 1em;
   margin-bottom: 0px;
@@ -1177,7 +1173,7 @@ body #site_header .header_wrapper .search button {
   float: left;
   position: relative;
   margin: 0 -40px 1.5em 40px;
-  padding-top: 6em;
+  padding-top: 2em;
 }
 /* line 147, ../../../../../../../../.rvm/gems/ruby-1.9.3-p125/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .dashboard .inner, * html
