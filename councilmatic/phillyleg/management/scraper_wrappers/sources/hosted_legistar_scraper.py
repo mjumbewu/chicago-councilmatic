@@ -94,6 +94,7 @@ class HostedLegistarSiteWrapper (object):
                 'acting_body' : act['Action By']['label'],
                 'motion' : act['Result'],
                 'description' : act['Status']
+                'notes' : ''
             }
             actions.append(action)
 
