@@ -39,7 +39,7 @@ class HostedLegistarSiteWrapper (object):
                 print e
                 print 'skipping to next leg record'
                 summary = self.legislation_summaries.next()
-            except attributeError as e :
+            except AttributeError as e :
                 print e
                 print 'skipping to next leg record'
                 summary = self.legislation_summaries.next()
