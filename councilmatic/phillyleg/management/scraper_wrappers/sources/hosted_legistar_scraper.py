@@ -35,9 +35,15 @@ class HostedLegistarSiteWrapper (object):
             try:
                 legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
                 break
-            except urllib2.URLError:
+            except urllib2.URLError as e:
+                print e
                 print 'skipping to next leg record'
                 summary = self.legislation_summaries.next()
+            except attributeError as e :
+                print e
+                print 'skipping to next leg record'
+                summary = self.legislation_summaries.next()
+
             
         parsed_url = urlparse.urlparse(summary['URL'])
         key = urlparse.parse_qs(parsed_url.query)['ID'][0]
