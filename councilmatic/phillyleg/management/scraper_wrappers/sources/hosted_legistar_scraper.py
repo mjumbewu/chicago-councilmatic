@@ -31,14 +31,14 @@ class HostedLegistarSiteWrapper (object):
         '''Extract a record from the given document (soup). The key is for the
            sake of record-keeping.  It is the key passed to the site URL.'''
 
-        try:
-            legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
-        except urllib2.URLError:
-            print 'skipping to next leg record'
-            summary = self.legislation_summaries.next()
-            legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
-
-
+        while True :
+            try:
+                legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
+                break
+            except urllib2.URLError:
+                print 'skipping to next leg record'
+                summary = self.legislation_summaries.next()
+            
         parsed_url = urlparse.urlparse(summary['URL'])
         key = urlparse.parse_qs(parsed_url.query)['ID'][0]
         
