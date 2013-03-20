@@ -75,12 +75,6 @@ slate
 git+https://github.com/abielr/mechanize.git#egg=mechanize
 
 
-
-
-mechanize
-
-
-
 # ====================
 # Testing and debugging
 # ====================
