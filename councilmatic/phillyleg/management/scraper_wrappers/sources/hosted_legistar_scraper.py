@@ -1,4 +1,5 @@
 import datetime
+import time
 import httplib
 import logging
 import re
@@ -38,11 +39,19 @@ class HostedLegistarSiteWrapper (object):
             except urllib2.URLError as e:
                 print e
                 print 'skipping to next leg record'
-                summary = self.legislation_summaries.next()
             except AttributeError as e :
                 print e
                 print 'skipping to next leg record'
-                summary = self.legislation_summaries.next()
+            while True :
+                try:
+                    summary = self.legislation_summaries.next()
+                    break
+                except urllib2.URLError as e:
+                    print e
+                    print 'sleeping for five minutes'
+                    time.sleep('360')
+
+
 
             
         parsed_url = urlparse.urlparse(summary['URL'])
