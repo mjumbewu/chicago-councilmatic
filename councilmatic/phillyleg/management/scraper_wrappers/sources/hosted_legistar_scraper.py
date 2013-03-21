@@ -100,7 +100,7 @@ class HostedLegistarSiteWrapper (object):
                 act_details, act_votes = self.scraper.expandHistorySummary(act)
             except KeyError as e:
                 print e
-                print legislation
+                print summary
                 continue
             action = {
                 'key' : key,
