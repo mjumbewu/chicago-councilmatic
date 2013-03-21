@@ -1,4 +1,5 @@
 import datetime
+import time
 import httplib
 import logging
 import re
@@ -25,20 +26,34 @@ class HostedLegistarSiteWrapper (object):
 
     def __init__(self, **options):
         self.scraper = LegistarScraper(options)
-        self.legislation_summaries =  self.scraper.searchLegislation('')
+        self.legislation_summaries =  self.scraper.searchLegislation('', created_before='2012-03-15') # hack for initial import of data
 
     def scrape_legis_file(self, key, summary):
         '''Extract a record from the given document (soup). The key is for the
            sake of record-keeping.  It is the key passed to the site URL.'''
 
-        try:
-            legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
-        except urllib2.URLError:
-            print 'skipping to next leg record'
-            summary = self.legislation_summaries.next()
-            legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
+        while True :
+            try:
+                legislation_attrs, legislation_history = self.scraper.expandLegislationSummary(summary)
+                break
+            except urllib2.URLError as e:
+                print e
+                print 'skipping to next leg record'
+            except AttributeError as e :
+                print e
+                print 'skipping to next leg record'
+            while True :
+                try:
+                    summary = self.legislation_summaries.next()
+                    break
+                except urllib2.URLError as e:
+                    print e
+                    print 'sleeping for five minutes'
+                    time.sleep('360')
 
 
+
+            
         parsed_url = urlparse.urlparse(summary['URL'])
         key = urlparse.parse_qs(parsed_url.query)['ID'][0]
         
@@ -81,14 +96,25 @@ class HostedLegistarSiteWrapper (object):
 
         actions = []
         for act in legislation_history :
-            act_details, act_votes = self.scraper.expandHistorySummary(act)
-            action = {
-                'key' : key,
-                'date_taken' : self.convert_date(act['Date']),
-                'acting_body' : act['Action By']['label'],
-                'motion' : act['Result'],
-                'description' : act['Status']
-            }
+            try:
+                act_details, act_votes = self.scraper.expandHistorySummary(act)
+            except KeyError as e:
+                print e
+                print summary
+                continue
+            try:
+                action = {
+                    'key' : key,
+                    'date_taken' : self.convert_date(act['Date']),
+                    'acting_body' : act['Action By']['label'],
+                    'motion' : act['Result'],
+                    'description' : act['Status'],
+                    'notes' : ''
+                    }
+            except TypeError as e:
+                print e
+                print summary
+                continue
             actions.append(action)
 
         # we should probably remove this from the model since the hosted

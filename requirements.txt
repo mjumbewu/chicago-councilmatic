@@ -69,10 +69,10 @@ requests==0.11.1
 # Scraping
 git+git://github.com/fgregg/legistar-scrape#egg=legistar-scrape
 BeautifulSoup
+BeautifulSoup4
 pdfminer
 slate
-mechanize
-
+git+https://github.com/abielr/mechanize.git#egg=mechanize
 
 
 # ====================
