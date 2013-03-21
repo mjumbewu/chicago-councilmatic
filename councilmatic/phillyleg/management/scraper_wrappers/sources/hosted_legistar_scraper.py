@@ -96,7 +96,12 @@ class HostedLegistarSiteWrapper (object):
 
         actions = []
         for act in legislation_history :
-            act_details, act_votes = self.scraper.expandHistorySummary(act)
+            try:
+                act_details, act_votes = self.scraper.expandHistorySummary(act)
+            except KeyError as e:
+                print e
+                print legislation
+                continue
             action = {
                 'key' : key,
                 'date_taken' : self.convert_date(act['Date']),
