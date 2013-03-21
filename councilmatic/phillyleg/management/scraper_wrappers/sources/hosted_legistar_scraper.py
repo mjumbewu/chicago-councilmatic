@@ -26,7 +26,7 @@ class HostedLegistarSiteWrapper (object):
 
     def __init__(self, **options):
         self.scraper = LegistarScraper(options)
-        self.legislation_summaries =  self.scraper.searchLegislation('', created_before='2012-04-19') # hack for initial import of data
+        self.legislation_summaries =  self.scraper.searchLegislation('', created_before='2012-03-15') # hack for initial import of data
 
     def scrape_legis_file(self, key, summary):
         '''Extract a record from the given document (soup). The key is for the
@@ -102,14 +102,19 @@ class HostedLegistarSiteWrapper (object):
                 print e
                 print summary
                 continue
-            action = {
-                'key' : key,
-                'date_taken' : self.convert_date(act['Date']),
-                'acting_body' : act['Action By']['label'],
-                'motion' : act['Result'],
-                'description' : act['Status'],
-                'notes' : ''
-            }
+            try:
+                action = {
+                    'key' : key,
+                    'date_taken' : self.convert_date(act['Date']),
+                    'acting_body' : act['Action By']['label'],
+                    'motion' : act['Result'],
+                    'description' : act['Status'],
+                    'notes' : ''
+                    }
+            except TypeError as e:
+                print e
+                print summary
+                continue
             actions.append(action)
 
         # we should probably remove this from the model since the hosted
