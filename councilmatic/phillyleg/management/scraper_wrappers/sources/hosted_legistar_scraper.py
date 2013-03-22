@@ -98,7 +98,7 @@ class HostedLegistarSiteWrapper (object):
         for act in legislation_history :
             try:
                 act_details, act_votes = self.scraper.expandHistorySummary(act)
-            except KeyError as e:
+            except (KeyError, AttributeError) as e:
                 print e
                 print summary
                 continue
