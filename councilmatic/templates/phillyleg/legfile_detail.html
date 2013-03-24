@@ -200,6 +200,7 @@
     <div class="block" id="opinions">
       <div class="content">
         {% if support_opinions %}
+          <h4>Support</h4>
           <div class="support opinions">
             {% for opinion in support_opinions %}
               {% if forloop.first %}<ul>{% endif %}
@@ -213,6 +214,7 @@
         {% endif %}
 
         {% if abstain_opinions %}
+          <h4>Abstain</h4>
           <div class="abstain opinions">
             {% for opinion in abstain_opinions %}
               {% if forloop.first %}<ul>{% endif %}
@@ -226,6 +228,7 @@
         {% endif %}
 
         {% if oppose_opinions %}
+        <h4>Oppose</h4>
         <div class="oppose opinions">
           {% for opinion in oppose_opinions %}
             {% if forloop.first %}<ul>{% endif %}
@@ -237,7 +240,7 @@
           {% endfor %}
         </div>
         {% endif %}
-        
+
       </div>
     </div>
 
