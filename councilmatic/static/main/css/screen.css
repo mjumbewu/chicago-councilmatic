@@ -1000,6 +1000,9 @@ body #site_header .header_wrapper .search button {
   float: left;
   margin-right: 10px;
   width: 950px;
+  border-top: 1px solid #ccc;
+  margin-top: 20px;
+  padding-top: 20px;
 }
 /* line 147, ../../../../../../../../.rvm/gems/ruby-1.9.3-p125/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html #opinions {
@@ -1044,29 +1047,11 @@ body #site_header .header_wrapper .search button {
   float: left;
   margin-right: 10px;
   width: 270px;
-  background-repeat: no-repeat;
-  background-position: 50% 0%;
   vertical-align: top;
-  padding-top: 50px;
 }
 /* line 147, ../../../../../../../../.rvm/gems/ruby-1.9.3-p125/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html #opinions .content .opinions {
   overflow-x: hidden;
-}
-
-/* line 255, ../sass/partials/_legfile_detail.scss */
-.opinions.support {
-  background-image: url("../images/support.svg");
-}
-
-/* line 259, ../sass/partials/_legfile_detail.scss */
-.opinions.abstain {
-  background-image: url("../images/abstain.svg");
-}
-
-/* line 263, ../sass/partials/_legfile_detail.scss */
-.opinions.oppose {
-  background-image: url("../images/oppose.svg");
 }
 
 /* line 267, ../sass/partials/_legfile_detail.scss */
