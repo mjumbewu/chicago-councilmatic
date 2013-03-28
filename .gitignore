@@ -6,6 +6,7 @@
 *.sqlite3
 \#*\#
 .\#*
+.DS_Store
 
 # Compass-generated stuff
 .sass-cache/
