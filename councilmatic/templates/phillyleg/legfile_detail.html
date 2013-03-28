@@ -22,13 +22,6 @@
             <header class="instance_header legfile_header">
               <h1>{{ object.type }} {{ object.id }}</h1>
               <h2>
-                <div>
-                  <ul class="legfile_sponsors">
-                    {% for sponsor in object.sponsors.all %}
-                      <li><img height="40" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}" title="{{ sponsor.name }}"></li>
-                    {% endfor %}
-                  </ul>
-                </div>
                 {% if object.controlling_body != '' %}
                   <div>Controlled by <span class="legfile_controlling_body">{{ object.controlling_body }}</span></div>
                 {% endif %}
@@ -36,6 +29,16 @@
             </header>
 
             <div class="overview_bar legfile_overview_bar">
+              <div>
+                {% if object.sponsors %}
+                  <strong>Sponsors</strong>
+                  <ul class="legfile_sponsors">
+                    {% for sponsor in object.sponsors.all %}
+                      <li><img height="40" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}" title="{{ sponsor.name }}"> {{ sponsor.name }} </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
               <span>
                 Introduced on {{ object.intro_date }}
                 <br />

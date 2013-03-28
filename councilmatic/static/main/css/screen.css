@@ -971,7 +971,7 @@ body #site_header .header_wrapper .search button {
 }
 
 #enter_opinion {
-  border-bottom: 1px solid #cccccc;
+  border-top: 1px solid #cccccc;
   clear: both;
   padding: 1em 0;
 }
