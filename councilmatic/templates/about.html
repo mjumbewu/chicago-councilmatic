@@ -1,67 +1,40 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1 class="title">Motivation and Overview</h1>
 
-    <p>I want to be able to follow primary source material on legislation as it
-       develops in my city. I also want to have appropraite context around this
-       legislation so that I can develop my own better informed opinions. Having
-       this ability makes me feel as though I can actually be involved in the
-       process of guiding the city &mdash; it opens the black box of how things are
-       done, and makes legislation accessible outside of its consequences.</p>
-    <p>There are three aspects here:</p>
-    <ul class="simple">
-        <li>subscription,</li>
-        <li>contextualization, and</li>
-        <li>evaluation (pros and cons)</li>
-    </ul>
-    <p><em>Subscription</em>: I want to be able to subscribe to legislation as
-       its made available, and to agendas of what's going to be discussed in the
-       future. Councilmatic will provide email, RSS, or SMS subscriptions to
-       headlines that you desire. It will also present updates to your
-       subscribed information in a way that is optimized for your viewing mode,
-       be it web or mobile.</p>
-    <p><em>Contextualization</em>: I want to see relevant information around
-       legislation, like the geographical areas mentioned, supporting areas (with councilember as
-       proxy), related legislation, and related information from around the
-       internet. Councilmatic will collect meta-information on legislation such
-       as the words in a bill, and the other bills that it refers to (determined
-       through regular expression analysis). It will also allow users to note
-       areas of the city mentioned in legislation.</p>
-    <p><em>Evaluation</em>: I want to see the pros and cons of an issue as
-       discussed by the wider community. Councilmatic will allow users to not
-       only comment on a bill, but also specify whether their comment is is
-       support of or opposition to the bill. Other users will be able to
-       comments according to their helpfulness. Through this system will emerge
-       a set of most helpful supportive and opposing viewpoints on the issues in
-       a bill.</p>
-
-    <p>If you want to do these things too, then <a
-       href="http://www.github.com/codeforamerica/councilmatic/">get
-       involved</a>.</p>
+    <h1 class="title">What is This?</h1>
+    <p>
+    Councilmatic Chicago lets you know what the Chicago city council is doing. If you care about <a href="http://councilmatic.opencityapps.org/search/?q=zoning+reclassification">changes in zoning</a>, 
+    <a href="http://councilmatic.opencityapps.org/search/?q=settlement&file_types=Report">what the city is paying 
+    out in settlements</a>, or <a href="http://councilmatic.opencityapps.org/search/?q=birthday">BIRTHDAYS!!!</a>,
+    you can find out here. You can even subscribe to this search, and if something new happens that you care about 
+    you can get an e-mail or see it in your RSS reader.
+    </p>
+    
+    <p>
+    You can also see and follow all the legislation sponsored by your alderman or mayor 
+    (<a href="http://councilmatic.opencityapps.org/search/?q=&sponsors=Bob+Fioretti">Bob Fioretti</a>, 
+     <a href="http://councilmatic.opencityapps.org/search/?q=&sponsors=Leslie+A.+Hairston">Leslie Hairston</a>,
+     <a href="http://councilmatic.opencityapps.org/search/?q=&sponsors=Rahm+Emanuel">Rahm Emanuel</a>).
+    </p>
+        
+    <h1>What Else?</h1>
+    <p>If there is a piece of legislation you care about, you can give your opinion on it, share it with your network, and
+    argue about it with other folks</p>
 
     <h1>About the Data</h1>
 
-    <p>The data on Philly.Councilmatic is scraped once a day (early in the
-       morning) from the Philadelphia City Council's legislation site. On that
-       site, the data is served through an application called InSite. Many
-       municipal legislative bodies use some version of this software. It is
-       possible that the scraper is able to be used for other cities' InSite
-       instances as well.</p>
-    <p>Since the data comes from another site, the data quality is only as good
-       as its source. If there are empty communications, that is an issue with
-       the source. Also, Councilmatic may not have up-to-the-minute information
-       about the legislation you are viewing, since it scrapes once per day.
+    <p>The data on this site is scraped once a week from from the <a href="http://chicago.legistar.com/">Chicago City Council legislation site</a>. 
+    Councilmatic may not have up-to-the-minute information
+       about the legislation you are viewing, since it scrapes once per week.
        Each piece of legislation provides a link to its source for reference.<p>
-    <p>Councilmatic does add some metadata to the source data: The complete list
-       of words that occur in the source title and attachents, as well as which
-       other legislation mentions or is mentioned by a particular piece of
-       legislation.</p>
 
-    <h1>People</h1>
-
-    <p>Councilmatic has been contributed to by many people along the way,
-       including:</p>
+    <h1>Who we Are</h1>
+    
+    <p></p>Chicago Councilmatic was put up by Derek Eder and Forest Gregg.</p> 
+    
+    <p>Councilmatic was originally built 
+    for Philadelphia, and lot's of folks have contributed to this software.</p>
 
     <ul>
         <li><a href="https://github.com/mdb" title="Mike Ball">Mike Ball</a></li>

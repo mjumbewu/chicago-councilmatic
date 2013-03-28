@@ -13,35 +13,19 @@
 <div class="block">
     <div class="content">
     <div class="inner">
+        <p><strong>We're in Alpha</strong> This site is still a work in progress. There may be missing legislation or incomplete features. Stay tuned for more!</p>
         <header>
-            <h2>Find and Subscribe to Legislation</h2>
+            <h2>Find Chicago legislation</h2>
         </header>
 
         <form id="dashboard_search" class="search uniForm" action="{% url search %}" method="GET">
             <div class="ctrlHolder">
-                <input name="q" type="text" class="textInput" placeholder="What interests you?">
+                <input name="q" type="text" class="textInput" placeholder="Rahm Emanuel, zoning, resolution #R2013-1, etc.">
             </div>
         </form>
 
-        <div id="dashboard_explanation">
-            <div class="subscription">
-                <h3>Subscription</h3>
-                <p>Subscribe to legislation as its made available. Councilmatic provides email subscriptions to the legislation relevant to you.</p>
-            </div>
-
-            <div class="contextualization">
-                <h3>Contextualization</h3>
-                <p>See relevant information around legislation, like the geographical areas mentioned, related legislation, and related information from around the internet.</p>
-            </div>
-
-            <div class="evaluation">
-                <h3>Evaluation</h3>
-                <p>See the pros and cons of an issue as discussed by the wider community. Councilmatic allows users to comment, in support of or opposition to, a bill.</p>
-            </div>
-        </div>
-
         <div id="dashboard_legislation">
-            <h2>Recent Legislation</h2>
+            <h2>Recent legislation</h2>
 
             <ul>
             {% for file, bookmark, contenttype, bookmark_form in bookmark_data %}
@@ -55,7 +39,7 @@
         </div>
 
         <div id="dashboard_locations" style="float: right;">
-            <h2>Recent Locations Mentioned</h2>
+            <h2>Recent locations mentioned</h2>
 
             <div style="border:1px solid grey">
             <div id="dashboard_locations_map_cavas"
@@ -72,7 +56,7 @@
               var initialize = function() {
                 var myOptions = {
                       zoom: 10,
-                      center: new google.maps.LatLng(40.006054, -75.147858),
+                      center: new google.maps.LatLng(41.8781136, -87.6667785),
                       mapTypeId: google.maps.MapTypeId.ROADMAP
                     },
                     latlngs = [];
@@ -89,9 +73,14 @@
                 var marker = new google.maps.Marker(markerOptions);
                 latlngs.push(markerOptions.position);
 
+                {# It's possible to have a location with no references. In  #}
+                {# This case, we don't want the url call to break.          #}
+                {% if location.references_in_legislation.all.0.legfile_id %}
                 google.maps.event.addListener(marker, 'click', function() {
                     window.location = '{% url legislation_detail location.references_in_legislation.all.0.legfile_id %}';
                   });
+                {% endif %}
+
                 {% endfor %}
 
                 zoomToFitMarkers(map, latlngs)

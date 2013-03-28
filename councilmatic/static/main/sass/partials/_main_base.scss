@@ -7,9 +7,8 @@
 body {
     @extend .bp;
 
-    background-attachment: fixed;
-    background-color: $wood-color;
-    background-image: url('../images/wood.jpg');
+    font-size: 15px;
+    background-color: #ffffff;
 
     // Bold all the header text
     h1, h2, h3, h4, h5, h6 {

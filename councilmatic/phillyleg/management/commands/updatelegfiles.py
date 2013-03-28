@@ -8,6 +8,8 @@
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+from django.core.exceptions import ImproperlyConfigured
+from django.utils.importlib import import_module
 import django
 import logging
 import optparse
@@ -37,6 +39,24 @@ def import_leg_files(start_key, source, ds, save_key=False):
             ds.save_continuation_key(curr_key)
 
 
+def load_scraper():
+    scraper_name = settings.LEGISLATION['SCRAPER']
+    module, attr = scraper_name.rsplit('.', 1)
+
+    try:
+        mod = import_module(module)
+    except ImportError as e:
+        raise ImproperlyConfigured('Error importing legislation scraper %s: "%s"' % (scraper_name, e))
+
+    try:
+        ScraperWrapper = getattr(mod, attr)
+    except AttributeError as e:
+        raise ImproperlyConfigured('Error importing legislation scraper %s: "%s"' % (scraper_name, e))
+
+    options = settings.LEGISLATION['SCRAPER_OPTIONS']
+    return ScraperWrapper(**options)
+
+
 class Command(BaseCommand):
     help = "Load new legislative file data from the Legistar city council site."
     option_list = BaseCommand.option_list + (
@@ -54,7 +74,7 @@ class Command(BaseCommand):
 
         # Create a datastore wrapper object
         ds = self.ds = CouncilmaticDataStoreWrapper()
-        source = self.source = PhillyLegistarSiteWrapper(settings.LEGISLATION['ROOT'])
+        source = self.source = load_scraper()
 
         # Seed the PDF cache with already-downloaded content.
         #

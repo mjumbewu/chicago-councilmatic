@@ -20,6 +20,17 @@
       margin-left: 20px;
       border-left: 1px solid silver;
     }
+    
+    #dashboard_legislation {
+      width: 510px;
+    }
+    
+    .field_selection {
+      text-align: right;
+      position: absolute;
+      right: 0;
+      width: 64%;
+    }
   </style>
 
   <section id="main" class="legfile_search">
@@ -90,6 +101,7 @@
 {% endblock %}
 
 {% block load_late %}
+  <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
   {% compress js %}
   <script src="{{ STATIC_URL }}main/dashboard_search.js"></script>
   {% endcompress %}

@@ -132,7 +132,7 @@ body h1 img, body h2 img, body h3 img, body h4 img, body h5 img, body h6 img {
 }
 /* line 53, ../../../../../../../../.rvm/gems/ruby-1.9.3-p125/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_typography.scss */
 body h1 {
-  font-size: 3em;
+  font-size: 2em;
   line-height: 1;
   margin-bottom: 0.50em;
 }
@@ -542,9 +542,8 @@ body.two-col #content {
 /*@import "blueprint/buttons";*/
 /* line 7, ../sass/partials/_main_base.scss */
 body {
-  background-attachment: fixed;
-  background-color: #4f2712;
-  background-image: url("../images/wood.jpg");
+  font-size: 15px;
+  background-color: #ffffff;
 }
 /* line 15, ../sass/partials/_main_base.scss */
 body h1, body h2, body h3, body h4, body h5, body h6 {
@@ -558,7 +557,7 @@ body a {
 }
 /* line 25, ../sass/partials/_main_base.scss */
 body > #wrapper {
-  -webkit-border-radius: 2px;
+  /*-webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   -ms-border-radius: 2px;
   -o-border-radius: 2px;
@@ -569,7 +568,7 @@ body > #wrapper {
   background-color: #eeeceb;
   background-image: url("../images/exclusive_paper.png");
   border: 1px solid #B5B5B5;
-  padding: 1em;
+  padding: 1em;*/
 }
 /* line 35, ../sass/partials/_main_base.scss */
 body .inner {
@@ -588,9 +587,9 @@ body {
 /* line 13, ../sass/partials/_site_header.scss */
 body #site_header {
   box-shadow: 0 2px 5px 0 black;
-  background-color: #b21839;
+  background-color: #c00000;
   margin-top: -10em;
-  padding-top: 3em;
+  padding-top: 2em;
   padding-bottom: 1em;
   position: fixed;
   z-index: 100;
@@ -641,7 +640,6 @@ body #site_header .header_wrapper .header h1, body #site_header .header_wrapper 
 }
 /* line 58, ../sass/partials/_site_header.scss */
 body #site_header .header_wrapper .username {
-  color: #d3394c;
   padding-left: 0px;
   padding-right: 0px;
   padding-top: 0.5em;
@@ -818,9 +816,19 @@ body #site_header .header_wrapper .search button {
   height: 2em;
   width: 2em;
 }
+
+.legislation_stats {
+  width: 48%;
+  float: left;
+}
+
+.sponsors {
+  width: 48%;
+  float: right;
+}
+
 /* line 79, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .overview_bar {
-  font-family: 'Quattrocento', 'Garamond', serif;
   clear: both;
   border: 1px solid #cccccc;
   border-image: url("../images/pen_stroke.png") 4 repeat;
@@ -830,23 +838,18 @@ body #site_header .header_wrapper .search button {
 /* line 88, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .overview_bar span {
   display: inline-block;
-  text-align: center;
   width: 33%;
 }
 /* line 93, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .overview_bar span:first-child {
   text-align: left;
 }
-/* line 97, ../sass/partials/_legfile_detail.scss */
-.legfile_detail .inner .overview_bar span:last-child {
-  text-align: right;
-}
 /* line 103, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .legfile_text {
   display: inline;
   float: left;
   position: relative;
-  margin: 0 -200px 1.5em 200px;
+  margin-top: 1.5em;
   float: left;
   margin-top: 1em;
   margin-bottom: 0px;
@@ -976,6 +979,16 @@ body #site_header .header_wrapper .search button {
   overflow-x: hidden;
 }
 
+#controlling_body {
+  padding-top: 20px;
+}
+
+#enter_opinion {
+  border-top: 1px solid #cccccc;
+  clear: both;
+  padding: 1em 0;
+}
+
 /* line 206, ../sass/partials/_legfile_detail.scss */
 #your_opinion {
   -webkit-border-radius: 2px;
@@ -1006,6 +1019,9 @@ body #site_header .header_wrapper .search button {
   float: left;
   margin-right: 10px;
   width: 950px;
+  border-top: 1px solid #ccc;
+  margin-top: 20px;
+  padding-top: 20px;
 }
 /* line 147, ../../../../../../../../.rvm/gems/ruby-1.9.3-p125/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html #opinions {
@@ -1050,30 +1066,11 @@ body #site_header .header_wrapper .search button {
   float: left;
   margin-right: 10px;
   width: 270px;
-  background-repeat: no-repeat;
-  background-position: 50% 0%;
   vertical-align: top;
-  padding-top: 50px;
-  margin-top: 2em;
 }
 /* line 147, ../../../../../../../../.rvm/gems/ruby-1.9.3-p125/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html #opinions .content .opinions {
   overflow-x: hidden;
-}
-
-/* line 255, ../sass/partials/_legfile_detail.scss */
-.opinions.support {
-  background-image: url("../images/support.svg");
-}
-
-/* line 259, ../sass/partials/_legfile_detail.scss */
-.opinions.abstain {
-  background-image: url("../images/abstain.svg");
-}
-
-/* line 263, ../sass/partials/_legfile_detail.scss */
-.opinions.oppose {
-  background-image: url("../images/oppose.svg");
 }
 
 /* line 267, ../sass/partials/_legfile_detail.scss */
@@ -1178,7 +1175,7 @@ body #site_header .header_wrapper .search button {
   float: left;
   position: relative;
   margin: 0 -40px 1.5em 40px;
-  padding-top: 6em;
+  padding-top: 2em;
 }
 /* line 147, ../../../../../../../../.rvm/gems/ruby-1.9.3-p125/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html .dashboard .inner, * html
@@ -1209,7 +1206,7 @@ body #site_header .header_wrapper .search button {
 .dashboard .inner h3,
 .legfile_list .inner h3,
 .legfile_search .inner h3 {
-  color: #b21839;
+  color: #c00000;
 }
 /* line 34, ../sass/partials/_dashboard.scss */
 .dashboard .inner #dashboard_search,

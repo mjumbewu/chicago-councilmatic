@@ -2,6 +2,7 @@
 {% load model_blocks %}
 {% load uni_form_tags %}
 {% load comments %}
+{% load compress %}
 
 {% block title %}{{ object.title|truncatewords:14 }}{% endblock %}
 {% block load_early %}
@@ -20,24 +21,32 @@
           <section class="instance instance_detail legfile_detail">
             <header class="instance_header legfile_header">
               <h1>{{ object.type }} {{ object.id }}</h1>
-              <h2>
-                <div>
-                  <ul class="legfile_sponsors">
-                    {% for sponsor in object.sponsors.all %}
-                      <li><img width="30" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}" title="{{ sponsor.name }}"></li>
-                    {% endfor %}
-                  </ul>
-                </div>
-                <div>Controlled by <span class="legfile_controlling_body">{{ object.controlling_body }}</span></div>
+              <h2 id='controlling_body'>
+                {% if object.controlling_body != '' %}
+                  <div>Controlled by <span class="legfile_controlling_body">{{ object.controlling_body }}</span></div>
+                {% endif %}
               </h2>
             </header>
 
             <div class="overview_bar legfile_overview_bar">
-              <span>Introduced on {{ object.intro_date }}</span>
+              <span class='legislation_stats'>
+                Introduced on {{ object.intro_date }}
+                <br />
+                {% if object.last_action_date %}Last action on {{ object.last_action_date }}{% endif %}
+                <br />
+                Status: {{ object.status }}
+              </span>
 
-              <span>{% if object.last_action_date %}Last action on {{ object.last_action_date }}{% endif %}</span>
+              <div class='sponsors'>
+                {% if object.sponsors %}
+                  <strong>Sponsors</strong>
+                    {% for sponsor in object.sponsors.all %}
+                      <br /><a href='/search/?q=&sponsors={{ sponsor.name }}'>{{ sponsor.name }}</a>
+                    {% endfor %}
+                {% endif %}
+              </div>
 
-              <span>Status: {{ object.status }}</span>
+              <div class='clear'></div>
             </div>
 
             <div class="legfile_text">
@@ -124,11 +133,11 @@
             {% if object.metadata.locations.all %}
               <div class="block locations">
                 <h3>Locations mentioned in this bill</h3>
-                <img style="float:right; margin-right:200px" src="http://maps.googleapis.com/maps/api/staticmap?center=Philadelphia,PA&zoom=10&size=256x256&maptype=roadmap{% for location in object.metadata.locations.all %}&markers={{ location.geom.y }},{{ location.geom.x }}{% endfor %}&sensor=false">
+                <img style="float:right; margin-right:200px" src="http://maps.googleapis.com/maps/api/staticmap?center=Chicago, IL&zoom=10&size=256x256&maptype=roadmap{% for location in object.metadata.locations.all %}&markers={{ location.geom.y }},{{ location.geom.x }}{% endfor %}&sensor=false">
                 <ul class="navigation">
                   {% for location in object.metadata.locations.all %}
-                    <li><a href="http://maps.google.com/maps?q={{ location.address|urlencode }},+Philadelphia,+PA">
-                      {{ location.address }}, Philadelphia, PA</a></li>
+                    <li><a href="http://maps.google.com/maps?q={{ location.address|urlencode }},+Chicago,+IL">
+                      {{ location.address }}, Chicago, IL</a></li>
                   {% endfor %}
                 </ul>
               </div>
@@ -169,53 +178,38 @@
     </div>
     </div>
 
-    <div id="sidebar">
-        <div class="block" id="your_opinion">
-          <h3>What's your opinion?</h3>
-            {% if user.is_authenticated %}
-              {% if is_opined %}
-              <form action="{% url revise_opinion opinion.pk %}" method="post" class="uniForm">{% csrf_token %}
-              {% else %}
-              <form action="{% url express_opinion %}" method="post" class="uniForm">{% csrf_token %}
-              {% endif %}
-                <fieldset class="inlineLabels">
-                  <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                  {{ opinion_form|as_uni_form }}
-                  <div class="buttonHolder">
-                    <button type="submit" class="primaryAction">Post your statement</button>
-                  </div>
-                </fieldset>
-              </form>
-            {% else %}
-                <p><a href="{% url registration_login %}?next={{ request.get_full_path }}">Log in</a> to comment on the legislation.</p>
-            {% endif %}
-        </div>
-    </div>
-
     <div class="block" id="opinions">
       <div class="content">
-        <div class="support opinions">
-          {% for opinion in support_opinions %}
-            {% if forloop.first %}<ul>{% endif %}
-              <li>
-                <blockquote class="statement">{{ opinion.latest.statement }}</blockquote>
-                <span class="opiner">{{ opinion.opiner.username }}</span>
-              </li>
-            {% if forloop.last %}</ul>{% endif %}
-          {% endfor %}
-        </div>
+        {% if support_opinions %}
+          <h4>Support</h4>
+          <div class="support opinions">
+            {% for opinion in support_opinions %}
+              {% if forloop.first %}<ul>{% endif %}
+                <li>
+                  <blockquote class="statement">{{ opinion.latest.statement }}</blockquote>
+                  <span class="opiner">{{ opinion.opiner.username }}</span>
+                </li>
+              {% if forloop.last %}</ul>{% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
 
-        <div class="abstain opinions">
-          {% for opinion in abstain_opinions %}
-            {% if forloop.first %}<ul>{% endif %}
-              <li>
-                <blockquote class="statement">{{ opinion.latest.statement }}</blockquote>
-                <span class="opiner">{{ opinion.opiner.username }}</span>
-              </li>
-            {% if forloop.last %}</ul>{% endif %}
-          {% endfor %}
-        </div>
+        {% if abstain_opinions %}
+          <h4>Abstain</h4>
+          <div class="abstain opinions">
+            {% for opinion in abstain_opinions %}
+              {% if forloop.first %}<ul>{% endif %}
+                <li>
+                  <blockquote class="statement">{{ opinion.latest.statement }}</blockquote>
+                  <span class="opiner">{{ opinion.opiner.username }}</span>
+                </li>
+              {% if forloop.last %}</ul>{% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
 
+        {% if oppose_opinions %}
+        <h4>Oppose</h4>
         <div class="oppose opinions">
           {% for opinion in oppose_opinions %}
             {% if forloop.first %}<ul>{% endif %}
@@ -226,7 +220,30 @@
             {% if forloop.last %}</ul>{% endif %}
           {% endfor %}
         </div>
+        {% endif %}
+
       </div>
+    </div>
+
+    <div class="block" id='enter_opinion'>
+      <h3>What's your opinion?</h3>
+        {% if user.is_authenticated %}
+          {% if is_opined %}
+          <form action="{% url revise_opinion opinion.pk %}" method="post" class="uniForm">{% csrf_token %}
+          {% else %}
+          <form action="{% url express_opinion %}" method="post" class="uniForm">{% csrf_token %}
+          {% endif %}
+            <fieldset class="inlineLabels">
+              <input type="hidden" name="next" value="{{ request.get_full_path }}">
+              {{ opinion_form|as_uni_form }}
+              <div class="buttonHolder">
+                <button type="submit" class="primaryAction">Post your statement</button>
+              </div>
+            </fieldset>
+          </form>
+        {% else %}
+            <p><a href="{% url registration_login %}?next={{ request.get_full_path }}">Log in</a> to comment on the legislation.</p>
+        {% endif %}
     </div>
 
     {% comment %}
@@ -267,4 +284,11 @@
 
   </section>
 
+{% endblock %}
+
+{% block load_late %}
+  <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+  {% compress js %}
+  <script src="{{ STATIC_URL }}main/legfile_detail.js"></script>
+  {% endcompress %}
 {% endblock %}

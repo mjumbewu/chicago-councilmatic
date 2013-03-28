@@ -201,8 +201,8 @@ class SearchView (SearcherMixin,
                     page_obj.previous_page_number(), query_params)
         
             page_urls = []
-            start_num = min(
-                max(1, page_obj.number - 5), page_obj.paginator.num_pages - 9)
+            start_num = max(1, min(page_obj.number - 5, 
+                                   page_obj.paginator.num_pages - 9))
             end_num = min(start_num + 10, page_obj.paginator.num_pages + 1)
 
             for page_num in range(start_num, end_num):

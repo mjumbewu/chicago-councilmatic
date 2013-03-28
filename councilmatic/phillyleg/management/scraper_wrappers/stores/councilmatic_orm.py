@@ -86,17 +86,22 @@ class CouncilmaticDataStoreWrapper (object):
         changed = self.has_text_changed(legfile.key, legfile)
         legfile.save(update_words=changed, update_mentions=changed, update_locations=changed)
 
-        for sponsor_name in sponsor_names.split(','):
+	existing_sponsors = legfile.sponsors.all()
+
+        for sponsor_name in sponsor_names:
             sponsor_name = sponsor_name.strip()
-            sponsor = CouncilMember.objects.get_or_create(name=sponsor_name)[0]
+            sponsor, created = CouncilMember.objects.get_or_create(name=sponsor_name)
 
             # Add the legislation to the sponsor and save, instead of the other
             # way around, because saving legislation can be expensive.
-            sponsor.legislation.add(legfile)
-            sponsor.save()
+            if sponsor not in existing_sponsors :
+                sponsor.legislation.add(legfile)
+                sponsor.save()
+
 
         # Create notes attached to the record
         for attachment_record in attachment_records:
+    	    print attachment_record
             attachment_record = self.__replace_key_with_legfile(attachment_record)
             self._save_or_ignore(LegFileAttachment, attachment_record)
 
@@ -170,22 +175,26 @@ class CouncilmaticDataStoreWrapper (object):
 
     __legminutes_cache = {}
     def __replace_url_with_minutes(self, record):
-        minutes_url = record['minutes_url']
+        # minutes is empty for hosted legistar
 
-        if minutes_url not in self.__legminutes_cache:
-            if minutes_url == '':
-                minutes = None
-            else:
-                try:
-                    minutes = LegMinutes.objects.get(url=record['minutes_url'])
-                except phillyleg.models.LegMinutes.DoesNotExist:
-                    minutes = None
-            self.__legminutes_cache[minutes_url] = minutes
-        else:
-            minutes = self.__legminutes_cache[minutes_url]
+        record['minutes'] = None
 
-        del record['minutes_url']
-        record['minutes'] = minutes
+        # minutes_url = ''
+
+        # if minutes_url not in self.__legminutes_cache:
+        #     if minutes_url == '':
+        #         minutes = None
+        #     else:
+        #         try:
+        #             minutes = LegMinutes.objects.get(url=record['minutes_url'])
+        #         except phillyleg.models.LegMinutes.DoesNotExist:
+        #             minutes = None
+        #     self.__legminutes_cache[minutes_url] = minutes
+        # else:
+        #     minutes = self.__legminutes_cache[minutes_url]
+
+        # del record['minutes_url']
+        # record['minutes'] = minutes
 
         return record
 

@@ -67,8 +67,12 @@ git+git://github.com/mjumbewu/django-recaptcha.git#egg=django-recaptcha
 requests==0.11.1
 
 # Scraping
-beautifulsoup4==4.0.5
-
+git+git://github.com/fgregg/legistar-scrape#egg=legistar-scrape
+BeautifulSoup
+BeautifulSoup4
+pdfminer
+slate
+git+https://github.com/abielr/mechanize.git#egg=mechanize
 
 
 # ====================

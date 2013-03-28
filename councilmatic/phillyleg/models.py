@@ -109,7 +109,7 @@ class CouncilDistrict(TimestampedModelMixin, models.Model):
 class LegFile(TimestampedModelMixin, models.Model):
     key = models.IntegerField(primary_key=True)
     id = models.CharField(max_length=100, null=True)
-    contact = models.CharField(max_length=1000)
+    #contact = models.CharField(max_length=1000)
     controlling_body = models.CharField(max_length=1000)
     date_scraped = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     last_scraped = models.DateTimeField(auto_now=True)
@@ -423,7 +423,8 @@ class MetaData_Location (TimestampedModelMixin, models.Model):
 
     def geocode(self):
         gc = utils.geocode(self.address, settings.LEGISLATION['ADDRESS_BOUNDS'])
-        if gc and gc['status'] == 'OK':
+
+        if gc and gc['status'] == 'OK' and settings.LEGISLATION['ADDRESS_SUFFIX'] in gc['results'][0]['formatted_address']:
             x = float(gc['results'][0]['geometry']['location']['lng'])
             y = float(gc['results'][0]['geometry']['location']['lat'])
             self.geom = geos.Point(x, y)

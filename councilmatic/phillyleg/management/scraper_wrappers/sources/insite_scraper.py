@@ -19,7 +19,7 @@ class PhillyLegistarSiteWrapper (object):
 
     def __init__(self, root_url):
         self.root_url = root_url
-    
+
     def get_legfile_url(self, key):
         return self.root_url + 'detailreport/?key=' + str(key)
 
