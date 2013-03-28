@@ -970,6 +970,12 @@ body #site_header .header_wrapper .search button {
   overflow-x: hidden;
 }
 
+#enter_opinion {
+  border-bottom: 1px solid #cccccc;
+  clear: both;
+  padding: 1em 0;
+}
+
 /* line 206, ../sass/partials/_legfile_detail.scss */
 #your_opinion {
   -webkit-border-radius: 2px;
