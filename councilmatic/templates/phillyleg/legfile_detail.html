@@ -41,7 +41,7 @@
                 {% if object.sponsors %}
                   <strong>Sponsors</strong>
                     {% for sponsor in object.sponsors.all %}
-                      <br />{{ sponsor.name }}
+                      <br /><a href='/search/?q=&sponsors={{ sponsor.name }}'>{{ sponsor.name }}</a>
                     {% endfor %}
                 {% endif %}
               </div>
