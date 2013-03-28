@@ -829,7 +829,6 @@ body #site_header .header_wrapper .search button {
 
 /* line 79, ../sass/partials/_legfile_detail.scss */
 .legfile_detail .inner .overview_bar {
-  font-family: 'Quattrocento', 'Garamond', serif;
   clear: both;
   border: 1px solid #cccccc;
   border-image: url("../images/pen_stroke.png") 4 repeat;
