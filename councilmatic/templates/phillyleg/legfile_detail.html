@@ -39,14 +39,14 @@
 
               <div class='sponsors'>
                 {% if object.sponsors %}
-                  <h4>Sponsors</h4>
-                  <ul>
+                  <strong>Sponsors</strong>
                     {% for sponsor in object.sponsors.all %}
-                      <li> {{ sponsor.name }} </li>
+                      {{ sponsor.name }} <br />
                     {% endfor %}
-                  </ul>
                 {% endif %}
               </div>
+
+              <div class='clearfix'></div>
             </div>
 
             <div class="legfile_text">
