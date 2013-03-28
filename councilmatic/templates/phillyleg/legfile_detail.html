@@ -25,7 +25,7 @@
                 <div>
                   <ul class="legfile_sponsors">
                     {% for sponsor in object.sponsors.all %}
-                      <li><img width="30" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}" title="{{ sponsor.name }}"></li>
+                      <li><a href="{% url 'councilmember_detail' sponsor.pk %}" ><img width="30" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}" title="{{ sponsor.name }}"></a></li>
                     {% endfor %}
                   </ul>
                 </div>
