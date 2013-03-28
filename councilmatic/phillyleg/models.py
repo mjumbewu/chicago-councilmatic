@@ -80,6 +80,9 @@ class CouncilMemberTenure(TimestampedModelMixin, models.Model):
     begin = models.DateField(blank=True)
     end = models.DateField(null=True, blank=True)
 
+    class Meta (object):
+        ordering = ('-begin',)
+
 
 class CouncilDistrictPlan(TimestampedModelMixin, models.Model):
     date = models.DateField()
@@ -431,4 +434,3 @@ class MetaData_Location (TimestampedModelMixin, models.Model):
         else:
             log.debug('Could not geocode the address "%s"' % self.address)
             raise self.CouldNotBeGeocoded(self.address)
-

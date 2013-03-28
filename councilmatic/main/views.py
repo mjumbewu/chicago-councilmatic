@@ -63,36 +63,67 @@ class SearchBarMixin (object):
         return context_data
 
 
-class AppDashboardView (SearchBarMixin,
-                        bookmarks.views.BaseBookmarkMixin,
-                        views.TemplateView):
-    template_name = 'main/app_dashboard.html'
-
-    def get_recent_locations(self):
-        return list(phillyleg.models.MetaData_Location.objects.\
-                       all().filter(valid=True).order_by('-pk')[:10].\
-                       prefetch_related('references_in_legislation'))
+class BaseDashboardMixin (SearchBarMixin,
+                          bookmarks.views.BaseBookmarkMixin):
 
     def get_recent_legislation(self):
-        return list(phillyleg.models.LegFile.objects.\
-                        all().exclude(title='').order_by('-key')[:3])
+        legfiles = self.get_filtered_legfiles()
+        return list(legfiles.exclude(title='').order_by('-key')[:3])
 
     def get_context_data(self, **kwargs):
         search_form = forms.FullSearchForm()
 
         legfiles = self.get_recent_legislation()
         bookmark_data = self.get_bookmarks_data(legfiles)
-        locations = self.get_recent_locations()
 
-        context_data = super(AppDashboardView, self).get_context_data(
+        context_data = super(BaseDashboardMixin, self).get_context_data(
             **kwargs)
         context_data.update({
             'legfiles': legfiles,
             'bookmark_data': bookmark_data,
             'search_form': search_form,
-            'locations': locations
         })
 
+        return context_data
+
+
+class AppDashboardView (BaseDashboardMixin,
+                        views.TemplateView):
+    template_name = 'main/app_dashboard.html'
+
+    def get_filtered_legfiles(self):
+        return phillyleg.models.LegFile.objects
+
+    def get_recent_locations(self):
+        return list(phillyleg.models.MetaData_Location.objects.\
+                       all().filter(valid=True).order_by('-pk')[:10].\
+                       prefetch_related('references_in_legislation'))
+
+    def get_context_data(self, **kwargs):
+        locations = self.get_recent_locations()
+        context_data = super(AppDashboardView, self).get_context_data(**kwargs)
+        context_data['locations'] = locations
+        return context_data
+
+
+class CouncilMemberDetailView (BaseDashboardMixin,
+                               subscriptions.views.SingleSubscriptionMixin,
+                               views.DetailView):
+    queryset = phillyleg.models.CouncilMember.objects.prefetch_related('tenures', 'tenures__district')
+
+    def get_content_feed(self):
+        return feeds.SearchResultsFeed(search_filter={'sponsors': [self.object.name]})
+
+    def get_filtered_legfiles(self):
+        return self.object.legislation
+
+    def get_district(self):
+        return self.object.district
+
+    def get_context_data(self, **kwargs):
+        district = self.get_district()
+        context_data = super(CouncilMemberDetailView, self).get_context_data(**kwargs)
+        context_data['district'] = district
         return context_data
 
 
@@ -199,9 +230,9 @@ class SearchView (SearcherMixin,
             if page_obj.has_previous():
                 context['previous_url'] = self.paginated_url(
                     page_obj.previous_page_number(), query_params)
-        
+
             page_urls = []
-            start_num = max(1, min(page_obj.number - 5, 
+            start_num = max(1, min(page_obj.number - 5,
                                    page_obj.paginator.num_pages - 9))
             end_num = min(start_num + 10, page_obj.paginator.num_pages + 1)
 
@@ -212,10 +243,10 @@ class SearchView (SearcherMixin,
                     url = None
                 page_urls.append((page_num, url))
             context['page_urls'] = page_urls
-        
+
         log.debug(context)
         return context
-    
+
     def paginated_url(self, page_num, query_params):
         url = '{0}?page={1}'.format(self.request.path, page_num)
         if query_params:

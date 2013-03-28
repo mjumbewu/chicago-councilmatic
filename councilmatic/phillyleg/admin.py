@@ -1,4 +1,5 @@
 from django.contrib.gis import admin
+from django.db.models import Max
 from phillyleg.models import *
 
 class LegActionInline(admin.StackedInline):
@@ -45,6 +46,17 @@ class CouncilMemberTenureInline (admin.TabularInline):
 
 class CouncilMemberAdmin (admin.ModelAdmin):
     inlines = [CouncilMemberTenureInline]
+    list_display = ('name', 'tenure_begin')
+
+    def queryset(self, request):
+        qs = super(CouncilMemberAdmin, self).queryset(request)
+        qs = qs.annotate(tenure_begin=Max('tenures__begin'))
+        return qs
+
+    def tenure_begin(self, instance):
+        return instance.tenure_begin
+    tenure_begin.short_description = 'Began tenure...'
+
 
 
 admin.site.register(LegFile, LegFileAdmin)

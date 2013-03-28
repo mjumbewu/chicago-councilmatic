@@ -2,6 +2,7 @@ import json
 from django.core.serializers.json import DjangoJSONEncoder
 from django.views import generic as views
 from cm_api.resources import SubscriberResource
+from phillyleg import models
 
 class ProfileAdminView (views.TemplateView):
     template_name = 'cm/profile_admin.html'

@@ -1,5 +1,5 @@
-{{ item.type|upper }} {{ item.id }}
+{{ item.type|safe|upper }} {{ item.id }}
 {% for label, value in item_updates %}
-{{ label }}: {{ value }}
+{{ label|safe }}: {{ value|safe }}
 {% endfor %}
 More at http://{{ SITE.domain }}{{ item.get_absolute_url }}

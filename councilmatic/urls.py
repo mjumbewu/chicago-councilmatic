@@ -63,6 +63,9 @@ urlpatterns = patterns(
         main.views.NewLegislationFeed(),
         name='legislation_feed'),
 
+    url(r'^member/(?P<pk>\d+)$', main.views.CouncilMemberDetailView.as_view(),
+        name='councilmember_detail'),
+
     url(r'^minutes/$', ListView.as_view(
         model=phillyleg.models.LegMinutes,
         template_name='phillyleg/legminutes_list.html'),

@@ -6,13 +6,15 @@
     @include column(10);
 }
 
+#main.dashboard .inner {
+    padding-top: 6em;
+}
+
 .dashboard .inner,
 .legfile_list .inner,
 .legfile_search .inner {
     @include column(22);
     @include push(1);
-
-    padding-top: 6em;
 
     > header h2 {
         margin-bottom: 0px;

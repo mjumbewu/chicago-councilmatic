@@ -37,6 +37,15 @@
         {% endblock %}
     </div>
 
+    <div id="site_footer">
+        <div class="footer_flourish"></div>
+        <div class="footer_wrapper">
+        {% block site_footer %}
+            {% include "main/partials/site_footer.html" %}
+        {% endblock %}
+        </div>
+    </div>
+
   {# {% compress js %} #}
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
@@ -46,6 +55,14 @@
     {# Here go things that would be in at the end of the body, like large    #}
     {# javascript files.                                                     #}
   {% endblock %}
+
+  <script>
+    $(function() {
+      // I think the Bootstrap tooltip should be working, but I'm not having
+      // luck with it. So, kick it off here.
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
 
   <script type="text/javascript">
 

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load model_blocks %}
 {% load uni_form_tags %}
+{% load url from future %}
 {% load comments %}
 {% load compress %}
 
@@ -21,6 +22,23 @@
           <section class="instance instance_detail legfile_detail">
             <header class="instance_header legfile_header">
               <h1>{{ object.type }} {{ object.id }}</h1>
+
+              <h2 id="sponsors">
+                <div>
+                  {% with sponsors=object.sponsors.all %}
+                  {% if sponsors %}
+                  <ul class="legfile_sponsors">
+                    {% for sponsor in sponsors %}
+                      <li><a href="{% url 'councilmember_detail' sponsor.pk %}"
+                        ><img width="30" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}" title="{{ sponsor.name }}"></a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                {% endif %}
+                {% endwith %}
+              </h2>
+
               <h2 id='controlling_body'>
                 {% if object.controlling_body != '' %}
                   <div>Controlled by <span class="legfile_controlling_body">{{ object.controlling_body }}</span></div>
@@ -176,6 +194,29 @@
 
     </div>
     </div>
+    </div>
+
+    <div id="sidebar">
+        <div class="block" id="your_opinion">
+          <h3>What's your opinion?</h3>
+            {% if user.is_authenticated %}
+              {% if is_opined %}
+              <form action="{% url 'revise_opinion' opinion.pk %}" method="post" class="uniForm">{% csrf_token %}
+              {% else %}
+              <form action="{% url 'express_opinion' %}" method="post" class="uniForm">{% csrf_token %}
+              {% endif %}
+                <fieldset class="inlineLabels">
+                  <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                  {{ opinion_form|as_uni_form }}
+                  <div class="buttonHolder">
+                    <button type="submit" class="primaryAction">Post your statement</button>
+                  </div>
+                </fieldset>
+              </form>
+            {% else %}
+                <p><a href="{% url 'registration_login' %}?next={{ request.get_full_path }}">Log in</a> to comment on the legislation.</p>
+            {% endif %}
+        </div>
     </div>
 
     <div class="block" id="opinions">
