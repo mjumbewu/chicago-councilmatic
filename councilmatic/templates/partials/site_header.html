@@ -1,0 +1,53 @@
+{% load i18n %}
+
+<div id="site-header" class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+
+      <!-- Collapse button for mobile -->
+      <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      <!-- Site title -->
+      <header class="brand">
+        <h1><a href="http://{{ site.domain }}">{{ site.name }}</a></h1>
+      </header>
+
+      <div class="nav-collapse collapse">
+
+      <!-- Main navigation menu items -->
+        <nav>
+          <ul class="nav">
+            <li class="{% if active == 'search' %} active{% endif %}"><a href="/search">{% trans "Browse" %}</a></li>
+            <li class="first{% if active == 'about' %} active{% endif %}"><a href="/about">{% trans "About" %}</a></li>
+
+            {% if user.is_authenticated %}
+            <li><a href="{% url subscription_list %}" class="primaryAction">Subscriptions</a></li>
+            <li><a href="{% url registration_logout %}?next={{ request.get_full_path }}" class="secondaryAction">{% trans "Log Out" %}</a></li>
+            {% else %}
+            <li><a href="{% url registration_login %}?next={{ request.get_full_path }}" type="submit" class="secondaryAction">{% trans "Log In" %}</a></li>
+            <li><a href="{% url registration_register %}?next={{ request.get_full_path }}" class="primaryAction">{% trans "Sign Up" %}</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+
+      <!-- Search form -->
+        <form class="search" action="{% url search %}" method="GET">
+          <input type="text" name="q" placeholder="search">
+          <button type="submit" class="btn">{% trans "Search" %}</button>
+        </form>
+
+      <!-- User name, if you're logged in -->
+        <p class="username">
+          {% if user.is_authenticated %}
+          <span>{{ user.email }}</span>
+          {% endif %}
+        </p>
+      </div> <!-- .nav-collapse -->
+
+    </div>
+  </div>
+</div> <!-- .navbar -->

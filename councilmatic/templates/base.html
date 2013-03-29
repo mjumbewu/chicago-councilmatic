@@ -1,22 +1,15 @@
-{% load uni_form_tags %}
+{% load i18n %}
 {% load compress %}
 
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}Chicago Councilmatic{% endblock %}</title>
+  <title>{% block title %}{{ site.name }}{% endblock %}</title>
   <meta charset="utf-8">
   <style>
   </style>
 
-  <link href='http://fonts.googleapis.com/css?family=Quattrocento' rel='stylesheet' type='text/css'>
-  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
-
-  {# {% compress css %} #}
-  <link rel="stylesheet" href="{{ STATIC_URL }}main/css/screen.css">
-  <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form.css">
-  <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/default.uni-form.css">
-  {# {% endcompress % } #}
+  <link rel="stylesheet" href="{{ STATIC_URL }}cm/councilmatic.css">
 
   {% block load_early %}
     {# Here go things that would be in the head, like extra css imports.     #}
@@ -24,32 +17,28 @@
 
 </head>
 <body>
-    <div id="site_header">
-        <div class="header_wrapper">
-        {% block site_header %}
-            {% include "main/partials/site_header.html" %}
-        {% endblock %}
-        </div>
-    </div>
 
-    <div id="wrapper" class="wat-cf paper">
+  <div id="wrap"> <!-- Stick footer wrapper: http://twitter.github.com/bootstrap/examples/sticky-footer-navbar.html -->
+
+    {% include "partials/site_header.html" %}
+
+    <div class="container-fluid">
         {% block content %}
         {% endblock %}
     </div>
 
-    <div id="site_footer">
-        <div class="footer_flourish"></div>
-        <div class="footer_wrapper">
-        {% block site_footer %}
-            {% include "main/partials/site_footer.html" %}
-        {% endblock %}
-        </div>
-    </div>
+    {% include "partials/site_footer.html" %}
 
-  {# {% compress js %} #}
+  </div> <!-- #wrap -->
+
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-  {# {% endcompress %} #}
+
+  {% if settings.DEBUG %}
+    <script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-tooltip.js"></script>
+  {% else %}
+  {% endif %}
 
   {% block load_late %}
     {# Here go things that would be in at the end of the body, like large    #}
@@ -67,7 +56,7 @@
   <script type="text/javascript">
 
     var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', '{{ settings.GOOGLE_ANALYTICS_ACCOUNT }}']);
+    _gaq.push(['_setAccount', '{{ GOOGLE_ANALYTICS_ACCOUNT }}']);
     _gaq.push(['_trackPageview']);
 
     (function() {
