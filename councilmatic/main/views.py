@@ -89,7 +89,7 @@ class BaseDashboardMixin (SearchBarMixin,
 
 class AppDashboardView (BaseDashboardMixin,
                         views.TemplateView):
-    template_name = 'main/app_dashboard.html'
+    template_name = 'cm/dashboard.html'
 
     def get_filtered_legfiles(self):
         return phillyleg.models.LegFile.objects

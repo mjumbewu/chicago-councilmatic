@@ -9,7 +9,7 @@
   <style>
   </style>
 
-  <link rel="stylesheet" href="{{ STATIC_URL }}cm/councilmatic.css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}councilmatic/councilmatic.css">
 
   {% block load_early %}
     {# Here go things that would be in the head, like extra css imports.     #}
@@ -23,8 +23,10 @@
     {% include "partials/site_header.html" %}
 
     <div class="container-fluid">
-        {% block content %}
-        {% endblock %}
+      {% block content %}
+      {% endblock %}
+
+      <div id="push"></div>
     </div>
 
     {% include "partials/site_footer.html" %}
