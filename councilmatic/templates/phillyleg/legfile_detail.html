@@ -270,9 +270,9 @@
       <h3>What's your opinion?</h3>
         {% if user.is_authenticated %}
           {% if is_opined %}
-          <form action="{% url revise_opinion opinion.pk %}" method="post" class="uniForm">{% csrf_token %}
+          <form action="{% url 'revise_opinion' opinion.pk %}" method="post" class="uniForm">{% csrf_token %}
           {% else %}
-          <form action="{% url express_opinion %}" method="post" class="uniForm">{% csrf_token %}
+          <form action="{% url 'express_opinion' %}" method="post" class="uniForm">{% csrf_token %}
           {% endif %}
             <fieldset class="inlineLabels">
               <input type="hidden" name="next" value="{{ request.get_full_path }}">
@@ -283,7 +283,7 @@
             </fieldset>
           </form>
         {% else %}
-            <p><a href="{% url registration_login %}?next={{ request.get_full_path }}">Log in</a> to comment on the legislation.</p>
+            <p><a href="{% url 'registration_login' %}?next={{ request.get_full_path }}">Log in</a> to comment on the legislation.</p>
         {% endif %}
     </div>
 
