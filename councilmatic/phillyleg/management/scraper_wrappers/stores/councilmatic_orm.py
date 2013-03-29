@@ -88,6 +88,9 @@ class CouncilmaticDataStoreWrapper (object):
 
         existing_sponsors = legfile.sponsors.all()
 
+        if isinstance(sponsor_names, basestring):
+            sponsor_names = sponsor_names.split(',')
+
         for sponsor_name in sponsor_names:
             sponsor_name = sponsor_name.strip()
             sponsor, created = CouncilMember.objects.get_or_create(name=sponsor_name)
