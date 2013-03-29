@@ -196,29 +196,6 @@
     </div>
     </div>
 
-    <div id="sidebar">
-        <div class="block" id="your_opinion">
-          <h3>What's your opinion?</h3>
-            {% if user.is_authenticated %}
-              {% if is_opined %}
-              <form action="{% url 'revise_opinion' opinion.pk %}" method="post" class="uniForm">{% csrf_token %}
-              {% else %}
-              <form action="{% url 'express_opinion' %}" method="post" class="uniForm">{% csrf_token %}
-              {% endif %}
-                <fieldset class="inlineLabels">
-                  <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                  {{ opinion_form|as_uni_form }}
-                  <div class="buttonHolder">
-                    <button type="submit" class="primaryAction">Post your statement</button>
-                  </div>
-                </fieldset>
-              </form>
-            {% else %}
-                <p><a href="{% url 'registration_login' %}?next={{ request.get_full_path }}">Log in</a> to comment on the legislation.</p>
-            {% endif %}
-        </div>
-    </div>
-
     <div class="block" id="opinions">
       <div class="content">
         {% if support_opinions %}
