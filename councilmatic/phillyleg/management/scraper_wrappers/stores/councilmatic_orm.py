@@ -86,7 +86,7 @@ class CouncilmaticDataStoreWrapper (object):
         changed = self.has_text_changed(legfile.key, legfile)
         legfile.save(update_words=changed, update_mentions=changed, update_locations=changed)
 
-	existing_sponsors = legfile.sponsors.all()
+        existing_sponsors = legfile.sponsors.all()
 
         for sponsor_name in sponsor_names:
             sponsor_name = sponsor_name.strip()
@@ -101,7 +101,7 @@ class CouncilmaticDataStoreWrapper (object):
 
         # Create notes attached to the record
         for attachment_record in attachment_records:
-    	    print attachment_record
+            print attachment_record
             attachment_record = self.__replace_key_with_legfile(attachment_record)
             self._save_or_ignore(LegFileAttachment, attachment_record)
 
@@ -124,14 +124,14 @@ class CouncilmaticDataStoreWrapper (object):
         date_taken = action_record.get('date_taken')
         legfile = action_record.get('file')
         actions = LegAction.objects.filter(date_taken=date_taken, file=legfile)
-        
+
         for action in actions:
             if action.description == action_record.get('description') and \
                action.notes == action_record.get('notes'):
                 return True
-        
+
         return False
-        
+
     @property
     def pdf_mapping(self):
         """
