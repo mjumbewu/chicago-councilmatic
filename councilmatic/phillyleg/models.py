@@ -384,6 +384,9 @@ class LegFileMetaData (TimestampedModelMixin, models.Model):
     locations = models.ManyToManyField('MetaData_Location', related_name='references_in_legislation')
     mentioned_legfiles = models.ManyToManyField('LegFile', related_name='references_in_legislation')
 
+    def valid_locations(self):
+        return self.locations.filter(valid=True)
+
     def __unicode__(self):
         return (u'%s (mentions %s other files, mentioned by %s other files)' % \
             (self.legfile.pk, len(self.mentioned_legfiles.all()), len(self.legfile.references_in_legislation.all())))

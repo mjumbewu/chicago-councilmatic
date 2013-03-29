@@ -148,14 +148,14 @@
               </div>
             {% endif %}
 
-            {% if object.metadata.locations.all %}
+            {% if object.metadata.valid_locations.all %}
               <div class="block locations">
                 <h3>Locations mentioned in this bill</h3>
-                <img style="float:right; margin-right:200px" src="http://maps.googleapis.com/maps/api/staticmap?center=Chicago, IL&zoom=10&size=256x256&maptype=roadmap{% for location in object.metadata.locations.all %}&markers={{ location.geom.y }},{{ location.geom.x }}{% endfor %}&sensor=false">
+                <img style="float:right; margin-right:200px" src="http://maps.googleapis.com/maps/api/staticmap?size=256x256&maptype=roadmap{% for location in object.metadata.valid_locations.all %}&markers={{ location.geom.y }},{{ location.geom.x }}{% endfor %}&sensor=false">
                 <ul class="navigation">
                   {% for location in object.metadata.locations.all %}
-                    <li><a href="http://maps.google.com/maps?q={{ location.address|urlencode }},+Chicago,+IL">
-                      {{ location.address }}, Chicago, IL</a></li>
+                    <li><a href="http://maps.google.com/maps?q={{ location.address|urlencode }}{{ settings.LEGISLATION.ADDRESS_SUFFIX }}">
+                      {{ location.address }}{{ settings.LEGISLATION.ADDRESS_SUFFIX }}</a></li>
                   {% endfor %}
                 </ul>
               </div>
