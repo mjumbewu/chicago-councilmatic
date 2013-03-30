@@ -28,15 +28,8 @@
     <div id="dashboard-legislation-list">
       <h2>{% trans "Recent legislation" %}</h2>
 
-      <ul>
-      {% for file, bookmark, contenttype, bookmark_form in bookmark_data %}
-          <li>
-              {% include "main/partials/dashboard_legfile_teaser.html" %}
-          </li>
-      {% endfor %}
-      </ul>
+      {% include "councilmatic/partials/legfile_list.html" %}
 
-      <a href="{% url search %}">More...</a>
     </div> <!-- #dashboard-legislation-list -->
 
     <div id="dashboard-legislation-map">

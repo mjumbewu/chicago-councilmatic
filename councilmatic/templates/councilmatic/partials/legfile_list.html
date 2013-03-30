@@ -1,0 +1,12 @@
+{% load i18n %}
+{% load url from future %}
+
+<ul>
+{% for file, bookmark, contenttype, bookmark_form in bookmark_data %}
+  <li>
+    {% include "main/partials/dashboard_legfile_teaser.html" %}
+  </li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'search' %}">More...</a>
