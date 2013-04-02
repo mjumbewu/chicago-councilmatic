@@ -3,8 +3,29 @@
 
 <ul>
 {% for file, bookmark, contenttype, bookmark_form in bookmark_data %}
-  <li>
-    {% include "main/partials/dashboard_legfile_teaser.html" %}
+  <li class="clearfix">
+    <span class="pull-right legislation_bookmark">
+        {% if not no_bookmark %}
+          {% with content=file %}
+            {% include "bookmarks/partials/bookmark_button.html" %}
+          {% endwith %}
+        {% else %}
+          <div class="bookmark"></div>
+        {% endif %}
+    </span>
+
+    {% if file.key %}
+    <div class="legislation_id"><a href="{% url 'legislation_detail' file.key %}">{{ file.type }} {{ file.id }}</a></div>
+    {% endif %}
+
+    <div class="row-fluid">
+      <span class="legislation_intro_date">{{ file.intro_date }}</span>
+      <span class="legislation_status">{{ file.status }}</span>
+    </div>
+
+    <p class="legislation_title">{{ file.title|truncatewords:25 }}</p>
+
+    {% if not forloop.last %}<hr>{% endif %}
   </li>
 {% endfor %}
 </ul>
