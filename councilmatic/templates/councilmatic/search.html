@@ -5,11 +5,6 @@
 {% load url from future %}
 
 {% block load_early %}
-  {% compress css %}
-	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/minutes.css">
-	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">
-  <link rel="stylesheet" href="{{ STATIC_URL }}main/app_dashboard.css">
-  {% endcompress %}
 {% endblock %}
 
 {% block content %}
@@ -49,7 +44,9 @@
             <ul id="dashboard_legislation">
             {% with no_bookmark='True' %}
             {% for file in object_list %}
-                <li>{% include "main/partials/dashboard_legfile_teaser.html" %}</li>
+              <li class="clearfix">
+                {% include "councilmatic/partials/legfile_list_item.html" %}
+              </li>
             {% endfor %}
             {% endwith %}
             </ul>
