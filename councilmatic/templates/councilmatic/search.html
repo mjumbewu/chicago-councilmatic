@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load uni_form_tags %}
-{% load compress %}
 {% load i18n %}
 {% load url from future %}
 
@@ -9,49 +8,29 @@
 
 {% block content %}
   <section id="main" class="legfile_search">
+
     <div class="block">
 
       <div class="block">
         {% include 'subscriptions/subscribe_form.html' %}
       </div>
 
-      <div class="content">
-        <div class="inner">
-          <header>
-            <h2>Find and Subscribe to Legislation</h2>
-          </header>
-
-          {# It may either be called `search_form` or just `form` #}
-
-          <form action="{% url 'search' %}" method="GET" class="uniForm" id="id_legislation_search_form">
-            <fieldset class="inlineLabels">
-              {% if search_form %}
-                {{ search_form|as_uni_form }}
-              {% else %}
-                {{ form|as_uni_form }}
-              {% endif %}
-              <div class="buttonHolder"><button type="submit" class="primaryAction">Search</button></div>
-            </fieldset>
-          </form>
-
+      <div class="row-fluid">
+        <section id="dashboard_legislation" class="span8">
           {% if object_list %}
-            {% with title='Results' %}
 
             <header>
-              <h2>Legislation Results</h2>
+              <h2>{% trans "Legislation Results" %}</h2>
             </header>
 
-            <ul id="dashboard_legislation">
             {% with no_bookmark='True' %}
             {% for file in object_list %}
-              <li class="clearfix">
+              <article class="clearfix">
                 {% include "councilmatic/partials/legfile_list_item.html" %}
-              </li>
+              </article>
             {% endfor %}
             {% endwith %}
-            </ul>
 
-            {% endwith %}
 
             {% if page_obj.has_previous or page_obj.has_next %}
             <div class="pagination pagination-centered">
@@ -77,6 +56,24 @@
           {% else %}
             {# Show some example queries to run, maybe query syntax, something else? #}
           {% endif %}
+        </section>
+
+        <div class="span4">
+
+          <h2>{% trans "Find Legislation" %}</h2>
+
+          {# It may either be called `search_form` or just `form` #}
+
+          <form action="{% url 'search' %}" method="GET" class="uniForm" id="id_legislation_search_form">
+            <fieldset class="inlineLabels">
+              {% if search_form %}
+                {{ search_form|as_uni_form }}
+              {% else %}
+                {{ form|as_uni_form }}
+              {% endif %}
+              <div><button type="submit" class="btn">Search</button></div>
+            </fieldset>
+          </form>
         </div>
       </div>
     </div>
@@ -85,8 +82,5 @@
 {% endblock %}
 
 {% block load_late %}
-  <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
-  {% compress js %}
   <script src="{{ STATIC_URL }}main/dashboard_search.js"></script>
-  {% endcompress %}
 {% endblock %}

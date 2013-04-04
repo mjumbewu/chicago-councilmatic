@@ -6,8 +6,6 @@
 <head>
   <title>{% block title %}{{ site.name }}{% endblock %}</title>
   <meta charset="utf-8">
-  <style>
-  </style>
 
   <link rel="stylesheet" href="{{ STATIC_URL }}councilmatic/build/councilmatic.css">
 
@@ -49,8 +47,7 @@
 
   <script>
     $(function() {
-      // I think the Bootstrap tooltip should be working, but I'm not having
-      // luck with it. So, kick it off here.
+      // Kick off the Bootstrap tooltips.
       $('[data-toggle="tooltip"]').tooltip();
     });
   </script>
