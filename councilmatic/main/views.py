@@ -185,7 +185,7 @@ class SearchView (SearcherMixin,
                   SearchBarMixin,
                   subscriptions.views.SingleSubscriptionMixin,
                   views.ListView):
-    template_name = 'search/search.html'
+    template_name = 'councilmatic/search.html'
     paginate_by = 20
     feed_data = None
 
