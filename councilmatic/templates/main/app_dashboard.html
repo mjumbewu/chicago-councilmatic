@@ -5,87 +5,91 @@
 {% load cache %}
 
 {% block load_early %}
-<!--	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">-->
+<!--  <link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">-->
 <!--  <link rel="stylesheet" href="{{ STATIC_URL }}main/app_dashboard.css">-->
 {% endblock %}
 
 {% block content %}
 <section id="main" class="dashboard dashboard_browse">
-<div class="block">
-    <div class="content">
-    <div class="inner">
-        <p><strong>We're in Alpha</strong> This site is still a work in progress. There may be missing legislation or incomplete features. Stay tuned for more!</p>
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="offset1 span10">
+      <div class="alert alert-info">
+        <strong>We're in Alpha</strong> This site is still a work in progress. There may be missing legislation or incomplete features. Stay tuned for more!
+      </div>
+      <div class="hero-unit">
         <header>
-            <h2>Find Chicago legislation</h2>
+          <h2>Find Chicago legislation</h2>
         </header>
 
         <form id="dashboard_search" class="search uniForm" action="{% url search %}" method="GET">
-            <div class="ctrlHolder">
-                <input name="q" type="text" class="textInput" placeholder="Rahm Emanuel, zoning, resolution #R2013-1, etc.">
-            </div>
+          <div class="ctrlHolder">
+              <input name="q" type="text" class="textInput search-query input-xxlarge" placeholder="Rahm Emanuel, zoning, resolution #R2013-1, etc.">
+              <a href="#" class="btn btn-primary">Search</a>
+          </div>
         </form>
-	
-        <div id="dashboard_legislation">
-            <h2>Recent legislation</h2>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div id="dashboard_legislation" class="offset1 span5">
+        <h2>Recent legislation</h2>
 
-            <ul>
-	    {% cache 1800 bookmark_data %}
-            {% for file, bookmark, contenttype, bookmark_form in bookmark_data %}
-                <li>
-                    {% include "main/partials/dashboard_legfile_teaser.html" %}
-                </li>
-            {% endfor %}
-	    {% endcache %}
-            </ul>
+        {% cache 1 bookmark_data %}
+          {% for file, bookmark, contenttype, bookmark_form in bookmark_data %}
+            <p>
+                {% include "main/partials/dashboard_legfile_teaser.html" %}
+            </p>
+          {% endfor %}
+        {% endcache %}
 
-            <a href="{% url search %}">More...</a>
+        <a href="{% url search %}" class="btn btn-info">More...</a>
+      </div>
+
+      <div id="dashboard_locationf" class="span5">
+        <h2>Recent locations mentioned</h2>
+
+        <div style="border:1px solid grey">
+        <div id="dashboard_locations_map_cavas"
+             style="
+                height:300px;">
+        </div>
         </div>
 
-        <div id="dashboard_locations" style="float: right;">
-            <h2>Recent locations mentioned</h2>
+        <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+        <script type="text/javascript">
+          var map;
+          var initialize = function() {
+            var myOptions = {
+                  zoom: 10,
+                  center: new google.maps.LatLng(41.8781136, -87.6667785),
+                  mapTypeId: google.maps.MapTypeId.ROADMAP,
+                  streetViewControl: false
+                },
+                latlngs = [];
 
-            <div style="border:1px solid grey">
-            <div id="dashboard_locations_map_cavas"
-                 style="
-                    width:420px;
-                    height:300px;">
-            </div>
-            </div>
+            map = new google.maps.Map(document.getElementById('dashboard_locations_map_cavas'),
+                myOptions);
+            {% cache 1 locations %}
+            {% for location in locations %}
+            var markerOptions = {
+              map: map,
+              title: "{{ location.address }}",
+              position: new google.maps.LatLng({{ location.geom.y }}, {{ location.geom.x }})
+            };
+            var marker = new google.maps.Marker(markerOptions);
+            latlngs.push(markerOptions.position);
 
-            <script type="text/javascript"
-                src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-            <script type="text/javascript">
-              var map;
-              var initialize = function() {
-                var myOptions = {
-                      zoom: 10,
-                      center: new google.maps.LatLng(41.8781136, -87.6667785),
-                      mapTypeId: google.maps.MapTypeId.ROADMAP
-                    },
-                    latlngs = [];
+            {# It's possible to have a location with no references. In  #}
+            {# This case, we don't want the url call to break.          #}
+            {% if location.references_in_legislation.all.0.legfile_id %}
+            google.maps.event.addListener(marker, 'click', function() {
+                window.location = '{% url legislation_detail location.references_in_legislation.all.0.legfile_id %}';
+              });
+            {% endif %}
 
-                map = new google.maps.Map(document.getElementById('dashboard_locations_map_cavas'),
-                    myOptions);
-		{% cache 1800 locations %}
-                {% for location in locations %}
-                var markerOptions = {
-                  map: map,
-                  title: "{{ location.address }}",
-                  position: new google.maps.LatLng({{ location.geom.y }}, {{ location.geom.x }})
-                };
-                var marker = new google.maps.Marker(markerOptions);
-                latlngs.push(markerOptions.position);
-
-                {# It's possible to have a location with no references. In  #}
-                {# This case, we don't want the url call to break.          #}
-                {% if location.references_in_legislation.all.0.legfile_id %}
-                google.maps.event.addListener(marker, 'click', function() {
-                    window.location = '{% url legislation_detail location.references_in_legislation.all.0.legfile_id %}';
-                  });
-                {% endif %}
-
-                {% endfor %}
-		{% endcache %}
+            {% endfor %}
+            {% endcache %}
 
                 zoomToFitMarkers(map, latlngs)
               };

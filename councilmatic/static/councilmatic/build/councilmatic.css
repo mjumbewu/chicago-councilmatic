@@ -9705,6 +9705,17 @@ body {
 .navbar form.search .input-prepend input {
   margin-top: 0;
 }
+
+.hero-unit {
+  padding: 20px;
+}
+
+@media (min-width: 980px) {
+  #wrap > .container-fluid {
+    padding-top: 0;
+  }
+}
+
 #dashboard-search input[name='q'] {
   font-size: 17.5px;
   line-height: 25px;

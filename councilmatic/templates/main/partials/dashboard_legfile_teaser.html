@@ -1,15 +1,26 @@
-<span class="legislation_bookmark">
-    {% if not no_bookmark %}
-    {% with content=file %}
-        {% include "bookmarks/partials/bookmark_button.html" %}
-    {% endwith %}
-    {% else %}
-        <div style="width: 4em; height: 2em; float: left;"></div>
+<div class="row-fluid">
+  <div class="span2">
+    <span class="legislation_bookmark">
+        {% if not no_bookmark %}
+          {% with content=file %}
+            {% include "bookmarks/partials/bookmark_button.html" %}
+          {% endwith %}
+        {% else %}
+            <div style="width: 4em; height: 2em; float: left;"></div>
+        {% endif %}
+    </span>
+  </div>
+  <div class="span10">
+    <h4>
+    {% if file.key %}
+      <span class="legislation_id"><a href="{% url legislation_detail file.key %}">{{ file.type }} {{ file.id }}</a></span>
     {% endif %}
-</span>
-{% if file.key %}
-<span class="legislation_id"><a href="{% url legislation_detail file.key %}">{{ file.type }} {{ file.id }}</a></span>
-{% endif %}
-<span class="legislation_intro_date">{{ file.intro_date }}</span>
-<span class="legislation_status">{{ file.status }}</span>
-<span class="legislation_title">{{ file.title|truncatewords:25 }}</span>
+      <br/>
+      <small>
+         Introduced <span class="legislation_intro_date">{{ file.intro_date }}</span>;
+         <span class="legislation_status">{{ file.status }}</span>
+      </small>
+    </h4>
+    <span class="legislation_title">{{ file.title|truncatewords:25 }}</span>
+  </div>
+</div>
