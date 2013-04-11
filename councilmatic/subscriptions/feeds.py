@@ -36,6 +36,9 @@ def import_all_feeds():
 
 
 class ContentFeed (object):
+    def __init__(self, *args, **kwargs):
+        self.filter = {}
+
     class IsObsolete (Exception):
         """
         Denote that a feed is obsolete and its record should be deleted.

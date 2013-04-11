@@ -1,3 +1,6 @@
+{% load i18n %}
+{% load url from future %}
+
 {% comment %}
  %
  % This partial expects the variables:
@@ -11,25 +14,25 @@
 {% if user.is_authenticated %}
     {% if bookmark %}
         <div class="bookmark active">
-            <form action="{% url unbookmark bookmark.pk %}" method="POST">{% csrf_token %}
+            <form action="{% url 'unbookmark' bookmark.pk %}" method="POST">{% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                <button type="submit"><img src="{{ STATIC_URL }}bookmarks/bookmark_on.svg" alt="Unbookmark"></button>
+                <button class="btn" type="submit">{% trans "Unbookmark" %}</button>
             </form>
         </div>
     {% else %}
         <div class="bookmark inactive">
-            <form action="{% url bookmark %}" method="POST">{% csrf_token %}
+            <form action="{% url 'bookmark' %}" method="POST">{% csrf_token %}
                 {{ bookmark_form }}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                <button type="submit"><img src="{{ STATIC_URL }}bookmarks/bookmark_off.svg" alt="Bookmark"></button>
+                <button class="btn" type="submit">{% trans "Bookmark" %}</button>
             </form>
         </div>
     {% endif %}
 {% else %}
     <div class="bookmark inactive unauthenticated">
-        <form action="{% url registration_login %}" method="GET">{% csrf_token %}
+        <form action="{% url 'registration_login' %}" method="GET">{% csrf_token %}
             <input type="hidden" name="next" value="{{ request.get_full_path }}">
-            <button type="submit"><img src="{{ STATIC_URL }}bookmarks/bookmark_off.svg" alt="Bookmark"></button>
+            <button class="btn" type="submit">{% trans "Bookmark" %}</button>
         </form>
     </div>
 {% endif %}

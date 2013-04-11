@@ -1,29 +1,35 @@
 {% load uni_form_tags %}
+{% load i18n %}
+{% load querystring %}
 
   <div class="subscription_section">
-    <a href="{% url rss_feed %}?{{ request.GET.urlencode|safe }}"><img src="{{ STATIC_URL }}subscription-rss.svg" style="float:right; margin-top: 10px;" width="40"></a>
+    <a class="subscription_rss_link" href="{% url rss_feed %}?{{ feed.filter|querystring|safe }}"
+        data-toggle="tooltip" title="Copy this link to get an RSS feed"
+        data-placement="bottom">RSS</a>
 
     {% if is_subscribed %}
-      <form action="{% url unsubscribe subscription.pk %}" method="POST" class="uniForm subscription_form">{% csrf_token %}
+      <form action="{% url unsubscribe subscription.pk %}" method="POST" class="subscription_form">{% csrf_token %}
         <input type="hidden" name="success" value="{{ request.get_full_path }}">
-        <p>Welcome {{ user.username }}.  You are subscribed to this list.  To unsubscribe, click below.</p>
 
-        <div class="buttonHolder">
-          <button type="submit" class="primaryAction">Unsubscribe</button>
+        <div class="subscriptions unsubscribe-btn buttonHolder">
+          <button type="submit" class="primaryAction"
+              data-toggle="tooltip" data-title="{% trans 'Unsubscribe' %}"
+              data-placement="bottom">{{ unsubscribe_text|default:_('Unsubscribe from this list') }}</button>
         </div>
       </form>
     {% else %}
       {% if user.is_authenticated %}
-      <form action="{% url subscribe %}" method="POST" class="uniForm subscription_form">{% csrf_token %}
+      <form action="{% url subscribe %}" method="POST" class="subscription_form">{% csrf_token %}
         {{ subscription_form }}
         <input type="hidden" name="success" value="{{ request.get_full_path }}">
       {% else %}
-      <form action="{% url registration_login %}" method="GET" class="uniForm subscription_form">
+      <form action="{% url registration_login %}" method="GET" class="subscription_form">
         <input type="hidden" name="next" value="{{ request.get_full_path }}">
       {% endif %}
-        <div class="buttonHolder">
-            <button type="submit" class="primaryAction">Subscribe</button>
-            <span>to new legislation in this list.</span>
+        <div class="subscriptions subscribe-btn buttonHolder">
+            <button type="submit" class="primaryAction"
+                data-toggle="tooltip" data-title="{% trans 'Subscribe' %}"
+                data-placement="bottom">{{ subscribe_text|default:_('Subscribe to this list') }}</button>
         </div>
       </form>
     {% endif %}

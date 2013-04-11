@@ -109,7 +109,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
 
-    'utils.context_processors.settings.GOOGLE_ANALYTICS_ACCOUNT',
+    'utils.context_processors.settings',
+    'utils.context_processors.site',
 )
 
 ROOT_URLCONF = 'urls'

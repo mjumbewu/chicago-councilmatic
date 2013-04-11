@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load uni_form_tags %}
+{% load i18n %}
+{% load url from future %}
+
+{% block load_early %}
+{% endblock %}
+
+{% block content %}
+  <section id="main" class="legfile_search">
+
+    <div class="block">
+
+      <div class="block">
+        {% include 'subscriptions/subscribe_form.html' %}
+      </div>
+
+      <div class="row-fluid">
+        <section id="dashboard_legislation" class="span8">
+          {% if object_list %}
+
+            <header>
+              <h2>{% trans "Legislation Results" %}</h2>
+            </header>
+
+            {% with no_bookmark='True' %}
+            {% for file in object_list %}
+              <article class="clearfix">
+                {% include "councilmatic/partials/legfile_list_item.html" %}
+              </article>
+            {% endfor %}
+            {% endwith %}
+
+
+            {% if page_obj.has_previous or page_obj.has_next %}
+            <div class="pagination pagination-centered">
+              <ul>
+                <li><a href="{{ first_url }}">&laquo;</a></li>
+
+                {% if page_obj.has_previous %}<li><a href="{{ previous_url }}">&lsaquo;</a></li>{% endif %}
+
+                <li class="disabled"><a>{% trans "Page" %} ...</a></li>
+
+                {% for page_num, page_url in page_urls %}
+                  <li{% if not page_url %} class="active"{% endif %}><a{% if page_url %} href="{{ page_url }}"{% endif %}>{{ page_num }}</a></li>
+                {% endfor %}
+
+                <li class="disabled"><a>... {% blocktrans %}of {{ page_obj.paginator.num_pages }}{% endblocktrans %}</a></li>
+
+                {% if page_obj.has_next %}<li><a href="{{ next_url }}">&rsaquo;</a></li>{% endif %}
+
+                <li><a href="{{ last_url }}">&raquo;</a></li>
+              </ul>
+            </div>
+            {% endif %}
+          {% else %}
+            {# Show some example queries to run, maybe query syntax, something else? #}
+          {% endif %}
+        </section>
+
+        <div class="span4">
+
+          <h2>{% trans "Find Legislation" %}</h2>
+
+          {# It may either be called `search_form` or just `form` #}
+
+          <form action="{% url 'search' %}" method="GET" class="uniForm" id="id_legislation_search_form">
+            <fieldset class="inlineLabels">
+              {% if search_form %}
+                {{ search_form|as_uni_form }}
+              {% else %}
+                {{ form|as_uni_form }}
+              {% endif %}
+              <div><button type="submit" class="btn">Search</button></div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block load_late %}
+  <script src="{{ STATIC_URL }}main/dashboard_search.js"></script>
+{% endblock %}

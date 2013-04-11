@@ -80,6 +80,9 @@ class CouncilMemberTenure(TimestampedModelMixin, models.Model):
     begin = models.DateField(blank=True)
     end = models.DateField(null=True, blank=True)
 
+    class Meta (object):
+        ordering = ('-begin',)
+
 
 class CouncilDistrictPlan(TimestampedModelMixin, models.Model):
     date = models.DateField()
@@ -109,7 +112,7 @@ class CouncilDistrict(TimestampedModelMixin, models.Model):
 class LegFile(TimestampedModelMixin, models.Model):
     key = models.IntegerField(primary_key=True)
     id = models.CharField(max_length=100, null=True)
-    #contact = models.CharField(max_length=1000)
+    contact = models.CharField(max_length=1000, default="No contact")
     controlling_body = models.CharField(max_length=1000)
     date_scraped = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     last_scraped = models.DateTimeField(auto_now=True)
@@ -381,6 +384,9 @@ class LegFileMetaData (TimestampedModelMixin, models.Model):
     locations = models.ManyToManyField('MetaData_Location', related_name='references_in_legislation')
     mentioned_legfiles = models.ManyToManyField('LegFile', related_name='references_in_legislation')
 
+    def valid_locations(self):
+        return self.locations.filter(valid=True)
+
     def __unicode__(self):
         return (u'%s (mentions %s other files, mentioned by %s other files)' % \
             (self.legfile.pk, len(self.mentioned_legfiles.all()), len(self.legfile.references_in_legislation.all())))
@@ -431,4 +437,3 @@ class MetaData_Location (TimestampedModelMixin, models.Model):
         else:
             log.debug('Could not geocode the address "%s"' % self.address)
             raise self.CouldNotBeGeocoded(self.address)
-

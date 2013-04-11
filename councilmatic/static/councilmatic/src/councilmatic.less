@@ -1,0 +1,39 @@
+@import '../../libs/bootstrap/less/bootstrap.less';
+@import '../../libs/bootstrap/less/responsive.less';
+@import 'sticky-footer.less';
+@import 'grid-extensions.less';
+
+.navbar {
+  h1 {
+    line-height: inherit;
+    font-size: inherit;
+    margin: 0;
+  }
+}
+
+.navbar .username {
+  .navbar-text;
+}
+
+.navbar form.search {
+  .navbar-form;
+  .pull-right;
+}
+
+#dashboard-search input[name='q'] {
+  @largeRatio: @fontSizeLarge/@baseFontSize;
+
+  font-size: @fontSizeLarge;
+  line-height: @baseLineHeight * @largeRatio;
+  height: @inputHeight * @largeRatio;
+
+  .input-xxlarge;
+}
+
+.map-wrapper {
+  border: 1px solid @grayLighter;
+}
+
+#map {
+  min-height: 300px;
+}

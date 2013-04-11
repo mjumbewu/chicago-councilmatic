@@ -1,13 +1,10 @@
 import sys
 
 from django.conf import settings as django_settings
+from django.contrib.sites.models import Site
 
-class SettingsProcessor(object):
-    def __getattr__(self, attr):
-        if attr == '__file__':
-            # autoreload support in dev server
-            return __file__
-        else:
-            return lambda request: {attr: getattr(django_settings, attr)}
+def settings(request):
+		return {'settings': django_settings}
 
-sys.modules[__name__ + '.settings'] = SettingsProcessor()
+def site(request):
+		return {'site': Site.objects.get_current()}

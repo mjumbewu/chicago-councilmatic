@@ -1,0 +1,17 @@
+@import '../../libs/bootstrap/less/variables.less';
+@import '../../libs/bootstrap/less/mixins.less';
+
+
+/* Extensions to the Bootstrap grid system
+ * ---------------------------------------- */
+.span-fluid (@columns) {
+  .input-block-level();
+  float: left;
+  margin-left: @fluidGridGutterWidth;
+  *margin-left: @fluidGridGutterWidth - (.5 / @gridRowWidth * 100 * 1%);
+  #grid .fluid .span(6);
+}
+
+.span-first {
+  margin-left: 0;
+}
