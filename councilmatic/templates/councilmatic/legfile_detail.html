@@ -179,24 +179,12 @@
       </div>
 
       {% if object.sponsors %}
-        <div class='well'>
-          <h4>Sponsors</h4>
-          <ul class='unstyled'>
-          {% for sponsor in object.sponsors.all %}
-            <li>
-              <a href='/search/?q=&sponsors={{ sponsor.name }}'>
-                <img width="30" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}" title="{{ sponsor.name }}">
-                {{ sponsor.name }}
-              </a>
-            </li>
-          {% endfor %}
-          </ul>
-          </div>
+        {% include "councilmatic/partials/sponsor_list.html" %}
       {% endif %}
 
       <div class='well'>
         {% include "bookmarks/partials/bookmark_button.html" %}
-        {% include "main/partials/share_buttons.html" %}
+        {% include "councilmatic/partials/share_buttons.html" %}
       </div>
     </div>
   </div> <!-- end row-fluid -->

@@ -286,7 +286,7 @@ class LegislationDetailView (SearchBarMixin,
                              opinions.views.SingleOpinionTargetMixin,
                              views.DetailView):
     model = phillyleg.models.LegFile
-    template_name = 'phillyleg/legfile_detail.html'
+    template_name = 'councilmatic/legfile_detail.html'
 
     def get_queryset(self):
         """Select all the data relevant to the legislation."""
