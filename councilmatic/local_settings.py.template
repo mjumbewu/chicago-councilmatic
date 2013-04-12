@@ -43,6 +43,23 @@ LEGISLATION = {
 
 ###############################################################################
 #
+# Caching
+#
+# Using some cache backend is definitely recommended. If you want to use
+# memcache, uncomment the lines below and fill in your server information. See
+# https://docs.djangoproject.com/en/dev/topics/cache/#setting-up-the-cache for
+# other options.
+#
+
+#CACHES = {
+#    'default': {
+#        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#        'LOCATION': '127.0.0.1:11211',
+#    }
+#}
+
+###############################################################################
+#
 # Site search configuration
 #
 
