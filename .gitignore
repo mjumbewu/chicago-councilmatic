@@ -32,3 +32,5 @@ councilmatic/application_keys.py
 councilmatic/local_settings.py
 
 /static
+crons/daily_jobs
+crons/weekly_jobs

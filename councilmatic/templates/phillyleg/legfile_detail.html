@@ -183,7 +183,12 @@
           <h4>Sponsors</h4>
           <ul class='unstyled'>
           {% for sponsor in object.sponsors.all %}
-            <li><a href='/search/?q=&sponsors={{ sponsor.name }}'>{{ sponsor.name }}</a></li>
+            <li>
+              <a href='/search/?q=&sponsors={{ sponsor.name }}'>
+                <img width="30" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}" title="{{ sponsor.name }}">
+                {{ sponsor.name }}
+              </a>
+            </li>
           {% endfor %}
           </ul>
           </div>
