@@ -79,10 +79,6 @@ urlpatterns = patterns(
         main.views.BookmarkListView.as_view(),
         name='bookmark_list'),
 
-    url(r'^subscriptions/$',
-        main.views.SubscriptionManagementView.as_view(),
-        name='subscription_management'),
-
     url(r'^search/$', main.views.SearchView.as_view(),
         name='search'),
 

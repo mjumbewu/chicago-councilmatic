@@ -325,18 +325,3 @@ class BookmarkListView (SearchBarMixin,
             return [bm.content for bm in user.bookmarks.all()]
         else:
             return []
-
-
-class SubscriptionManagementView (SearchBarMixin,
-                                  views.TemplateView):
-    template_name = 'cm/profile_admin.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(SubscriptionManagementView, self).get_context_data(**kwargs)
-
-        if self.request.user.is_authenticated() and self.request.user.subscriber:
-            subscriber_data = SubscriberResource().serialize(self.request.user.subscriber)
-            subscriber_data['logged_in'] = True
-            context['subscriber_data'] = json.dumps(subscriber_data)
-
-        return context
