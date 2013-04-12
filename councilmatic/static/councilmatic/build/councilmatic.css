@@ -9653,6 +9653,7 @@ body {
 .map-wrapper {
   border: 1px solid #eeeeee;
 }
-#map {
+#map,
+.tenure-map {
   min-height: 300px;
 }
