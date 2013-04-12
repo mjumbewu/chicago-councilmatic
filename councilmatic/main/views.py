@@ -112,6 +112,7 @@ class CouncilMemberDetailView (BaseDashboardMixin,
                                subscriptions.views.SingleSubscriptionMixin,
                                views.DetailView):
     queryset = phillyleg.models.CouncilMember.objects.prefetch_related('tenures', 'tenures__district')
+    template_name = 'councilmatic/councilmember_detail.html'
 
     def get_content_feed(self):
         return feeds.SearchResultsFeed(search_filter={'sponsors': [self.object.name]})

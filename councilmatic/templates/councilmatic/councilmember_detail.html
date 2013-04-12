@@ -3,11 +3,6 @@
 {% load compress %}
 
 {% block load_early %}
-  {% compress css %}
-<!--	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/minutes.css">-->
-<!--	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">-->
-<!--  <link rel="stylesheet" href="{{ STATIC_URL }}main/app_dashboard.css">-->
-  {% endcompress %}
 {% endblock %}
 
 {% block content %}
@@ -26,19 +21,15 @@
             </h1>
         </header>
 
+        <div class="row-fluid">
+
         <!------------------------------------------------------
           -- The council member's recently sponsored legislation
           -->
-        <div id="dashboard_legislation" class="councilmember-detail__recent-legislation">
+        <div id="dashboard_legislation" class="span6">
             <h2>Recent Legislation</h2>
 
-            <ul>
-            {% for file, bookmark, contenttype, bookmark_form in bookmark_data %}
-                <li>
-                    {% include "main/partials/dashboard_legfile_teaser.html" %}
-                </li>
-            {% endfor %}
-            </ul>
+            {% include "councilmatic/partials/legfile_list.html" %}
 
             <a href="{% url 'search' %}?sponsors={{ councilmember.name }}">More...</a>
         </div>
@@ -49,6 +40,7 @@
         <script type="text/javascript"
             src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
         <script src="{{ STATIC_URL}}libs/GeoJSON.js"></script>
+        <div class="span6">
         {% for tenure in councilmember.tenures.all %}
         <div class="councilmember-districts" style="float: right; width: 420px">
           <h2>
@@ -119,6 +111,9 @@
 
         </div> <!-- .councilmember-districts -->
         {% endfor %}
+        </div>
+
+        </div>
 
     </div>
     </div>
