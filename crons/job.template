@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Set COUNCILMATIC_DIR to the absolute path of the Django project's root folder.
+COUNCILMATIC_DIR=/home/dotcloud/current/councilmatic
+
+# If you are not using your system Python environment to run Councilmatic, set
+# COUNCILMATIC_ENV tot he absolute path of the environment's activate script.
+COUNCILMATIC_ENV=/home/dotcloud/env/bin/activate
+
+source "$COUNCILMATIC_ENV"
+cd "$COUNCILMATIC_DIR"
+
+# 1. Download any new files
+python manage.py updatelegfiles
+
+# 2. Update the search index with any files updated in the last week
+python manage.py update_index --age=168
+
+# 3. Send out subscription content notifications
+python manage.py cleanfeeds
+python manage.py updatefeeds
+python manage.py sendfeedupdates
+
+# 4. Update previous legfiles.  This means that updates to older content will
+#    always be a little behind, but it's better than nothing.
+python manage.py updatelegfiles --update
