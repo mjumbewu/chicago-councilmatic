@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load url from future %}
+{% load i18n %}
 {% load compress %}
 
 {% block load_early %}
@@ -25,11 +26,11 @@
         -- The council member's recently sponsored legislation
         -->
       <div id="dashboard_legislation" class="councilmember-legislation span6">
-        <h2>Recent Legislation</h2>
+        <h2>{% trans "Recent Legislation" %}</h2>
 
         {% include "councilmatic/partials/legfile_list.html" %}
 
-        <a href="{% url 'search' %}?sponsors={{ councilmember.name }}">More...</a>
+        <a href="{% url 'search' %}?sponsors={{ councilmember.name }}">{% trans "More..." %}</a>
       </div>
 
       <!-------------------------------------------------------
@@ -44,20 +45,20 @@
         <div class="councilmember-districts" style="float: right; width: 420px">
           <h2>
           {% if tenure.at_large %}
-            At Large
+            {% trans "At Large" %}
           {% else %}
-            Representing District {{ tenure.district.id }}
+            {% blocktrans %}Representing District {{ tenure.district.id }}{% endblocktrans %}
           {% endif %}
 
           {% if tenure.president %}
-            <br>Serving as Council President
+            <br>{% trans "Serving as Council President" %}
           {% endif %}
           </h2>
 
           {% if tenure.end %}
-            <h3>From {{ tenure.begin }} until {{ tenure.end }}</h3>
+            <h3>{% blocktrans %}From {{ tenure.begin }} until {{ tenure.end }}{% endblocktrans %}</h3>
           {% else %}
-            <h3>Since {{ tenure.begin }}</h3>
+            <h3>{% blocktrans %}Since {{ tenure.begin }}{% endblocktrans %}</h3>
           {% endif %}
 
           {% if not tenure.at_large %}
