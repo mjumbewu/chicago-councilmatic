@@ -75,12 +75,14 @@ class BaseDashboardMixin (SearchBarMixin,
 
         legfiles = self.get_recent_legislation()
         bookmark_data = self.get_bookmarks_data(legfiles)
+        bookmark_cache_key = self.get_bookmarks_cache_key(bookmark_data)
 
         context_data = super(BaseDashboardMixin, self).get_context_data(
             **kwargs)
         context_data.update({
             'legfiles': legfiles,
             'bookmark_data': bookmark_data,
+            'bookmark_cache_key': bookmark_cache_key,
             'search_form': search_form,
         })
 
