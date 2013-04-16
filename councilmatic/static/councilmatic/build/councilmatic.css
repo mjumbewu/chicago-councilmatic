@@ -9600,11 +9600,6 @@ body {
     padding-right: 20px;
   }
 }
-@media (min-width: 980px) {
-  #wrap > .container-fluid {
-    padding-top: 60px;
-  }
-}
 .clearfix {
   *zoom: 1;
 }
@@ -9642,89 +9637,23 @@ body {
   font-size: inherit;
   margin: 0;
 }
-.navbar .username {
-  margin-bottom: 0;
-  line-height: 40px;
-  color: #777777;
-}
-.navbar form.search {
-  margin-bottom: 0;
-  *zoom: 1;
-  float: right;
-}
-.navbar form.search:before,
-.navbar form.search:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.navbar form.search:after {
-  clear: both;
-}
-.navbar form.search:before,
-.navbar form.search:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.navbar form.search:after {
-  clear: both;
-}
-.navbar form.search:before,
-.navbar form.search:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.navbar form.search:after {
-  clear: both;
-}
-.navbar form.search input,
-.navbar form.search select,
-.navbar form.search .radio,
-.navbar form.search .checkbox {
-  margin-top: 5px;
-}
-.navbar form.search input,
-.navbar form.search select,
-.navbar form.search .btn {
-  display: inline-block;
-  margin-bottom: 0;
-}
-.navbar form.search input[type="image"],
-.navbar form.search input[type="checkbox"],
-.navbar form.search input[type="radio"] {
-  margin-top: 3px;
-}
-.navbar form.search .input-append,
-.navbar form.search .input-prepend {
-  margin-top: 5px;
-  white-space: nowrap;
-}
-.navbar form.search .input-append input,
-.navbar form.search .input-prepend input {
-  margin-top: 0;
-}
-
 .hero-unit {
   padding: 20px;
 }
-
 @media (min-width: 980px) {
   #wrap > .container-fluid {
     padding-top: 0;
   }
 }
-
 #dashboard-search input[name='q'] {
   font-size: 17.5px;
   line-height: 25px;
   height: 37.5px;
-  width: 530px;
 }
 .map-wrapper {
   border: 1px solid #eeeeee;
 }
-#map {
+#map,
+.tenure-map {
   min-height: 300px;
 }

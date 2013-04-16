@@ -39,13 +39,13 @@
 
                 {% if page_obj.has_previous %}<li><a href="{{ previous_url }}">&lsaquo;</a></li>{% endif %}
 
-                <li class="disabled"><a>{% trans "Page" %} ...</a></li>
+                <li class="disabled hidden-phone"><a>{% trans "Page" %} ...</a></li>
 
                 {% for page_num, page_url in page_urls %}
                   <li{% if not page_url %} class="active"{% endif %}><a{% if page_url %} href="{{ page_url }}"{% endif %}>{{ page_num }}</a></li>
                 {% endfor %}
 
-                <li class="disabled"><a>... {% blocktrans %}of {{ page_obj.paginator.num_pages }}{% endblocktrans %}</a></li>
+                <li class="disabled hidden-phone"><a>... {% blocktrans %}of {{ page_obj.paginator.num_pages }}{{page_obj.paginator}}{% endblocktrans %}</a></li>
 
                 {% if page_obj.has_next %}<li><a href="{{ next_url }}">&rsaquo;</a></li>{% endif %}
 

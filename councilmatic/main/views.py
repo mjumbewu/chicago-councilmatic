@@ -75,12 +75,14 @@ class BaseDashboardMixin (SearchBarMixin,
 
         legfiles = self.get_recent_legislation()
         bookmark_data = self.get_bookmarks_data(legfiles)
+        bookmark_cache_key = self.get_bookmarks_cache_key(bookmark_data)
 
         context_data = super(BaseDashboardMixin, self).get_context_data(
             **kwargs)
         context_data.update({
             'legfiles': legfiles,
             'bookmark_data': bookmark_data,
+            'bookmark_cache_key': bookmark_cache_key,
             'search_form': search_form,
         })
 
@@ -110,6 +112,7 @@ class CouncilMemberDetailView (BaseDashboardMixin,
                                subscriptions.views.SingleSubscriptionMixin,
                                views.DetailView):
     queryset = phillyleg.models.CouncilMember.objects.prefetch_related('tenures', 'tenures__district')
+    template_name = 'councilmatic/councilmember_detail.html'
 
     def get_content_feed(self):
         return feeds.SearchResultsFeed(search_filter={'sponsors': [self.object.name]})
@@ -286,7 +289,7 @@ class LegislationDetailView (SearchBarMixin,
                              opinions.views.SingleOpinionTargetMixin,
                              views.DetailView):
     model = phillyleg.models.LegFile
-    template_name = 'phillyleg/legfile_detail.html'
+    template_name = 'councilmatic/legfile_detail.html'
 
     def get_queryset(self):
         """Select all the data relevant to the legislation."""
@@ -325,18 +328,3 @@ class BookmarkListView (SearchBarMixin,
             return [bm.content for bm in user.bookmarks.all()]
         else:
             return []
-
-
-class SubscriptionManagementView (SearchBarMixin,
-                                  views.TemplateView):
-    template_name = 'cm/profile_admin.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(SubscriptionManagementView, self).get_context_data(**kwargs)
-
-        if self.request.user.is_authenticated() and self.request.user.subscriber:
-            subscriber_data = SubscriberResource().serialize(self.request.user.subscriber)
-            subscriber_data['logged_in'] = True
-            context['subscriber_data'] = json.dumps(subscriber_data)
-
-        return context

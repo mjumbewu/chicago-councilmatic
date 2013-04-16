@@ -1,3 +1,4 @@
+{% load url from future %}
 {% load i18n %}
 
 <div id="site-header" class="navbar navbar-fluid-top">
@@ -12,7 +13,7 @@
       </button>
 
       <!-- Site title -->
-      <a class='brand' href='/'>Councilmatic Chicago</a>
+      <a class='brand' href="{% url 'main_dashboard' %}">{{ site.name }}</a>
       <div class="nav-collapse collapse main-nav-collapse">
 
       <!-- Main navigation menu items -->
@@ -22,11 +23,11 @@
             <li class="first{% if active == 'about' %} active{% endif %}"><a href="/about">{% trans "About" %}</a></li>
 
             {% if user.is_authenticated %}
-            <li><a href="{% url subscription_list %}" class="primaryAction">Subscriptions</a></li>
-            <li><a href="{% url registration_logout %}?next={{ request.get_full_path }}" class="secondaryAction">{% trans "Log Out" %}</a></li>
+            <li><a href="{% url 'subscription_list' %}" class="primaryAction">Subscriptions</a></li>
+            <li><a href="{% url 'registration_logout' %}?next={{ request.get_full_path }}" class="secondaryAction">{% trans "Log Out" %}</a></li>
             {% else %}
-            <li><a href="{% url registration_login %}?next={{ request.get_full_path }}" type="submit" class="secondaryAction">{% trans "Log In" %}</a></li>
-            <li><a href="{% url registration_register %}?next={{ request.get_full_path }}" class="primaryAction">{% trans "Sign Up" %}</a></li>
+            <li><a href="{% url 'registration_login' %}?next={{ request.get_full_path }}" type="submit" class="secondaryAction">{% trans "Log In" %}</a></li>
+            <li><a href="{% url 'registration_register' %}?next={{ request.get_full_path }}" class="primaryAction">{% trans "Sign Up" %}</a></li>
             {% endif %}
 
             {% if user.is_authenticated %}
@@ -36,7 +37,7 @@
         </nav>
 
       <!-- Search form -->
-        <form class="search form-search" action="{% url search %}" method="GET">
+        <form class="search form-search navbar-form pull-right" action="{% url 'search' %}" method="GET">
           <div class="input-append">
             <input type="text" name="q" class="search-query" placeholder="search">
             <button type="submit" class="btn">{% trans "Search" %}</button>

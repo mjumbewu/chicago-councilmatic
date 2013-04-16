@@ -38,6 +38,15 @@ class BaseBookmarkMixin (object):
                 for content in content_list]
         return data
 
+    def get_bookmarks_cache_key(self, bookmarks_data):
+        user = self.request.user
+        return ','.join(['%s,%s,%s,%s' % (
+                content.pk,
+                bookmark.pk if bookmark else '',
+                contenttype.pk,
+                user.pk if user.is_authenticated() else ''
+            ) for content, bookmark, contenttype, form in bookmarks_data])
+
 
 class SingleBookmarkedObjectMixin (BaseBookmarkMixin):
     def get_context_data(self, **kwargs):
@@ -62,6 +71,14 @@ class MultipleBookmarkedObjectsMixin (BaseBookmarkMixin):
         # data is relatively expensive.
         object_list = context['object_list']
         context['bookmark_data'] = self.get_bookmarks_data(object_list)
+
+        context['bookmarks_cache_key'] = ','.join(['%s,%s,%s,%s' % (
+                content.pk,
+                bookmark.pk if bookmark else '',
+                contenttype.pk,
+                self.request.user.pk if user.is_authenticated() else ''
+            ) for content, bookmark, contenttype, form in context['bookmark_data']])
+
 
         return context
 
