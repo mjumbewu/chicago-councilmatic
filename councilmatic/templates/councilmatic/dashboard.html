@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load compress %}
+{% load url from future %}
 
 {% block load_early %}
 <!--	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">-->
@@ -16,7 +17,7 @@
         <h2>{% trans "Find legislation" %}</h2>
     </header>
 
-    <form class="search form-search" action="{% url search %}" method="GET">
+    <form class="search form-search" action="{% url 'search' %}" method="GET">
       <div class="ctrlHolder">
         <input name="q" type="text" class="input-xxlarge" placeholder="Rahm Emanuel, zoning, resolution #R2013-1, etc.">
         <button type="submit" class="btn btn-large btn-primary">{% trans "Search" %}</button>
@@ -69,7 +70,7 @@
           {# This case, we don't want the url call to break.          #}
           {% if location.references_in_legislation.all.0.legfile_id %}
           google.maps.event.addListener(marker, 'click', function() {
-              window.location = '{% url legislation_detail location.references_in_legislation.all.0.legfile_id %}';
+              window.location = '{% url 'legislation_detail' location.references_in_legislation.all.0.legfile_id %}';
             });
           {% endif %}
 
