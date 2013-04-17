@@ -24,6 +24,25 @@ DATABASES = {
 
 ###############################################################################
 #
+# 3rd-party service configuration and keys
+#
+
+TWITTER_CONSUMER_KEY         = ''
+TWITTER_CONSUMER_SECRET      = ''
+FACEBOOK_APP_ID              = ''
+FACEBOOK_API_SECRET          = ''
+LINKEDIN_CONSUMER_KEY        = ''
+LINKEDIN_CONSUMER_SECRET     = ''
+GOOGLE_CONSUMER_KEY          = ''
+GOOGLE_CONSUMER_SECRET       = ''
+
+RECAPTCHA_PUBLIC_KEY  = ''
+RECAPTCHA_PRIVATE_KEY = ''
+
+GOOGLE_ANALYTICS_ACCOUNT = ''
+
+###############################################################################
+#
 # Source Data
 #
 
