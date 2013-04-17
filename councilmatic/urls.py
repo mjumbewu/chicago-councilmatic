@@ -35,7 +35,6 @@ urlpatterns = patterns(
     url(r'^logout/$', 'django.contrib.auth.views.logout', name='registration_logout'),
 
     url(r'^social/', include('social_auth.urls')),
-    url(r'', include('captcha.backends.default.urls')),
 
     url(r'^subscriptions/$', subscriptions.views.SubscriptionListView.as_view(), name='subscription_list'),
     url(r'^subscribe/$', subscriptions.views.CreateSubscriptionView.as_view(), name='subscribe'),
