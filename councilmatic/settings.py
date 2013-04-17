@@ -1,9 +1,4 @@
 import os
-try:
-    from application_keys import councilmatic_keys
-except ImportError:
-    from os import environ as councilmatic_keys
-
 
 # Make filepaths relative to settings.
 def rel_path(*subs):
@@ -151,27 +146,6 @@ ACCOUNT_ACTIVATION_DAYS = 7
 LOGIN_URL          = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL    = '/login/error'
-
-###############################################################################
-#
-# 3rd-party service configuration and keys
-#
-
-cmk = councilmatic_keys
-
-TWITTER_CONSUMER_KEY         = cmk.get('TWITTER_CONSUMER_KEY', '')
-TWITTER_CONSUMER_SECRET      = cmk.get('TWITTER_CONSUMER_SECRET', '')
-FACEBOOK_APP_ID              = cmk.get('FACEBOOK_APP_ID', '')
-FACEBOOK_API_SECRET          = cmk.get('FACEBOOK_API_SECRET', '')
-LINKEDIN_CONSUMER_KEY        = cmk.get('LINKEDIN_CONSUMER_KEY', '')
-LINKEDIN_CONSUMER_SECRET     = cmk.get('LINKEDIN_CONSUMER_SECRET', '')
-GOOGLE_CONSUMER_KEY          = cmk.get('GOOGLE_CONSUMER_KEY', '')
-GOOGLE_CONSUMER_SECRET       = cmk.get('GOOGLE_CONSUMER_SECRET', '')
-
-RECAPTCHA_PUBLIC_KEY  = cmk.get('RECAPTCHA_PUBLIC_KEY', '')
-RECAPTCHA_PRIVATE_KEY = cmk.get('RECAPTCHA_PRIVATE_KEY', '')
-
-GOOGLE_ANALYTICS_ACCOUNT = cmk.get('GOOGLE_ANALYTICS_ACCOUNT', '')
 
 ###############################################################################
 #
