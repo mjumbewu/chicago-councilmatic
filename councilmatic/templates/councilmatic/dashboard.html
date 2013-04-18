@@ -4,99 +4,102 @@
 {% load url from future %}
 
 {% block load_early %}
-<!--	<link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">-->
+<!--  <link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">-->
 <!--  <link rel="stylesheet" href="{{ STATIC_URL }}main/app_dashboard.css">-->
 {% endblock %}
 
 {% block content %}
 <div id="dashboard">
-<!--  <p><strong>We're in Alpha</strong> This site is still a work in progress. There may be missing legislation or incomplete features. Stay tuned for more!</p>-->
+  <div class='row-fluid'>
+    <div class='offset1 span10'>
+      <section id="dashboard-search" class="hero-unit">
+        <header>
+            <h2>{% trans "Find legislation" %}</h2>
+        </header>
 
-  <section id="dashboard-search" class="hero-unit">
-    <header>
-        <h2>{% trans "Find legislation" %}</h2>
-    </header>
+        <form class="search form-search" action="{% url 'search' %}" method="GET">
+          <div class="ctrlHolder">
+            <input name="q" type="text" class="input-xxlarge" placeholder="Rahm Emanuel, zoning, resolution #R2013-1, etc.">
+            <button type="submit" class="btn btn-large btn-primary">{% trans "Search" %}</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </div> <!-- row-fluid -->
+  <div class='row-fluid'>
+    <section id="dashboard-legislation" class="row-fluid">
+      <div id="dashboard-legislation-list" class="offset1 span5">
+        <h2>{% trans "Recent legislation" %}</h2>
 
-    <form class="search form-search" action="{% url 'search' %}" method="GET">
-      <div class="ctrlHolder">
-        <input name="q" type="text" class="input-xxlarge" placeholder="Rahm Emanuel, zoning, resolution #R2013-1, etc.">
-        <button type="submit" class="btn btn-large btn-primary">{% trans "Search" %}</button>
-      </div>
-    </form>
-  </section>
+        {% include "councilmatic/partials/legfile_list.html" %}
 
-  <section id="dashboard-legislation" class="row-fluid">
-    <div id="dashboard-legislation-list" class="span6">
-      <h2>{% trans "Recent legislation" %}</h2>
+        <a href="{% url 'search' %}">More...</a>
+      </div> <!-- #dashboard-legislation-list -->
 
-      {% include "councilmatic/partials/legfile_list.html" %}
+      <div id="dashboard-legislation-map" class="span5">
+        <h2>Recent locations mentioned</h2>
 
-      <a href="{% url 'search' %}">More...</a>
-    </div> <!-- #dashboard-legislation-list -->
-
-    <div id="dashboard-legislation-map" class="span6">
-      <h2>Recent locations mentioned</h2>
-
-      <div class="map-wrapper">
-        <div id="map">
+        <div class="map-wrapper">
+          <div id="map">
+          </div>
         </div>
-      </div>
 
-      <script type="text/javascript"
-          src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-      <script type="text/javascript">
-        var map;
-        var initialize = function() {
-          var myOptions = {
-                zoom: 10,
-                center: new google.maps.LatLng(41.8781136, -87.6667785),
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-              },
-              latlngs = [];
+        <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+        <script type="text/javascript">
+          var map;
+          var initialize = function() {
+            var myOptions = {
+                  zoom: 10,
+                  center: new google.maps.LatLng(41.8781136, -87.6667785),
+                  mapTypeId: google.maps.MapTypeId.ROADMAP
+                },
+                latlngs = [];
 
-          map = new google.maps.Map(document.getElementById('map'),
-              myOptions);
+            map = new google.maps.Map(document.getElementById('map'),
+                myOptions);
 
-          {% for location in locations %}
-          var markerOptions = {
-            map: map,
-            title: "{{ location.address }}",
-            position: new google.maps.LatLng({{ location.geom.y }}, {{ location.geom.x }})
+            {% for location in locations %}
+            var markerOptions = {
+              map: map,
+              title: "{{ location.address }}",
+              position: new google.maps.LatLng({{ location.geom.y }}, {{ location.geom.x }})
+            };
+            var marker = new google.maps.Marker(markerOptions);
+            latlngs.push(markerOptions.position);
+
+            {# It's possible to have a location with no references. In  #}
+            {# This case, we don't want the url call to break.          #}
+            {% if location.references_in_legislation.all.0.legfile_id %}
+            google.maps.event.addListener(marker, 'click', function() {
+                window.location = '{% url 'legislation_detail' location.references_in_legislation.all.0.legfile_id %}';
+              });
+            {% endif %}
+
+            {% endfor %}
+
+            zoomToFitMarkers(map, latlngs)
           };
-          var marker = new google.maps.Marker(markerOptions);
-          latlngs.push(markerOptions.position);
 
-          {# It's possible to have a location with no references. In  #}
-          {# This case, we don't want the url call to break.          #}
-          {% if location.references_in_legislation.all.0.legfile_id %}
-          google.maps.event.addListener(marker, 'click', function() {
-              window.location = '{% url 'legislation_detail' location.references_in_legislation.all.0.legfile_id %}';
-            });
-          {% endif %}
+          var zoomToFitMarkers = function(map, latlngs) {
+            //  Create a new viewpoint bound
+            var bounds = new google.maps.LatLngBounds ();
+            //  Go through each...
+            for (var i = 0, numlatlngs = latlngs.length; i < numlatlngs; i++) {
+              //  And increase the bounds to take this point
+              bounds.extend (latlngs[i]);
+            }
+            //  Fit these bounds to the map
+            map.fitBounds (bounds);
+          };
 
-          {% endfor %}
+          google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
 
-          zoomToFitMarkers(map, latlngs)
-        };
-
-        var zoomToFitMarkers = function(map, latlngs) {
-          //  Create a new viewpoint bound
-          var bounds = new google.maps.LatLngBounds ();
-          //  Go through each...
-          for (var i = 0, numlatlngs = latlngs.length; i < numlatlngs; i++) {
-            //  And increase the bounds to take this point
-            bounds.extend (latlngs[i]);
-          }
-          //  Fit these bounds to the map
-          map.fitBounds (bounds);
-        };
-
-        google.maps.event.addDomListener(window, 'load', initialize);
-      </script>
-
-    </div>     <!-- dashboard-legislation-map -->
-  </section> <!-- dashboard-legislation -->
-</div>     <!-- dashboard -->
+      </div>     <!-- dashboard-legislation-map -->
+    </section> <!-- dashboard-legislation -->
+  </div>     <!-- dashboard -->
+</div>    <!-- row-fluid -->
 {% endblock %}
 
 {% block load_late %}
