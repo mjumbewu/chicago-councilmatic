@@ -35,7 +35,7 @@
         <h4>Actions</h4>
         {% for action in object.actions.all %}
 
-            {% if forloop.first %}<ul>{% endif %}
+            {% if forloop.first %}<ul class='unstyled'>{% endif %}
                 <li>
                     {% if action.minutes.url %}
                     {% ifchanged action.minutes.url %}
@@ -62,7 +62,7 @@
 
         {% if object.metadata.mentioned_legfiles.all %}
             <h4>Bills mentioned in this legislation</h4>
-            <ul class="navigation">
+            <ul class="unstyled">
               {% for mentioned_legfile in object.metadata.mentioned_legfiles.all %}
                 <li><a href="{{ mentioned_legfile.get_absolute_url }}">{{ mentioned_legfile }}</a></li>
               {% endfor %}
@@ -71,7 +71,7 @@
 
         {% if object.references_in_legislation.all %}
             <h4>Legislation that mentions this bill</h4>
-            <ul class="navigation">
+            <ul class="unstyled">
               {% for referencing_legfile_metadata in object.references_in_legislation.all %}
                 <li><a href="{{ referencing_legfile_metadata.legfile.get_absolute_url }}">{{ referencing_legfile_metadata.legfile }}</a></li>
               {% endfor %}
@@ -80,8 +80,8 @@
 
         {% if object.metadata.valid_locations.all %}
             <h4>Locations mentioned in this bill</h4>
-            <img style="float:right; margin-right:200px" src="http://maps.googleapis.com/maps/api/staticmap?size=256x256&maptype=roadmap{% for location in object.metadata.valid_locations.all %}&markers={{ location.geom.y }},{{ location.geom.x }}{% endfor %}&sensor=false">
-            <ul class="navigation">
+            <img src="http://maps.googleapis.com/maps/api/staticmap?size=256x256&maptype=roadmap{% for location in object.metadata.valid_locations.all %}&markers={{ location.geom.y }},{{ location.geom.x }}{% endfor %}&sensor=false">
+            <ul class="unstyled">
               {% for location in object.metadata.locations.all %}
                 <li><a href="http://maps.google.com/maps?q={{ location.address|urlencode }}{{ settings.LEGISLATION.ADDRESS_SUFFIX }}">
                   {{ location.address }}{{ settings.LEGISLATION.ADDRESS_SUFFIX }}</a></li>
