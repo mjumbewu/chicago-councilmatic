@@ -1,0 +1,32 @@
+.navbar h1 {
+  line-height: inherit;
+  font-size: inherit;
+  margin: 0;
+}
+
+.hero-unit {
+  padding: 20px;
+}
+
+@media (min-width: 980px) {
+  #wrap > .container-fluid {
+    padding-top: 0;
+  }
+}
+
+#dashboard-search input[name='q'] {
+  /* @largeRatio: @fontSizeLarge/@baseFontSize; */
+
+  font-size: 18px;  /* @fontSizeLarge; */
+  line-height: 25px;  /* @baseLineHeight * @largeRatio; */
+  height: 37.5px;  /* @inputHeight * @largeRatio; */
+}
+
+.map-wrapper {
+  border: 1px solid #eee;
+}
+
+#map,
+.tenure-map {
+  min-height: 300px;
+}
