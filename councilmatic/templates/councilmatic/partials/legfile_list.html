@@ -2,10 +2,10 @@
 {% load url from future %}
 {% load cache %}
 
-<ul>
+<ul class='unstyled'>
 {% cache 1800 bookmarks_list bookmark_cache_key %}
 {% for file, bookmark, contenttype, bookmark_form in bookmark_data %}
-  <li class="clearfix">
+  <li>
     {% include "councilmatic/partials/legfile_list_item.html" %}
   </li>
 {% endfor %}

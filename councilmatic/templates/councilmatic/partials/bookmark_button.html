@@ -16,7 +16,7 @@
         <div class="bookmark active">
             <form action="{% url 'unbookmark' bookmark.pk %}" method="POST">{% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                <button class="btn" type="submit">{% trans "Unbookmark" %}</button>
+                <button class="btn" type="submit">Unbookmark</button>
             </form>
         </div>
     {% else %}
@@ -24,7 +24,7 @@
             <form action="{% url 'bookmark' %}" method="POST">{% csrf_token %}
                 {{ bookmark_form }}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                <button class="btn" type="submit">{% trans "Bookmark" %}</button>
+                <button class="btn" type="submit">Bookmark</button>
             </form>
         </div>
     {% endif %}
@@ -32,7 +32,7 @@
     <div class="bookmark inactive unauthenticated">
         <form action="{% url 'registration_login' %}" method="GET">{% csrf_token %}
             <input type="hidden" name="next" value="{{ request.get_full_path }}">
-            <button class="btn" type="submit">{% trans "Bookmark" %}</button>
+            <button class="btn" type="submit">Bookmark</button>
         </form>
     </div>
 {% endif %}

@@ -29,4 +29,9 @@
 #map,
 .tenure-map {
   min-height: 300px;
+  max-width: none;
+}
+
+.ctrlHolder li {
+  list-style: none;
 }
