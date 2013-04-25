@@ -198,7 +198,9 @@ class LegFile(TimestampedModelMixin, models.Model):
 
     def topics(self):
         if 'Exemption from physical barrier' in self.title :
-            return 'Physical barrier exemption'
+            return ['Physical barrier exemption']
+
+        return []
 
     def mentioned_legfiles(self):
         """
