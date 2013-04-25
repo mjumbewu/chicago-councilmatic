@@ -196,7 +196,7 @@ class LegFile(TimestampedModelMixin, models.Model):
         addresses = ebdata.nlp.addresses.parse_addresses(self.all_text())
         return addresses
 
-    def topics(self)
+    def topics(self):
         if 'Exemption from physical barrier' in self.title :
             return 'Physical barrier exemption'
 
@@ -233,7 +233,7 @@ class LegFile(TimestampedModelMixin, models.Model):
         if commit:
             return self.save(**save_kwargs)
 
-    def save(self, update_words=True, update_mentions=True, update_locations=True, *args, **kwargs):
+    def save(self, update_words=True, update_mentions=True, update_locations=True, update_topics=True, *args, **kwargs):
         """
         Calls the default ``Models.save()`` method, and creates or updates
         metadata for the legislative file as well.
