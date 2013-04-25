@@ -197,13 +197,7 @@ class LegFile(TimestampedModelMixin, models.Model):
         return addresses
 
     def topics(self):
-        if 'Damage to vehicle claim' in self.title :
-            return ['Damage to vehicle claim']
-
-        if 'Exemption from physical barrier' in self.title :
-            return ['Physical barrier exemption']
-
-        return []
+        return settings.TOPIC_CLASSIFIER(self.title)
 
     def mentioned_legfiles(self):
         """
