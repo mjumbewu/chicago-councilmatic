@@ -280,7 +280,7 @@ class LegFile(TimestampedModelMixin, models.Model):
             # Add topics to the metadata
             metadata.topics.clear()
             for topic in self.topics():
-                t = MetaData_Word.objects.get_or_create(topic=topic)[0]
+                t = MetaData_Topic.objects.get_or_create(topic=topic)[0]
                 metadata.topics.add(t)
 
         metadata.save()
