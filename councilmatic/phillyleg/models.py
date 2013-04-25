@@ -196,6 +196,10 @@ class LegFile(TimestampedModelMixin, models.Model):
         addresses = ebdata.nlp.addresses.parse_addresses(self.all_text())
         return addresses
 
+    def topics(self)
+        if 'Exemption from physical barrier' in self.title :
+            return 'Physical barrier exemption'
+
     def mentioned_legfiles(self):
         """
         Gets a generator for any files (specifically, bills) mentioned in the
@@ -266,6 +270,12 @@ class LegFile(TimestampedModelMixin, models.Model):
             metadata.mentioned_legfiles.clear()
             for mentioned_legfile in self.mentioned_legfiles():
                 metadata.mentioned_legfiles.add(mentioned_legfile)
+
+        if update_topics:
+            # Add topics to the metadata
+            metadata.topics.clear()
+            for topic in self.topics():
+                metadata.topics.add(topic)
 
         metadata.save()
 
@@ -443,4 +453,4 @@ class MetaData_Topic (models.Model):
     topic = models.CharField(max_length=128, unique=True)
 
     def __unicode__(self):
-        return '%r (used in %s files)' % (self.value, len(self.references.all()))
+        return '%r (topics: %s)' % (self.topic, len(self.references.all()))
