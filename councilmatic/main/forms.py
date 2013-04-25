@@ -49,22 +49,22 @@ class FullSearchForm (haystack.forms.SearchForm):
     statuses = django.forms.MultipleChoiceField(
         choices=legfile_choices('status'),
         widget=django.forms.CheckboxSelectMultiple(),
-        label="Narrow by Status",
+        label="Narrow by status &raquo;",
         required=False)
     controlling_bodies = django.forms.MultipleChoiceField(
         choices=legfile_choices('controlling_body'),
         widget=django.forms.CheckboxSelectMultiple(),
-        label="Narrow by Controlling Body",
+        label="Narrow by controlling body &raquo;",
         required=False)
     file_types = django.forms.MultipleChoiceField(
         choices=legfile_choices('type'),
         widget=django.forms.CheckboxSelectMultiple(),
-        label="Narrow by Type of Legislation",
+        label="Narrow by type of legislation &raquo;",
         required=False)
     sponsors = django.forms.MultipleChoiceField(
         choices=councilmember_choices(),
         widget=django.forms.CheckboxSelectMultiple(),
-        label="Narrow by Sponsors",
+        label="Narrow by sponsors &raquo;",
         required=False)
 
     @property
