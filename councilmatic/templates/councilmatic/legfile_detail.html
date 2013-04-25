@@ -15,7 +15,11 @@
   <section id="main" >
     <div class='row-fluid'>
       <div class='offset1 span10'>
-        <h1>
+	<span class="pull-right legislation_bookmark">
+          {% include "councilmatic/partials/bookmark_button.html" %}
+        </span>
+	
+	<h1>
           {{ object.type }} {{ object.id }}
           <small>
             {% if object.controlling_body != '' %}
@@ -23,11 +27,11 @@
             {% endif %}
           </small>
         </h1>
-        <hr />
+	<hr />
       </div>
 
     <div class='row-fluid'>
-      <div class='offset1 span5'>
+      <div class='offset1 span6'>
 
         <h4>Description</h4>
         <p>{{ object.title|linebreaksbr }}</p>
@@ -89,25 +93,10 @@
             </ul>
         {% endif %}
 
-        <h4>Source</h4>
-        <a href="{{ legfile.url }}">{{ object.type }} {{ object.id }}</a>
-
-        <h5>Attachments</h5>
-        {% for attachment in object.attachments.all %}
-
-          {% if forloop.first %}<ul class='unstyled'>{% endif %}
-            <li><a href="{{ attachment.url }}">{{ attachment.description }}</a></li>
-          {% if forloop.last %}</ul>{% endif %}
-
-        {% empty %}
-          <p>(No attachments)</p>
-        {% endfor %}
-
-        <hr />
-        <h4>Comments</h4>
-
         {% if support_opinions %}
-            {% for opinion in support_opinions %}
+            <hr />
+            <h4>Comments</h4>
+	    {% for opinion in support_opinions %}
               {% if forloop.first %}<ul class='unstyled'>{% endif %}
                 <li>
                   <span class="label label-success">Support</span>
@@ -143,7 +132,7 @@
         {% endif %}
 
         <hr />
-        <h5>What's your opinion?</h5>
+        <h4>What's your opinion?</h4>
           {% if user.is_authenticated %}
             {% if is_opined %}
             <form action="{% url 'revise_opinion' opinion.pk %}" method="post" class="uniForm">{% csrf_token %}
@@ -162,20 +151,20 @@
 
     </div>
 
-    <div class='span4'>
-      <div class='well'>
-        <dl class='dl-horizontal'>
-          <dt>Introduced</dt>
-          <dd>{{ object.intro_date }}</dd>
-
+    <div class='span3'>
+        {% include "councilmatic/partials/share_buttons.html" %}
+	<div class='well'>
+          <strong>Introduced:</strong>
+          {{ object.intro_date }}
+	  <br />
           {% if object.last_action_date %}
-            <dt>Last action</dt>
-            <dd>{{ object.last_action_date }}</dd>
+            <strong>Last action:</strong>
+            {{ object.last_action_date }}
           {% endif %}
-
-          <dt>Status</dt>
-          <dd>{{ object.status }}</dd>
-        </dl>
+	  <br />
+          <strong>Status:</strong>
+          {{ object.status }}
+        
       </div>
 
       {% if object.sponsors %}
@@ -183,9 +172,21 @@
       {% endif %}
 
       <div class='well'>
-        {% include "councilmatic/partials/bookmark_button.html" %}
-        {% include "councilmatic/partials/share_buttons.html" %}
+	<h4>Source</h4>
+        <a href="{{ legfile.url }}">{{ object.type }} {{ object.id }}</a>
+
+        <h5>Attachments</h5>
+        {% for attachment in object.attachments.all %}
+
+          {% if forloop.first %}<ul class='unstyled'>{% endif %}
+            <li><a href="{{ attachment.url }}">{{ attachment.description }}</a></li>
+          {% if forloop.last %}</ul>{% endif %}
+
+        {% empty %}
+          <p>(No attachments)</p>
+        {% endfor %}
       </div>
+
     </div>
   </div> <!-- end row-fluid -->
 
