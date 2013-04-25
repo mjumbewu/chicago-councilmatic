@@ -197,6 +197,9 @@ class LegFile(TimestampedModelMixin, models.Model):
         return addresses
 
     def topics(self):
+        if 'Damage to vehicle claim' in self.title :
+            return ['Damage to vehicle claim']
+
         if 'Exemption from physical barrier' in self.title :
             return ['Physical barrier exemption']
 
@@ -277,7 +280,8 @@ class LegFile(TimestampedModelMixin, models.Model):
             # Add topics to the metadata
             metadata.topics.clear()
             for topic in self.topics():
-                metadata.topics.add(topic)
+                t = MetaData_Word.objects.get_or_create(topic=topic)[0]
+                metadata.topics.add(t)
 
         metadata.save()
 
