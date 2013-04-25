@@ -1,3 +1,7 @@
+a { color: #c00000; }
+
+body { font-size: 15px;}
+
 .navbar h1 {
   line-height: inherit;
   font-size: inherit;
@@ -34,7 +38,6 @@
 #map img {
   max-width: none;
 }
-
 
 .ctrlHolder li {
   list-style: none;

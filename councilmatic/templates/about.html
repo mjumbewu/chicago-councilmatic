@@ -3,55 +3,81 @@
 {% block content %}
 
 <div class="container">
-<div class="span10 offset1">
-    <h1 class="title">What is This?</h1>
-    <p>
-    Councilmatic Chicago lets you know what the Chicago city council is doing. If you care about <a href="http://councilmatic.opencityapps.org/search/?q=zoning+reclassification">changes in zoning</a>, 
-    <a href="http://councilmatic.opencityapps.org/search/?q=settlement&file_types=Report">what the city is paying 
-    out in settlements</a>, or <a href="http://councilmatic.opencityapps.org/search/?q=birthday">BIRTHDAYS!!!</a>,
-    you can find out here. You can even subscribe to this search, and if something new happens that you care about 
-    you can get an e-mail or see it in your RSS reader.
-    </p>
-    
-    <p>
-    You can also see and follow all the legislation sponsored by your alderman or mayor 
-    (<a href="http://councilmatic.opencityapps.org/search/?q=&sponsors=Bob+Fioretti">Bob Fioretti</a>, 
-     <a href="http://councilmatic.opencityapps.org/search/?q=&sponsors=Leslie+A.+Hairston">Leslie Hairston</a>,
-     <a href="http://councilmatic.opencityapps.org/search/?q=&sponsors=Rahm+Emanuel">Rahm Emanuel</a>).
-    </p>
-        
-    <h1>What Else?</h1>
-    <p>If there is a piece of legislation you care about, you can give your opinion on it, share it with your network, and
-    argue about it with other folks</p>
+    <div class='row'>
+          <div class='span3'>
+              <div class='well'>
+                <h3>Sections</h3>
+                <ol>
+                  <li><a href='#what-is-this'>What is this?</a></li>
+                  <li><a href='#where-do-you-get-the-data'>Where do you get the data?</a></li>
+                  <li><a href='#code'>Code</a></li>
+                  <li><a href='#team-and-credits'>Team and credits</a></li>
+                </ol>
+              </div>
+            </div>
+            <div class="span9">
+                <h3 id='what-is-this'>What is this?</h3>
+                <p>Councilmatic Chicago lets you keep tabs on what the <a href='http://www.cityofchicago.org/city/en/about/council.html'>Chicago City Council</a> is doing.</p>
 
-    <h1>About the Data</h1>
+                <p>The City Council consists of 50 aldermen, representing 50 wards in City of Chicago. They meet once a month to vote on all proposed loans, grants, bond issues, land acquisitions and sales, zoning changes, traffic control issues, mayoral appointees, and other financial appropriations.</p>
 
-    <p>The data on this site is scraped once a week from from the <a href="http://chicago.legistar.com/">Chicago City Council legislation site</a>. 
-    Councilmatic may not have up-to-the-minute information
-       about the legislation you are viewing, since it scrapes once per week.
-       Each piece of legislation provides a link to its source for reference.<p>
+                <p>Councilmatic Chicago lets you search, browse, subscribe and comment on everything the City Council has done since Jan 1st 2010. Some interesting searches include:</p>
 
-    <h1>Who we Are</h1>
-    
-    <p>Chicago Councilmatic was put up by Derek Eder and Forest Gregg. 
-    You can find the <a href="https://github.com/open-city/councilmatic/">code</a>. on github. 
-    </p> 
-    
-    <p>Councilmatic was originally built 
-    for Philadelphia, and lot's of folks have contributed to this software.</p>
+                <ul>
+                    <li><a href="http://councilmatic.opencityapps.org/search/?q=zoning+reclassification">changes in zoning</a></li>
+                    <li><a href="http://councilmatic.opencityapps.org/search/?q=settlement&file_types=Report">what the city is paying out in settlements</a></li>
+                    <li><a href='http://councilmatic.opencityapps.org/legislation/906492'>committee appointments</a></li>
+                    <li><a href="http://councilmatic.opencityapps.org/search/?q=birthday">birthdays</a> (seriously)</li>
+                </ul>
 
-    <ul>
-        <li><a href="https://github.com/mdb" title="Mike Ball">Mike Ball</a></li>
-        <li><a href="https://github.com/joannecheng" title="Joanne Cheng">Joanne Cheng</a></li>
-        <li><a href="https://github.com/gsf" title="Gabriel Farrell">Gabriel Farrell</a></li>
-        <li><a href="http://buttonpresser.com/">Pete Fecteau</a></li>
-        <li>Paul Jungwirth</li>
-        <li><a href="https://github.com/brilance" title="Bri Lance">Bri Lance</a></li>
-        <li><a href="https://github.com/joshmarcus" title="Josh Marcus">Josh Marcus</a></li>
-        <li><a href="https://github.com/non" title="Erik Osheim">Erik Osheim</a></li>
-        <li><a href="https://github.com/mjumbewu" title="Mjumbe Poe">Mjumbe Poe</a></li>
-        <li><a href="https://github.com/scottsil" title="Scott Silverman">Scott Silverman</a></li>
-    </ul>
-</div>
-</div>
+                <p>
+                You can also see and follow all the legislation sponsored by your alderman or mayor
+                (<a href="http://councilmatic.opencityapps.org/search/?q=&sponsors=Bob+Fioretti">Bob Fioretti</a>,
+                 <a href="http://councilmatic.opencityapps.org/search/?q=&sponsors=Leslie+A.+Hairston">Leslie Hairston</a>,
+                 <a href="http://councilmatic.opencityapps.org/search/?q=&sponsors=Rahm+Emanuel">Rahm Emanuel</a>).
+                </p>
+
+                <p>If you want to keep tabs on an issue or topic, you can <strong>subscribe</strong> (<i class='icon-star'></i>) to each ordinance or resolution, and if something new happens with it, you will get an e-mail notification.</p>
+
+                <h3 id='where-do-you-get-the-data'>Where do you get the data?</h3>
+
+                <p>The data on this site is <a href='https://github.com/fgregg/legistar-scrape'>scraped</a> once a week from from the <a href="http://chicago.legistar.com/">Chicago City Council legislation site</a> run by the <a href='http://chicityclerk.com/'>Office of the City Clerk</a>. Each piece of legislation provides a link to its source for reference.<p>
+
+                <h3 id='code'>Code</h3>
+
+                <p>All of the code for this project is open source. You can find, view and fork it <a href='<a href="https://github.com/open-city/councilmatic/"'>on github</a>.</p>
+
+                <p>Technologies used:</p>
+
+                <ul>
+                    <li><a href='https://www.djangoproject.com/'>Django 1.4</a> - web framework</li>
+                    <li><a href='http://postgis.net/'>PostGIS 1.5</a> - database</li>
+                    <li><a href='https://github.com/fgregg/legistar-scrape'>Legistar scraper</a> - custom scraper by Forest Gregg</li>
+                    <li><a href='https://pypi.python.org/pypi/ebdata'>ebdata</a> - EveryBlock address parser</li>
+                    <li><a href='http://twitter.github.io/bootstrap/index.html'>Bootstrap</a> - HTML/CSS layout</li>
+                    <li><a href='https://developers.google.com/maps/documentation/javascript/'>Google Maps</a></li>
+                    
+                </ul>
+
+                <h3 id='team-and-credits'>Team and credits</h3>
+
+                <p>Chicago Councilmatic was deployed by Derek Eder and Forest Gregg at <a href='http://opencityapps.org'>Open City</a>.</p>
+
+                <p>Councilmatic was originally built by <a href='http://codeforamerica.org'>Code for America</a> for Philadelphia, and lot's of folks have contributed to it:</p>
+
+                <ul>
+                    <li><a href="https://github.com/mdb" title="Mike Ball">Mike Ball</a></li>
+                    <li><a href="https://github.com/joannecheng" title="Joanne Cheng">Joanne Cheng</a></li>
+                    <li><a href="https://github.com/gsf" title="Gabriel Farrell">Gabriel Farrell</a></li>
+                    <li><a href="http://buttonpresser.com/">Pete Fecteau</a></li>
+                    <li>Paul Jungwirth</li>
+                    <li><a href="https://github.com/brilance" title="Bri Lance">Bri Lance</a></li>
+                    <li><a href="https://github.com/joshmarcus" title="Josh Marcus">Josh Marcus</a></li>
+                    <li><a href="https://github.com/non" title="Erik Osheim">Erik Osheim</a></li>
+                    <li><a href="https://github.com/mjumbewu" title="Mjumbe Poe">Mjumbe Poe</a></li>
+                    <li><a href="https://github.com/scottsil" title="Scott Silverman">Scott Silverman</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}
