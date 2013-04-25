@@ -382,8 +382,9 @@ class LegFileMetaData (TimestampedModelMixin, models.Model):
     legfile = models.OneToOneField('LegFile', related_name='metadata')
     words = models.ManyToManyField('MetaData_Word', related_name='references_in_legislation')
     locations = models.ManyToManyField('MetaData_Location', related_name='references_in_legislation')
+    topics = models.ManyToManyField('MetaData_Topic', related_name='references_in_legislation')
     mentioned_legfiles = models.ManyToManyField('LegFile', related_name='references_in_legislation')
-
+    
     def valid_locations(self):
         return self.locations.filter(valid=True)
 
@@ -437,3 +438,9 @@ class MetaData_Location (TimestampedModelMixin, models.Model):
         else:
             log.debug('Could not geocode the address "%s"' % self.address)
             raise self.CouldNotBeGeocoded(self.address)
+
+class MetaData_Topic (models.Model):
+    topic = models.CharField(max_length=128, unique=True)
+
+    def __unicode__(self):
+        return '%r (used in %s files)' % (self.value, len(self.references.all()))
