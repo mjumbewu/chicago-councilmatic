@@ -2,11 +2,39 @@ a { color: #c00000; }
 
 body { font-size: 15px;}
 
-.navbar h1 {
-  line-height: inherit;
-  font-size: inherit;
-  margin: 0;
+/*
+.navbar-inner {
+  min-height: 60px;
+  padding-right: 20px;
+  padding-left: 20px;
+  background-color: #e4f3fa;
+  background-image: none;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e4f3fa), to(#e4f3fa));
+  background-image: -webkit-linear-gradient(top, #e4f3fa, #e4f3fa);
+  background-image: -o-linear-gradient(top, #e4f3fa, #e4f3fa);
+  background-image: linear-gradient(to bottom, #e4f3fa, #e4f3fa);
+  background-repeat: repeat-x;
+  border: none;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4f3faff', endColorstr='#e4f3faff', GradientType=0);
+  *zoom: 1;
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
 }
+
+.navbar .nav > li > a {
+  color: #027bb6;
+  text-shadow: 0 1px 0 #ffffff;
+}
+
+.navbar .brand {
+  color: #027bb6;
+  text-shadow: 0 1px 0 #ffffff;
+}
+*/
 
 .hero-unit {
   padding: 20px;
