@@ -28,7 +28,11 @@
           </small>
         </h1>
           {% for topic in object.metadata.topics.all %}
-            <span class="label label-info">{{ topic.topic }}</span>
+            {% if topic.topic == 'Routine' %}
+              <span class="label">{{ topic.topic }}</span>
+            {% else %}
+              <span class="label label-info">{{ topic.topic }}</span>
+            {% endif %}
           {% endfor %}
 	      <hr />
       </div>

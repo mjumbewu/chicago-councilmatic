@@ -14,10 +14,15 @@
 <div class="legislation_id"><a href="{% url 'legislation_detail' file.key %}">{{ file.type }} {{ file.id }}</a></div>
 {% endif %}
 
-<div class="row-fluid">
-  <span class="legislation_intro_date">{{ file.intro_date }}</span>
-  <span class="legislation_status">{{ file.status }}</span>
-</div>
+<p> {{ file.intro_date }} {{ file.status }} </p>
+
+{% for topic in file.metadata.topics.all %}
+  {% if topic.topic == 'Routine' %}
+    <span class="label">{{ topic.topic }}</span>
+  {% else %}
+    <span class="label label-info">{{ topic.topic }}</span>
+  {% endif %}
+{% endfor %}
 
 <p class="legislation_title">{{ file.title|truncatewords:25 }}</p>
 
