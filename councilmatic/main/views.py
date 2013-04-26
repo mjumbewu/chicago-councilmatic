@@ -298,7 +298,8 @@ class LegislationDetailView (SearchBarMixin,
                    .prefetch_related('actions', 'attachments', 'sponsors',
                                      'references_in_legislation',
                                      'metadata__locations',
-                                     'metadata__mentioned_legfiles')
+                                     'metadata__mentioned_legfiles',
+                                     'metadata__topics')
 
     def get_content_feed(self):
         legfile = self.object
