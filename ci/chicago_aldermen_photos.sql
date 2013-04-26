@@ -26,15 +26,15 @@ UPDATE phillyleg_councilmember set headshot='chicago/aldermen/5-leslie-hairston.
 UPDATE phillyleg_councilmember set headshot='chicago/aldermen/18-lona-lane.jpg' where name='Lona Lane';
 UPDATE phillyleg_councilmember set headshot='chicago/aldermen/39-margaret-laurino.jpg' where name='Margaret Laurino';
 UPDATE phillyleg_councilmember set headshot='chicago/aldermen/13-marty-quinn.jpg' where name='Marty Quinn';
-UPDATE phillyleg_councilmember set headshot='chicago/aldermen/41-mary-oconnor.jpg' where name='Mary O\'Connor';
-UPDATE phillyleg_councilmember set headshot='chicago/aldermen/19-matthew-oshea.jpg' where name='Matthew J. O\'Shea';
+UPDATE phillyleg_councilmember set headshot='chicago/aldermen/41-mary-oconnor.jpg' where name='Mary O''Connor';
+UPDATE phillyleg_councilmember set headshot='chicago/aldermen/19-matthew-oshea.jpg' where name='Matthew J. O''Shea';
 UPDATE phillyleg_councilmember set headshot='chicago/aldermen/24-michael-chandler.jpg' where name='Michael D. Chandler';
 UPDATE phillyleg_councilmember set headshot='chicago/aldermen/23-michael-zalewski.jpg' where name='Michael R. Zalewski';
 UPDATE phillyleg_councilmember set headshot='chicago/aldermen/43-michele-smith.jpg' where name='Michele Smith';
 UPDATE phillyleg_councilmember set headshot='chicago/aldermen/8-michelle-harris.jpg' where name='Michelle A. Harris';
 UPDATE phillyleg_councilmember set headshot='chicago/aldermen/36-nicholas-sposato.jpg' where name='Nicholas Sposato';
 UPDATE phillyleg_councilmember set headshot='chicago/aldermen/3-pat-dowell.jpg' where name='Pat Dowell';
-UPDATE phillyleg_councilmember set headshot='chicago/aldermen/40-patrick-oconnor.jpg' where name='Patrick O\'Connor';
+UPDATE phillyleg_councilmember set headshot='chicago/aldermen/40-patrick-oconnor.jpg' where name='Patrick O''Connor';
 UPDATE phillyleg_councilmember set headshot='chicago/aldermen/1-joe-moreno.jpg' where name='Proco Joe Moreno';
 UPDATE phillyleg_councilmember set headshot='chicago/aldermen/31-ray-suarez.jpg' where name='Regner Ray Suarez';
 UPDATE phillyleg_councilmember set headshot='chicago/aldermen/35-rey-colon.jpg' where name='Rey Colón';
