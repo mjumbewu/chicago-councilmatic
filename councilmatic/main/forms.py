@@ -52,11 +52,11 @@ class SimpleSearchForm (haystack.forms.SearchForm):
         return sqs
 
 class FullSearchForm (haystack.forms.SearchForm):
-#    topics = django.forms.MultipleChoiceField(
- #       choices=topic_choices(),
-  #      widget=django.forms.CheckboxSelectMultiple(),
-   #     label="Narrow by topics &raquo;",
-    #    required=False)
+    topics = django.forms.MultipleChoiceField(
+        choices=topic_choices(),
+        widget=django.forms.CheckboxSelectMultiple(),
+        label="Narrow by topics &raquo;",
+        required=False)
     statuses = django.forms.MultipleChoiceField(
         choices=legfile_choices('status'),
         widget=django.forms.CheckboxSelectMultiple(),
@@ -111,7 +111,7 @@ class FullSearchForm (haystack.forms.SearchForm):
                 sqs = haystack.query.SearchQuerySet().all()
 
             if topics:
-                sqs = sqs.filter(topics__in=topics)
+                sqs = sqs.filter(metadata__topics__in=topics)
 
             if statuses:
                 sqs = sqs.filter(status__in=statuses)

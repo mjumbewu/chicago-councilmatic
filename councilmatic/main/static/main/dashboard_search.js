@@ -38,7 +38,8 @@
     };
 
     var init = function() {
-        setup_checkbox_list('div_id_statuses');
+        setup_checkbox_list('div_id_topics');
+	setup_checkbox_list('div_id_statuses');
         setup_checkbox_list('div_id_controlling_bodies');
         setup_checkbox_list('div_id_file_types');
         setup_checkbox_list('div_id_sponsors');
