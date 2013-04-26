@@ -68,7 +68,7 @@ class BaseDashboardMixin (SearchBarMixin,
 
     def get_recent_legislation(self):
         legfiles = self.get_filtered_legfiles()
-        return list(legfiles.exclude(title='').order_by('-key')[:3].prefetch_related('metadata__topics'))
+        return list(legfiles.exclude(title='').order_by('-key')[:3])
 
     def get_context_data(self, **kwargs):
         search_form = forms.FullSearchForm()
