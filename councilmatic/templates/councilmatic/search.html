@@ -11,26 +11,18 @@
 
     <div class="block">
 
-      <div class="block">
-        {% include 'subscriptions/subscribe_form.html' %}
-      </div>
-
       <div class="row-fluid">
-        <section id="dashboard_legislation" class="span8">
+        <section id="dashboard_legislation" class="span7 offset1">
           {% if object_list %}
-
-            <header>
-              <h2>{% trans "Legislation results" %}</h2>
-            </header>
-
-            {% with no_bookmark='True' %}
+	    <div class='pull-right'>{% include 'subscriptions/subscribe_form.html' %}</div>
+            <h3>{% trans "Legislation results" %}</h3>
+	    <div class='clearfix'></div>
+	    <hr />
             {% for file in object_list %}
               <article class="clearfix">
                 {% include "councilmatic/partials/legfile_list_item.html" %}
               </article>
             {% endfor %}
-            {% endwith %}
-
 
             {% if page_obj.has_previous or page_obj.has_next %}
             <div class="pagination pagination-centered">
@@ -58,22 +50,23 @@
           {% endif %}
         </section>
 
-        <div class="span4">
+        <div class="span3">
+	  <div class='well'>
+            <h3>{% trans "Find legislation" %}</h3>
 
-          <h2>{% trans "Find legislation" %}</h2>
+            {# It may either be called `search_form` or just `form` #}
 
-          {# It may either be called `search_form` or just `form` #}
-
-          <form action="{% url 'search' %}" method="GET" class="uniForm" id="id_legislation_search_form">
-            <fieldset class="inlineLabels">
-              {% if search_form %}
-                {{ search_form|as_uni_form }}
-              {% else %}
-                {{ form|as_uni_form }}
-              {% endif %}
-              <div><button type="submit" class="btn">Search</button></div>
-            </fieldset>
-          </form>
+            <form action="{% url 'search' %}" method="GET" class="uniForm" id="id_legislation_search_form">
+              <fieldset class="inlineLabels">
+                {% if search_form %}
+                  {{ search_form|as_uni_form }}
+                {% else %}
+                  {{ form|as_uni_form }}
+                {% endif %}
+                <button type="submit" class="btn btn-info">Search</button>
+              </fieldset>
+            </form>
+	  </div>
         </div>
       </div>
     </div>

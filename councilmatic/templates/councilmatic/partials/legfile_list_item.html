@@ -11,12 +11,12 @@
 </span>
 
 {% if file.key %}
-<h5><a href="{% url 'legislation_detail' file.key %}">{{ file.type }} {{ file.id }}</a></h5>
+<strong><a href="{% url 'legislation_detail' file.key %}">{{ file.type }} {{ file.id }}</a></strong>
 {% endif %}
 
 <p> 
-  {{ file.intro_date }} {{ file.status }} 
-
+  {{ file.status }} on {{ file.intro_date }} 
+</p>
   {% for topic in file.metadata.topics.all %}
     {% if topic.topic == 'Routine' %}
       <span class="label">{{ topic.topic }}</span>
@@ -24,7 +24,6 @@
       <span class="label label-info">{{ topic.topic }}</span>
     {% endif %}
   {% endfor %}
-</p>
 
 <p>{{ file.title|truncatewords:25 }}</p>
 

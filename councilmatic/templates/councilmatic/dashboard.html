@@ -20,7 +20,7 @@
         <form class="search form-search" action="{% url 'search' %}" method="GET">
           <div class="ctrlHolder">
             <input name="q" type="text" class="input-xxlarge" placeholder="Rahm Emanuel, zoning, resolution #R2013-1, etc.">
-            <button type="submit" class="btn btn-large btn-primary">{% trans "Search" %}</button>
+            <button type="submit" class="btn btn-large btn-info">{% trans "Search" %}</button>
           </div>
         </form>
       </section>
@@ -29,7 +29,7 @@
   <div class='row-fluid'>
     <section id="dashboard-legislation" class="row-fluid">
       <div id="dashboard-legislation-list" class="offset1 span5">
-        <h2>{% trans "Recent legislation" %}</h2>
+        <h3>{% trans "Recent legislation" %}</h3>
 
         {% include "councilmatic/partials/legfile_list.html" %}
 
@@ -37,7 +37,7 @@
       </div> <!-- #dashboard-legislation-list -->
 
       <div id="dashboard-legislation-map" class="span5">
-        <h2>Recent locations mentioned</h2>
+        <h3>Recent locations mentioned</h3>
 
         <div class="map-wrapper">
           <div id="map">
