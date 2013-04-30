@@ -19,9 +19,9 @@
 </p>
   {% for topic in file.metadata.topics.all %}
     {% if topic.topic == 'Routine' %}
-      <span class="label">{{ topic.topic }}</span>
+      <a href='/search/?q=&topics={{ topic.topic }}'><span class="label">{{ topic.topic }}</span></a>
     {% else %}
-      <span class="label label-info">{{ topic.topic }}</span>
+      <a href="/search/?q=&topics={{ topic.topic }}"><span class="label label-info">{{ topic.topic }}</span></a>
     {% endif %}
   {% endfor %}
 

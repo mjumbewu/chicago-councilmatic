@@ -111,7 +111,7 @@ class FullSearchForm (haystack.forms.SearchForm):
                 sqs = haystack.query.SearchQuerySet().all()
 
             if topics:
-                sqs = sqs.filter(metadata__topics__in=topics)
+                sqs = sqs.filter(topics__in=topics)
 
             if statuses:
                 sqs = sqs.filter(status__in=statuses)
