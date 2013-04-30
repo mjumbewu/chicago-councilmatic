@@ -452,5 +452,13 @@ class MetaData_Location (TimestampedModelMixin, models.Model):
 class MetaData_Topic (models.Model):
     topic = models.CharField(max_length=128, unique=True)
 
+    def get_label(self):
+	if self.topic == 'Routine' :
+	    return 'label-info'
+	elif self.topic == 'Non-Routine' :
+	    return 'label-success'
+	else :
+	    return ''
+    
     def __unicode__(self):
         return '%r (topics: %s)' % (self.topic, len(self.references.all()))

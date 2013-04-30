@@ -28,11 +28,7 @@
           </small>
         </h1>
           {% for topic in object.metadata.topics.all %}
-            {% if topic.topic == 'Routine' %}
-              <a href="/search/?q=&topics={{ topic.topic }}"><span class="label">{{ topic.topic }}</span></a>
-            {% else %}
-              <a href="/search/?q=&topics={{ topic.topic }}"><span class="label label-info">{{ topic.topic }}</span></a>
-            {% endif %}
+	    <a href="/search/?q=&topics={{ topic.topic }}"><span class="label {{ topic.get_label }}">{{ topic.topic }}</span></a>
           {% endfor %}
 	      <hr />
       </div>
