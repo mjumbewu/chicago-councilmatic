@@ -40,6 +40,7 @@ RECAPTCHA_PUBLIC_KEY  = ''
 RECAPTCHA_PRIVATE_KEY = ''
 
 GOOGLE_ANALYTICS_ACCOUNT = ''
+FOOTER_CONTENT = "An app by <a href='http://codeforamerica.org'>Code for America</a>."
 
 ###############################################################################
 #
