@@ -21,7 +21,7 @@ def councilmember_choices():
 
 def topic_choices():
     from phillyleg.models import MetaData_Topic
-    values = set((topic.topic)
+    values = set((topic.topic, topic.topic)
               for topic in MetaData_Topic.objects.all())
     return values
 

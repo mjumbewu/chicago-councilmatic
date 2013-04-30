@@ -5,7 +5,9 @@
     <div class='span10 offset1'>    
 	    <hr />
 	    <p class='pull-right'>
-        {{ settings.FOOTER_CONTENT }}
+        {% autoescape off %}
+	{{ settings.FOOTER_CONTENT }}
+	{% endautoescape %}
     	</p>
     </div>
   </div>
