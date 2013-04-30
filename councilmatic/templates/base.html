@@ -37,11 +37,8 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
 
-  {% if settings.DEBUG %}
-    <script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-collapse.js"></script>
-    <script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-tooltip.js"></script>
-  {% else %}
-  {% endif %}
+  <script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-collapse.js"></script>
+  <script src="{{ STATIC_URL }}libs/bootstrap/js/bootstrap-tooltip.js"></script>
 
   {% block load_late %}
     {# Here go things that would be in at the end of the body, like large    #}
