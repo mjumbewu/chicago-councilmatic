@@ -1,83 +1,79 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <h1 class="title">Motivation and Overview</h1>
 
-<div class="container">
-    <div class='row'>
-          <div class='span3'>
-              <div class='well'>
-                <h3>Sections</h3>
-                <ol>
-                  <li><a href='#what-is-this'>What is this?</a></li>
-                  <li><a href='#where-do-you-get-the-data'>Where do you get the data?</a></li>
-                  <li><a href='#code'>Code</a></li>
-                  <li><a href='#team-and-credits'>Team and credits</a></li>
-                </ol>
-              </div>
-            </div>
-            <div class="span9">
-                <h3 id='what-is-this'>What is this?</h3>
-                <p>Councilmatic Chicago lets you keep tabs on what the <a href='http://www.cityofchicago.org/city/en/about/council.html'>Chicago City Council</a> is doing.</p>
+    <p>I want to be able to follow primary source material on legislation as it
+       develops in my city. I also want to have appropraite context around this
+       legislation so that I can develop my own better informed opinions. Having
+       this ability makes me feel as though I can actually be involved in the
+       process of guiding the city &mdash; it opens the black box of how things are
+       done, and makes legislation accessible outside of its consequences.</p>
+    <p>There are three aspects here:</p>
+    <ul class="simple">
+        <li>subscription,</li>
+        <li>contextualization, and</li>
+        <li>evaluation (pros and cons)</li>
+    </ul>
+    <p><em>Subscription</em>: I want to be able to subscribe to legislation as
+       its made available, and to agendas of what's going to be discussed in the
+       future. Councilmatic will provide email, RSS, or SMS subscriptions to
+       headlines that you desire. It will also present updates to your
+       subscribed information in a way that is optimized for your viewing mode,
+       be it web or mobile.</p>
+    <p><em>Contextualization</em>: I want to see relevant information around
+       legislation, like the geographical areas mentioned, supporting areas (with councilember as
+       proxy), related legislation, and related information from around the
+       internet. Councilmatic will collect meta-information on legislation such
+       as the words in a bill, and the other bills that it refers to (determined
+       through regular expression analysis). It will also allow users to note
+       areas of the city mentioned in legislation.</p>
+    <p><em>Evaluation</em>: I want to see the pros and cons of an issue as
+       discussed by the wider community. Councilmatic will allow users to not
+       only comment on a bill, but also specify whether their comment is is
+       support of or opposition to the bill. Other users will be able to
+       comments according to their helpfulness. Through this system will emerge
+       a set of most helpful supportive and opposing viewpoints on the issues in
+       a bill.</p>
 
-                <p>The City Council consists of 50 aldermen, representing 50 wards in City of Chicago. They meet once a month to vote on all proposed loans, grants, bond issues, land acquisitions and sales, zoning changes, traffic control issues, mayoral appointees, and other financial appropriations.</p>
+    <p>If you want to do these things too, then <a
+       href="http://www.github.com/codeforamerica/councilmatic/">get
+       involved</a>.</p>
 
-                <p>Councilmatic Chicago lets you search, browse, subscribe and comment on everything the City Council has done since Jan 1st 2010. Some interesting searches include:</p>
+    <h1>About the Data</h1>
 
-                <ul>
-                    <li><a href="http://councilmatic.opencityapps.org/search/?q=zoning+reclassification">changes in zoning</a></li>
-                    <li><a href="http://councilmatic.opencityapps.org/search/?q=settlement&file_types=Report">what the city is paying out in settlements</a></li>
-                    <li><a href='http://councilmatic.opencityapps.org/legislation/906492'>committee appointments</a></li>
-                    <li><a href="http://councilmatic.opencityapps.org/search/?q=birthday">birthdays</a> (seriously)</li>
-                </ul>
+    <p>The data on Philly.Councilmatic is scraped once a day (early in the
+       morning) from the Philadelphia City Council's legislation site. On that
+       site, the data is served through an application called InSite. Many
+       municipal legislative bodies use some version of this software. It is
+       possible that the scraper is able to be used for other cities' InSite
+       instances as well.</p>
+    <p>Since the data comes from another site, the data quality is only as good
+       as its source. If there are empty communications, that is an issue with
+       the source. Also, Councilmatic may not have up-to-the-minute information
+       about the legislation you are viewing, since it scrapes once per day.
+       Each piece of legislation provides a link to its source for reference.<p>
+    <p>Councilmatic does add some metadata to the source data: The complete list
+       of words that occur in the source title and attachents, as well as which
+       other legislation mentions or is mentioned by a particular piece of
+       legislation.</p>
 
-                <p>
-                You can also see and follow all the legislation sponsored by your alderman or mayor
-                (<a href="http://councilmatic.opencityapps.org/search/?q=&sponsors=Bob+Fioretti">Bob Fioretti</a>,
-                 <a href="http://councilmatic.opencityapps.org/search/?q=&sponsors=Leslie+A.+Hairston">Leslie Hairston</a>,
-                 <a href="http://councilmatic.opencityapps.org/search/?q=&sponsors=Rahm+Emanuel">Rahm Emanuel</a>).
-                </p>
+    <h1>People</h1>
 
-                <p>If you want to keep tabs on an issue or topic, you can <strong>subscribe</strong> (<i class='icon-star'></i>) to each ordinance or resolution, and if something new happens with it, you will get an e-mail notification.</p>
+    <p>Councilmatic has been contributed to by many people along the way,
+       including:</p>
 
-                <h3 id='where-do-you-get-the-data'>Where do you get the data?</h3>
+    <ul>
+        <li><a href="https://github.com/mdb" title="Mike Ball">Mike Ball</a></li>
+        <li><a href="https://github.com/joannecheng" title="Joanne Cheng">Joanne Cheng</a></li>
+        <li><a href="https://github.com/gsf" title="Gabriel Farrell">Gabriel Farrell</a></li>
+        <li><a href="http://buttonpresser.com/">Pete Fecteau</a></li>
+        <li>Paul Jungwirth</li>
+        <li><a href="https://github.com/brilance" title="Bri Lance">Bri Lance</a></li>
+        <li><a href="https://github.com/joshmarcus" title="Josh Marcus">Josh Marcus</a></li>
+        <li><a href="https://github.com/non" title="Erik Osheim">Erik Osheim</a></li>
+        <li><a href="https://github.com/mjumbewu" title="Mjumbe Poe">Mjumbe Poe</a></li>
+        <li><a href="https://github.com/scottsil" title="Scott Silverman">Scott Silverman</a></li>
+    </ul>
 
-                <p>The data on this site is <a href='https://github.com/fgregg/legistar-scrape'>scraped</a> once a week from from the <a href="http://chicago.legistar.com/">Chicago City Council legislation site</a> run by the <a href='http://chicityclerk.com/'>Office of the City Clerk</a>. Each piece of legislation provides a link to its source for reference.<p>
-
-                <h3 id='code'>Code</h3>
-
-                <p>All of the code for this project is open source. You can find, view and fork it <a href='<a href="https://github.com/open-city/councilmatic/"'>on github</a>.</p>
-
-                <p>Technologies used:</p>
-
-                <ul>
-                    <li><a href='https://www.djangoproject.com/'>Django 1.4</a> - web framework</li>
-                    <li><a href='http://postgis.net/'>PostGIS 1.5</a> - database</li>
-                    <li><a href='https://github.com/fgregg/legistar-scrape'>Legistar scraper</a> - custom scraper by Forest Gregg</li>
-                    <li><a href='https://pypi.python.org/pypi/ebdata'>ebdata</a> - EveryBlock address parser</li>
-                    <li><a href='http://twitter.github.io/bootstrap/index.html'>Bootstrap</a> - HTML/CSS layout</li>
-                    <li><a href='https://developers.google.com/maps/documentation/javascript/'>Google Maps</a></li>
-                    
-                </ul>
-
-                <h3 id='team-and-credits'>Team and credits</h3>
-
-                <p>Chicago Councilmatic was deployed by Derek Eder and Forest Gregg at <a href='http://opencityapps.org'>Open City</a>.</p>
-
-                <p>Councilmatic was originally built by <a href='http://codeforamerica.org'>Code for America</a> for Philadelphia, and lot's of folks have contributed to it:</p>
-
-                <ul>
-                    <li><a href="https://github.com/mdb" title="Mike Ball">Mike Ball</a></li>
-                    <li><a href="https://github.com/joannecheng" title="Joanne Cheng">Joanne Cheng</a></li>
-                    <li><a href="https://github.com/gsf" title="Gabriel Farrell">Gabriel Farrell</a></li>
-                    <li><a href="http://buttonpresser.com/">Pete Fecteau</a></li>
-                    <li>Paul Jungwirth</li>
-                    <li><a href="https://github.com/brilance" title="Bri Lance">Bri Lance</a></li>
-                    <li><a href="https://github.com/joshmarcus" title="Josh Marcus">Josh Marcus</a></li>
-                    <li><a href="https://github.com/non" title="Erik Osheim">Erik Osheim</a></li>
-                    <li><a href="https://github.com/mjumbewu" title="Mjumbe Poe">Mjumbe Poe</a></li>
-                    <li><a href="https://github.com/scottsil" title="Scott Silverman">Scott Silverman</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
 {% endblock %}
