@@ -26,7 +26,7 @@ class HostedLegistarSiteWrapper (object):
 
     def __init__(self, **options):
         self.scraper = LegistarScraper(options)
-        self.legislation_summaries =  self.scraper.searchLegislation('')
+        self.legislation_summaries =  self.scraper.searchLegislation('', created_before='2012-10-5')
 
     def scrape_legis_file(self, key, summary):
         '''Extract a record from the given document (soup). The key is for the

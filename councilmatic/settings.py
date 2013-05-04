@@ -67,6 +67,7 @@ STATIC_ROOT = rel_path('..', 'static')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
+    rel_path('customizations/static'),
     rel_path('static'),
 )
 
@@ -115,7 +116,9 @@ TEMPLATE_DIRS = (
     # "C:/www/django/templates". Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     rel_path('phillyleg'),
+    rel_path('customizations/templates'),
     rel_path('templates'),
+    
 )
 
 MIDDLEWARE_CLASSES = (
