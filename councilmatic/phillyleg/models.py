@@ -329,12 +329,12 @@ class LegAction(TimestampedModelMixin, models.Model):
         ordering = ['date_taken']
 
     def get_label(self):
-	    if self.description in ['Adopted', 'Approved', 'Direct Introduction', 'Passed'] :
-	       return 'label-success'
+	if self.description in ['Adopted', 'Approved', 'Direct Introduction', 'Passed'] :
+	  return 'label-success'
         elif self.description in ['Failed to Pass', 'Vetoed'] :
-	       return 'label-important'
-	    else :
-	       return 'label-inverse'
+	  return 'label-important'
+	else :
+	  return 'label-inverse'
 
 
 class LegMinutes(TimestampedModelMixin, models.Model):
