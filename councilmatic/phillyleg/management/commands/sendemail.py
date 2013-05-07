@@ -10,7 +10,7 @@ from django.utils.encoding import smart_str, smart_unicode
 
 class Command(BaseCommand):
 	help = "This script sends daily digests out to subscribers."
-	EMAIL_TITLE = "PHILLY COUNCILMATIC " + datetime.date.today().__str__()
+	EMAIL_TITLE = "COUNCILMATIC " + datetime.date.today().__str__()
 	DIVIDER = "====================================\n"
 	SINGLE_DIVIDER = "-----------------------------------------------------------------"
 	

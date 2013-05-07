@@ -66,9 +66,9 @@ def test_subscription_flow():
 
     # Check that we have a message to send.
     assert_equal(len(mail.outbox), 1)
-    assert_equal(mail.outbox[0].subject[:19], 'Philly Councilmatic')
+    assert_equal(mail.outbox[0].subject[:19], 'Councilmatic')
     assert_equal(mail.outbox[0].body,
-                 ('\n\nPhiladelphia Councilmatic!\n==========================\n\nYou are subscribed to the following feeds:\n\n\n* Easy...\n\n\n--------------------------------------------------------------------------------\n\n \n\nvalue: 5\n\nMore at http://example.com\n\n\n--------------------------------------------------------------------------------\n\n \n\nvalue: 2\n\nMore at http://example.com\n\n\n--------------------------------------------------------------------------------\n\n \n\nvalue: 4\n\nMore at http://example.com\n\n\n--------------------------------------------------------------------------------\n\n \n\nvalue: 1\n\nMore at http://example.com\n\n\n--------------------------------------------------------------------------------\n\n \n\nvalue: 3\n\nMore at http://example.com\n\n\n\nTo manage your subscriptions, visit http://example.com/subscriptions/\n'))
+                 ('\n\nCouncilmatic!\n==========================\n\nYou are subscribed to the following feeds:\n\n\n* Easy...\n\n\n--------------------------------------------------------------------------------\n\n \n\nvalue: 5\n\nMore at http://example.com\n\n\n--------------------------------------------------------------------------------\n\n \n\nvalue: 2\n\nMore at http://example.com\n\n\n--------------------------------------------------------------------------------\n\n \n\nvalue: 4\n\nMore at http://example.com\n\n\n--------------------------------------------------------------------------------\n\n \n\nvalue: 1\n\nMore at http://example.com\n\n\n--------------------------------------------------------------------------------\n\n \n\nvalue: 3\n\nMore at http://example.com\n\n\n\nTo manage your subscriptions, visit http://example.com/subscriptions/\n'))
 
     # Cool.  Clear the mailbox.
     del mail.outbox[:]

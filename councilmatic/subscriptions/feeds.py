@@ -346,7 +346,7 @@ class SubscriptionDispatcher (object):
 
 class SubscriptionEmailer (SubscriptionDispatcher):
     template_name = 'subscriptions/subscription_email.txt'
-    EMAIL_TITLE = "Philly Councilmatic %(date)s"
+    EMAIL_TITLE = "Councilmatic %(date)s"
 
     def send_email(self, you, emailbody, emailsubject=None):
         from django.core.mail import send_mail

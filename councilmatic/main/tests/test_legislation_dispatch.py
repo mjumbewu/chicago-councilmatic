@@ -67,7 +67,7 @@ class SubscriptionFlowTesterMixin (object):
 
         # Check that we have a message to send.
         assert_equal(len(mail.outbox), 1)
-        assert_equal(mail.outbox[0].subject[:19], 'Philly Councilmatic')
+        assert_equal(mail.outbox[0].subject[:19], 'Councilmatic')
         assert_equal(mail.outbox[0].body, self.get_initial_dispatch_message())
 
         # Cool.  Clear the mailbox.
