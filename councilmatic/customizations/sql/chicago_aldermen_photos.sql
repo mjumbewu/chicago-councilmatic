@@ -51,6 +51,10 @@ UPDATE phillyleg_councilmember set headshot='chicago/aldermen/27-alderman-burnet
 UPDATE phillyleg_councilmember set headshot='chicago/aldermen/4-william-burns.jpg' where name='William D. Burns';
 UPDATE phillyleg_councilmember set headshot='chicago/aldermen/20-willie-cochran.jpg' where name='Willie Cochran';
 
+UPDATE phillyleg_councilmember set headshot='chicago/aldermen/rahm-emanuel.jpg' where name='Rahm Emanuel';
+UPDATE phillyleg_councilmember set headshot='chicago/aldermen/richard-m-daley.jpg' where name='Richard M. Daley';
+UPDATE phillyleg_councilmember set headshot='chicago/aldermen/susana_mendoza.jpg' where name='Susana A. Mendoza';
+
 -- no headshot
 -- UPDATE phillyleg_councilmember set headshot='chicago/aldermen/' where name='Bernard Stone';
 -- UPDATE phillyleg_councilmember set headshot='chicago/aldermen/' where name='Brian Doherty'
@@ -64,11 +68,8 @@ UPDATE phillyleg_councilmember set headshot='chicago/aldermen/20-willie-cochran.
 -- UPDATE phillyleg_councilmember set headshot='chicago/aldermen/' where name='Miguel Del Valle';
 -- UPDATE phillyleg_councilmember set headshot='chicago/aldermen/' where name='Natashia Holmes';
 -- UPDATE phillyleg_councilmember set headshot='chicago/aldermen/' where name='Patrick Levar';
--- UPDATE phillyleg_councilmember set headshot='chicago/aldermen/' where name='Rahm Emanuel';
--- UPDATE phillyleg_councilmember set headshot='chicago/aldermen/' where name='Richard M. Daley';
 -- UPDATE phillyleg_councilmember set headshot='chicago/aldermen/' where name='Sharon Dixon';
 -- UPDATE phillyleg_councilmember set headshot='chicago/aldermen/' where name='Shirley Newsome';
--- UPDATE phillyleg_councilmember set headshot='chicago/aldermen/' where name='Susana A. Mendoza';
 -- UPDATE phillyleg_councilmember set headshot='chicago/aldermen/' where name='Thomas Allen';
 -- UPDATE phillyleg_councilmember set headshot='chicago/aldermen/' where name='Toni Preckwinkle';
 -- UPDATE phillyleg_councilmember set headshot='chicago/aldermen/' where name='Vi Daley';
