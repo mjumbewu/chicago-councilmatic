@@ -199,6 +199,14 @@ class LegFile(TimestampedModelMixin, models.Model):
     def topics(self):
         return settings.TOPIC_CLASSIFIER(self.title)
 
+    def get_status_label(self):
+        if self.status in ['Adopted', 'Approved', 'Direct Introduction', 'Passed'] :
+           return 'label-success'
+        elif self.status in ['Failed to Pass', 'Vetoed'] :
+           return 'label-important'
+        else :
+           return 'label-inverse'
+
     def mentioned_legfiles(self):
         """
         Gets a generator for any files (specifically, bills) mentioned in the
@@ -321,12 +329,12 @@ class LegAction(TimestampedModelMixin, models.Model):
         ordering = ['date_taken']
 
     def get_label(self):
-	if self.description in ['Adopted', 'Approved', 'Direct Introduction', 'Passed'] :
-	    return 'label-success'
+	    if self.description in ['Adopted', 'Approved', 'Direct Introduction', 'Passed'] :
+	       return 'label-success'
         elif self.description in ['Failed to Pass', 'Vetoed'] :
-	    return 'label-important'
-	else :
-	    return ''
+	       return 'label-important'
+	    else :
+	       return 'label-inverse'
 
 
 class LegMinutes(TimestampedModelMixin, models.Model):
@@ -461,12 +469,10 @@ class MetaData_Topic (models.Model):
     topic = models.CharField(max_length=128, unique=True)
 
     def get_label(self):
-	if self.topic == 'Routine' :
+	if self.topic == 'Non-Routine' :
 	    return 'label-info'
-	elif self.topic == 'Non-Routine' :
-	    return 'label-inverse'
 	else :
-	    return ''
+	    return 'label-inverse'
     
     def __unicode__(self):
         return '%r (topics: %s)' % (self.topic, len(self.references.all()))

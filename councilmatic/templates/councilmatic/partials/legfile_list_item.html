@@ -15,7 +15,7 @@
 {% endif %}
 
 <p> 
-  {{ file.status }} on {{ file.intro_date }} 
+  <span class='label {{file.get_status_label}}'>{{ file.status }}</span> on {{ file.intro_date }} 
 </p>
   {% for topic in file.metadata.topics.all %}
     <a href="/search/?q=&topics={{ topic.topic }}"><span class="label {{ topic.get_label }}">{{ topic.topic }}</span></a>
