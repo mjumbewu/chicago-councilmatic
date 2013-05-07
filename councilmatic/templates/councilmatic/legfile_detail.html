@@ -39,6 +39,14 @@
         <h4>Description</h4>
         <p>{{ object.title|linebreaksbr }}</p>
 
+        <p>Read the full {{legfile.type}}:
+        {% for attachment in object.attachments.all %}
+            <a href="{{ attachment.url }}">{{ attachment.description }}</a>
+        {% empty %}
+          <p>(No attachments)</p>
+        {% endfor %}
+	</p>
+
         <h4>Actions</h4>
         {% for action in object.actions.all %}
 
@@ -54,10 +62,10 @@
                       {{ action.date_taken }}:&nbsp;
                     {% endifchanged %}
 
-                    {{ action.acting_body }}
-                        {{ action.description }}
-                        {% if action.motion %} {{ action.motion }} {% endif %}
-                        {% if action.notes %} {{ action.notes }} {% endif %}
+		    <span class='label {{action.get_label}}'>{{ action.description }}</span>
+                    by
+		    {{ action.acting_body }}
+                    {% if action.notes %} {{ action.notes }} {% endif %}
                 </li>
             {% if forloop.last %}</ul>{% endif %}
 
@@ -167,7 +175,7 @@
 	  <br />
           <strong>Status:</strong>
           {{ object.status }}
-        
+       
       </div>
 
       {% if object.sponsors %}
@@ -175,19 +183,10 @@
       {% endif %}
 
       <div class='well'>
-	<h4>Source</h4>
-        <a href="{{ legfile.url }}">{{ object.type }} {{ object.id }}</a>
+        <h4>Source</h4>
+        View <a href="{{ legfile.url }}">{{ object.type }} {{ object.id }}</a> on the City Clerk's website.
+      </div>
 
-        <h5>Attachments</h5>
-        {% for attachment in object.attachments.all %}
-
-          {% if forloop.first %}<ul class='unstyled'>{% endif %}
-            <li><a href="{{ attachment.url }}">{{ attachment.description }}</a></li>
-          {% if forloop.last %}</ul>{% endif %}
-
-        {% empty %}
-          <p>(No attachments)</p>
-        {% endfor %}
       </div>
 
     </div>

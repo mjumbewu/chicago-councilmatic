@@ -320,6 +320,14 @@ class LegAction(TimestampedModelMixin, models.Model):
         unique_together = (('file','date_taken','description','notes'),)
         ordering = ['date_taken']
 
+    def get_label(self):
+	if self.description in ['Adopted', 'Approved', 'Direct Introduction', 'Passed'] :
+	    return 'label-success'
+        elif self.description in ['Failed to Pass', 'Vetoed'] :
+	    return 'label-important'
+	else :
+	    return ''
+
 
 class LegMinutes(TimestampedModelMixin, models.Model):
     url = models.URLField(unique=True)
@@ -456,7 +464,7 @@ class MetaData_Topic (models.Model):
 	if self.topic == 'Routine' :
 	    return 'label-info'
 	elif self.topic == 'Non-Routine' :
-	    return 'label-success'
+	    return 'label-inverse'
 	else :
 	    return ''
     
