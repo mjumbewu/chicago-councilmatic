@@ -134,12 +134,12 @@ class SearcherMixin (object):
     def _init_haystack_searchview(self, request):
         # Construct and run a haystack SearchView so that we can use the
         # resulting values.
-        self.search_view = haystack.views.SearchView(form_class=forms.FullSearchForm, searchqueryset=SearchQuerySet().order_by('-order_date'))
+        self.search_view = haystack.views.SearchView(form_class=forms.FullSearchForm, searchqueryset=SearchQuerySet())
         self.search_view.request = request
 
         self.search_view.form = self.search_view.build_form()
         self.search_view.query = self.search_view.get_query()
-        self.search_view.results = self.search_view.get_results()
+        self.search_view.results = self.search_view.get_results().order_by('-order_date')
 
     def _get_search_results(self, query_params):
         if len(query_params) == 0:
