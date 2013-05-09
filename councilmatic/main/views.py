@@ -101,10 +101,22 @@ class AppDashboardView (BaseDashboardMixin,
                        all().filter(valid=True).order_by('-pk')[:10].\
                        prefetch_related('references_in_legislation'))
 
+    def get_recent_topics(self):
+        topic_count_query = """SELECT phillyleg_metadata_topic.id, phillyleg_metadata_topic.topic, Count(phillyleg_legfilemetadata.legfile_id) AS leg_count FROM phillyleg_metadata_topic
+        JOIN phillyleg_legfilemetadata_topics ON phillyleg_legfilemetadata_topics.metadata_topic_id = phillyleg_metadata_topic.id
+        JOIN phillyleg_legfilemetadata ON phillyleg_legfilemetadata.id = phillyleg_legfilemetadata_topics.legfilemetadata_id
+        JOIN phillyleg_legfile ON phillyleg_legfile.key = phillyleg_legfilemetadata.legfile_id
+        WHERE phillyleg_legfile.intro_date > '4/1/2013'
+        GROUP BY phillyleg_metadata_topic.topic, phillyleg_metadata_topic.id
+        ORDER BY leg_count DESC"""
+
+        topics = phillyleg.models.MetaData_Topic.objects.raw(topic_count_query)
+
+        return topics
     def get_context_data(self, **kwargs):
-        locations = self.get_recent_locations()
+        recent_topics = self.get_recent_topics()
         context_data = super(AppDashboardView, self).get_context_data(**kwargs)
-        context_data['locations'] = locations
+        context_data['recent_topics'] = recent_topics
         return context_data
 
 
