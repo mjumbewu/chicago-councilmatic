@@ -475,4 +475,4 @@ class MetaData_Topic (models.Model):
 	    return 'label-inverse'
     
     def __unicode__(self):
-        return '%r (topics: %s)' % (self.topic, len(self.references.all()))
+        return self.topic
