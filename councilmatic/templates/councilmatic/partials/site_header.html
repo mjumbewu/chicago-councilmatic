@@ -20,7 +20,8 @@
           <ul class="nav">
             <li class="{% if active == 'search' %} active{% endif %}"><a href="/search?q=&topics=Non-Routine">{% trans "Browse" %}</a></li>
             <li class="first{% if active == 'about' %} active{% endif %}"><a href="/about">{% trans "About" %}</a></li>
-
+          </ul>
+          <ul class="nav pull-right">
             {% if user.is_authenticated %}
             <li><a href="{% url 'subscription_list' %}" class="primaryAction">Subscriptions</a></li>
             <li><a href="{% url 'registration_logout' %}?next={{ request.get_full_path }}" class="secondaryAction">{% trans "Log Out" %}</a></li>
@@ -33,14 +34,6 @@
               <li class="username navbar-text">{{ user.email }}</li>
             {% endif %}
           </ul>
-
-      <!-- Search form -->
-        <form class="navbar-search pull-right" action="{% url 'search' %}" method="GET">
-          <div class="input-append">
-            <input type="text" name="q" class="search-query" placeholder="search">
-            <button type="submit" class="btn btn-info">{% trans "Search" %}</button>
-          </div>
-        </form>
 
       </div> <!-- .nav-collapse -->
     </div>

@@ -28,6 +28,7 @@ class LegKeys(models.Model):
 
 class CouncilMember(TimestampedModelMixin, models.Model):
     name = models.CharField(max_length=100)
+    title = models.CharField(max_length=255, default='')
     headshot = models.CharField(max_length=255,
         # Path to councilmember image, relative to static files dir
         default='phillyleg/noun_project_416.png')
