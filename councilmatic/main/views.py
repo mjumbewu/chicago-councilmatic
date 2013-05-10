@@ -133,6 +133,18 @@ class AppDashboardView (BaseDashboardMixin,
         context_data['recent_topics'] = recent_topics
         return context_data
 
+class CouncilMembersView(views.TemplateView):
+    template_name = 'councilmatic/councilmembers.html'
+
+    def get_councilmembers(self):
+        return phillyleg.models.CouncilMember.objects.all().order_by('name')
+
+
+    def get_context_data(self, **kwargs):
+        context_data = super(CouncilMembersView, self).get_context_data(**kwargs)
+        context_data['councilmembers'] = self.get_councilmembers()
+        return context_data
+
 
 class CouncilMemberDetailView (BaseDashboardMixin,
                                subscriptions.views.SingleSubscriptionMixin,
@@ -157,7 +169,7 @@ class CouncilMemberDetailView (BaseDashboardMixin,
         JOIN phillyleg_legfile_sponsors ON phillyleg_legfile_sponsors.legfile_id = phillyleg_legfile.key
         WHERE phillyleg_metadata_topic.topic != 'Routine' AND phillyleg_legfile_sponsors.councilmember_id = {sponsor_id}
         GROUP BY phillyleg_metadata_topic.topic, phillyleg_metadata_topic.id
-        ORDER BY leg_count DESC""".format(sponsor_id=40)
+        ORDER BY leg_count DESC""".format(sponsor_id=self.object.id)
 
         return phillyleg.models.MetaData_Topic.objects.raw(topic_count_query)
 

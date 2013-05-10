@@ -18,8 +18,9 @@
 
       <!-- Main navigation menu items -->
           <ul class="nav">
-            <li class="{% if active == 'search' %} active{% endif %}"><a href="/search?q=&topics=Non-Routine">{% trans "Browse" %}</a></li>
-            <li class="first{% if active == 'about' %} active{% endif %}"><a href="/about">{% trans "About" %}</a></li>
+            <li><a href="/search?q=&topics=Non-Routine">{% trans "Browse" %}</a></li>
+            <li><a href="/members">{% trans "Aldermen" %}</a></li>
+            <li><a href="/about">{% trans "About" %}</a></li>
           </ul>
           <ul class="nav pull-right">
             {% if user.is_authenticated %}

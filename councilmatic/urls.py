@@ -62,6 +62,9 @@ urlpatterns = patterns(
         main.views.NewLegislationFeed(),
         name='legislation_feed'),
 
+    url(r'^members/$',
+        main.views.CouncilMembersView.as_view(),
+        name='councilmembers'),
     url(r'^member/(?P<pk>\d+)$', main.views.CouncilMemberDetailView.as_view(),
         name='councilmember_detail'),
 
