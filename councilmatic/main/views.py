@@ -4,6 +4,8 @@ from django.contrib.syndication.views import Feed as DjangoFeed
 from django.shortcuts import get_object_or_404
 from django.views import generic as views
 from haystack.query import SearchQuerySet
+import datetime
+from datetime import timedelta
 
 from cm_api.resources import SubscriberResource
 from main import feeds
@@ -68,7 +70,7 @@ class BaseDashboardMixin (SearchBarMixin,
 
     def get_recent_legislation(self):
         legfiles = self.get_filtered_legfiles()
-        return list(legfiles.exclude(metadata__topics__topic='Routine').order_by('-key')[:3])
+        return list(legfiles.exclude(metadata__topics__topic='Routine').order_by('-key')[:6])
 
     def get_context_data(self, **kwargs):
         search_form = forms.FullSearchForm()
@@ -102,19 +104,31 @@ class AppDashboardView (BaseDashboardMixin,
                        prefetch_related('references_in_legislation'))
 
     def get_recent_topics(self):
+        # get the month weeks of legislation
+        now = datetime.date.today()
+        one_month = datetime.timedelta(days=31)
+        date_string = now-one_month
+
         topic_count_query = """SELECT phillyleg_metadata_topic.id, phillyleg_metadata_topic.topic, Count(phillyleg_legfilemetadata.legfile_id) AS leg_count FROM phillyleg_metadata_topic
         JOIN phillyleg_legfilemetadata_topics ON phillyleg_legfilemetadata_topics.metadata_topic_id = phillyleg_metadata_topic.id
         JOIN phillyleg_legfilemetadata ON phillyleg_legfilemetadata.id = phillyleg_legfilemetadata_topics.legfilemetadata_id
         JOIN phillyleg_legfile ON phillyleg_legfile.key = phillyleg_legfilemetadata.legfile_id
-        WHERE phillyleg_legfile.intro_date > '4/1/2013'
+        WHERE phillyleg_legfile.intro_date > '{date_string}' AND phillyleg_metadata_topic.topic != 'Routine'
         GROUP BY phillyleg_metadata_topic.topic, phillyleg_metadata_topic.id
-        ORDER BY leg_count DESC"""
+        ORDER BY leg_count DESC""".format(date_string=date_string)
 
-        topics = phillyleg.models.MetaData_Topic.objects.raw(topic_count_query)
+        return phillyleg.models.MetaData_Topic.objects.raw(topic_count_query)
 
-        return topics
+
     def get_context_data(self, **kwargs):
-        recent_topics = self.get_recent_topics()
+
+        recent_topics_query = self.get_recent_topics()
+        recent_topics = []
+
+        for t in recent_topics_query:
+            percent_width = 100 * (float(t.leg_count) / float(recent_topics_query[0].leg_count))
+            recent_topics.append({'topic': t.topic, 'leg_count': t.leg_count, 'percent_width': percent_width})
+
         context_data = super(AppDashboardView, self).get_context_data(**kwargs)
         context_data['recent_topics'] = recent_topics
         return context_data
@@ -135,10 +149,23 @@ class CouncilMemberDetailView (BaseDashboardMixin,
     def get_district(self):
         return self.object.district
 
+    def get_topics(self):
+        topic_count_query = """SELECT phillyleg_metadata_topic.id, phillyleg_metadata_topic.topic, Count(phillyleg_legfilemetadata.legfile_id) AS leg_count FROM phillyleg_metadata_topic
+        JOIN phillyleg_legfilemetadata_topics ON phillyleg_legfilemetadata_topics.metadata_topic_id = phillyleg_metadata_topic.id
+        JOIN phillyleg_legfilemetadata ON phillyleg_legfilemetadata.id = phillyleg_legfilemetadata_topics.legfilemetadata_id
+        JOIN phillyleg_legfile ON phillyleg_legfile.key = phillyleg_legfilemetadata.legfile_id
+        JOIN phillyleg_legfile_sponsors ON phillyleg_legfile_sponsors.legfile_id = phillyleg_legfile.key
+        WHERE phillyleg_metadata_topic.topic != 'Routine' AND phillyleg_legfile_sponsors.councilmember_id = {sponsor_id}
+        GROUP BY phillyleg_metadata_topic.topic, phillyleg_metadata_topic.id
+        ORDER BY leg_count DESC""".format(sponsor_id=40)
+
+        return phillyleg.models.MetaData_Topic.objects.raw(topic_count_query)
+
     def get_context_data(self, **kwargs):
         district = self.get_district()
         context_data = super(CouncilMemberDetailView, self).get_context_data(**kwargs)
         context_data['district'] = district
+        context_data['recent_topics'] = self.get_topics()
         return context_data
 
 

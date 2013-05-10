@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load compress %}
+{% load cache %}
 {% load url from future %}
 
 {% block load_early %}
@@ -38,15 +39,13 @@
       </div> <!-- #dashboard-legislation-list -->
 
       <div id="dashboard-legislation-map" class="span5">
-        <h3>Topics from last session</h3>
-
-        <ul class='unstyled'>
+        <h3>Topics from the last month</h3>
+        {% cache 1800 recent_topics %}
         {% for topic in recent_topics %}
-          <li>
-            <strong><a href='/search?q=&topics={{topic.topic}}'>{{topic.topic}}</a></strong> {{topic.leg_count}}
-          </li>
+          <h4>{{topic.leg_count}} <a href='/search?q=&topics={{topic.topic}}'>{{topic.topic}}</a></h4>
         {% endfor %}
-        </ul>
+        {% endcache %}
+      </div>
 
     </section> <!-- dashboard-legislation -->
   </div>     <!-- dashboard -->
