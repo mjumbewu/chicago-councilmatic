@@ -6,7 +6,7 @@
   {% for sponsor in object.sponsors.all %}
     <li>
       <a href="{% url 'councilmember_detail' sponsor.pk %}">
-        <img width="30" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}" title="{{ sponsor.name }}">
+        <img class='img-polaroid' style="width: 30px;" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}" title="{{ sponsor.name }}">
         {{ sponsor.name }}
       </a>
     </li>
