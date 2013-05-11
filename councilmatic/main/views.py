@@ -137,12 +137,26 @@ class CouncilMembersView(views.TemplateView):
     template_name = 'councilmatic/councilmembers.html'
 
     def get_councilmembers(self):
-        return phillyleg.models.CouncilMember.objects.all().order_by('name')
+        return phillyleg.models.CouncilMember.objects.\
+               filter(title__icontains='alderman').\
+               exclude(title__icontains='former').order_by('name')
+
+    def get_former_councilmembers(self):
+        return phillyleg.models.CouncilMember.objects.\
+               filter(title__icontains='former').\
+               order_by('name')
+
+    def get_other_councilmembers(self):
+        return phillyleg.models.CouncilMember.objects.\
+               exclude(title__icontains='former').exclude(title__icontains='alderman').\
+               order_by('name')
 
 
     def get_context_data(self, **kwargs):
         context_data = super(CouncilMembersView, self).get_context_data(**kwargs)
         context_data['councilmembers'] = self.get_councilmembers()
+        context_data['former_councilmembers'] = self.get_former_councilmembers()
+        context_data['other_councilmembers'] = self.get_other_councilmembers()
         return context_data
 
 
