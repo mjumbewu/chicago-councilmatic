@@ -125,6 +125,7 @@ class LegFile(TimestampedModelMixin, models.Model):
     type = models.CharField(max_length=1000)
     url = models.URLField()
     version = models.CharField(max_length=100)
+    is_routine = models.BooleanField(default=True, blank=True)
 
     class Meta:
         ordering = ['-key']
