@@ -108,13 +108,18 @@ class HostedLegistarSiteWrapper (object):
                     'date_taken' : self.convert_date(act['Date']),
                     'acting_body' : act['Action By']['label'],
                     'motion' : act['Result'],
-                    'description' : act['Status'],
+                    'description' : act['Action'],
                     'notes' : ''
                     }
             except TypeError as e:
                 print e
                 print summary
                 continue
+            except KeyError as e :
+                print act
+                print e
+                print summary
+                raise
             actions.append(action)
 
         # we should probably remove this from the model since the hosted
