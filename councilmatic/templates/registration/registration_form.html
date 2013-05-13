@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-  <div id="box">
+  <div id="box" class='span10 offset1'>
     <div class="block" id="block-signup">
       <h2>Sign Up...</h2>
       <p>Register in order to subscribe to legislation feeds or to weigh in on legslation.</p>
@@ -16,7 +16,7 @@
         <fieldset class="inlineLabels">
         {{ form|as_uni_form }}
         <div class="buttonHolder">
-          <button type="submit" class="primaryAction">Done</button>
+          <button type="submit" class="primaryAction btn">Sign up</button>
           {% if request.GET.next %}
             <input type="hidden" name="next" value="{{ request.GET.next }}">
             <a href="{{ request.GET.next }}" class="secondaryAction">Cancel</a>

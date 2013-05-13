@@ -12,41 +12,25 @@
     <div class="block">
 
       <div class="content">
-        <div class="inner">
+        <div class="inner span10 offset1">
           <header>
-            <h2>Subscriptions for {{ user.email }}</h2>
+            <h2>Your subscriptions</h2>
+            <p>Manage the legislation you have subscribed to.</p>
           </header>
 
-            <ul id="subscription_list">
             {% for subscription in object_list %}
-              <li>
-                <h3>{{subscription|subscription_title}}</h3>
-                {% if subscription|has_been_sent %}
-                <p>Last sent on {{ subscription.last_sent|date }}</p>
-                {% endif %}
-                
-                <div>
-                  <a href="{% url "unsubscribe_confirmation" subscription.pk %}" id="unsubscribe_{{subscription.id}}_btn">Unsubscribe</a>
-                </div>
-              </li>
+              
+              <h4>{{subscription|subscription_title}}</h4>
+              {% if subscription|has_been_sent %}
+              <p>Last sent on {{ subscription.last_sent|date }}</p>
+              {% endif %}
+              
+              <div>
+                <a href="{% url "unsubscribe_confirmation" subscription.pk %}" id="unsubscribe_{{subscription.id}}_btn">Unsubscribe</a>
+              </div>
+              
             {% endfor %}
-            </ul>
 
-          <div class="pagination">
-            <span class="step-links">
-              {% if page_obj.has_previous %}
-                <a class="prev_page" href="?page={{ page_obj.previous_page_number }}">previous</a>
-              {% endif %}
-
-              <span class="current">
-                Page {{ page_obj.number }} of {{ paginator.num_pages }}.
-              </span>
-
-              {% if page_obj.has_next %}
-                <a class="next_page" href="?page={{ page_obj.next_page_number }}">next</a>
-              {% endif %}
-            </span>
-          </div>
         </div>
       </div>
     </div>

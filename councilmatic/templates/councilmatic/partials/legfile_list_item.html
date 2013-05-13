@@ -1,4 +1,5 @@
 {% load url from future %}
+{% load cache %}
 
 <span class="pull-right legislation_bookmark">
     {% if not no_bookmark %}
@@ -17,9 +18,11 @@
 <p> 
   <span class='label {{file.get_status_label}}'>{{ file.status }}</span> on {{ file.intro_date }} 
 </p>
+  {% cache 1800 file file.metadata.topics.all %}
   {% for topic in file.metadata.topics.all %}
     <a href="/search/?q=&topics={{ topic.topic }}"><span class="label {{ topic.get_label }}">{{ topic.topic }}</span></a>
   {% endfor %}
+  {% endcache %}
 
 <p>{{ file.title|truncatewords:25 }}</p>
 

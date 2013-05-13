@@ -117,7 +117,7 @@ class AppDashboardView (BaseDashboardMixin,
         GROUP BY phillyleg_metadata_topic.topic, phillyleg_metadata_topic.id
         ORDER BY leg_count DESC""".format(date_string=date_string)
 
-        return phillyleg.models.MetaData_Topic.objects.raw(topic_count_query)
+        return list(phillyleg.models.MetaData_Topic.objects.raw(topic_count_query))
 
 
     def get_context_data(self, **kwargs):

@@ -3,19 +3,15 @@
 {% load uni_form_tags %}
 {% load comments %}
 
-{% block load_early %}
-<!--  <link rel="stylesheet" href="{{ STATIC_URL }}phillyleg/legislation.css">-->
-{% endblock %}
-
 {% block content %}
-  <div id="box">
+  <div id="box" class='span10 offset1'>
     <div class="block" id="block-signin">
       <h2>Log In...</h2>
       <form class="uniForm" method="POST" action="{% url registration_login %}">{% csrf_token %}
         <fieldset class="inlineLabels">
         {{ form|as_uni_form }}
         <div class="buttonHolder">
-          <button type="submit" class="primaryAction">Done</button>
+          <button type="submit" class="primaryAction btn">Sign in</button>
           {% if request.GET.next %}
             <input type="hidden" name="next" value="{{ request.GET.next }}">
             <a href="{{ request.GET.next }}" class="secondaryAction">Cancel</a>
@@ -23,17 +19,5 @@
         </div>
         </fieldset>
       </form>
-
-<!-- Don't do social auth for now, until we're ready for it.
-      <div class="social_auth">
-        <p>Or log in with:</p>
-        <ul>
-          <li><a rel="nofollow" href="{% url socialauth_begin "twitter" %}"><img src="http://w.sharethis.com/images/twitter_32.png" alt="Twitter" title="Twitter"></a></li>
-          <li><a rel="nofollow" href="{% url socialauth_begin "facebook" %}"><img src="http://w.sharethis.com/images/facebook_32.png" alt="Facebook" title="Facebook"></a></li>
-          <li><a rel="nofollow" href="{% url socialauth_begin "google" %}"><img src="http://w.sharethis.com/images/google_bmarks_32.png" alt="Google" title="Google"></a></li>
-          <li><a rel="nofollow" href="{% url socialauth_begin "linkedin" %}"><img src="http://w.sharethis.com/images/linkedin_32.png" alt="LinkedIn" title="LinkedIn"></a></li>
-        </ul>
-    </div>
--->
   </div>
 {% endblock %}
