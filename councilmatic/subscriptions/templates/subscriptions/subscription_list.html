@@ -22,12 +22,12 @@
               
               <h4>{{subscription|subscription_title}}</h4>
               {% if subscription|has_been_sent %}
-              <p>Last sent on {{ subscription.last_sent|date }}</p>
+              <p>Last update sent on {{ subscription.last_sent|date }}</p>
               {% endif %}
               
-              <div>
-                <a href="{% url "unsubscribe_confirmation" subscription.pk %}" id="unsubscribe_{{subscription.id}}_btn">Unsubscribe</a>
-              </div>
+              <p>
+                <a href="{% url "unsubscribe_confirmation" subscription.pk %}" id="unsubscribe_{{subscription.id}}_btn" class='btn btn-danger'>Unsubscribe</a>
+              </p>
               
             {% endfor %}
 
