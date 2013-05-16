@@ -469,6 +469,10 @@ class MetaData_Location (TimestampedModelMixin, models.Model):
 
 class MetaData_Topic (models.Model):
     topic = models.CharField(max_length=128, unique=True)
+    parent_id = models.ForeignKey('self', null=True)
+
+    class Meta:
+        ordering = ['topic']
 
     def get_label(self):
 	if self.topic == 'Non-Routine' :

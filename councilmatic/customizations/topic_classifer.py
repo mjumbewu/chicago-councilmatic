@@ -1,6 +1,77 @@
+def within(s, l) :
+    return any(x in s for x in l)
+
 
 def topic_classifier(title) :
-    title = title.encode('ascii', 'ignore')
+    title = title.encode('ascii', 'ignore').lower()
+
+    # Ward Matters
+
+    ## Residents
+
+    tags = ['Ward Matters', 'Residents']
+
+    if title.startswith(('senior citizen sewer',)) :
+        return tags + ['Routine', 'Senior citizen sewer refund']
+
+    if title.startswith(('handicapped parking', 
+                                 'handicapped permit')) :
+        return tags + ['Routine', 'Handicapped Parking Permit']
+
+    if title.startswith(('condominium claim',
+                         'condominium refuse')) :
+        return tags + ['Routine', 'Condo Refuse Claim']
+
+    if title.startswith(('residential permit',
+                         'residential parking',
+                         'amendment of residential', 
+                         'buffer zone')) :
+        return tags + ['Routine', 'Residential permit parking']
+
+
+    ## Business Permits and Privileges
+
+    tags = ["Ward Matters", "Business Permits and Privileges"]
+    
+    if title.startswith(('sidewalk cafe',)) :
+        return tags + ['Routine', 'Sidewalk cafe']
+
+    if title.startswith(('grant(s) of privilege',
+                         'grant(s) of priviledge',
+                         'grant of privilege',
+                         'grant of privlage',
+                         'grant of priviege',
+                         'amendment of grant(s) of privilege')) :
+        return tags + ['Routine', 'Grant of privilege in public way']
+
+    if title.startswith('awning(s)') :
+        return tags + ['Routine', 'Awnings']
+
+    if 'issuance of permits for sign(s)/signboard(s)' in title :
+        return tags + ['Routine', 'Sign permits']
+
+    if title.startswith('canopy(s)') :
+        return tags + ['Routine', 'Canopy']
+
+
+    if title.startswith(('exemption from',)) :
+        return tags + ['Routine', 'Physical barrier exemption']
+
+    ## Land Use
+
+    if title.startswith('zoning reclassification') :
+        return ['Routine', 'Zoning Reclassification']
+
+    if within(title, ('4-60-022', '4-60-023')) :
+        return ['Non-Routine', 'Liquor and Package Store Restrictions']
+
+    if title.startswith(('Historical landmark designation',
+                         'Correction to Chicago Landmark Designation')) :
+        return ['Non-Routine', 'Historical Landmark']
+
+
+
+
 
     if 'damage to vehicle' in title.lower() or 'damage to vhicle' in title.lower():
         return ['Routine', 'Damage to vehicle claim']
@@ -11,8 +82,6 @@ def topic_classifier(title) :
     if 'Excessive water rate claim' in title :
         return ['Routine', 'Excessive water rate claim']
 
-    if 'Issuance of permits for sign(s)/signboard(s)' in title :
-        return ['Routine', 'Sign permits']
 
     if title.lower().startswith(('cancellation of warrants',)) :
         return ['Non-Routine', 'Cancellation of Warrants for Collection']
@@ -40,9 +109,6 @@ def topic_classifier(title) :
     if title.startswith(('Donation', 'Donate')) :
         return ['Non-Routine', 'Donation']
 
-    if title.startswith(('Sidewalk Cafe',
-                         'Sidewalk cafe')) :
-        return ['Routine', 'Sidewalk cafe']
 
     if title.startswith(('Loading/Standing/Tow Zone',
                          'Loading/Standing/Tow',
@@ -110,14 +176,6 @@ def topic_classifier(title) :
                          'Conduct of Sidewalk Sale')) :
         return ['Non-Routine', 'Sidewalk Sale']
 
-    if title.startswith(('Residential permit parking', 
-                         'Residential Permit Parking',
-                         'Amendment of residential', 
-                         'Residential Parking',
-                         'Residential parking',
-                         'Buffer zone',
-                         'Buffer Zone')) :
-        return ['Routine', 'Residential permit parking']
 
     if title.startswith(('Service drive', 'Service Drive')) :
         return ['Non-Routine', 'Service Drive/Diagonal Parking']
@@ -132,10 +190,6 @@ def topic_classifier(title) :
                          'Miscellaneous Signs')) :
         return ['Routine', 'Traffic signs and signals']
 
-    if title.startswith(('Senior citizen sewer',
-                         'Senior Citizen Sewer',
-                         'Senior Citizen Sewer Refunds')) :
-        return ['Routine', 'Senior citizen sewer refund']
 
     if 'easement agreement' in title.lower() :
         return ['Non-Routine', 'Easement Agreement']
@@ -161,23 +215,7 @@ def topic_classifier(title) :
     if title.startswith(('Submission of public question')) :
         return ['Non-Routine', 'Ballot Questions']
 
-    if title.startswith(('Grant(s) of privilege in public way',
-                         'Grant of privlage in public',
-                         'Grant of priviege',
-                         'Grant(s) of privilege',
-                         'Grant(s) of priviledge',
-                         'Grants of Privilege in the Public Way',
-                         'Grant of privilege in public way',
-                         'Grant(s) of Privilege in Public Way',
-                         'Amendment of grant(s) of privilege')) :
-        return ['Routine', 'Grant of privilege in public way']
 
-    if title.startswith(('Handicapped Parking Permit',
-                         'Handicapped Permit Parking',
-                         'Handicapped Parking',
-                         'Handicapped parking permit',
-                         'Handicapped permit parking')) :
-        return ['Routine', 'Handicapped Parking Permit']
 
     if title.startswith(('Speed Limitation', 'Speed limitation')) :
         return ['Non-Routine', 'Speed Limits']
@@ -220,14 +258,7 @@ def topic_classifier(title) :
         return ['Routine', 'Handicapped Parking Permit']
 
 
-    if title.startswith('Zoning Reclassification') :
-        return ['Routine', 'Zoning Reclassification']
 
-    if title.startswith('Awning(s)') :
-        return ['Routine', 'Awnings']
-
-    if title.startswith('Canopy(s)') :
-        return ['Routine', 'Canopy']
 
     if title.startswith(('Cancellation of Water',
                          'Cancellation of water',
@@ -272,10 +303,6 @@ def topic_classifier(title) :
         return ['Routine', 'Honorary street']
 
 
-    if title.startswith(('Condominium claim',
-                         'Condominium refuse',
-                         'Condominium Claim')) :
-        return ['Routine', 'Condo Claim']
 
     if title.startswith(('Call for hearing',)) :
         return ['Non-Routine', 'Call for Hearing']
@@ -466,12 +493,7 @@ def topic_classifier(title) :
     if 'Annual Appropriation' in title :
         return ['Non-Routine', 'Annual Appropriation']
 
-    if title.startswith(('Historical landmark designation',
-                         'Correction to Chicago Landmark Designation')) :
-        return ['Non-Routine', 'Historical Landmark']
 
-    if '4-60-022' in title or '4-60-023' in title :
-        return ['Non-Routine', 'Liquor and Package Store Restrictions']
 
     if '4-244-140' in title :
         return ['Non-Routine', 'Restrict Peddling']
@@ -531,9 +553,6 @@ def topic_classifier(title) :
                          )) or 'associated redevelopment agreement' in title :
         return ['Non-Routine', 'Redevelopment Agreement']
 
-    if title.lower().startswith(('exemption from',
-                                 'exemption from')) :
-        return ['Routine', 'Physical barrier exemption']
 
     if 'tax increment financing' in title.lower() :
         return ['Non-Routine', 'Tax Increment Financing']

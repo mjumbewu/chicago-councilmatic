@@ -33,6 +33,11 @@ class LocationAdmin (admin.GeoModelAdmin):
     model = MetaData_Location
     search_fields = ['address']
 
+class TopicAdmin (admin.ModelAdmin):
+    model = MetaData_Topic
+    extra = 0
+    ordering = ('topic',)
+
 class CouncilDistrictInline(admin.TabularInline):
     model = CouncilDistrict
     extra = 0
@@ -64,6 +69,7 @@ admin.site.register(LegMinutes, LegMinutesAdmin)
 admin.site.register(CouncilMember, CouncilMemberAdmin)
 admin.site.register(MetaData_Word, WordAdmin)
 admin.site.register(MetaData_Location, LocationAdmin)
+admin.site.register(MetaData_Topic, TopicAdmin)
 admin.site.register(LegFileMetaData)
 admin.site.register(CouncilDistrict, admin.GeoModelAdmin)
 admin.site.register(CouncilDistrictPlan, CouncilDistrictPlanAdmin)
