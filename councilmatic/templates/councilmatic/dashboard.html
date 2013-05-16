@@ -43,6 +43,22 @@
         {% cache 1800 recent_topics %}
         {% for topic in recent_topics %}
           <h4>{{topic.leg_count}} <a href='/search?q=&topics={{topic.topic}}'>{{topic.topic}}</a></h4>
+          {% if topic.children %}
+            <ul>
+            {% for child in topic.children %}
+              <li>
+                <strong>{{child.leg_count}}</strong> <a href='/search?q=&topics={{child.topic}}'>{{child.topic}}</a>
+                {% if child.children %}
+                  <ul>
+                  {% for second_child in child.children %}
+                    <li><strong>{{second_child.leg_count}}</strong> <a href='/search?q=&topics={{second_child.topic}}'>{{second_child.topic}}</a></li>
+                  {% endfor%}
+                  </ul>
+                {% endif %}
+              </li>
+            {% endfor%}
+            </ul>
+          {% endif %}
         {% endfor %}
         {% endcache %}
       </div>

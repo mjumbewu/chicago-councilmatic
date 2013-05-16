@@ -35,8 +35,10 @@ class LocationAdmin (admin.GeoModelAdmin):
 
 class TopicAdmin (admin.ModelAdmin):
     model = MetaData_Topic
+    list_display = ('topic', 'parent_id')
+    list_filter = ('parent_id',)
     extra = 0
-    ordering = ('topic',)
+    ordering = ('parent_id', 'topic')
 
 class CouncilDistrictInline(admin.TabularInline):
     model = CouncilDistrict

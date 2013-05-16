@@ -103,34 +103,46 @@ class AppDashboardView (BaseDashboardMixin,
                        all().filter(valid=True).order_by('-pk')[:10].\
                        prefetch_related('references_in_legislation'))
 
-    def get_recent_topics(self):
-        # get the month weeks of legislation
+    def get_parent_topics(self):
+        return list(phillyleg.models.MetaData_Topic.objects.all().\
+                    filter(parent_id__isnull=True).order_by('topic'))
+
+    def get_topic_leg_count(self, topic):
         now = datetime.date.today()
         one_month = datetime.timedelta(days=31)
         date_string = now-one_month
+        return phillyleg.models.LegFile.objects.filter(metadata__topics__id=topic.id, intro_date__gte=date_string).count()
 
-        topic_count_query = """SELECT phillyleg_metadata_topic.id, phillyleg_metadata_topic.topic, Count(phillyleg_legfilemetadata.legfile_id) AS leg_count FROM phillyleg_metadata_topic
-        JOIN phillyleg_legfilemetadata_topics ON phillyleg_legfilemetadata_topics.metadata_topic_id = phillyleg_metadata_topic.id
-        JOIN phillyleg_legfilemetadata ON phillyleg_legfilemetadata.id = phillyleg_legfilemetadata_topics.legfilemetadata_id
-        JOIN phillyleg_legfile ON phillyleg_legfile.key = phillyleg_legfilemetadata.legfile_id
-        WHERE phillyleg_legfile.intro_date > '{date_string}' AND phillyleg_metadata_topic.topic != 'Routine'
-        GROUP BY phillyleg_metadata_topic.topic, phillyleg_metadata_topic.id
-        ORDER BY leg_count DESC""".format(date_string=date_string)
+    def get_topic_children(self, topic):
+        children_topics_query = list(phillyleg.models.MetaData_Topic.objects.all().filter(parent_id=topic.id).order_by('topic'))
+        children_topics = []
 
-        return list(phillyleg.models.MetaData_Topic.objects.raw(topic_count_query))
+        if children_topics_query.count == 0:
+            return
 
+        for t in children_topics_query:
+            leg_count = self.get_topic_leg_count(t)
+            if leg_count > 0:
+                children = self.get_topic_children(t)
+                children_topics.append({'topic': t.topic, 'leg_count': leg_count, 'children': children})
+
+        return children_topics
 
     def get_context_data(self, **kwargs):
 
-        recent_topics_query = self.get_recent_topics()
+        parent_topics_query = self.get_parent_topics()
         recent_topics = []
 
-        for t in recent_topics_query:
-            percent_width = 100 * (float(t.leg_count) / float(recent_topics_query[0].leg_count))
-            recent_topics.append({'topic': t.topic, 'leg_count': t.leg_count, 'percent_width': percent_width})
+        for t in parent_topics_query:
+            leg_count = self.get_topic_leg_count(t)
+            if leg_count > 0:
+                children = self.get_topic_children(t)
+                recent_topics.append({'topic': t.topic, 'leg_count': leg_count, 'children': children})
 
         context_data = super(AppDashboardView, self).get_context_data(**kwargs)
         context_data['recent_topics'] = recent_topics
+
+        log.debug(context_data)
         return context_data
 
 class CouncilMembersView(views.TemplateView):
