@@ -41,25 +41,44 @@
       <div id="dashboard-legislation-map" class="span5">
         <h3>Topics from the last month</h3>
         {% cache 1800 recent_topics %}
-        {% for topic in recent_topics %}
-          <h4>{{topic.leg_count}} <a href='/search?q=&topics={{topic.topic}}'>{{topic.topic}}</a></h4>
-          {% if topic.children %}
-            <ul>
-            {% for child in topic.children %}
-              <li>
-                <strong>{{child.leg_count}}</strong> <a href='/search?q=&topics={{child.topic}}'>{{child.topic}}</a>
-                {% if child.children %}
-                  <ul>
-                  {% for second_child in child.children %}
-                    <li><strong>{{second_child.leg_count}}</strong> <a href='/search?q=&topics={{second_child.topic}}'>{{second_child.topic}}</a></li>
-                  {% endfor%}
-                  </ul>
+        <div class='accordion' id='view_accordion'>
+          {% for topic in recent_topics %}
+            <div class='accordion-group'>
+              <div class='accordion-heading'>
+                {% if topic.children %}
+                  <a class='accordion-toggle pull-left' data-parent='#view_accordion' data-toggle='collapse' data-view='{{topic.topic}}' href='#category_{{topic.id}}'>
+                    <i class='icon-plus'></i>
+                  </a>
+                {% else %}
+                  <a href='#' class='accordion-toggle pull-left'>
+                    <i class='icon-none'></i>
+                  </a>
                 {% endif %}
-              </li>
-            {% endfor%}
-            </ul>
-          {% endif %}
-        {% endfor %}
+                <h4><strong>{{topic.leg_count}}</strong> <a href='/search?q=&topics={{topic.topic}}'>{{topic.topic}}</a></h4>
+                <div class='clearfix'></div>
+              </div>
+              {% if topic.children %}
+                <div class='accordion-body collapse' id='category_{{topic.id}}'>
+                  <div class='accordion-inner' id='category_inner_{{topic.id}}'>
+                    <ul>
+                    {% for child in topic.children %}
+                      <li>
+                        <strong>{{child.leg_count}}</strong> <a href='/search?q=&topics={{child.topic}}'>{{child.topic}}</a>
+                        {% if child.children %}
+                          <ul>
+                          {% for second_child in child.children %}
+                            <li><strong>{{second_child.leg_count}}</strong> <a href='/search?q=&topics={{second_child.topic}}'>{{second_child.topic}}</a></li>
+                          {% endfor%}
+                          </ul>
+                        {% endif %}
+                      </li>
+                    {% endfor%}
+                    </ul>
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
         {% endcache %}
       </div>
 

@@ -105,7 +105,7 @@ class AppDashboardView (BaseDashboardMixin,
 
     def get_parent_topics(self):
         return list(phillyleg.models.MetaData_Topic.objects.all().\
-                    filter(parent_id__isnull=True).order_by('topic'))
+                    filter(parent_id__isnull=True).exclude(topic='Routine').order_by('topic'))
 
     def get_topic_leg_count(self, topic):
         now = datetime.date.today()
@@ -124,9 +124,10 @@ class AppDashboardView (BaseDashboardMixin,
             leg_count = self.get_topic_leg_count(t)
             if leg_count > 0:
                 children = self.get_topic_children(t)
-                children_topics.append({'topic': t.topic, 'leg_count': leg_count, 'children': children})
+                children_topics.append({'id': t.id, 'topic': t.topic, 'leg_count': leg_count, 'children': children})
 
-        return children_topics
+        children_topics_sorted = sorted(children_topics, key=lambda k: k['leg_count'], reverse=True)
+        return children_topics_sorted
 
     def get_context_data(self, **kwargs):
 
@@ -137,12 +138,14 @@ class AppDashboardView (BaseDashboardMixin,
             leg_count = self.get_topic_leg_count(t)
             if leg_count > 0:
                 children = self.get_topic_children(t)
-                recent_topics.append({'topic': t.topic, 'leg_count': leg_count, 'children': children})
+                recent_topics.append({'id': t.id, 'topic': t.topic, 'leg_count': leg_count, 'children': children})
 
+        recent_topics_sorted = sorted(recent_topics, key=lambda k: k['leg_count'], reverse=True)
         context_data = super(AppDashboardView, self).get_context_data(**kwargs)
-        context_data['recent_topics'] = recent_topics
+        context_data['recent_topics'] = recent_topics_sorted
 
-        log.debug(context_data)
+        log.debug(recent_topics_sorted)
+
         return context_data
 
 class CouncilMembersView(views.TemplateView):
@@ -187,23 +190,46 @@ class CouncilMemberDetailView (BaseDashboardMixin,
     def get_district(self):
         return self.object.district
 
-    def get_topics(self):
-        topic_count_query = """SELECT phillyleg_metadata_topic.id, phillyleg_metadata_topic.topic, Count(phillyleg_legfilemetadata.legfile_id) AS leg_count FROM phillyleg_metadata_topic
-        JOIN phillyleg_legfilemetadata_topics ON phillyleg_legfilemetadata_topics.metadata_topic_id = phillyleg_metadata_topic.id
-        JOIN phillyleg_legfilemetadata ON phillyleg_legfilemetadata.id = phillyleg_legfilemetadata_topics.legfilemetadata_id
-        JOIN phillyleg_legfile ON phillyleg_legfile.key = phillyleg_legfilemetadata.legfile_id
-        JOIN phillyleg_legfile_sponsors ON phillyleg_legfile_sponsors.legfile_id = phillyleg_legfile.key
-        WHERE phillyleg_metadata_topic.topic != 'Routine' AND phillyleg_legfile_sponsors.councilmember_id = {sponsor_id}
-        GROUP BY phillyleg_metadata_topic.topic, phillyleg_metadata_topic.id
-        ORDER BY leg_count DESC""".format(sponsor_id=self.object.id)
+    def get_parent_topics(self):
+        return list(phillyleg.models.MetaData_Topic.objects.all().\
+                    filter(parent_id__isnull=True).exclude(topic='Routine').order_by('topic'))
 
-        return phillyleg.models.MetaData_Topic.objects.raw(topic_count_query)
+    def get_topic_leg_count(self, topic):
+        return phillyleg.models.LegFile.objects.filter(metadata__topics__id=topic.id, sponsors__id=self.object.id).count()
+
+    def get_topic_children(self, topic):
+        children_topics_query = list(phillyleg.models.MetaData_Topic.objects.all().filter(parent_id=topic.id).order_by('topic'))
+        children_topics = []
+
+        if children_topics_query.count == 0:
+            return
+
+        for t in children_topics_query:
+            leg_count = self.get_topic_leg_count(t)
+            if leg_count > 0:
+                children = self.get_topic_children(t)
+                children_topics.append({'id': t.id, 'topic': t.topic, 'leg_count': leg_count, 'children': children})
+
+        children_topics_sorted = sorted(children_topics, key=lambda k: k['leg_count'], reverse=True)
+        return children_topics_sorted
 
     def get_context_data(self, **kwargs):
         district = self.get_district()
         context_data = super(CouncilMemberDetailView, self).get_context_data(**kwargs)
         context_data['district'] = district
-        context_data['recent_topics'] = self.get_topics()
+
+        parent_topics_query = self.get_parent_topics()
+        recent_topics = []
+
+        for t in parent_topics_query:
+            leg_count = self.get_topic_leg_count(t)
+            if leg_count > 0:
+                children = self.get_topic_children(t)
+                recent_topics.append({'id': t.id, 'topic': t.topic, 'leg_count': leg_count, 'children': children})
+
+        recent_topics_sorted = sorted(recent_topics, key=lambda k: k['leg_count'], reverse=True)
+
+        context_data['recent_topics'] = recent_topics_sorted
         return context_data
 
 

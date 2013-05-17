@@ -15,12 +15,18 @@ def topic_classifier(title) :
         return tags + ['Routine', 'Senior citizen sewer refund']
 
     if title.startswith(('handicapped parking', 
-                                 'handicapped permit')) :
+                         'handicapped permit')) :
         return tags + ['Routine', 'Handicapped Parking Permit']
 
     if title.startswith(('condominium claim',
+                         'denial of condo',
+                         'denials of condo',
+                         'denials condo',
+                         'denied condo',
                          'condominium refuse')) :
         return tags + ['Routine', 'Condo Refuse Claim']
+
+
 
     if title.startswith(('residential permit',
                          'residential parking',
@@ -39,6 +45,7 @@ def topic_classifier(title) :
     if title.startswith(('grant(s) of privilege',
                          'grant(s) of priviledge',
                          'grant of privilege',
+                         'grants of privilege',
                          'grant of privlage',
                          'grant of priviege',
                          'amendment of grant(s) of privilege')) :
@@ -47,522 +54,640 @@ def topic_classifier(title) :
     if title.startswith('awning(s)') :
         return tags + ['Routine', 'Awnings']
 
-    if 'issuance of permits for sign(s)/signboard(s)' in title :
+    if within(title, ('issuance of permits for sign(s)/signboard(s)',
+                      'install signs')) :
         return tags + ['Routine', 'Sign permits']
 
     if title.startswith('canopy(s)') :
         return tags + ['Routine', 'Canopy']
 
 
-    if title.startswith(('exemption from',)) :
+    if title.startswith(('exemption from', 'exemption for physical')) :
         return tags + ['Routine', 'Physical barrier exemption']
+
+    if title.startswith(('conduct of sidewalk sale', 
+                         'sidewalk sale')) : 
+        return tags + ['Non-Routine', 'Sidewalk Sale']
+
+
+    if title.startswith(('industrial permit parking',)) :
+        return tags + ['Non-Routine', 'Industrial Permit Parking']
+
+
+
 
     ## Land Use
 
+    tags = ["Ward Matters", "Land Use"]
+
+    if '4-244-140' in title :
+        return tags + ['Non-Routine', 'Restrict Peddling']
+
     if title.startswith('zoning reclassification') :
-        return ['Routine', 'Zoning Reclassification']
+        return tags + ['Routine', 'Zoning Reclassification']
 
     if within(title, ('4-60-022', '4-60-023')) :
-        return ['Non-Routine', 'Liquor and Package Store Restrictions']
+        return tags + ['Non-Routine', 'Liquor and Package Store Restrictions']
 
-    if title.startswith(('Historical landmark designation',
-                         'Correction to Chicago Landmark Designation')) :
-        return ['Non-Routine', 'Historical Landmark']
+    if within(title, ('pedestrian street', 'pedestrian retail street')) :
+        return tags + ['Non-Routine', 'Pedestrian Street']
 
-
-
-
-
-    if 'damage to vehicle' in title.lower() or 'damage to vhicle' in title.lower():
-        return ['Routine', 'Damage to vehicle claim']
-
-    if 'Damage to property claim' in title :
-        return ['Routine', 'Damage to property claim']
-
-    if 'Excessive water rate claim' in title :
-        return ['Routine', 'Excessive water rate claim']
+    if title.startswith(('historical landmark designation',
+                         'correction to chicago landmark designation')) :
+        return tags + ['Non-Routine', 'Historical Landmark']
 
 
-    if title.lower().startswith(('cancellation of warrants',)) :
-        return ['Non-Routine', 'Cancellation of Warrants for Collection']
-
-    if title.startswith(('No Cruising',)) :
-        return ['Non-Routine', 'No Cruising Zone']
-
-    if title.startswith(('Free permit', 
-                         'Fee Exemption',
-                         'Refund of fee',
-                         'Waiver of public way use permit fee',
-                         'Fee exemption',
-                         'Waiver of community identifier sign permit fee',
-                         'Waiver of Fees', 
-                         'Waiver of fee',
-                         'Waiver of special event',
-                         'Exemption of public way use',
-                         'Cancellation of public way use permit fee', 
-                         'Waiver of permit fee',
-                         'Waiver of public use permit fee',
-                         'License Fee Exemption',
-                         'License fee exemption')) :
-        return ['Non-Routine', 'Free Permits or License']
-
-    if title.startswith(('Donation', 'Donate')) :
-        return ['Non-Routine', 'Donation']
+    if 'subdivision' in title or 'resubdivision' in title:
+        return tags + ['Non-Routine', 'Subdivison']
 
 
-    if title.startswith(('Loading/Standing/Tow Zone',
-                         'Loading/Standing/Tow',
-                         'Amendment of Loading',
-                         'Repeal Loading',
-                         'Tow Zones',
-                         'Tow Zone - Street Cleaning',
-                         'Tow Zone(s) - Street Cleaning',
-                         'Traffic Lane - Tow/Away Zone',
-                         'Traffic Lane',
-                         'Traffic Lane Tow',
-                         'Loading Zone',
-                         'Traffic Lane Tow-Away Zones')) : 
-        return ['Routine', 'Loading/Standing/Tow Zone']
 
-    if title.startswith(('Speed hump',)) :
-        return ['Non-Routine', 'Speed Hump']
+    ## Economic Development
 
-    if title.startswith(('Support of Class 6(b)',
-                         'Support of Class L',
-                         'Class C',
-                         'Class L',
-                         'Designation of Class 7',
-                         'Support of Class C',
-                         'Expression of consent for Class 7')) :
-        return ['Non-Routine', 'Tax Incentives']
+    tags = ["Ward Matters", "Economic Development"]
 
-    if 'Subdivision' in title or 'Resubdivision' in title:
-        return ['Non-Routine', 'Subdivison']
+    if title.startswith(('support of class 6(b)',
+                         'support of class l',
+                         'class c',
+                         'class l',
+                         'designation of class 7',
+                         'support of class c',
+                         'expression of consent for class 7')) :
+        return tags + ['Non-Routine', 'Tax Incentives']
+
+    if 'tax increment financing' in title :
+        return tags + ['Non-Routine', 'Tax Increment Financing']
+
+    if 'redevelopment project area' in title.lower() :
+        return tags + ['Non-Routine', 'Tax Increment Financing']
 
 
-    if title.startswith(('Congratulations extended', 
-                         'Congratulations and best wishes',
-                         'Congratulation',
-                         'Congratulations to',
-                         'Congradulations',
-                         'Congraulations',
-                         'Recoginition',
-                         'congratulations',
-                         'Commemoration of', 
-                         'Tribute to', 
-                         'Declaraton',
-                         'Posthumous gratitude',
-                         'Commendations extended to',
-                         'Gratitude',
-                         'Best wishes extended',
-                         'Gratitude to',
-                         'Grattitude extended',
-                         'Condolences extended',
-                         'Recognition extended',
-                         'Posthumous congratulations',
-                         'Expression of condolence',
-                         'Recognition of',
-                         'Expression sympathy',
-                         'Honoring',
-                         'Welcome extended')) or 'declaration' in title.lower() :
-        return ['Routine', 'Honorific']
-
-    if 'commemorative' in title.lower() :
-        return ['Routine', 'Honorific Marker']
+    if ('transfer of tif funds' in title 
+        or ('allocation of' in title and 'tif funds' in title)):
+        return tags + ['Non-Routine', 'Tax Increment Financing']
 
 
-    if title.startswith(('Conduct of sidewalk sale', 
-                         'Sidewalk sale', 
-                         'Conduct of Sidewalk Sale')) :
-        return ['Non-Routine', 'Sidewalk Sale']
-
-
-    if title.startswith(('Service drive', 'Service Drive')) :
-        return ['Non-Routine', 'Service Drive/Diagonal Parking']
-
-    if title.startswith(('Traffic sign', 
-                         'Traffic Signs',
-                         'Traffic Sign(s)',
-                         'Traffic Warning Signs',
-                         'Traffic Warning Sign and/or Signals',
-                         'Traffic warning sign and/or signals',
-                         'Traffic sign',
-                         'Miscellaneous Signs')) :
-        return ['Routine', 'Traffic signs and signals']
-
-
-    if 'easement agreement' in title.lower() :
-        return ['Non-Routine', 'Easement Agreement']
-
-    if 'tifworks' in title.lower() :
-        return ['Non-Routine', 'TIFWorks']
+    if 'tifworks' in title :
+        return tags + ['Non-Routine', 'Tax Increment Financing']
 
     if ('neighborhood improvement program' in title.lower() 
         or 'neighborhood investment program' in title.lower()
         or 'tif-nip' in title.lower() ) :
-        return ['Non-Routine', 'TIF Neighborhood Improvement Program']
+        return tags + ['Non-Routine', 'Tax Increment Financing']
 
-    if 'neighborhood stabilization program' in title.lower() :
-        return ['Non-Routine', 'Neighborhood Stabilization Program']
 
-    if 'transfer of tif funds' in title.lower() or ('allocation of' in title.lower() and 'tif funds' in title.lower()):
-        return ['Non-Routine', 'Transfer of TIF funds']
+    if title.startswith('amendment') and 'tif' in title and 'budget' in title  :
+        return tags + ['Non-Routine', 'Tax Increment Financing']
 
 
-    if 'CDBG' in title or 'Community Development Block Grant ordinance' in title:
-        return ['Non-Routine', 'Community Development Block Grant']
+    if within(title, ('s.s.a.', 
+                      ' ssa', 
+                      'special service no', 
+                      'special service area')) :
+        return tags + ['Non-Routine', 'Special Service Area']
 
-    if title.startswith(('Submission of public question')) :
-        return ['Non-Routine', 'Ballot Questions']
 
 
 
-    if title.startswith(('Speed Limitation', 'Speed limitation')) :
-        return ['Non-Routine', 'Speed Limits']
+#                         'Issue Special Event',
+#                         'waiver of permit fees',
 
-    if title.startswith(('Lease agreement')) :
-        return ['Non-Routine', 'Lease agreement']
+    ## Special Events
 
-    if title.startswith(('Parking Meters', 
-                         'Parking meters',
-                         'Amendment of parking meters',
-                         'Installation and removal of parking meters',
-                         'Removal and relocation of parking meters')) :
-        return ['Non-Routine', 'Parking Meters']
-        
-    if title.startswith(('Limited Local Access',)) :
-        return ['Non-Routine', 'Limited Local Access']
+    if title.startswith(('permission to hold', 
+                         'permission to hold',
+                         'issue special event',
+                         'issuance of special event license')) :
+        return tags + ['Non-Routine', 'Special Events']
 
-    if title.startswith(('Parking prohibited',
-                         'Amendment of parking prohibition',
-                         'Parking Prohibited',
-                         'Parking Prohibitited',
-                         'Parking Limited',
-                         'Parking Limitation',
-                         'Parking limitation',
-                         'Parking Restrictions',
-                         'Parking limited',
-                         'Amendment of parking limitation',
-                         )) :
-        return ['Routine', 'Parking Restrictions']
 
-    if title.startswith('Amendment') and 'tif' in title.lower() and 'budget' in title.lower() :
-        return ['Non-Routine', 'TIF Budget']
 
-    if title.startswith(('Inspector General')) :
-        return ['Non-Routine', "Inspector General"]
-
-
-    if title.startswith(('Handicapped Parking Permit',
-                         'Handicapped permit parking')) :
-        return ['Routine', 'Handicapped Parking Permit']
-
-
-
-
-    if title.startswith(('Cancellation of Water',
-                         'Cancellation of water',
-                         'Cancellation of Warrants for Water')) :
-        return ['Routine', 'Cancellation of Water/Sewer']
-
-
-
-    if title.startswith(('Tag day permit', 
-                         'Tag days permit',
-                         'Tag day pernmit',
-                         'Tag day(s) permit')) :
-        return ['Non-Routine', 'Tag Day Permits']
-
-    if title.startswith(('Correction of City Council Journal',
-                         'Correction of Journal')) :
-        return ['Non-Routine', 'Correction of City Council Journal']
-
-    if title.startswith(('Payment of',
-                         'Payments of',
-                         'Payment for various',
-                         'Denying payment',
-                         'Denials of Condo',
-                         'Denials Condo',
-                         'Denied Condo',
-                         'Denied various claims',
-                         'Various small claims',
-                         'Small Claims',
-                         'Denied condo',
-                         'Denials of various',
-                         'Denial of various',
-                         'Payment of various small claims')) :
-        return ['Non-Routine', 'Settlement of Claims']
-
-    if title.startswith(('Closed to', 'Close to', 'Closure to vehic', 'Traffic closure')) :
-        return ['Non-Routine', 'Traffic Closure']
-
-
-    if title.startswith(('Honorary street designation',
-                         'Designation of "Ed and Betty Gardner Street"',
-                         'Dedication of')) :
-        return ['Routine', 'Honorary street']
-
-
-
-    if title.startswith(('Call for hearing',)) :
-        return ['Non-Routine', 'Call for Hearing']
-
-    if title.startswith(('Transfer of Funds to Committee',
-                         'Transfer of funds within Committee',
-                         'Transfer of funds within the City Council Committee',
-                         'Transfer of funds within the Committee',
-                         'Transfer of Year 2013 funds within Committee',
-                         'Transfer of funds to Committee')) :
-        return ['Non-Routine', 'Transfer of Committee Funds']
-
-    if title.startswith(('One Time Exception to Wrigley Field',
-                         'One Time Exception to Wrigley',
-                         'Amendment of Wrigley Field',
-                         'Amendment of Night Game',
-                         'One Time Exception to Night Game',
-                         'Amendment of Wrigley Adjacent Area')) :
-        return ['Non-Routine', 'Wrigley Field']
-
-    if title.startswith(('Traffic Direction',
-                         'Single Direction',
-                         'One Way Traffic',
-                         'One-Way Traffic',
-                         'Repeal one-way',
-                         'One-way traffic',
-                         'Traffic direction')) :
-        return ['Non-Routine', 'Traffic Direction']
-
-    if title.startswith(('Free Permit', 'Refund of Fees')) :
-        return ['Non-Routine', 'Free Permits']
-
-    if title.startswith(('Collective Bargaining', 'Collective bargaining')) :
-        return ['Non-Routine', 'Labor Agreement']
-
-    if title.startswith(('Intergovernmental agreement', 
-                         'Renewal of intergovernment',
-                         'Intergovernment agreement',
-                         'Amendment of intergovernmental agreement',
-                         'Intergovernmental Agreement')) :
-        return ['Non-Routine', 'Intergovernmental Agreement']
-
-    if title.startswith(('Waiver of special event license',
-                         'Waiver of annual public assembly fee',
-                         'Waiver of permit fees',
-                         'Wavier of special event tent',
-                         'Waiver of street closure permit fee',
-                         'Issue Special Event',
-                         'Waiver of Special Event License')) :
-        return ['Non-Routine', 'Waiver of Special Event License or Permits Fees']
-
-    if 'motor fuel tax funds' in title.lower() :
-        return ['Non-Routine', 'Motor Fuel Tax Funds']
-
-    if title.startswith(('Settlement agreement', 
-                         'Sylwia Marcincryk v.',
-                         'Setttlement order',
-                         'Settlement order',
-                         'Judgement and Settlement Report',
-                         'Judgements or settlements',
-                         'Judgment and Settlement',
-                         'Judgement or settlments',
-                         'Judgement or Settlement Report')) :
-        return ['Non-Routine', 'Settlement Agreement']
-
-    if title.lower() == 'test' or title.lower().startswith(('system test', 'test')) :
-        return ['Routine', 'Test']
-    
-    if title.startswith(('Removal of Taxicab Stand',
-                         'Repeal of Taxicab Stand',
-                         'Taxicab stand',
-                         'Taxicab Stand',
-                         'Amendment of taxicab',
-                         'Amendment of Taxicab Stand',
-                         'Establish Taxicab',
-                         'Establishment of Taxicab Stand',
-                         'Establishment of taxicab stand')) :
-        return ['Non-Routine', 'Taxicab Stand']
-
-    if title.startswith(('Appointment', 'Reappointment')) :
-        return ['Non-Routine', 'Appointment']
-
-    if title.startswith(('Issuance of special event license',)) :
-        return ['Non-Routine', 'Special Event License']
-
-    if title.startswith(('Waiver of special event raffle license',)) :
-        return ['Non-Routine', 'Waiver of Special Event Raffle License Fees']
-
-    if title.startswith(('Call for',
-                         'Call upon',
-                         'Expression of support',
-                         'Support of',
-                         'Expression of opposition',
-                         'Denouncement',
-                         'Condemnation of')) :
-        return ['Non-Routine', 'Exhortation']
-
-    if title.startswith(('Historical landmark fee',
-                         'Landmark fee waiver')) :
-        return ['Non-Routine', 'Historical Landmark Fee Waiver']
-
-    if title.startswith(('Vacation', 'Amendment of vacation')) :
-        return ['Non-Routine', 'Vacation of Public Street']
-
-    if ('S.S.A.' in title or 'SSA' in title or 'Special Service No' in title 
-        or 'special service area' in title.lower()) :
-        return ['Non-Routine', 'Special Service Area']
-
-    if 'pilot parking program' in title.lower() :
-        return ['Non-Routine', 'Pilot Parking Program']
-                         
-
-    if title.startswith(('Permission to hold', 'Permission to Hold')) :
-        return ['Non-Routine', 'Event Permission']
-
-    if title.startswith(('Loan agreement', 
-                         'Multi-family loan agreement',
-                         'Loan assumption',
-                         'Amendment of terms',
-                         'Loan modification',
-                         'Amendment of terms on loan agreement',
-                         'Amendment of loan agreement',
-                         'Amendment to loan agreement',
-                         'Loan Agreement',
-                         'Loan restructure')) :
-        return ['Non-Routine', 'Loan Agreement']
-
-    if (' Bonds' in title or ' bond issuance ' in title 
-        or ' bond proceeds ' in title  or ' bonds ' in title) : 
-        return ['Non-Routine', 'Bonds']
-
-    if title.startswith(('Lease Agreement', 
-                         'Lease agreement', 
-                         'Sub-lease agreement',
-                         'Amendment of lease')) :
-        return ['Non-Routine', 'Lease Agreement']
-
-    if title.startswith(('Traffic regulations',
-                         'Traffic Regulations',
-                         'Failed to Pass Traffic Regulation',
-                         'Various traffic regulations',
-                         'Construction of Traffic Circles')):
-        return ['Non-Routine', 'Traffic Regulation']
-
-    if title.startswith(('Expenditure of Open Space',
-                         'Expenditure of open space')) :
-        return ['Non-Routine', 'Open Space Imact Funds']
-
-    if title.startswith(("Laborers' and Retirement Board",
-                         'Retirement Board of Policemen',
-                         'Retirement Board of Firemen')) :
-        return ['Non-Routine', 'Pensions']
-
-    if title.startswith(('Affordable Housing Plan')) :
-        return ['Non-Routine', 'Affordable Housing']
-
-    if title.startswith(('City Comptroller',
-                         'City of Chicago Annual Financial Analysis',
-                         'Comprehensive Annual Financial Report')) :
-        return ['Non-Routine', 'Financial Reports']
-
-    if title.startswith(('Sale of City-owned propert',
-                         'Amendment of acquisition of property',
-                         'Sale of City-owned Propert',
-                         'Conveyance of City-owned prop',
-                         'Approval of land sale',
-                         'Acceptance of bid for property',
-                         'Conveyance of City land',
-                         'Conveyance of City propert',
-                         'Land transfer',
-                         'Transfer of Merchant Park property',
-                         'Amendment to terms of previously authorized land transactions',
-                         'Transfer of parcels',
-                         'Transfer of property to',
-                         'Acceptance of propert',
-                         'Conveyance of propert',
-                         'Amendment of land sale',
-                         'Conveyance of open space land',
-                         'Negotiated sale of City-owned property',
-                         'Acquisition')) :
-        return ['Non-Routine', 'Acquisition, Sale, and Conveyance of Property']
-
-    if title.lower().startswith(('not-for-profit fee exemption',
-                                 'sewer refund',
-                                 'Refund of fee')) :
-        return ['Non-Routine', 'Not-for-Profit Fee Exemption']
-
-    if 'Annual Appropriation' in title :
-        return ['Non-Routine', 'Annual Appropriation']
-
-
-
-    if '4-244-140' in title :
-        return ['Non-Routine', 'Restrict Peddling']
-
-    if 'small business improvement fund' in title :
-        return ['Non-Routine', 'Small Business Improvement Fund']
-
-
-    if title.startswith(('Amendment of Section',
-                         'Amendment of Subsection',
-                         'Amendment of Title',
-                         'Amendment of various provisions of Municipal',
-                         'Amendment of various sections of Municipal Code',
-                         'Repeal of Section',
-                         'Amendment of Municipal Code',
-                         'Amendment to Municipal Code',
-                         'Amendment of Chapter')) :
-        return ['Non-Routine', 'Legislation']
-
-    if title.startswith(('Fixed for next City Council Meeting',
-                         'Time Fixed',
-                         'Time Fixed for next City Council Meeting',
-                         'Amending City Council meeting time')) :
-        return ['Routine', 'Next Meeting']
-
-    if title == '':
-        return ['No Info']
-
-
-    if title.startswith(('Industrial Permit Parking',
-                         'Industrial permit parking')) :
-        return ['Non-Routine', 'Industrial Permit Parking']
-
-    if title.startswith(('Oath',)) :
-        return ['Non-Routine', 'Oath of Office']
-
-    if title.startswith(('Pay rate of hospital', 
-                         'Payment of hospital and med')) :
-        return ['Routine', 'Police and Firefighter Medical Bills']
-
-    if title.startswith(('Independent Police Review',
-                         'Police Review Authority',
-                         'Police Board')) :
-        return ['Non-Routine', 'Police Oversight']
-
-    if title.startswith(('Vehicle weight',
-                         'Vehicle weigh',
-                         'Weight Limitation',
-                         'Vehicle Weight', 
-                         'Weigh Limitation')) :
-        return ['Non-Routine', 'Vehicle Weight Limitation']
-
-    if title.startswith(('Redevelopment agreement',
-                         'Amendment to previous redevelopment agreement',
-                         'Amendment of redevelopment agreement',
-                         'First amendment to redevelopment agreement',
-                         )) or 'associated redevelopment agreement' in title :
-        return ['Non-Routine', 'Redevelopment Agreement']
-
-
-    if 'tax increment financing' in title.lower() :
-        return ['Non-Routine', 'Tax Increment Financing']
-
-    if 'redevelopment project area' in title.lower() :
-        return ['Non-Routine', 'Redevelopment Project Area']
+    ## Free Permits
+
+    tags = ["Ward Matters"]
+
+    if title.startswith(('waiver of annual public assembly fee',
+                         'wavier of special event tent',
+                         'waiver of special event',
+                         'waiver of street closure permit fee' )) :
+        return tags + ['Non-Routine', 'Fee Waiver']
+
+    if title.lower().startswith(('cancellation of warrants',)) :
+        return tags + ['Non-Routine', 'Fee Waiver']
 
     if title.lower().startswith(('issuance of permit',
+                                 'issuance of tent permit',
                                  'issuance of license')) :
-        return ['Non-Routine', 'Issuance of License and Permits']
+        return tags + ['Non-Routine', 'Fee Waiver']
+
+    if title.startswith(('waiver of special event raffle license',)) :
+        return tags + ['Non-Routine', 'Fee Waiver']
+
+
+    if title.startswith(('free permit', 
+                         'fee exemption',
+                         'waiver of public way use permit fee',
+                         'waiver of community identifier sign permit fee',
+                         'waiver of fee',
+                         'exemption of public way use',
+                         'cancellation of public way use permit fee', 
+                         'waiver of permit fee',
+                         'waiver of public use permit fee',
+                         'license fee exemption')) :
+        return tags + ['Non-Routine', 'Fee Waiver']
+
+    if title.startswith(('historical landmark fee',
+                         'landmark fee waiver')) :
+        return tags + ['Non-Routine', 'Fee Waiver']
+
+
+
+    ## Churches and Non Profits
+
+    tags = ["Ward Matters", "Churches and Non-Profits"]
+
+    if title.startswith(('not-for-profit fee exemption',
+                         'sewer refund',
+                         'refund of fee',
+                         'cancellation of water',
+                         'canecellation of warrants for water')) :
+        return tags + ['Non-Routine', 'Free Water and Sewer for Non Profit Organizations']
+
+
+    if title.startswith(('tag day',)) :
+        return tags + ['Non-Routine', 'Tag Day Permits']
+
+    ## Parking
+    tags = ["Ward Matters", "Parking"]
+
+    if title.startswith(('parking prohibit',
+                         'amendment of parking',
+                         'parking limit',
+                         'parking restrict'
+                         )) :
+        return tags + ['Routine', 'Parking Restriction']
+
+    if title.startswith(('parking meters', 
+                         'amendment of parking meters',
+                         'installation and removal of parking meters',
+                         'removal and relocation of parking meters')) :
+        return tags + ['Non-Routine', 'Parking Meters']
+
+    if title.startswith(('loading/standing/tow',
+                         'amendment of loading',
+                         'repeal loading',
+                         'tow zone',
+                         'traffic lane',
+                         'loading zone')) :
+        return tags + ['Routine', 'Loading/Standing/Tow Zone']
+
+
+    if title.startswith(('removal of taxicab stand',
+                         'repeal of taxicab stand',
+                         'taxicab stand',
+                         'amendment of taxicab',
+                         'establish taxicab',
+                         'establishment of taxicab')) :
+        return tags + ['Non-Routine', 'Taxicab Stand']
+
+
+    if 'pilot parking program' in title :
+        return tags + ['Non-Routine', 'Pilot Parking Program']
+
+    
+
+
+
+    ## Traffic
+
+    tags = ["Ward Matters", "Traffic"]
+
+    if title.startswith(('traffic direction',
+                         'single direction',
+                         'one way traffic',
+                         'one-way traffic',
+                         'repeal one-way')) :
+        return tags + ['Non-Routine', 'Traffic Direction']
+
+    if title.startswith(('speed hump',)) :
+        return tags + ['Non-Routine', 'Speed Hump']
+
+    if title.startswith(('no cruising',)) :
+        return tags + ['Non-Routine', 'No Cruising Zone']
+
+    if title.startswith(('traffic sign', 
+                         'traffic warning sign',
+                         'miscellaneous signs')) :
+        return tags + ['Routine', 'Traffic signs and signals']
+
+    if title.startswith(('limited local access')) :
+        return tags + ['Non-Routine', 'Limited Local Access']
+
+    if title.startswith(('speed limitation',)) : 
+        return tags + ['Non-Routine', 'Speed Limits']
+
+    if title.startswith(('closed to', 
+                         'close to', 
+                         'closure to vehic', 
+                         'traffic closure')) :
+        return tags + ['Non-Routine', 'Traffic Closure']
+
+    if title.startswith(('vehicle weigh',
+                         'weight limitation',
+                         'weigh limitation')) :
+        return tags + ['Non-Routine', 'Vehicle Weight Limitation']
+
+    if title.startswith('construction of traffic circle') :
+        return tags + ['Non-Routine', 'Traffic Circle']
+
+    if title.startswith(('traffic regulations',
+                         'failed to pass traffic regulation',
+                         'various traffic regulations')) :
+        return tags + ['Non-Routine', 'Traffic Regulation']
+
+    if title.startswith(('service drive',)) :
+        return tags + ['Non-Routine', 'Service Drive/Diagonal Parking']
+
+
+    ## Wrigley Field
+
+    tags = ["Ward Matters"]
+
+    if title.startswith(('one time exception to wrigley field',
+                         'amendment of wrigley field',
+                         'amendment of night game',
+                         'one time exception to night game',
+                         'amendment of wrigley adjacent area')) :
+        return tags + ['Non-Routine', 'Wrigley Field']
+
+
+    # Small Claims
+
+    tags = ["Small Claims"]
+
+    if within(title, ('damage to vehicle',
+                      'damage to vhicle')) :
+        return tags + ['Routine', 'Damage to vehicle claim']
+
+    if 'damage to property claim' in title :
+        return tags +['Routine', 'Damage to property claim']
+
+    if title.startswith(('payment of',
+                         'payments of',
+                         'payment for various',
+                         'denying payment',
+                         'denied various claims',
+                         'various small claims',
+                         'small claims',
+                         'denials of various',
+                         'denial of various')) :
+        return tags + ['Non-Routine', 'Settlement of Claims']
+
+    if 'excessive water rate claim' in title :
+        return tags + ['Routine', 'Excessive water rate claim']
+
+    # Honorifics
+
+    tags = ["Honorifics"]
+
+    if title.startswith(('congratulation', 
+                         'congradulation',
+                         'congraulations',
+                         'proclamation',
+                         'recognition', 
+                         'recoginition',
+                         'commemoration of', 
+                         'tribute to', 
+                         'declaraton',
+                         'posthumous gratitude',
+                         'posthumous congratulations',
+                         'commendations extended to',
+                         'gratitude',
+                         'grattitude',
+                         'best wishes extended',
+                         'condolences extended',
+                         'expression of condolence',
+                         'expression sympathy',
+                         'honoring',
+                         'welcome extended')) or 'declaration' in title  :
+        return tags + ['Routine', 'Honorific Resolution']
+
+    if 'commemorative' in title :
+        return tags + ['Routine', 'Honorific Marker']
+
+    if title.startswith(('honorary street designation',
+                         'designation of "Ed and Betty Gardner Street"',
+                         'dedication of',
+                         'commermoration of dedication')) :
+        return tags + ['Routine', 'Honorary street']
+
+    # City
+
+    tags = ["City Matters"]
+
+    ## Settlement Agreements
+
+    if title.startswith(('settlement agreement', 
+                         'sylwia marcincryk v.',
+                         'setttlement order',
+                         'settlement order',
+                         'judgement and settlement',
+                         'judgements or settlement',
+                         'judgment and settlement',
+                         'judgement or settlment',
+                         'judgement or settlement')) : 
+        return tags + ['Non-Routine', 'Settlement Agreement']
+
+    ## Appointments
+
+
+    if 'standing committee' in title :
+        return ['Council Matters', 'Non-Routine', 'Committe Appointments']
+
+
+    if title.startswith(('appointment', 'reappointment')) :
+        return tags + ['Non-Routine', 'Appointment']
+
+    ## Airports
+
+    if within(title, ("o'hare", 
+                      "midway international", 
+                      "terminal use", 
+                      "off airport agreements",
+                      "cargo facility", 
+                      "aviation services")) :
+        return tags + ["Non-Routine", "Airports"]
+
+    ## Special Funds
+
+    tags = ["City Matters", "Special Funds"]
+
+    if 'human infrastructure fund' in title :
+        return tags + ["Non-Routine", "Human Infrastructure Fund"]
+
+    ## Open Space Impact Funds
+
+    if title.startswith(('expenditure of open space',)) :
+        return tags + ['Non-Routine', 'Open Space Impact Funds']
+
+
+    ## Small Business Improvement Fund
+
+    if 'small business improvement fund' in title :
+        return tags + ['Non-Routine', 'Small Business Improvement Fund']
+
+
+    # Motor Fuel Tax Fund
+
+    if 'motor fuel tax funds' in title.lower() :
+        return tags + ['Non-Routine', 'Motor Fuel Tax Funds']
+
+    # Inspector General
+
+    if title.startswith(('inspector general')) :
+        return tags + ['Non-Routine', "Inspector General"]
+
+    tags = ["City Matters"]
+
+    ## Municipal Code
+
+
+    if title.startswith(('amendment of section',
+                         'amendment of subsection',
+                         'amendment of title',
+                         'amendment of various provisions of municipal',
+                         'amendment of various sections of municipal code',
+                         'amendment to various sections of municipal code',
+                         'repeal of section',
+                         'amendment of municipal code',
+                         'amendment to municipal code',
+                         'amendment of chapter')) :
+        return tags + ['Non-Routine', 'Municipal Code']
+
+    if title.startswith(('pay rate of hospital', 
+                         'payment of hospital and med')) :
+        return tags + ['Routine', 'Police and Firefighter Medical Bills']
+
+    if title.startswith(('independent police review',
+                         'police review authority',
+                         'police board')) :
+        return tags + ['Non-Routine', 'Police Oversight']
+
+
+    # Neighborhood Stabilization Program
+
+    if 'neighborhood stabilization program' in title.lower() :
+        return tags + ['Non-Routine', 'Neighborhood Stabilization Program']
+
+
+    ## Oaths of Office
+
+    if title.startswith(('oath',)) :
+        return tags + ['Non-Routine', 'Oath of Office']
+
+    ## Annual Appropriations
+
+    if 'annual appropriation' in title :
+        return tags + ['Non-Routine', 'Annual Appropriation']
+
+    # Pensions
+
+    if title.startswith(("laborers' and retirement board",
+                         'retirement board')) : 
+        return tags + ['Non-Routine', 'Pensions']
+
+    ## Affordable Housing
+
+    if title.startswith(('affordable housing plan')) :
+        return tags + ['Non-Routine', 'Affordable Housing']
+
+    ## Labor Agreement
+
+    if title.startswith(('collective bargaining')) or 'labor agreement' in title:
+        return tags + ['Non-Routine', 'Labor Agreement']
+
+    ## CDBG 
+
+    if 'cdbg' in title or 'community development block grant ordinance' in title:
+        return tags + ['Non-Routine', 'Community Development Block Grant']
+
+
+    # Elections
+
+    if within(title, ('referenda', 
+                      'election return', 
+                      'submission of public question',
+                      "aldermanic election")) :
+        return tags + ['Non-Routine', 'Elections']
+
+
+    ## Finances
+
+    tags = ["City Matters", "Finances"]
+
+    if within(title, ('tax levy', 'tax levied', 'levy of real estate tax', 'tax levy')) :
+        return tags + ['Non-Routine', 'Taxes']
+
+    if within(title, (' bonds', 
+                      ' bond issuance ', 
+                      ' bond proceeds ',
+                      'general obligation note',
+                      'general obligation tender notes',
+                      'multi-family housing revenue note')) :
+        return tags + ['Non-Routine', 'Bonds']
+
+    if 'commercial paper' in title :
+        return tags
+
+    if title.startswith(('city comptroller',
+                         'city of chicago annual financial analysis',
+                         'comprehensive annual financial report')) :
+        return tags + ['Non-Routine', 'Financial Reports']
+
+
+
+
+
+    ## City Business
+
+    tags = ["City Matters", "City Business"] 
+
+    if title.startswith(('vacation', 
+                         'amendment of vacation')) :
+        return tags + ['Non-Routine', 'Vacation of Public Street']
+
+    if title.startswith(('sale of city-owned propert',
+                         'amendment of acquisition of propert',
+                         'conveyance of city', 
+                         'approval of land sale',
+                         'acceptance of bid for property',
+                         'land transfer',
+                         'transfer of merchant park property',
+                         'amendment to terms of previously authorized land transactions',
+                         'transfer of parcels',
+                         'transfer of property',
+                         'acceptance of propert',
+                         'conveyance of propert',
+                         'amendment of land sale',
+                         'conveyance of open space land',
+                         'negotiated sale of city-owned property',
+                         'acquisition')) :
+        return tags + ['Non-Routine', 
+                       'Getting and Giving Land']
+
+
+    if title.startswith(('lease agreement', 
+                         'lease ageement',
+                         'sub-lease agreement',
+                         'amendment of lease',
+                         'amendment to lease')) :
+        return tags + ['Non-Routine', 'Lease Agreement']
+
+    if title.startswith(('donation', 'donate')) :
+        return tags + ['Non-Routine', 'Donation of City Property']
+
+    if 'easement' in title :
+        return tags + ['Non-Routine', 'Easements']
+
+    if title.startswith(('intergovernmental agreement', 
+                         'renewal of intergovernment',
+                         'intergovernment agreement',
+                         'amendment of intergovernmental agreement')) :
+        return tags + ['Non-Routine', 'Intergovernmental Agreement']
+
+    if title.startswith(('loan agreement', 
+                         'multi-family loan agreement',
+                         'loan assumption',
+                         'amendment of terms',
+                         'loan modification',
+                         'amendment of loan agreement',
+                         'loan restructure')) :
+        return tags + ['Non-Routine', 'Loan Agreement']
+
+    # Council Matters
+
+    tags = ["Council Matters"]
+
+    if title.startswith(('fixed for next city council meeting',
+                         'time fixed',
+                         'time fixed for next city council meeting',
+                         'amending city council meeting time')) :
+        return tags + ['Routine', 'Next Meeting']
+
+
+    if title.startswith(('correction of city council journal',
+                         'correction of journal')) :
+        return tags + ['Non-Routine', 'Correction of City Council Journal']
+
+
+    if title.startswith(('call for hearing',)) :
+        return tags + ['Non-Routine', 'Call for Hearing']
+
+    if title.startswith(('transfer of funds to committee',
+                         'transfer of funds within committee',
+                         'transfer of funds within the city council committee',
+                         'transfer of funds within city council committee',
+                         'transfer of funds within the committee',
+                         'transfer of year 2013 funds within committee',
+                         'transfer of funds to committee')) :
+        return tags + ['Non-Routine', 'Transfer of Committee Funds']
+
+    if 'city council committee' in title and 'budget' in title : 
+        return tags + ['Non-Routine', 'Committee Budgets']
+
+    if 'fail to pass all legislation' in title :
+        return tags + ['Non-Routine', 'Fail to Pass All Legislation']
+
+    if title.startswith(('call for',
+                         'call upon',
+                         'call to',
+                         'expression of support',
+                         'support of',
+                         'expression of opposition',
+                         'denouncement',
+                         'condemnation of')) :
+        return tags + ['Non-Routine', 'Call for Action']
+
+    if (title.startswith(('city council rule',
+                         'amendment of rule')) or
+        'rules of order and procedure' in title):
+        return tags + ['Non-Routine', 'City Council Rules']
+
+
+    if within(title, ('elected vice-mayor', 'president pro tempore')) :
+        return tags + ['Non-Routine', 'City Council Positions']
+
+
+    
+
+    tags = []
+
+
+
+
+
+
+
+    if title.startswith(('redevelopment agreement',
+                         'amendment to previous redevelopment agreement',
+                         'amendment of redevelopment agreement',
+                         'first amendment to redevelopment agreement',
+                         )) or 'associated redevelopment agreement' in title :
+        return tags + ['Non-Routine', 'Redevelopment Agreement']
+
+
+
+
+
+
+    if title.startswith(('system test', 'test')) :
+        return tags + ['Routine', 'Test']
+    
+
+    if title == '':
+        return tags + ['No Info']
+
+
 
 
 
