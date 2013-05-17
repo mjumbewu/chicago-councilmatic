@@ -54,8 +54,9 @@ def topic_classifier(title) :
     if title.startswith('awning(s)') :
         return tags + ['Routine', 'Awnings']
 
-    if within(title, ('issuance of permits for sign(s)/signboard(s)',
-                      'install signs')) :
+    if (within(title, ('issuance of permits for sign(s)/signboard(s)',
+                      'install signs')) or 
+        title.startswith('sign(s)')) :
         return tags + ['Routine', 'Sign permits']
 
     if title.startswith('canopy(s)') :
@@ -115,16 +116,23 @@ def topic_classifier(title) :
                          'expression of consent for class 7')) :
         return tags + ['Non-Routine', 'Tax Incentives']
 
-    if 'tax increment financing' in title :
+    if 'tax increment' in title :
         return tags + ['Non-Routine', 'Tax Increment Financing']
 
-    if 'redevelopment project area' in title.lower() :
+    if 'redevelopment project area' in title :
         return tags + ['Non-Routine', 'Tax Increment Financing']
 
+    if 'redevelopment plan' in title :
+        return tags + ['Non-Routine', 'Tax Increment Financing']
 
     if ('transfer of tif funds' in title 
         or ('allocation of' in title and 'tif funds' in title)):
         return tags + ['Non-Routine', 'Tax Increment Financing']
+
+    if (title.startswith("tif ") 
+        or title.endswith( "tif") 
+        or " tif " in title) :
+        return tags + ['Non-Routine', "Tax Increment Financing"]
 
 
     if 'tifworks' in title :
@@ -169,6 +177,8 @@ def topic_classifier(title) :
     if title.startswith(('waiver of annual public assembly fee',
                          'wavier of special event tent',
                          'waiver of special event',
+                         'waiver of annual fire pump',
+                         'waiver street closure',
                          'waiver of street closure permit fee' )) :
         return tags + ['Non-Routine', 'Fee Waiver']
 
@@ -339,6 +349,7 @@ def topic_classifier(title) :
                          'denied various claims',
                          'various small claims',
                          'small claims',
+                         'adelman',
                          'denials of various',
                          'denial of various')) :
         return tags + ['Non-Routine', 'Settlement of Claims']
@@ -376,7 +387,7 @@ def topic_classifier(title) :
         return tags + ['Routine', 'Honorific Marker']
 
     if title.startswith(('honorary street designation',
-                         'designation of "Ed and Betty Gardner Street"',
+                         'designation of "ed and betty gardner street"',
                          'dedication of',
                          'commermoration of dedication')) :
         return tags + ['Routine', 'Honorary street']
@@ -413,7 +424,7 @@ def topic_classifier(title) :
     if within(title, ("o'hare", 
                       "midway international", 
                       "terminal use", 
-                      "off airport agreements",
+                      "off airport",
                       "cargo facility", 
                       "aviation services")) :
         return tags + ["Non-Routine", "Airports"]
@@ -525,7 +536,10 @@ def topic_classifier(title) :
 
     tags = ["City Matters", "Finances"]
 
-    if within(title, ('tax levy', 'tax levied', 'levy of real estate tax', 'tax levy')) :
+    if within(title, ('tax levy', 
+                      'tax levied', 
+                      'levy of real estate tax', 
+                      'tax levies')) :
         return tags + ['Non-Routine', 'Taxes']
 
     if within(title, (' bonds', 
