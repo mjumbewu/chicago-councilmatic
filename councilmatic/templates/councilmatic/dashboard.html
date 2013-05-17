@@ -30,17 +30,33 @@
   </div> <!-- row-fluid -->
   <div class='row-fluid'>
     <section id="dashboard-legislation" class="row-fluid">
-      <div id="dashboard-legislation-list" class="offset1 span5">
-        <h3>{% trans "Recent legislation" %}</h3>
+      <div id="dashboard-legislation-list" class="offset1 span6">
+        <h3>{% trans "Most recent" %}</h3>
 
         {% include "councilmatic/partials/legfile_list.html" %}
 
-        <a href="/search?q=&topics=Non-Routine">More...</a>
+        <a href="/search">More...</a>
       </div> <!-- #dashboard-legislation-list -->
 
-      <div id="dashboard-legislation-map" class="span5">
-        <h3>Topics from the last month</h3>
+      <div id="dashboard-legislation-map" class="span4">
+        <h3>Legislation in the last month</h3>
+        {% cache 1800 routine_topics %}
+          <div class='accordion'>
+          {% for topic in routine_topics %}
+            <div class='accordion-group'>
+              <div class='accordion-heading'>
+                <a href='#' class='accordion-toggle pull-left'>
+                  <i class='icon-none'></i>
+                </a>
+                <h4><strong>{{topic.leg_count}}</strong> <a href='/search?q=&topics={{topic.topic}}'>{{topic.topic}}</a></h4>
+              </div>
+            </div>
+          {% endfor %}
+          </div>
+        {% endcache %}
+
         {% cache 1800 recent_topics %}
+        <h4>By topic</h4>
         <div class='accordion' id='view_accordion'>
           {% for topic in recent_topics %}
             <div class='accordion-group'>
@@ -79,8 +95,19 @@
               {% endif %}
             </div>
           {% endfor %}
-        {% endcache %}
-      </div>
+        </div>
+      {% endcache %}
+
+      {% cache 1800 sponsors %}
+        <h4>Top sponsors</h4>
+        {% for sponsor in sponsors %}
+          <h4>
+            <img class='img-polaroid' style="width: 30px;" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}" title="{{ sponsor.name }}">
+            <strong>{{sponsor.leg_count}}</strong> <a href='/member/{{sponsor.id}}'>{{sponsor.name}}</a>
+            <small>{{sponsor.title}}</small>
+          </h4>
+        {% endfor %}
+      {% endcache %}
 
     </section> <!-- dashboard-legislation -->
   </div>     <!-- dashboard -->

@@ -12,18 +12,29 @@
 </span>
 
 {% if file.key %}
-<strong><a href="{% url 'legislation_detail' file.key %}">{{ file.type }} {{ file.id }}</a></strong>
+<h4><a href="{% url 'legislation_detail' file.key %}">{{ file.type }} {{ file.id }}</a></h4>
 {% endif %}
 
 <p> 
   <span class='label {{file.get_status_label}}'>{{ file.status }}</span> on {{ file.intro_date }} 
 </p>
-  {% cache 1800 file file.metadata.topics.all %}
-  {% for topic in file.metadata.topics.all %}
-    <a href="/search/?q=&topics={{ topic.topic }}"><span class="label {{ topic.get_label }}">{{ topic.topic }}</span></a>
-  {% endfor %}
-  {% endcache %}
-
 <p>{{ file.title|truncatewords:25 }}</p>
+
+{% cache 1800 file file.sponsors.all %}
+<p> Sponsored by: 
+{% for sponsor in file.sponsors.all %}
+  <a href="/member/{{ sponsor.id }}">{{ sponsor.name }}</a>
+  {% if not forloop.last %},{% endif %}
+{% endfor %}
+</p>
+{% endcache %}
+
+{% cache 1800 file file.metadata.topics.all %}
+<p>
+{% for topic in file.metadata.topics.all %}
+  <a href="/search/?q=&topics={{ topic.topic }}"><span class="label {{ topic.get_label }}">{{ topic.topic }}</span></a>
+{% endfor %}
+</p>
+{% endcache %}
 
 {% if not forloop.last %}<hr>{% endif %}

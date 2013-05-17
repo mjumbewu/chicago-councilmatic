@@ -103,9 +103,22 @@ class AppDashboardView (BaseDashboardMixin,
                        all().filter(valid=True).order_by('-pk')[:10].\
                        prefetch_related('references_in_legislation'))
 
+    def get_routine_topics(self):
+        return list(phillyleg.models.MetaData_Topic.objects.all().\
+                    filter(topic__in=['Routine', 'Non-Routine']).order_by('topic'))
+
     def get_parent_topics(self):
         return list(phillyleg.models.MetaData_Topic.objects.all().\
-                    filter(parent_id__isnull=True).exclude(topic='Routine').order_by('topic'))
+                    filter(parent_id__isnull=True).exclude(topic__in=['Routine', 'Non-Routine']).order_by('topic'))
+
+    def get_sponsors(self):
+        return list(phillyleg.models.CouncilMember.objects.all())
+
+    def get_sponsor_leg_count(self, sponsor):
+        now = datetime.date.today()
+        one_month = datetime.timedelta(days=31)
+        date_string = now-one_month
+        return phillyleg.models.LegFile.objects.filter(sponsors__id=sponsor.id, intro_date__gte=date_string).count()
 
     def get_topic_leg_count(self, topic):
         now = datetime.date.today()
@@ -131,6 +144,15 @@ class AppDashboardView (BaseDashboardMixin,
 
     def get_context_data(self, **kwargs):
 
+        # routine / non-routine
+        routine_topics_query = self.get_routine_topics()
+        routine_topics = []
+
+        for t in routine_topics_query:
+            leg_count = self.get_topic_leg_count(t)
+            routine_topics.append({'id': t.id, 'topic': t.topic, 'leg_count': leg_count})
+
+        # topics list
         parent_topics_query = self.get_parent_topics()
         recent_topics = []
 
@@ -141,10 +163,24 @@ class AppDashboardView (BaseDashboardMixin,
                 recent_topics.append({'id': t.id, 'topic': t.topic, 'leg_count': leg_count, 'children': children})
 
         recent_topics_sorted = sorted(recent_topics, key=lambda k: k['leg_count'], reverse=True)
+
+        # sponsors list
+        sponsors_query = self.get_sponsors()
+        sponsors = []
+
+        for s in sponsors_query:
+            leg_count = self.get_sponsor_leg_count(s)
+            if leg_count > 0:
+                sponsors.append({'id': s.id, 'name': s.name, 'title': s.title, 'headshot': s.headshot, 'leg_count': leg_count})
+
+        sponsors_sorted = sorted(sponsors, key=lambda k: k['leg_count'], reverse=True)[:5]
+
         context_data = super(AppDashboardView, self).get_context_data(**kwargs)
         context_data['recent_topics'] = recent_topics_sorted
+        context_data['routine_topics'] = routine_topics
+        context_data['sponsors'] = sponsors_sorted
 
-        log.debug(recent_topics_sorted)
+        log.debug(context_data)        
 
         return context_data
 
