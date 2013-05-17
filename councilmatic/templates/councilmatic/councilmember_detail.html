@@ -31,8 +31,8 @@
           <!------------------------------------------------------
             -- The council member's recently sponsored legislation
             -->
-          <div id="dashboard_legislation" class="councilmember-legislation span6">
-            <h2>{% trans "Recent Legislation" %}</h2>
+          <div id="dashboard_legislation" class="councilmember-legislation span7">
+            <h2>{% trans "Most recent" %}</h2>
 
             {% include "councilmatic/partials/legfile_list.html" %}
 
@@ -46,7 +46,7 @@
               src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
           <script src="{{ STATIC_URL}}libs/GeoJSON.js"></script>
 
-          <div class="councilmember-tenures span6">
+          <div class="councilmember-tenures span5">
             {% for tenure in councilmember.tenures.all %}
             <div class="councilmember-districts">
               <h2>
@@ -115,7 +115,7 @@
             </div> <!-- .councilmember-districts -->
             {% endfor %}
 
-            <h2>Sponsored legislation by topic</h2>
+            <h2>Legislation by topic</h2>
             <div class='accordion' id='view_accordion'>
               {% cache 1800 recent_topics councilmember %}
               {% for topic in recent_topics %}
