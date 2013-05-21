@@ -50,6 +50,12 @@
       // Kick off the Bootstrap tooltips.
       $('[data-toggle="tooltip"]').tooltip();
     });
+
+    $('.accordion-toggle').click(function () {
+      var icon = $(this).children('i');
+      if (icon.attr('class') == 'icon-minus') icon.attr('class','icon-plus');
+      else if (icon.attr('class') == 'icon-plus') icon.attr('class','icon-minus');
+    });
   </script>
 
   <script type="text/javascript">

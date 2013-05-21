@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load compress %}
-{% load cache %}
 {% load url from future %}
 
 {% block load_early %}
@@ -40,22 +39,19 @@
 
       <div id="dashboard-legislation-map" class="span4">
         <h3>Legislation in the last month</h3>
-        {% cache 1800 routine_topics %}
-          <div class='accordion'>
-          {% for topic in routine_topics %}
-            <div class='accordion-group'>
-              <div class='accordion-heading'>
-                <a href='#' class='accordion-toggle pull-left'>
-                  <i class='icon-none'></i>
-                </a>
-                <h4><strong>{{topic.leg_count}}</strong> <a href='/search?q=&topics={{topic.topic}}'>{{topic.topic}}</a></h4>
-              </div>
+        <div class='accordion'>
+        {% for topic in routine_topics %}
+          <div class='accordion-group'>
+            <div class='accordion-heading'>
+              <a href='#' class='accordion-toggle pull-left'>
+                <i class='icon-none'></i>
+              </a>
+              <h4><strong>{{topic.leg_count}}</strong> <a href='/search?q=&topics={{topic.topic}}'>{{topic.topic}}</a></h4>
             </div>
-          {% endfor %}
           </div>
-        {% endcache %}
+        {% endfor %}
+        </div>
 
-        {% cache 1800 recent_topics %}
         <h4>By topic</h4>
         <div class='accordion' id='view_accordion'>
           {% for topic in recent_topics %}
@@ -96,9 +92,7 @@
             </div>
           {% endfor %}
         </div>
-      {% endcache %}
 
-      {% cache 1800 sponsors %}
         <h4>Top sponsors</h4>
         {% for sponsor in sponsors %}
           <h4>
@@ -107,7 +101,6 @@
             <small>{{sponsor.title}}</small>
           </h4>
         {% endfor %}
-      {% endcache %}
 
     </section> <!-- dashboard-legislation -->
   </div>     <!-- dashboard -->
