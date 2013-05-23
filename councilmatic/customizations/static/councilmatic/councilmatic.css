@@ -38,3 +38,7 @@ body { font-size: 15px;}
 .ctrlHolder li {
   list-style: none;
 }
+
+.bookmark, .bookmark form { display: inline; }
+.bookmark_submit { cursor:pointer; }
+.bookmark button { visibility:hidden; width: 0; margin: 0; }

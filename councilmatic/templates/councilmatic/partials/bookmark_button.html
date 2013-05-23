@@ -16,7 +16,8 @@
         <div class="bookmark active">
             <form class='form-inline' action="{% url 'unbookmark' bookmark.pk %}" method="POST">{% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                <button class="btn" type="submit"><i class='icon-star'></i></button>
+                <span class='bookmark_submit'><i class='icon-star'></i></span>
+                <button type='submit'></button>
             </form>
         </div>
     {% else %}
@@ -24,7 +25,8 @@
             <form class='form-inline' action="{% url 'bookmark' %}" method="POST">{% csrf_token %}
                 {{ bookmark_form }}
                 <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                <button class="btn" type="submit"><i class='icon-star-empty'></i></button>
+                <span class='bookmark_submit'><i class='icon-star-empty'></i></span>
+                <button type='submit'></button>
             </form>
         </div>
     {% endif %}
@@ -32,7 +34,8 @@
     <div class="bookmark inactive unauthenticated">
         <form class='form-inline' action="{% url 'registration_login' %}" method="GET">{% csrf_token %}
             <input type="hidden" name="next" value="{{ request.get_full_path }}">
-            <button class="btn" type="submit"><i class='icon-star-empty'></i></button>
+            <span class='bookmark_submit'><i class='icon-star-empty'></i></span>
+            <button type='submit'></button>
         </form>
     </div>
 {% endif %}

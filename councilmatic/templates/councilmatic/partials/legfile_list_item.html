@@ -1,18 +1,15 @@
 {% load url from future %}
 {% load cache %}
 
-<span class="pull-right legislation_bookmark">
-    {% if not no_bookmark %}
-      {% with content=file %}
-        {% include "councilmatic/partials/bookmark_button.html" %}
-      {% endwith %}
-    {% else %}
-      <div class="bookmark"></div>
-    {% endif %}
-</span>
-
 {% if file.key %}
-<h4><a href="{% url 'legislation_detail' file.key %}">{{ file.type }} {{ file.id }}</a></h4>
+<h4>
+  <a href="{% url 'legislation_detail' file.key %}">{{ file.type }} {{ file.id }}</a>
+  {% if not no_bookmark %}
+    {% with content=file %}
+      {% include "councilmatic/partials/bookmark_button.html" %}
+    {% endwith %}
+  {% endif %}
+</h4>
 {% endif %}
 
 <p> 
