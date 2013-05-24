@@ -62,9 +62,9 @@ class HostedLegistarSiteWrapper (object):
         first_name_first_sponsors = []
         for sponsor in sponsors :
             if ',' in sponsor :
-                name_list = sponsor.split(',')
+                name_list = sponsor.rsplit(',', 1)
                 name_list.reverse()
-                sponsor = ' '.join(name_list).strip()
+                sponsor = ' '.join(name_list).strip().replace(',', '')
             first_name_first_sponsors.append(sponsor)
 
         record = {
