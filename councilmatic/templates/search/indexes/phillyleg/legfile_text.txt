@@ -3,3 +3,6 @@
 {% for attachment in object.attachments.all %}
   {{ attachment.fulltext }}
 {% endfor %}
+{% for sponsor in object.sponsors.all %}
+  {{ sponsor.name }}
+{% endfor %}

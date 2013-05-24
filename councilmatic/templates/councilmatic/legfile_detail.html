@@ -17,10 +17,10 @@
       <div class='offset1 span10'>
 	
 	      <h1>
-          <span class="pull-right legislation_bookmark">
+          {{ object.type }} {{ object.id }}
+          <span class="legislation_bookmark">
             {% include "councilmatic/partials/bookmark_button.html" %}
           </span>
-          {{ object.type }} {{ object.id }}
           <small>
             {% if object.controlling_body != '' %}
               <br />Controlled by {{ object.controlling_body }}

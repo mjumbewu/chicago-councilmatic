@@ -185,8 +185,8 @@ class LegFileResource (resources.ModelResource):
             for sponsor in f.sponsors.all()
         ]
 
-    def locations(self, f):
-        return [{
-            'geo': json.loads(location.geom.json),
-            'address': location.address
-        } for location in f.metadata.locations.all()]
+    # def locations(self, f):
+    #     return [{
+    #         'geo': json.loads(location.geom.json),
+    #         'address': location.address
+    #     } for location in f.metadata.locations.all()]
