@@ -34,7 +34,7 @@
 
         {% include "councilmatic/partials/legfile_list.html" %}
 
-        <a href="/search">More...</a>
+        <a class='btn btn-info' href="/search">More...</a>
       </div> <!-- #dashboard-legislation-list -->
 
       <div id="dashboard-legislation-map" class="span4">
@@ -93,7 +93,10 @@
           {% endfor %}
         </div>
 
-        <h4>Top sponsors</h4>
+        <h4>
+          Top sponsors
+          <small><a href='/members'>More</a></small>
+        </h4>
         {% for sponsor in sponsors %}
           <h4>
             <img class='img-polaroid' style="width: 30px;" src="{{STATIC_URL}}{{ sponsor.headshot }}" alt="{{ sponsor.name }}" title="{{ sponsor.name }}">

@@ -8,6 +8,14 @@
     <h4><a href='/member/{{councilmember.id}}'>{{ councilmember.name }}</a></h4>
   </td>
   <td>{{ councilmember.title }}</td>
-  <td><h4>{{councilmember.recent_leg_count}}</h4></td>
-  <td><h4>{{councilmember.leg_count}}</h4></td>
+  <td>
+    <h4>
+      <a href='/search/?sponsors={{councilmember.name}}'>{{councilmember.recent_leg_count}}</a>
+    </h4>
+  </td>
+  <td>
+    <h4>
+      <a href='/search/?sponsors={{councilmember.name}}'>{{councilmember.leg_count}}</a>
+    </h4>
+  </td>
 </tr>

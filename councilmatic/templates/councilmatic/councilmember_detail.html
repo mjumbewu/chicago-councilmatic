@@ -36,7 +36,7 @@
 
             {% include "councilmatic/partials/legfile_list.html" %}
 
-            <a href="{% url 'search' %}?sponsors={{ councilmember.name }}">{% trans "More..." %}</a>
+            <a class='btn btn-info' href="{% url 'search' %}?sponsors={{ councilmember.name }}">{% trans "More..." %}</a>
           </div>
 
           <!-------------------------------------------------------
