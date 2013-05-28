@@ -1,5 +1,4 @@
 {% load url from future %}
-{% load cache %}
 
 {% if file.key %}
 <h4>
@@ -17,21 +16,17 @@
 </p>
 <p>{{ file.title|truncatewords:25 }}</p>
 
-{% cache 1800 file file.sponsors.all %}
 <p> Sponsored by: 
 {% for sponsor in file.sponsors.all %}
   <a href="/member/{{ sponsor.id }}">{{ sponsor.name }}</a>
   {% if not forloop.last %},{% endif %}
 {% endfor %}
 </p>
-{% endcache %}
 
-{% cache 1800 file file.metadata.topics.all %}
 <p>
 {% for topic in file.metadata.topics.all %}
   <a href="/search/?q=&topics={{ topic.topic }}"><span class="label {{ topic.get_label }}">{{ topic.topic }}</span></a>
 {% endfor %}
 </p>
-{% endcache %}
 
 {% if not forloop.last %}<hr>{% endif %}

@@ -42,3 +42,13 @@ body { font-size: 15px;}
 .bookmark, .bookmark form { display: inline; }
 .bookmark_submit { cursor:pointer; }
 .bookmark button { visibility:hidden; width: 0; margin: 0; }
+
+th.sorting_asc span {
+  background: url(/static/chicago/sort-up.png) no-repeat 100% 50%;
+  padding-right: 10px;
+}
+
+th.sorting_desc span {
+  background: url(/static/chicago/sort-down.png) no-repeat 100% 50%;
+  padding-right: 10px;
+}

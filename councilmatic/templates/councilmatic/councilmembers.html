@@ -14,68 +14,62 @@
         <h1>
           Legislative sponsors
         </h1>
-        <p>Every piece of legislation submitted to City Council must have at least one sponsor. <br />Sponsors include all 50 Chicago Aldermen, the Mayor and the City Clerk.</p>
+        <p>Every piece of legislation submitted to City Council must have at least one sponsor. <br />Sponsors include all 50 <a href='#aldermen'>Chicago Aldermen</a>, the <a href='#other'>Mayor and the City Clerk</a>.</p>
         <hr />
 
-        <h2>Aldermen</h2>
-        {% for councilmember in councilmembers %}
-          <div class='span3'>
-            <div class='row-fluid'>
-              <img class='img-polaroid span4' style="margin-bottom: 20px;" alt="{{ councilmember.name }}" src="{{STATIC_URL}}{{ councilmember.headshot }}">
-              <div class='span8'>
-                <h4>
-                  <a href='/member/{{councilmember.id}}'>
-                    {{ councilmember.name }}
-                  </a>
-                </h4>
-                <p>{{ councilmember.title }}</p>
-              </div>
-            </div>
-          </div>
-          {% if forloop.counter|divisibleby:3 %}<div class='clearfix'></div>{% endif %}
-        {% endfor %}
+        <h2 id='aldermen'>Aldermen</h2>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th></th>
+              <th><span>Name</span></th>
+              <th><span>Title</span></th>
+              <th><span>Recent legislation</span></th>
+              <th><span>All legislation</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for councilmember in councilmembers %}
+              {% include "councilmatic/partials/councilmember_list.html" %}
+            {% endfor %}
+          </tbody>
+        </table>
 
-        <div class='clearfix'></div>
-        <hr />
-        <h2>Other</h2>
-        {% for councilmember in other_councilmembers %}
-          <div class='span3'>
-            <div class='row-fluid'>
-              <img class='img-polaroid span4' style="margin-bottom: 20px;" alt="{{ councilmember.name }}" src="{{STATIC_URL}}{{ councilmember.headshot }}">
-              <div class='span8'>
-                <h4>
-                  <a href='/member/{{councilmember.id}}'>
-                    {{ councilmember.name }}
-                  </a>
-                </h4>
-                <p>{{ councilmember.title }}</p>
-              </div>
-            </div>
-          </div>
-          {% if forloop.counter|divisibleby:3 %}<div class='clearfix'></div>{% endif %}
-        {% endfor %}
+        <h2 id='other'>Other</h2>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th></th>
+              <th><span>Name</span></th>
+              <th><span>Title</span></th>
+              <th><span>Recent legislation</span></th>
+              <th><span>All legislation</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for councilmember in other_councilmembers %}
+              {% include "councilmatic/partials/councilmember_list.html" %}
+            {% endfor %}
+          </tbody>
+        </table>
 
-        <div class='clearfix'></div>
-        <hr />
-        <h2>Former</h2>
-        {% for councilmember in former_councilmembers %}
-          <div class='span3'>
-            <div class='row-fluid'>
-              <img class='img-polaroid span4' style="margin-bottom: 20px;" alt="{{ councilmember.name }}" src="{{STATIC_URL}}{{ councilmember.headshot }}">
-              <div class='span8'>
-                <h4>
-                  <a href='/member/{{councilmember.id}}'>
-                    {{ councilmember.name }}
-                  </a>
-                </h4>
-                <p>{{ councilmember.title }}</p>
-              </div>
-            </div>
-          </div>
-          {% if forloop.counter|divisibleby:3 %}<div class='clearfix'></div>{% endif %}
-        {% endfor %}
-
-
+        <h2 id='former'>Former</h2>
+        <table class='table'>
+          <thead>
+            <tr>
+              <th></th>
+              <th><span>Name</span></th>
+              <th><span>Title</span></th>
+              <th><span>Recent legislation</span></th>
+              <th><span>All legislation</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for councilmember in former_councilmembers %}
+              {% include "councilmatic/partials/councilmember_list.html" %}
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
     {% endblock %}
@@ -83,5 +77,25 @@
 </div>
 
 {% block load_late %}
+  <script src="{{ STATIC_URL }}libs/jquery.dataTables.min.js"></script>
+  <script src="{{ STATIC_URL }}libs/jquery.dataTables.sorting.js"></script>
+
+  <script>
+    // initialize datatables
+    $('.table').dataTable( {
+        "aaSorting": [ [3,'desc'], [4,'desc'] ],
+        "aoColumns": [
+            { "bSortable": false },
+            null,
+            null,
+            { "sType": "num-html" },
+            { "sType": "num-html" }
+        ],
+        "bFilter": false,
+        "bInfo": false,
+        "bPaginate": false,
+
+    } );
+  </script>
 {% endblock %}
 

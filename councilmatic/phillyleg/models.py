@@ -69,6 +69,15 @@ class CouncilMember(TimestampedModelMixin, models.Model):
         tenure = self.tenure
         return (tenure is not None and tenure.at_large)
 
+    def leg_count(self):
+        return LegFile.objects.filter(sponsors__id=self.id).count()
+
+    def recent_leg_count(self):
+        now = datetime.date.today()
+        one_month = datetime.timedelta(days=31)
+        date_string = now-one_month
+        return LegFile.objects.filter(sponsors__id=self.id, intro_date__gte=date_string).count()
+
     def __unicode__(self):
         return self.name.lstrip("Councilmember")
 
