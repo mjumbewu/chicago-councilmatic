@@ -226,9 +226,13 @@ class CouncilMemberDetailView (BaseDashboardMixin,
     def get_district(self):
         return self.object.district
 
+    def get_routine_topics(self):
+        return list(phillyleg.models.MetaData_Topic.objects.all().\
+                    filter(topic__in=['Routine', 'Non-Routine']).order_by('topic'))
+
     def get_parent_topics(self):
         return list(phillyleg.models.MetaData_Topic.objects.all().\
-                    filter(parent_id__isnull=True).exclude(topic='Routine').order_by('topic'))
+                    filter(parent_id__isnull=True).exclude(topic__in=['Routine', 'Non-Routine']).order_by('topic'))
 
     def get_topic_leg_count(self, topic):
         return phillyleg.models.LegFile.objects.filter(metadata__topics__id=topic.id, sponsors__id=self.object.id).count()
@@ -254,6 +258,14 @@ class CouncilMemberDetailView (BaseDashboardMixin,
         context_data = super(CouncilMemberDetailView, self).get_context_data(**kwargs)
         context_data['district'] = district
 
+        # routine / non-routine
+        routine_topics_query = self.get_routine_topics()
+        routine_topics = []
+
+        for t in routine_topics_query:
+            leg_count = self.get_topic_leg_count(t)
+            routine_topics.append({'id': t.id, 'topic': t.topic, 'leg_count': leg_count})
+
         parent_topics_query = self.get_parent_topics()
         recent_topics = []
 
@@ -266,6 +278,7 @@ class CouncilMemberDetailView (BaseDashboardMixin,
         recent_topics_sorted = sorted(recent_topics, key=lambda k: k['leg_count'], reverse=True)
 
         context_data['recent_topics'] = recent_topics_sorted
+        context_data['routine_topics'] = routine_topics
         return context_data
 
 

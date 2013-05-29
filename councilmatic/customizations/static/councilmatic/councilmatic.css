@@ -52,3 +52,5 @@ th.sorting_desc span {
   background: url(/static/chicago/sort-down.png) no-repeat 100% 50%;
   padding-right: 10px;
 }
+
+.table td { vertical-align: center; }
