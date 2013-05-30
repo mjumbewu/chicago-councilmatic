@@ -80,6 +80,7 @@ class MultipleBookmarkedObjectsMixin (BaseBookmarkMixin):
             ) for content, bookmark, contenttype, form in context['bookmark_data']])
 
 
+        log.debug(context)
         return context
 
 

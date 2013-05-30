@@ -339,6 +339,7 @@ class LegFileListFeedView (SearcherMixin, DjangoFeed):
 class SearchView (SearcherMixin,
                   SearchBarMixin,
                   subscriptions.views.SingleSubscriptionMixin,
+                  bookmarks.views.BaseBookmarkMixin,
                   views.ListView):
     template_name = 'councilmatic/search.html'
     paginate_by = 20
@@ -398,6 +399,14 @@ class SearchView (SearcherMixin,
                     url = None
                 page_urls.append((page_num, url))
             context['page_urls'] = page_urls
+
+        # legfiles = self.get_queryset()
+        # bookmark_data = self.get_bookmarks_data(legfiles)
+        # bookmark_cache_key = self.get_bookmarks_cache_key(bookmark_data)
+
+        # context['bookmark_data'] = bookmark_data
+        # context['bookmark_cache_key'] = bookmark_cache_key
+        context['hide_bookmarks'] = True
 
         log.debug(context)
         return context
