@@ -1,4 +1,5 @@
 import os
+from customizations.topic_classifer import topic_classifier
 
 # Make filepaths relative to settings.
 def rel_path(*subs):
@@ -6,7 +7,7 @@ def rel_path(*subs):
     root_path = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(root_path, *subs)
 
-DEBUG = True
+DEBUG = False
 COMPRESS_ENABLED = True
 TEMPLATE_DEBUG = DEBUG
 DO_DEBUG_TOOLBAR = True
@@ -22,26 +23,13 @@ DATABASES = {
     }
 }
 
-###############################################################################
-#
-# 3rd-party service configuration and keys
-#
-
-TWITTER_CONSUMER_KEY         = ''
-TWITTER_CONSUMER_SECRET      = ''
-FACEBOOK_APP_ID              = ''
-FACEBOOK_API_SECRET          = ''
-LINKEDIN_CONSUMER_KEY        = ''
-LINKEDIN_CONSUMER_SECRET     = ''
-GOOGLE_CONSUMER_KEY          = ''
-GOOGLE_CONSUMER_SECRET       = ''
-
-RECAPTCHA_PUBLIC_KEY  = ''
-RECAPTCHA_PRIVATE_KEY = ''
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK' : lambda _: DEBUG,
+    'INTERCEPT_REDIRECTS' : False
+    }
 
 GOOGLE_ANALYTICS_ACCOUNT = ''
-FOOTER_CONTENT = "An app by <a href='http://codeforamerica.org'>Code for America</a>."
-
+FOOTER_CONTENT = ""
 ###############################################################################
 #
 # Source Data
@@ -49,42 +37,38 @@ FOOTER_CONTENT = "An app by <a href='http://codeforamerica.org'>Code for America
 
 LEGISLATION = {
     'SYSTEM': 'Daystar Insite',
-    'ROOT': 'http://legislation.phila.gov/',
+    'ROOT': 'http://chicago.legistar.com/',
     'STARTING_KEY': 72,
-    'ADDRESS_BOUNDS': [39.874439,-75.29892, 40.141615,-74.940491], # lat, lng, lat, lng
-    'ADDRESS_SUFFIX': ', Philadelphia, PA',
+    'ADDRESS_BOUNDS': [41.691747,-87.806472, 41.991511,-87.54692], # lat, lng, lat, lng
+    'MAP_CENTROID': [41.8781136,-87.6667785],
+    'ADDRESS_SUFFIX': ', Chicago, IL',
 
-    'SCRAPER': 'phillyleg.management.scraper_wrappers.sources.insite_scraper.PhillyLegistarSiteWrapper',
+    'SCRAPER': 'phillyleg.management.scraper_wrappers.sources.hosted_legistar_scraper.HostedLegistarSiteWrapper',
     'SCRAPER_OPTIONS': {
-        'hostname': 'http://legislation.phila.gov/',
+        'hostname': 'chicago.legistar.com',
+	'fulltext': False
     },
 }
 
-
 ###############################################################################
 #
-# Caching
+# Cacheing
 #
-# Using some cache backend is definitely recommended. If you want to use
-# memcache, uncomment the lines below and fill in your server information. See
-# https://docs.djangoproject.com/en/dev/topics/cache/#setting-up-the-cache for
-# other options.
-#
+CACHES = {
+    'default': {
+        'BACKEND': ''django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
 
-#CACHES = {
-#    'default': {
-#        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-#        'LOCATION': '127.0.0.1:11211',
-#    }
-#}
+CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 
 ###############################################################################
-#
+
 # Topic classifier
 #
-# Use this to set custom rules for classifying your legislation
 
-TOPIC_CLASSIFIER = lambda title: []
+TOPIC_CLASSIFIER = topic_classifier
 
 ###############################################################################
 #
@@ -97,6 +81,16 @@ HAYSTACK_CONNECTIONS = {
         'PATH': rel_path('whoosh_index'),
     }
 }
+
+# Email settings
+EMAIL_USE_TLS = True
+EMAIL_HOST = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = ''
+SERVER_EMAIL = ''
+
 
 ################################################################################
 #
