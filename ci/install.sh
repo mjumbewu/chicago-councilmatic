@@ -5,17 +5,17 @@ sudo apt-get install libevent-dev
 
 # Install GeoDjango dependencies -- see
 # https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#ubuntu
-sudo apt-get install binutils gdal-bin libproj-dev postgresql-9.1-postgis \
-     postgresql-server-dev-9.1 python-psycopg2
+apt-get install binutils gdal-bin libproj-dev postgresql-9.1-postgis \
+        postgresql-server-dev-9.1 python-psycopg2
 
 echo "Install the python requirements"
-sudo pip install -r requirements.txt
+pip install -r requirements.txt
 
 echo "Install the non-python requirements"
-sudo apt-get install poppler-utils
+apt-get install poppler-utils
 
 echo "... and this, optional testing stuff"
-sudo pip install coverage
+pip install coverage
 
 # Create a PostGIS template database
 psql -c "CREATE DATABASE template_postgis;" -U postgres
