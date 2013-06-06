@@ -40,6 +40,3 @@ EOF
 
 echo "Initialize the project settings"
 cp councilmatic/local_settings.py.template councilmatic/local_settings.py
-
-echo "Set up logging"
-mkdir councilmatic/logs
