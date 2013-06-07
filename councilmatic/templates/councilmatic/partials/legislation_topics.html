@@ -5,7 +5,11 @@
       <a href='#' class='accordion-toggle pull-left'>
         <i class='icon-none'></i>
       </a>
-      <h4><strong>{{topic.leg_count}}</strong> <a href='/search?q=&topics={{topic.topic}}'>{{topic.topic}}</a></h4>
+      {% if councilmember %}
+        <h4><strong>{{topic.leg_count}}</strong> <a href='/search?q=&sponsors={{councilmember.name}}&topics={{topic.topic}}'>{{topic.topic}}</a></h4>
+      {% else %}
+        <h4><strong>{{topic.leg_count}}</strong> <a href='/search?q=&topics={{topic.topic}}'>{{topic.topic}}</a></h4>
+      {% endif %}
     </div>
   </div>
 {% endfor %}
@@ -25,7 +29,11 @@
             <i class='icon-none'></i>
           </a>
         {% endif %}
-        <h4><strong>{{topic.leg_count}}</strong> <a href='/search?q=&topics={{topic.topic}}'>{{topic.topic}}</a></h4>
+        {% if councilmember %}
+          <h4><strong>{{topic.leg_count}}</strong> <a href='/search?q=&sponsors={{councilmember.name}}&topics={{topic.topic}}'>{{topic.topic}}</a></h4>
+        {% else %}
+          <h4><strong>{{topic.leg_count}}</strong> <a href='/search?q=&topics={{topic.topic}}'>{{topic.topic}}</a></h4>
+        {% endif %}
         <div class='clearfix'></div>
       </div>
       {% if topic.children %}
@@ -34,11 +42,19 @@
             <ul>
             {% for child in topic.children %}
               <li>
-                <strong>{{child.leg_count}}</strong> <a href='/search?q=&topics={{child.topic}}'>{{child.topic}}</a>
+                {% if councilmember %}
+                  <strong>{{child.leg_count}}</strong> <a href='/search?q=&sponsors={{councilmember.name}}&topics={{child.topic}}'>{{child.topic}}</a>
+                {% else %}
+                  <strong>{{child.leg_count}}</strong> <a href='/search?q=&topics={{child.topic}}'>{{child.topic}}</a>
+                {% endif %}
                 {% if child.children %}
                   <ul>
                   {% for second_child in child.children %}
-                    <li><strong>{{second_child.leg_count}}</strong> <a href='/search?q=&topics={{second_child.topic}}'>{{second_child.topic}}</a></li>
+                    {% if councilmember %}
+                      <li><strong>{{second_child.leg_count}}</strong> <a href='/search?q=&sponsors={{councilmember.name}}&topics={{second_child.topic}}'>{{second_child.topic}}</a></li>
+                    {% else %}
+                      <li><strong>{{second_child.leg_count}}</strong> <a href='/search?q=&topics={{second_child.topic}}'>{{second_child.topic}}</a></li>
+                    {% endif %}
                   {% endfor%}
                   </ul>
                 {% endif %}
