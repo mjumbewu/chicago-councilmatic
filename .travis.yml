@@ -1,5 +1,5 @@
 # https://github.com/travis-ci/travis-ci/wiki/.travis.yml-options
-
+language: python
 install: "ci/install.sh"
 script: "councilmatic/manage.py test -v2 --with-coverage --cover-package=phillyleg --cover-package=subscriptions --cover-package=cm_api --cover-package=bookmarks --cover-package=main --cover-package=utils"
 python:
