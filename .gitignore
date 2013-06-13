@@ -27,10 +27,10 @@ env/
 .coverage
 
 # Application keys
-councilmatic/application_keys.py
+application_keys.py
 
 # Local settings
-councilmatic/local_settings.py
+local_settings.py
 
 /static
 crons/daily_jobs

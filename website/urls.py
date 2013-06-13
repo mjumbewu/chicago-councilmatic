@@ -34,8 +34,6 @@ urlpatterns = patterns(
     url(r'^login/$', 'django.contrib.auth.views.login', name='registration_login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', name='registration_logout'),
 
-    url(r'^social/', include('social_auth.urls')),
-
     url(r'^subscriptions/$', subscriptions.views.SubscriptionListView.as_view(), name='subscription_list'),
     url(r'^subscribe/$', subscriptions.views.CreateSubscriptionView.as_view(), name='subscribe'),
     url(r'^unsubscribe/(?P<pk>\d+)/$', subscriptions.views.DeleteSubscriptionView.as_view(), name='unsubscribe'),
