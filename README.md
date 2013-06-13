@@ -64,7 +64,7 @@ while.
     $ cd website
     $ python manage.py syncdb # Create admin account when prompted.
     $ python manage.py migrate
-    $ python manage.py loadlegfiles
+    $ python manage.py updatelegfiles
     $ python manage.py rebuild_index # For searches. Say yes when prompted.
     $ python manage.py collectstatic # For jss and css. Say yes when prompted.
 
