@@ -1,7 +1,7 @@
 # ====================
 # Server
 # ====================
-Django==1.4
+Django<1.6
 
 
 
@@ -38,18 +38,10 @@ git+git://github.com/mjumbewu/pysolr.git#egg=pysolr==3.0.5
 
 
 # ====================
-# Authentication
-# ====================
-django-social-auth==0.6.7
-
-
-
-# ====================
 # Template rendering
 # ====================
 django-uni-form
 django-mustachejs==0.6.0
-django-model-blocks
 django_compressor==1.1.2
 slimit==0.7.4
 
@@ -58,9 +50,7 @@ slimit==0.7.4
 # ====================
 # Registration!
 # ====================
-django-registration==0.8
-git+git://github.com/mjumbewu/django-recaptcha.git#egg=django-recaptcha
-
+git+git://github.com/mwieler/django-registration-1.5.git#egg=django-registration
 
 
 # ====================
