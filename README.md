@@ -56,16 +56,12 @@ For other platforms, and for further instructions, the
 [GeoDjango docs](https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#platform-specific-instructions) 
 are a good place to look.
 
-**NOTE that PostGIS 2.0 is not compatible with Django 1.4.  As Councilmatic is
-currently not set up to run on Django 1.5, you should install PostGIS 1.5**
-
-
 Set up the project database and populate it with city council data (when the
 syncdb command prompts you to create an administrative user, go ahead and do
 so). There is a lot of data to be loaded, so downloading it all may take a
 while.
 
-    $ cd councilmatic
+    $ cd website
     $ python manage.py syncdb # Create admin account when prompted.
     $ python manage.py migrate
     $ python manage.py loadlegfiles
