@@ -62,18 +62,18 @@ so). There is a lot of data to be loaded, so downloading it all may take a
 while.
 
     $ cd website
-    $ python manage.py syncdb # Create admin account when prompted.
-    $ python manage.py migrate
-    $ python manage.py updatelegfiles
-    $ python manage.py rebuild_index # For searches. Say yes when prompted.
-    $ python manage.py collectstatic # For jss and css. Say yes when prompted.
+    $ python manage.py syncdb --settings=local_settings # Create admin account when prompted.
+    $ python manage.py migrate --settings=local_settings
+    $ python manage.py updatelegfiles --settings=local_settings
+    $ python manage.py rebuild_index --settings=local_settings # For searches. Say yes when prompted.
+    $ python manage.py collectstatic --settings=local_settings # For jss and css. Say yes when prompted.
 
 
 ### Development server
 
 Finally, to run the server:
 
-    $ python manage.py runserver
+    $ python manage.py runserver --settings=local_settings
 
 Now, check that everything is working by browsing to http://localhost:8000/. Now
 browse to http://localhost:8000/admin and enter the admin username and password
