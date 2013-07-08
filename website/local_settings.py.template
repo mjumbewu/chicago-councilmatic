@@ -30,10 +30,12 @@ FOOTER_CONTENT = "An app by <a href='http://codeforamerica.org'>Code for America
 
 
 DEBUG = True
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 COMPRESS_ENABLED = True
 TEMPLATE_DEBUG = DEBUG
 DO_DEBUG_TOOLBAR = True
+
+# Email settings
+EMAIL_USE_TLS = True
 
 DATABASES = {
     'default': {
@@ -51,8 +53,6 @@ DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS' : False
     }
 
-GOOGLE_ANALYTICS_ACCOUNT = ''
-FOOTER_CONTENT = ""
 ###############################################################################
 #
 # Source Data
