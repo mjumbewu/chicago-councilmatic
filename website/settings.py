@@ -1,10 +1,17 @@
 import os
+import sys
 
 # Make filepaths relative to settings.
 def rel_path(*subs):
     """Make filepaths relative to this settings file"""
     root_path = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(root_path, *subs)
+
+
+# Put all the councilmatic apps on the Python path
+import councilmatic
+COUNCILMATIC_ROOT = os.path.abspath(councilmatic.__path__[0])
+sys.path.append(COUNCILMATIC_ROOT)
 
 
 # Django settings for councilmatic project.
@@ -41,7 +48,7 @@ TIME_ZONE = 'America/Chicago'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-SITE_ID = 1
+SITE_ID = 2
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -67,8 +74,6 @@ STATIC_ROOT = rel_path('..', 'static')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    rel_path('customizations/static'),
-    rel_path('static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -115,16 +120,11 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or
     # "C:/www/django/templates". Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    rel_path('phillyleg'),
-    rel_path('customizations/templates'),
-    rel_path('templates'),
     
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -138,11 +138,6 @@ MIDDLEWARE_CLASSES = (
 #
 
 AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.twitter.TwitterBackend',
-    'social_auth.backends.facebook.FacebookBackend',
-    'social_auth.backends.google.GoogleBackend',
-    'social_auth.backends.contrib.linkedin.LinkedinBackend',
-    'social_auth.backends.OpenIDBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -179,24 +174,19 @@ HAYSTACK_ITERATOR_LOAD_PER_QUERY = 800
 
 COMMUNITY_APPS = (
     'registration',
-    'captcha',
     'south',
     'haystack',
     'uni_form',
     'django_nose',
-    'social_auth',
-    'ebdata', # From everyblock -- used here for parsing addresses and such
+    'councilmatic.ebdata', # From everyblock -- used here for parsing addresses and such
     'compressor',
     'djangorestframework',
     'debug_toolbar',
+    'mustachejs',
 )
 
-MY_REUSABLE_APPS = (
-   'model_blocks',
-   'mustachejs',
-)
-
-PROJECT_APPS = (
+COUNCILMATIC_APPS = (
+    'councilmatic',
     'cm',
     'cm_api',
     'phillyleg',
@@ -206,6 +196,11 @@ PROJECT_APPS = (
     'opinions',
     'main',
     'utils',
+)
+
+PROJECT_SPECIFIC_APPS = (
+    'councilmatic_customizations',
+    # 'regions',
 )
 
 INSTALLED_APPS = (
@@ -218,7 +213,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.comments',
     'django.contrib.gis',
-) + COMMUNITY_APPS + MY_REUSABLE_APPS + PROJECT_APPS
+) + PROJECT_SPECIFIC_APPS + COUNCILMATIC_APPS + COMMUNITY_APPS
 
 ################################################################################
 #
@@ -296,10 +291,3 @@ LOGGING = {
         },
     }
 }
-
-###############################################################################
-# Local settings overrides
-try:
-    from local_settings import *
-except ImportError:
-    pass

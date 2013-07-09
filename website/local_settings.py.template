@@ -1,5 +1,6 @@
 import os
-from customizations.topic_classifer import topic_classifier
+from settings import *
+from councilmatic_customizations.topic_classifer import topic_classifier
 
 # Make filepaths relative to settings.
 def rel_path(*subs):
@@ -7,10 +8,34 @@ def rel_path(*subs):
     root_path = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(root_path, *subs)
 
-DEBUG = False
+###############################################################################
+#
+# 3rd-party service configuration and keys
+#
+
+TWITTER_CONSUMER_KEY         = ''
+TWITTER_CONSUMER_SECRET      = ''
+FACEBOOK_APP_ID              = ''
+FACEBOOK_API_SECRET          = ''
+LINKEDIN_CONSUMER_KEY        = ''
+LINKEDIN_CONSUMER_SECRET     = ''
+GOOGLE_CONSUMER_KEY          = ''
+GOOGLE_CONSUMER_SECRET       = ''
+
+RECAPTCHA_PUBLIC_KEY  = ''
+RECAPTCHA_PRIVATE_KEY = ''
+
+GOOGLE_ANALYTICS_ACCOUNT = ''
+FOOTER_CONTENT = "An app by <a href='http://codeforamerica.org'>Code for America</a>."
+
+
+DEBUG = True
 COMPRESS_ENABLED = True
 TEMPLATE_DEBUG = DEBUG
 DO_DEBUG_TOOLBAR = True
+
+# Email settings
+EMAIL_USE_TLS = True
 
 DATABASES = {
     'default': {
@@ -28,8 +53,6 @@ DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS' : False
     }
 
-GOOGLE_ANALYTICS_ACCOUNT = ''
-FOOTER_CONTENT = ""
 ###############################################################################
 #
 # Source Data
@@ -46,7 +69,12 @@ LEGISLATION = {
     'SCRAPER': 'phillyleg.management.scraper_wrappers.sources.hosted_legistar_scraper.HostedLegistarSiteWrapper',
     'SCRAPER_OPTIONS': {
         'hostname': 'chicago.legistar.com',
-	'fulltext': False
+        'fulltext': False,
+        'sponsor_links': True,
+        'id_label': 'File #',
+        'controlling_body_label': 'In control',
+        'intro_date_label': 'File Created',
+        'topics_label': 'Topics',
     },
 }
 
@@ -56,7 +84,7 @@ LEGISLATION = {
 #
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': '127.0.0.1:11211',
     }
 }
@@ -70,6 +98,11 @@ CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 
 TOPIC_CLASSIFIER = topic_classifier
 
+STATICFILES_DIRS = (
+    rel_path('councilmatic_customizations/static'),
+    rel_path('static'),
+)
+
 ###############################################################################
 #
 # Site search configuration
@@ -81,16 +114,6 @@ HAYSTACK_CONNECTIONS = {
         'PATH': rel_path('whoosh_index'),
     }
 }
-
-# Email settings
-EMAIL_USE_TLS = True
-EMAIL_HOST = ''
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = ''
-SERVER_EMAIL = ''
-
 
 ################################################################################
 #
@@ -110,6 +133,9 @@ LOGGING = {
     },
 
     'filters': {
+        'only_when_debug_is_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
     },
 
     'handlers': {
@@ -132,6 +158,7 @@ LOGGING = {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler',
             'include_html': True,
+            'filters': ['only_when_debug_is_false'],
         }
     },
 

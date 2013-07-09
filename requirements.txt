@@ -1,82 +1,10 @@
 # ====================
-# Server
+# The Councilmatic App
 # ====================
-Django<1.6
-
-
-
-# ====================
-# Database
-# ====================
-South==0.7.4
-psycopg2==2.4.5
-
-
+Django>=1.5
+git+git://github.com/codeforamerica/councilmatic.git#egg=councilmatic
 
 # ====================
-# API
+# Legistar scraping
 # ====================
-djangorestframework==0.4.0
-markdown
-
-
-
-# ====================
-# Search
-# ====================
-git+git://github.com/toastdriven/django-haystack.git#egg=django-haystack==2.0.0-beta
-
-# Using whoosh as the haystack (search) backend for now, for simplicity (it's
-# pure Python).  May use pysolr later, but may not need to.
-whoosh==2.3.2
-
-# Using my version of pysolr until issue # is pulled, as DOTCLOUD's trailing
-# slash on SOLR url breaks pysolr.
-#pysolr==3.0.4
-git+git://github.com/mjumbewu/pysolr.git#egg=pysolr==3.0.5
-
-
-
-# ====================
-# Template rendering
-# ====================
-django-uni-form
-django-mustachejs==0.6.0
-django_compressor==1.1.2
-slimit==0.7.4
-
-
-
-# ====================
-# Registration!
-# ====================
-git+git://github.com/mwieler/django-registration-1.5.git#egg=django-registration
-
-
-# ====================
-# External services
-# ====================
-
-# Requests, for talking HTTP to things like Google's geocoder
-requests==0.11.1
-
-# Scraping
-git+git://github.com/fgregg/legistar-scrape#egg=legistar-scrape
-BeautifulSoup
-BeautifulSoup4
-pdfminer
-slate
-git+https://github.com/abielr/mechanize.git#egg=mechanize
-
-
-# ====================
-# Testing and debugging
-# ====================
-django-debug-toolbar==0.9.4
-#pep8
-django-nose==1.0
-coverage==3.5.1
-mock==0.8.0
-
-# Mamangement and deployment
-#fabric
+git+git://github.com/fgregg/legistar-scrape.git#egg=legistar-scraper
